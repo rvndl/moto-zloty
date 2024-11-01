@@ -31,7 +31,9 @@
       "@hooks/*": ["hooks/*"],
       "@hooks": ["hooks/"],
       "@store/*": ["store/*"],
-      "@store": ["store/"]
+      "@store": ["store/"],
+      "@utils/*": ["utils/*"],
+      "@utils": ["utils/"]
     }
   },
   "include": ["src"],

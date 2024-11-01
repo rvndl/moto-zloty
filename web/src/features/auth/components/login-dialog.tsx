@@ -2,17 +2,17 @@ import { Dialog } from "@components/dialog";
 import { Button } from "@components/ui";
 import { useLoginMutation } from "../api";
 import { Form, InputField } from "@components/form";
-import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { yup } from "@utils/yup";
 
 interface Fields {
   username: string;
   password: string;
 }
 
-const schema = object({
-  username: string().required().min(3),
-  password: string().required().min(8),
+const schema = yup.object<Fields>({
+  username: yup.string().required().min(3),
+  password: yup.string().required().min(8),
 });
 
 const LoginDialog = () => {
