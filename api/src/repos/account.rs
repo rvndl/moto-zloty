@@ -44,6 +44,20 @@ impl<'a> AccountRepo<'a> {
         query
     }
 
+    pub async fn fetch_by_email(
+        &self,
+        username: String,
+    ) -> Result<models::account::Account, sqlx::Error> {
+        let query = sqlx::query_as::<_, models::account::Account>(
+            r#"SELECT * FROM account WHERE email = $1"#,
+        )
+        .bind(username)
+        .fetch_one(self.db)
+        .await;
+
+        query
+    }
+
     pub async fn exists_username(&self, username: String) -> bool {
         let query = sqlx::query(r#"SELECT * FROM account WHERE username LIKE $1"#)
             .bind(username)

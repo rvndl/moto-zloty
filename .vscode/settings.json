@@ -1,0 +1,16 @@
+{
+  "editor.formatOnSave": true,
+  "editor.detectIndentation": false,
+  "tailwindCSS.experimental.classRegex": [
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "[rust]": {
+    "editor.tabSize": 4
+  },
+  "[typescriptreact]": {
+    "editor.tabSize": 2
+  },
+  "[typescript]": {
+    "editor.tabSize": 2
+  }
+}
