@@ -9,7 +9,10 @@ const InputField = ({ name, ...rest }: WithRequired<InputProps, "name">) => {
     <Controller
       name={name}
       control={control}
-      render={({ field }) => <Input {...field} {...rest} />}
+      render={({ field, formState }) => {
+        const error = formState.errors[name]?.message as string;
+        return <Input error={error} {...field} {...rest} />;
+      }}
     />
   );
 };

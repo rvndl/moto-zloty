@@ -2,17 +2,17 @@ import { Dialog } from "@components/dialog";
 import { Button } from "@components/ui";
 import { useLoginMutation } from "../api";
 import { Form, InputField } from "@components/form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { object, string } from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface Fields {
   username: string;
   password: string;
 }
 
-const schema = z.object({
-  username: z.string().min(3),
-  password: z.string().min(8),
+const schema = object({
+  username: string().required().min(3),
+  password: string().required().min(8),
 });
 
 const LoginDialog = () => {
@@ -26,13 +26,24 @@ const LoginDialog = () => {
     <Dialog
       title="Logowanie"
       description="Zaloguj się na swoje konto"
-      trigger={<Button>Zaloguj się</Button>}
+      trigger={<Button variant="ghost">Zaloguj się</Button>}
     >
-      <Form<Fields> onSubmit={handleOnLogin} resolver={zodResolver(schema)}>
+      <Form<Fields> onSubmit={handleOnLogin} resolver={yupResolver(schema)}>
         {(isValid) => (
           <>
-            <InputField name="username" placeholder="Login" />
-            <InputField name="password" placeholder="Hasło" type="password" />
+            <InputField
+              name="username"
+              label="Login"
+              placeholder="Login"
+              isRequired
+            />
+            <InputField
+              name="password"
+              label="Hasło"
+              placeholder="***"
+              type="password"
+              isRequired
+            />
             <Button type="submit" isLoading={isPending} disabled={!isValid}>
               Zaloguj się
             </Button>

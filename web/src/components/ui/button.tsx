@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, PropsWithChildren } from "react";
 import Spinner from "@assets/svg/spinner.svg?react";
 
 export type ButtonSize = "default" | "small";
-export type ButtonVariant = "primary" | "secondary";
+export type ButtonVariant = "primary" | "secondary" | "ghost";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
@@ -29,6 +29,8 @@ const Button = ({
     // variants
     variant === "primary" && "bg-primary text-white hover:bg-primary/90",
     variant === "secondary" && "bg-white text-primary hover:bg-primary/10",
+    variant === "ghost" &&
+      "bg-transparent text-primary hover:bg-primary/10 shadow-none",
     className
   );
 

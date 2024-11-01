@@ -5,7 +5,7 @@ import { FormControlContext } from "./fom-control-context";
 interface Props<TValues> {
   onSubmit: (values: TValues) => void;
   defaultValues?: Partial<Record<keyof TValues, any>>;
-  resolver?: Resolver<Record<string, any>, any>;
+  resolver?: Resolver<any>;
   children: ((isValid?: boolean) => ReactNode) | ReactNode;
 }
 
