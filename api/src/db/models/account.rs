@@ -1,12 +1,14 @@
 use core::fmt;
+use std::borrow::Cow;
 
 use chrono::NaiveDateTime;
 
 use super::event::Event;
 
-#[derive(Debug, serde::Deserialize, serde::Serialize, sqlx::Type)]
+#[derive(Default, Debug, Clone, serde::Deserialize, serde::Serialize, sqlx::Type)]
 #[sqlx(type_name = "account_rank", rename_all = "lowercase")]
 pub enum AccountRank {
+    #[default]
     USER,
     ADMIN,
 }
@@ -14,6 +16,18 @@ pub enum AccountRank {
 impl fmt::Display for AccountRank {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{:?}", self)
+    }
+}
+
+impl<'a> From<AccountRank> for Cow<'a, AccountRank> {
+    fn from(rank: AccountRank) -> Self {
+        Cow::Owned(rank)
+    }
+}
+
+impl<'a> From<&'a AccountRank> for Cow<'a, AccountRank> {
+    fn from(rank: &'a AccountRank) -> Self {
+        Cow::Borrowed(rank)
     }
 }
 

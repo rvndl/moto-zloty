@@ -4,6 +4,7 @@ import { useLoginMutation } from "../api";
 import { Form, InputField } from "@components/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { yup } from "@utils/yup";
+import { RegisterDialog } from "./register-dialog";
 
 interface Fields {
   username: string;
@@ -47,6 +48,12 @@ const LoginDialog = () => {
             <Button type="submit" isLoading={isPending} disabled={!isValid}>
               Zaloguj się
             </Button>
+            <div className="flex flex-col gap-1">
+              <p className="text-sm text-black text-opacity-70">
+                Nie posiadasz konta?
+              </p>
+              <RegisterDialog />
+            </div>
           </>
         )}
       </Form>

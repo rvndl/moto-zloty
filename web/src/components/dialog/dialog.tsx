@@ -1,4 +1,4 @@
-import { PropsWithChildren, useState } from "react";
+import { ReactNode, useState } from "react";
 import {
   Description as DialogDescription,
   DialogPanel,
@@ -14,6 +14,7 @@ interface DialogProps {
   description?: string;
   isCloseButtonVisible?: boolean;
   footerContent?: React.ReactNode;
+  children: ((close: () => void) => ReactNode) | ReactNode;
 }
 
 const Dialog = ({
@@ -23,7 +24,7 @@ const Dialog = ({
   children,
   isCloseButtonVisible = true,
   footerContent,
-}: PropsWithChildren<DialogProps>) => {
+}: DialogProps) => {
   const [open, setOpen] = useState(false);
 
   const handleOnOpen = () => setOpen(true);
@@ -44,7 +45,7 @@ const Dialog = ({
         className="relative z-[9999]"
       >
         <div className="fixed inset-0 flex items-center justify-center w-screen">
-          <DialogPanel className="relative max-w-lg bg-white border border-separate rounded-lg shadow-sm">
+          <DialogPanel className="relative max-w-lg bg-white border border-separate rounded-lg shadow-sm min-w-96">
             {isCloseButtonVisible && <CloseButton onClick={handleOnClose} />}
             <section
               className={clsx(
@@ -64,7 +65,9 @@ const Dialog = ({
                   </DialogDescription>
                 )}
               </div>
-              {children}
+              {typeof children === "function"
+                ? children(handleOnClose)
+                : children}
             </section>
             {footerContent && (
               <section className="flex flex-row-reverse gap-4 px-6 pb-6 mt-2 rounded-b-lg">

@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use crate::db::models::account::AccountRank;
 
 const JWT_SECRET: &'static str = "secret";
@@ -8,8 +10,15 @@ pub struct JwtClaims {
     rank: AccountRank,
 }
 
-pub fn sign(username: String, rank: AccountRank) -> Result<String, jsonwebtoken::errors::Error> {
-    let claims = JwtClaims { username, rank };
+pub fn sign<'a, U, R>(username: U, rank: R) -> Result<String, jsonwebtoken::errors::Error>
+where
+    U: Into<Cow<'a, str>>,
+    R: Into<Cow<'a, AccountRank>>,
+{
+    let claims = JwtClaims {
+        username: username.into().into_owned(),
+        rank: rank.into().into_owned(),
+    };
 
     jsonwebtoken::encode(
         &jsonwebtoken::Header::default(),

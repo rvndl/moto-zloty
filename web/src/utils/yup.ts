@@ -22,7 +22,7 @@ const setupYup = () => {
   yup.setLocale({
     mixed: {
       default: "${path} jest nieprawidłowy",
-      required: "${path} jest wymaganym polem",
+      required: "To pole jest wymagane",
       defined: "${path} musi być zdefiniowany",
       notNull: "${path} nie może być wartością null",
       oneOf: "${path} musi być jedną z następujących wartości: ${values}",
@@ -35,7 +35,7 @@ const setupYup = () => {
       min: "${path} musi mieć co najmniej ${min} znaków",
       max: "${path} może mieć maksymalnie ${max} znaków",
       matches: '${path} musi pasować do następującego wzorca: "${regex}"',
-      email: "${path} musi być prawidłowym adresem e-mail",
+      email: "Wartość musi być prawidłowym adresem e-mail",
       url: "${path} musi być prawidłowym adresem URL",
       uuid: "${path} musi być prawidłowym UUID",
       datetime: "${path} musi być prawidłowym ISO date-time",

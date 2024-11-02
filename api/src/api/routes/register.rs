@@ -21,7 +21,10 @@ pub struct Register {
 
 #[derive(serde::Serialize, Debug, Default)]
 struct RegisterResponse {
+    id: i32,
+    username: String,
     token: String,
+    rank: AccountRank,
 }
 
 pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<Register>) -> Response {
@@ -37,23 +40,37 @@ pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<Regist
     let salt = SaltString::generate(&mut OsRng);
     let argon2 = Argon2::default();
 
+    let id: i32;
+
     match argon2.hash_password(form.password.as_str().as_bytes(), &salt) {
         Ok(password_hash) => {
-            if let Err(err) = repos
+            match repos
                 .account
                 .create(form.username.clone(), password_hash.to_string(), form.email)
                 .await
             {
-                return api_error_log!("failed to create account: {}", err);
+                Ok(account) => {
+                    id = account.id;
+                }
+                Err(err) => {
+                    return api_error_log!("failed to create account: {}", err);
+                }
             }
         }
         Err(err) => return api_error_log!("failed to hash the password: {}", err),
     }
 
-    let token = match jwt::sign(form.username, AccountRank::USER) {
+    let default_rank = AccountRank::USER;
+    let token = match jwt::sign(&form.username, &default_rank) {
         Ok(token) => token,
         Err(err) => return api_error_log!("failed to create jwt token: {}", err),
     };
 
-    Json(RegisterResponse { token }).into_response()
+    Json(RegisterResponse {
+        id,
+        username: form.username,
+        rank: default_rank,
+        token,
+    })
+    .into_response()
 }

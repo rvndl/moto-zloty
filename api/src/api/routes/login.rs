@@ -7,7 +7,7 @@ use axum::{
     Form, Json,
 };
 
-use crate::{api::AppState, api_error, api_error_log, jwt};
+use crate::{api::AppState, api_error, api_error_log, db::models::account::AccountRank, jwt};
 
 #[derive(serde::Deserialize, Debug)]
 pub struct Login {
@@ -17,6 +17,9 @@ pub struct Login {
 
 #[derive(serde::Serialize, Debug, Default)]
 struct LoginResponse {
+    id: i32,
+    username: String,
+    rank: AccountRank,
     token: String,
 }
 
@@ -39,12 +42,18 @@ pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<Login>
     match PasswordHash::new(&account.password) {
         Ok(hash) => match argon2.verify_password(form.password.as_str().as_bytes(), &hash) {
             Ok(_) => {
-                let token = match jwt::sign(form.username, account.rank) {
+                let token = match jwt::sign(&form.username, &account.rank) {
                     Ok(token) => token,
                     Err(err) => return api_error_log!("failed to create jwt token: {}", err),
                 };
 
-                Json(LoginResponse { token }).into_response()
+                Json(LoginResponse {
+                    id: account.id,
+                    username: form.username,
+                    rank: account.rank,
+                    token,
+                })
+                .into_response()
             }
             Err(_) => return api_error!("invalid password"),
         },

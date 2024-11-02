@@ -12,6 +12,7 @@ export default {
     },
     colors: {
       primary: colors.neutral[950],
+      accent: "#f4f4f5",
       ...colors,
     },
   },
