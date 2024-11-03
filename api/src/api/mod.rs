@@ -26,6 +26,7 @@ pub async fn run(global: Arc<Global>) {
         .route("/register", put(routes::register::handler))
         .route("/login", post(routes::login::handler))
         .route("/health", get(routes::health::handler))
+        .route("/profile/:id", get(routes::profile::get_profile))
         .layer(CorsLayer::permissive())
         .with_state(app_state);
 

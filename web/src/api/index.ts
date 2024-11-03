@@ -1,17 +1,43 @@
+import { useUserStore } from "@store/user-store";
 import axios, { AxiosRequestConfig } from "axios";
+import toast from "react-hot-toast";
 
-type GetUrl = "/events";
+type GetUrl = "/events" | `/profile/${number}`;
 type PostUrl = "/login";
 type PutUrl = "/register";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  transformResponse: (response, headers, status) => {
+    if (status === 500) {
+      try {
+        const message = JSON.parse(response).message;
+        toast.error(message);
+      } catch (error) {
+        toast.error("Wystąpił nieznany błąd");
+      }
+    }
+
+    if (headers["content-type"] === "application/json") {
+      return JSON.parse(response);
+    }
+
+    return response;
+  },
 });
 
-instance.interceptors.response.use((res) => {
-  return res;
-});
+instance.interceptors.request.use(
+  (config) => {
+    const token = useUserStore.getState().user.token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 const get = <TResponse>(url: GetUrl, config?: AxiosRequestConfig) =>
   instance.get<TResponse>(url, config);

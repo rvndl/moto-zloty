@@ -7,12 +7,13 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...defaultTheme.fontFamily.sans],
+        geist: ["Geist", ...defaultTheme.fontFamily.sans],
       },
     },
     colors: {
       primary: colors.neutral[950],
       accent: "#f4f4f5",
+      muted: "#71717a",
       ...colors,
     },
   },

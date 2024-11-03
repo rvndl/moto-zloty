@@ -1,17 +1,26 @@
+import { AccountRank } from "types/account";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 interface UserState {
-  id?: string;
-  login?: string;
-  rank?: string;
+  id?: number;
+  username?: string;
+  rank?: AccountRank;
   token?: string;
 }
 
+interface StoreState {
+  user: UserState;
+  setState: (userState: UserState) => void;
+  logout: () => void;
+}
+
 const useUserStore = create(
-  persist<UserState>(
+  persist<StoreState>(
     (set) => ({
-      setState: (userState: UserState) => set(userState),
+      user: {},
+      setState: (userState: UserState) => set({ user: userState }),
+      logout: () => set({ user: {} }),
     }),
     {
       name: "user-state",

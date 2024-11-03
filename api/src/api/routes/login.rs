@@ -28,7 +28,7 @@ pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<Login>
     let account = repos.account.fetch_by_username(form.username.clone()).await;
 
     if account.is_err() {
-        return api_error!("account with that username does not exist");
+        return api_error!("Podano błędny login lub hasło");
     }
 
     let account = match account {
@@ -55,7 +55,7 @@ pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<Login>
                 })
                 .into_response()
             }
-            Err(_) => return api_error!("invalid password"),
+            Err(_) => return api_error!("Podano błędny login lub hasło"),
         },
         Err(err) => return api_error_log!("failed to hash the password: {}", err),
     }

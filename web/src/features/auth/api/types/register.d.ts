@@ -1,6 +1,7 @@
-import { AccountRank } from "@types/account";
+import { AccountRank } from "types/account";
 
 interface RegisterResponse {
+  id: number;
   username: string;
   rank: AccountRank;
   token: string;

@@ -30,6 +30,16 @@ impl<'a> AccountRepo<'a> {
         result
     }
 
+    pub async fn fetch_one(&self, id: i32) -> Result<models::account::Account, sqlx::Error> {
+        let query =
+            sqlx::query_as::<_, models::account::Account>(r#"SELECT * FROM account WHERE id = $1"#)
+                .bind(id)
+                .fetch_one(self.db)
+                .await;
+
+        query
+    }
+
     pub async fn fetch_by_username(
         &self,
         username: String,

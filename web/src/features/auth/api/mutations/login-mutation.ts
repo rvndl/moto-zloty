@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { Api } from "api";
 import { LoginResponse } from "../types/login";
 
@@ -16,9 +16,12 @@ const login = async ({ username, password }: Payload) => {
   return response.data;
 };
 
-const useLoginMutation = () => {
+const useLoginMutation = (
+  options?: UseMutationOptions<LoginResponse, Error, Payload, unknown>
+) => {
   return useMutation({
     mutationFn: login,
+    ...options,
   });
 };
 

@@ -14,6 +14,7 @@ interface DialogProps {
   description?: string;
   isCloseButtonVisible?: boolean;
   footerContent?: React.ReactNode;
+  onOpen?: () => void;
   children: ((close: () => void) => ReactNode) | ReactNode;
 }
 
@@ -24,26 +25,34 @@ const Dialog = ({
   children,
   isCloseButtonVisible = true,
   footerContent,
+  onOpen,
 }: DialogProps) => {
   const [open, setOpen] = useState(false);
 
-  const handleOnOpen = () => setOpen(true);
-  const handleOnClose = () => setOpen(false);
+  const handleOnOpen = () => {
+    setOpen(true);
+    onOpen?.();
+  };
+  const handleOnClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
       <span onClick={handleOnOpen}>{trigger}</span>
-      {open && (
-        <div
-          className="fixed inset-0 z-[9999] bg-black opacity-30 transition"
-          onClick={handleOnClose}
-        />
-      )}
+
       <HeadlessDialog
         open={open}
         onClose={setOpen}
-        className="relative z-[9999]"
+        className="fixed z-[9999]"
+        unmount={false}
       >
+        {open && (
+          <div
+            className="fixed inset-0 bg-black -z-10 opacity-30"
+            onClick={handleOnClose}
+          />
+        )}
         <div className="fixed inset-0 flex items-center justify-center w-screen">
           <DialogPanel className="relative max-w-lg bg-white border border-separate rounded-lg shadow-sm min-w-96">
             {isCloseButtonVisible && <CloseButton onClick={handleOnClose} />}

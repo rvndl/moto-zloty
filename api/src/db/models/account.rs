@@ -70,3 +70,24 @@ pub struct Account {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub events: Option<Vec<Event>>,
 }
+
+#[derive(Debug, serde::Serialize)]
+pub struct PublicAccount {
+    id: i32,
+    username: String,
+    created_at: NaiveDateTime,
+    rank: AccountRank,
+    events: Vec<Event>,
+}
+
+impl From<Account> for PublicAccount {
+    fn from(account: Account) -> Self {
+        PublicAccount {
+            id: account.id,
+            username: account.username,
+            created_at: account.created_at,
+            rank: account.rank,
+            events: account.events.unwrap_or_default(),
+        }
+    }
+}

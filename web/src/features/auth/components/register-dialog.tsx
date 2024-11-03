@@ -21,7 +21,11 @@ const schema = yup.object<Fields>({
   email: yup.string().required().email(),
 });
 
-const RegisterDialog = () => {
+interface Props {
+  onOpen?: () => void;
+}
+
+const RegisterDialog = ({ onOpen }: Props) => {
   const { mutate: register, isPending } = useRegisterMutation();
 
   const handleOnRegister = (values: Fields) => {
@@ -37,6 +41,7 @@ const RegisterDialog = () => {
           Utwórz nowe konto
         </Button>
       }
+      onOpen={onOpen}
     >
       <Form<Fields> onSubmit={handleOnRegister} resolver={yupResolver(schema)}>
         {(isValid) => (

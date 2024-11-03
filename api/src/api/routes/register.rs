@@ -30,11 +30,11 @@ struct RegisterResponse {
 pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<Register>) -> Response {
     let repos = state.global.repos();
     if repos.account.exists_username(form.username.clone()).await {
-        return api_error!("account with that username already exists");
+        return api_error!("Konto z taką nazwą użytkownika już istnieje");
     }
 
     if repos.account.exists_email(form.email.clone()).await {
-        return api_error!("account with that email already exists");
+        return api_error!("Konto z takim adresem e-mail już istnieje");
     };
 
     let salt = SaltString::generate(&mut OsRng);
