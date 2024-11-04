@@ -4,7 +4,7 @@ DROP TYPE IF EXISTS EVENT_STATUS;
 CREATE TYPE EVENT_STATUS as ENUM ('pending', 'approved', 'rejected');
 
 CREATE TABLE IF NOT EXISTS "event" (
-  id SERIAL PRIMARY KEY,
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   description TEXT NOT NULL,
   address TEXT NOT NULL,
@@ -17,5 +17,3 @@ CREATE TABLE IF NOT EXISTS "event" (
   created_at TIMESTAMP default CURRENT_TIMESTAMP,
   account_id INTEGER NOT NULL
 );
-
-ALTER SEQUENCE event_id_seq RESTART WITH 1;

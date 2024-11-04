@@ -2,6 +2,7 @@ use core::fmt;
 use std::borrow::Cow;
 
 use chrono::NaiveDateTime;
+use sqlx::types::Uuid;
 
 use super::event::Event;
 
@@ -34,7 +35,7 @@ impl<'a> From<&'a AccountRank> for Cow<'a, AccountRank> {
 #[derive(Debug, serde::Deserialize, serde::Serialize, sqlx::FromRow)]
 pub struct Account {
     /// Id of the account
-    pub id: i32,
+    pub id: Uuid,
 
     /// Username of the account
     pub username: String,
@@ -73,7 +74,7 @@ pub struct Account {
 
 #[derive(Debug, serde::Serialize)]
 pub struct PublicAccount {
-    id: i32,
+    id: Uuid,
     username: String,
     created_at: NaiveDateTime,
     rank: AccountRank,

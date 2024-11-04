@@ -3,6 +3,7 @@ use argon2::{
     Argon2,
 };
 use std::sync::Arc;
+use uuid::Uuid;
 
 use axum::{
     extract::State,
@@ -21,7 +22,7 @@ pub struct RegisterForm {
 
 #[derive(serde::Serialize, Debug, Default)]
 struct RegisterResponse {
-    id: i32,
+    id: Uuid,
     username: String,
     token: String,
     rank: AccountRank,
@@ -43,7 +44,7 @@ pub async fn handler(
     let salt = SaltString::generate(&mut OsRng);
     let argon2 = Argon2::default();
 
-    let id: i32;
+    let id: Uuid;
 
     match argon2.hash_password(form.password.as_str().as_bytes(), &salt) {
         Ok(password_hash) => {

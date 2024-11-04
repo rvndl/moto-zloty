@@ -1,3 +1,5 @@
+use uuid::Uuid;
+
 use crate::db::{self, models};
 
 pub struct EventRepo<'a> {
@@ -16,7 +18,7 @@ impl<'a> EventRepo<'a> {
         address: String,
         latitude: f64,
         longitude: f64,
-        account_id: i32,
+        account_id: Uuid,
     ) -> Result<models::event::Event, sqlx::Error> {
         let result = sqlx::query_as::<_, models::event::Event>(
           r#"INSERT INTO event (name, description, address, latitude, longitude, account_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *"#,
@@ -51,7 +53,7 @@ impl<'a> EventRepo<'a> {
         query
     }
 
-    pub async fn fetch_by_id(&self, id: i64) -> Result<models::event::Event, sqlx::Error> {
+    pub async fn fetch_by_id(&self, id: Uuid) -> Result<models::event::Event, sqlx::Error> {
         let query =
             sqlx::query_as::<_, models::event::Event>(r#"SELECT * FROM event WHERE id = $1"#)
                 .bind(id)
@@ -63,7 +65,7 @@ impl<'a> EventRepo<'a> {
 
     pub async fn fetch_by_account_id(
         &self,
-        account_id: i32,
+        account_id: Uuid,
     ) -> Result<Vec<models::event::Event>, sqlx::Error> {
         let query = sqlx::query_as::<_, models::event::Event>(
             r#"SELECT * FROM event WHERE account_id = $1"#,

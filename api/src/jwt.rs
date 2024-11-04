@@ -1,6 +1,7 @@
 use std::borrow::Cow;
 
 use jsonwebtoken::TokenData;
+use uuid::Uuid;
 
 use crate::db::models::account::AccountRank;
 
@@ -8,13 +9,13 @@ const JWT_SECRET: &'static str = "secret";
 
 #[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub struct JwtClaims {
-    pub id: i32,
+    pub id: Uuid,
     pub username: String,
     pub rank: AccountRank,
     exp: i64,
 }
 
-pub fn sign<'a, U, R>(id: i32, username: U, rank: R) -> Result<String, jsonwebtoken::errors::Error>
+pub fn sign<'a, U, R>(id: Uuid, username: U, rank: R) -> Result<String, jsonwebtoken::errors::Error>
 where
     U: Into<Cow<'a, str>>,
     R: Into<Cow<'a, AccountRank>>,

@@ -1,3 +1,5 @@
+use uuid::Uuid;
+
 use crate::{
     db::{self, models},
     utils,
@@ -30,7 +32,7 @@ impl<'a> AccountRepo<'a> {
         result
     }
 
-    pub async fn fetch_one(&self, id: i32) -> Result<models::account::Account, sqlx::Error> {
+    pub async fn fetch_one(&self, id: Uuid) -> Result<models::account::Account, sqlx::Error> {
         let query =
             sqlx::query_as::<_, models::account::Account>(r#"SELECT * FROM account WHERE id = $1"#)
                 .bind(id)

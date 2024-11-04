@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 interface UserState {
-  id?: number;
+  id?: string;
   username?: string;
   rank?: AccountRank;
   token?: string;

@@ -1,7 +1,7 @@
 export type AccountRank = "USER" | "ADMIN";
 
 export interface PublicAccount {
-  id: number;
+  id: string;
   username: string;
   created_at: string;
   rank: AccountRank;

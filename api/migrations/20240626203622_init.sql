@@ -3,7 +3,7 @@ DROP TYPE IF EXISTS ACCOUNT_RANK;
 CREATE TYPE ACCOUNT_RANK as ENUM ('admin', 'user');
 
 CREATE TABLE IF NOT EXISTS "account" (
-  id SERIAL PRIMARY KEY,
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   username TEXT NOT NULL,
   email TEXT NOT NULL,
   password TEXT NOT NULL,
@@ -14,5 +14,3 @@ CREATE TABLE IF NOT EXISTS "account" (
   created_at TIMESTAMP default CURRENT_TIMESTAMP,
   UNIQUE(username)
 );
-
-ALTER SEQUENCE account_id_seq RESTART WITH 1;

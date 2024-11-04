@@ -1,4 +1,5 @@
 use chrono::NaiveDateTime;
+use uuid::Uuid;
 
 use super::account::Account;
 
@@ -14,7 +15,7 @@ pub enum EventStatus {
 #[derive(Debug, serde::Deserialize, serde::Serialize, sqlx::FromRow)]
 pub struct Event {
     /// Id of the event
-    pub id: i64,
+    pub id: Uuid,
 
     /// Name of the event
     pub name: String,
@@ -51,7 +52,7 @@ pub struct Event {
     pub created_at: NaiveDateTime,
 
     /// Id of the account that created the event
-    pub account_id: i32,
+    pub account_id: Uuid,
 
     /// Account that created the event
     #[sqlx(skip)]

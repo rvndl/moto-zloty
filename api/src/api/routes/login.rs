@@ -6,6 +6,7 @@ use axum::{
     response::{IntoResponse, Response},
     Form, Json,
 };
+use uuid::Uuid;
 
 use crate::{api::AppState, api_error, api_error_log, db::models::account::AccountRank, jwt};
 
@@ -17,7 +18,7 @@ pub struct LoginForm {
 
 #[derive(serde::Serialize, Debug, Default)]
 struct LoginResponse {
-    id: i32,
+    id: Uuid,
     username: String,
     rank: AccountRank,
     token: String,
