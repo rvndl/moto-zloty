@@ -2,7 +2,7 @@ import { useUserStore } from "@store/user-store";
 import axios, { AxiosRequestConfig } from "axios";
 import toast from "react-hot-toast";
 
-type GetUrl = "/events" | `/profile/${number}`;
+type GetUrl = "/events" | `/profile/${string}`;
 type PostUrl = "/login";
 type PutUrl = "/register";
 

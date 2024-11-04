@@ -5,5 +5,6 @@ export interface PublicAccount {
   username: string;
   created_at: string;
   rank: AccountRank;
-  // events: Event[];
+  // TODO: add event type
+  events: any[];
 }

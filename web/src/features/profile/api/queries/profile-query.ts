@@ -4,15 +4,15 @@ import { ProfileResponse } from "../types/profile";
 
 const PROFILE_QUERY_KEY = "PROFILE_QUERY_KEY";
 
-const profile = async (id: number) => {
+const profile = async (id: string) => {
   const response = await Api.get<ProfileResponse>(`/profile/${id}`);
 
   return response.data;
 };
 
 const useProfileQuery = (
-  id: number,
-  options?: Partial<UseQueryOptions<ProfileResponse, Error, number>>
+  id: string,
+  options?: Partial<UseQueryOptions<ProfileResponse, Error>>
 ) => {
   return useQuery({
     queryKey: [PROFILE_QUERY_KEY, id],
