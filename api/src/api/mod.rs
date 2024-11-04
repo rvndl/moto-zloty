@@ -22,10 +22,14 @@ pub async fn run(global: Arc<Global>) {
     });
 
     let app = Router::new()
-        .route("/events", get(routes::events::handler))
+        // authenticated routes
+        .route("/events", put(routes::events::create))
+        .layer(axum::middleware::from_fn(middleware::auth::authenticated))
+        // public routes
+        .route("/health", get(routes::health::handler))
+        .route("/events", get(routes::events::list))
         .route("/register", put(routes::register::handler))
         .route("/login", post(routes::login::handler))
-        .route("/health", get(routes::health::handler))
         .route("/profile/:id", get(routes::profile::get_profile))
         .layer(CorsLayer::permissive())
         .with_state(app_state);

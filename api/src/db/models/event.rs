@@ -2,9 +2,10 @@ use chrono::NaiveDateTime;
 
 use super::account::Account;
 
-#[derive(Debug, serde::Deserialize, serde::Serialize, sqlx::Type)]
+#[derive(Debug, Default, serde::Deserialize, serde::Serialize, sqlx::Type)]
 #[sqlx(type_name = "event_status", rename_all = "lowercase")]
 pub enum EventStatus {
+    #[default]
     PENDING,
     APPROVED,
     REJECTED,

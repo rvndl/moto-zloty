@@ -13,7 +13,7 @@ use axum::{
 use crate::{api::AppState, api_error, api_error_log, db::models::account::AccountRank, jwt};
 
 #[derive(serde::Deserialize, Debug)]
-pub struct Register {
+pub struct RegisterForm {
     username: String,
     password: String,
     email: String,
@@ -27,7 +27,10 @@ struct RegisterResponse {
     rank: AccountRank,
 }
 
-pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<Register>) -> Response {
+pub async fn handler(
+    State(state): State<Arc<AppState>>,
+    Form(form): Form<RegisterForm>,
+) -> Response {
     let repos = state.global.repos();
     if repos.account.exists_username(form.username.clone()).await {
         return api_error!("Konto z taką nazwą użytkownika już istnieje");
@@ -61,7 +64,7 @@ pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<Regist
     }
 
     let default_rank = AccountRank::USER;
-    let token = match jwt::sign(&form.username, &default_rank) {
+    let token = match jwt::sign(id, &form.username, &default_rank) {
         Ok(token) => token,
         Err(err) => return api_error_log!("failed to create jwt token: {}", err),
     };

@@ -10,7 +10,7 @@ use axum::{
 use crate::{api::AppState, api_error, api_error_log, db::models::account::AccountRank, jwt};
 
 #[derive(serde::Deserialize, Debug)]
-pub struct Login {
+pub struct LoginForm {
     username: String,
     password: String,
 }
@@ -23,7 +23,7 @@ struct LoginResponse {
     token: String,
 }
 
-pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<Login>) -> Response {
+pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<LoginForm>) -> Response {
     let repos = state.global.repos();
     let account = repos.account.fetch_by_username(form.username.clone()).await;
 
@@ -42,7 +42,7 @@ pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<Login>
     match PasswordHash::new(&account.password) {
         Ok(hash) => match argon2.verify_password(form.password.as_str().as_bytes(), &hash) {
             Ok(_) => {
-                let token = match jwt::sign(&form.username, &account.rank) {
+                let token = match jwt::sign(account.id, &form.username, &account.rank) {
                     Ok(token) => token,
                     Err(err) => return api_error_log!("failed to create jwt token: {}", err),
                 };
