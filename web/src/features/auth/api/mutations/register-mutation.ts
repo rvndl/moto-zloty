@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { Api } from "api";
 import { RegisterResponse } from "../types/register";
 
@@ -8,19 +8,18 @@ interface Payload {
   email: string;
 }
 
-const register = async ({ username, password, email }: Payload) => {
-  const response = await Api.put<RegisterResponse>("/register", {
-    username,
-    password,
-    email,
-  });
+const register = async (payload: Payload) => {
+  const response = await Api.put<RegisterResponse>("/register", payload);
 
   return response.data;
 };
 
-const useRegisterMutation = () => {
+const useRegisterMutation = (
+  options?: UseMutationOptions<RegisterResponse, Error, Payload, unknown>
+) => {
   return useMutation({
     mutationFn: register,
+    ...options,
   });
 };
 

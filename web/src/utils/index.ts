@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 
 export * from "./user";
+export * from "./date";
 
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
@@ -29,4 +30,15 @@ export const getValue = (
     default:
       return emptyText;
   }
+};
+
+export const getFilePath = (fileId?: string) => {
+  if (!fileId) {
+    return "/event-placeholder.png";
+  }
+  return `${import.meta.env.VITE_API_URL}file/${fileId}`;
+};
+
+export const minTwoDigits = (n: number) => {
+  return (n < 10 ? "0" : "") + n;
 };

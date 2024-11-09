@@ -1,7 +1,7 @@
-use chrono::NaiveDateTime;
+use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
-use super::account::Account;
+use super::account::AccountInfo;
 
 #[derive(Debug, Default, serde::Deserialize, serde::Serialize, sqlx::Type)]
 #[sqlx(type_name = "event_status", rename_all = "lowercase")]
@@ -21,7 +21,7 @@ pub struct Event {
     pub name: String,
 
     /// Description of the event
-    pub description: String,
+    pub description: Option<String>,
 
     /// Full address of the event
     pub address: String,
@@ -37,24 +37,23 @@ pub struct Event {
     pub latitude: f64,
 
     /// Date and time when the event starts
-    pub date_from: NaiveDateTime,
+    pub date_from: DateTime<Utc>,
 
     /// Date and time when the event ends
     /// Only present if the event has a date to
-    pub date_to: Option<NaiveDateTime>,
-
-    /// Banner of the event
-    /// Only present if the event has a banner
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub banner: Option<String>,
+    pub date_to: DateTime<Utc>,
 
     /// Date and time when the event was created
-    pub created_at: NaiveDateTime,
+    pub created_at: DateTime<Utc>,
+
+    /// Banner of the banner of the event
+    /// Only present if the event has a banner
+    pub banner_id: Option<Uuid>,
 
     /// Id of the account that created the event
     pub account_id: Uuid,
 
     /// Account that created the event
     #[sqlx(skip)]
-    pub account: Option<Account>,
+    pub account: Option<AccountInfo>,
 }

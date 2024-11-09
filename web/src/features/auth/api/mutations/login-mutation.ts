@@ -7,11 +7,8 @@ interface Payload {
   password: string;
 }
 
-const login = async ({ username, password }: Payload) => {
-  const response = await Api.post<LoginResponse>("/login", {
-    username,
-    password,
-  });
+const login = async (payload: Payload) => {
+  const response = await Api.post<LoginResponse>("/login", payload);
 
   return response.data;
 };

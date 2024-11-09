@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { FieldValues, Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { FormControlContext } from "./fom-control-context";
+import { FormContext } from "./fom-context";
 
 interface Props<TValues> {
   onSubmit: (values: TValues) => void;
@@ -18,6 +18,7 @@ const Form = <TValues,>({
   const {
     handleSubmit,
     control,
+    watch,
     formState: { isValid },
   } = useForm({
     resolver,
@@ -26,14 +27,14 @@ const Form = <TValues,>({
   });
 
   return (
-    <FormControlContext.Provider value={control}>
+    <FormContext.Provider value={{ control, watch }}>
       <form
         className="flex flex-col gap-4"
         onSubmit={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
       >
         {typeof children === "function" ? children(isValid) : children}
       </form>
-    </FormControlContext.Provider>
+    </FormContext.Provider>
   );
 };
 

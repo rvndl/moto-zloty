@@ -1,12 +1,11 @@
-import { Dialog } from "@components/dialog";
-import { Button } from "@components/ui";
+import { Button, Dialog } from "@components";
 import { useLoginMutation } from "../api";
 import { Form, InputField } from "@components/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { yup } from "@utils/yup";
 import { RegisterDialog } from "./register-dialog";
-import { useUserStore } from "@store/user-store";
 import toast from "react-hot-toast";
+import { useAuth } from "../hooks";
 
 interface Fields {
   username: string;
@@ -25,10 +24,10 @@ const schema = yup.object<Fields>({
 });
 
 const LoginDialog = () => {
-  const setUserState = useUserStore((state) => state.setState);
+  const { setState } = useAuth();
   const { mutate: login, isPending } = useLoginMutation({
     onSuccess: (data) => {
-      setUserState(data);
+      setState(data);
       toast.success("Zalogowano pomyślnie!");
     },
   });
@@ -42,6 +41,7 @@ const LoginDialog = () => {
       title="Logowanie"
       description="Zaloguj się na swoje konto"
       trigger={<Button variant="ghost">Zaloguj się</Button>}
+      unmount={false}
     >
       {(close) => (
         <Form<Fields> onSubmit={handleOnLogin} resolver={yupResolver(schema)}>
@@ -60,7 +60,12 @@ const LoginDialog = () => {
                 type="password"
                 isRequired
               />
-              <Button type="submit" isLoading={isPending} disabled={!isValid}>
+              <Button
+                type="submit"
+                loadingText="Logowanie..."
+                isLoading={isPending}
+                disabled={!isValid || isPending}
+              >
                 Zaloguj się
               </Button>
               <div className="flex flex-col gap-1">

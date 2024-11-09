@@ -4,8 +4,10 @@ import { EventsTab, ProfileTab, SettingsTab, Sidebar } from "../components";
 import { match } from "ts-pattern";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProfileQuery } from "../api";
+import { useAuth } from "@features/auth";
 
 const ProfilePage = () => {
+  const { isOwner } = useAuth();
   const [activeTab, setActiveTab] = useState("Profil");
   const navigate = useNavigate();
   const { id } = useParams();
@@ -24,7 +26,11 @@ const ProfilePage = () => {
           items={[
             { label: "Profil", icon: <UserIcon /> },
             { label: "Wydarzenia", icon: <TicketIcon /> },
-            { label: "Ustawienia", icon: <SettingsIcon /> },
+            {
+              label: "Ustawienia",
+              icon: <SettingsIcon />,
+              isHidden: !isOwner(id),
+            },
           ]}
           onChange={(tab) => setActiveTab(tab)}
         />

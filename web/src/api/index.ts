@@ -1,10 +1,10 @@
-import { useUserStore } from "@store/user-store";
+import { useUserStore } from "@features/auth";
 import axios, { AxiosRequestConfig } from "axios";
 import toast from "react-hot-toast";
 
-type GetUrl = "/events" | `/profile/${string}`;
-type PostUrl = "/login";
-type PutUrl = "/register";
+type GetUrl = "/events" | `/profile/${string}` | `/place_search/${string}`;
+type PostUrl = "/login" | "/file";
+type PutUrl = "/register" | "/events";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,

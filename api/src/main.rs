@@ -8,8 +8,11 @@ pub mod config;
 pub mod db;
 pub mod env;
 pub mod global;
+pub mod jobs;
 pub mod jwt;
 pub mod logger;
+pub mod place_search;
+pub mod redis;
 pub mod repos;
 pub mod utils;
 

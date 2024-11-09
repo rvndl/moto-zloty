@@ -1,10 +1,10 @@
-import { Input, InputProps } from "@components/ui";
+import { Input, InputProps } from "@components";
 import { Controller } from "react-hook-form";
 import { WithRequired } from "utils";
-import { useFromControl } from "../fom-control-context";
+import { useForm } from "../fom-context";
 
 const InputField = ({ name, ...rest }: WithRequired<InputProps, "name">) => {
-  const control = useFromControl();
+  const { control } = useForm();
   return (
     <Controller
       name={name}

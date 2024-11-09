@@ -1,4 +1,4 @@
-import { Button } from "@components/ui";
+import { Button } from "@components";
 import { ReactNode } from "react";
 
 interface DropdownItemProps {

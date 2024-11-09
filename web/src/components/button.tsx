@@ -11,6 +11,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   textAlignment?: ButtonTextAlignment;
   icon?: ReactNode;
+  loadingText?: string;
   isLoading?: boolean;
 }
 
@@ -19,6 +20,7 @@ const Button = ({
   variant = "primary",
   textAlignment = "center",
   icon,
+  loadingText,
   isLoading,
   children,
   className,
@@ -47,9 +49,9 @@ const Button = ({
 
   return (
     <button className={classes} {...rest}>
-      {Boolean(icon) && <span className="w-5 -ml-1 opacity-70">{icon}</span>}
+      {Boolean(icon) && <span className="w-4 -ml-1">{icon}</span>}
       {isLoading && <Spinner />}
-      {children}
+      {isLoading && loadingText ? loadingText : children}
     </button>
   );
 };

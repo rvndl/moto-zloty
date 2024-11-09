@@ -1,4 +1,5 @@
 import { LabelHTMLAttributes, PropsWithChildren } from "react";
+import { twMerge } from "tailwind-merge";
 
 type LabelVariant = "standard" | "error";
 
@@ -10,12 +11,19 @@ interface Props extends LabelHTMLAttributes<HTMLLabelElement> {
 const Label = ({
   varaint = "standard",
   children,
+  className,
   isRequired,
   ...rest
 }: PropsWithChildren<Props>) => {
   if (varaint === "error") {
     return (
-      <label className="-mt-1 text-sm leading-none text-red-500" {...rest}>
+      <label
+        className={twMerge(
+          "-mt-1 text-sm leading-none text-red-500",
+          className
+        )}
+        {...rest}
+      >
         {children}
       </label>
     );

@@ -6,25 +6,27 @@ import {
   Dialog as HeadlessDialog,
 } from "@headlessui/react";
 import clsx from "clsx";
-import { XIcon } from "@components/icons";
+import { XIcon } from "@components";
 
 interface DialogProps {
   trigger: React.ReactNode;
   title?: string;
   description?: string;
-  isCloseButtonVisible?: boolean;
   footerContent?: React.ReactNode;
-  onOpen?: () => void;
+  isCloseButtonVisible?: boolean;
+  unmount?: boolean;
   children: ((close: () => void) => ReactNode) | ReactNode;
+  onOpen?: () => void;
 }
 
 const Dialog = ({
   trigger,
   title,
   description,
-  children,
-  isCloseButtonVisible = true,
   footerContent,
+  isCloseButtonVisible = true,
+  unmount,
+  children,
   onOpen,
 }: DialogProps) => {
   const [open, setOpen] = useState(false);
@@ -45,7 +47,7 @@ const Dialog = ({
         open={open}
         onClose={setOpen}
         className="fixed z-[9999]"
-        unmount={false}
+        unmount={unmount}
       >
         {open && (
           <div
@@ -54,7 +56,7 @@ const Dialog = ({
           />
         )}
         <div className="fixed inset-0 flex items-center justify-center w-screen">
-          <DialogPanel className="relative max-w-lg bg-white border border-separate rounded-lg shadow-sm min-w-96">
+          <DialogPanel className="relative bg-white border border-separate rounded-lg shadow-sm min-w-96">
             {isCloseButtonVisible && <CloseButton onClick={handleOnClose} />}
             <section
               className={clsx(

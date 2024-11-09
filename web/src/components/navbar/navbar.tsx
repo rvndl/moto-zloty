@@ -1,13 +1,12 @@
-import { LoginDialog } from "@features/auth";
+import { LoginDialog, useAuth } from "@features/auth";
 import { NavbarItem } from "./navbar-item";
 import Logo from "@assets/img/mz-logo-black.png";
-import { useUserStore } from "@store/user-store";
 import { isEmpty } from "lodash";
 import { UserMenu } from "./user-menu";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const { user, logout } = useUserStore((state) => state);
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   return (

@@ -69,3 +69,48 @@ h6 {
 #root {
   isolation: isolate;
 }
+
+.ck-balloon-panel {
+  z-index: 99999 !important;
+}
+.ck-content {
+  height: 100% !important;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+  border-radius: 0.375rem !important;
+  border-width: 1px;
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+  border-color: #e5e7eb !important;
+}
+
+.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+  box-shadow: none !important;
+}
+
+.ck-placeholder {
+  @apply font-geist text-muted;
+  font-size: 14px !important;
+  margin: 0 !important;
+}
+
+.ck.ck-editor__editable_inline > *:last-child {
+  margin-bottom: 0 !important;
+}
+
+.ck.ck-editor__editable_inline > *:first-child {
+  margin-top: 0 !important;
+}
+
+.editor-container__editor {
+  height: 100% !important;
+}
+
+.editor-container {
+  height: 100% !important;
+}

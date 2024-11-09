@@ -1,10 +1,22 @@
 use core::fmt;
 use std::borrow::Cow;
 
-use chrono::NaiveDateTime;
+use chrono::{DateTime, Utc};
 use sqlx::types::Uuid;
 
 use super::event::Event;
+
+pub enum AccountMappingType {
+    Full,
+    Public,
+}
+
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+pub enum AccountInfo {
+    Full(Account),
+    Public(PublicAccount),
+}
 
 #[derive(Default, Debug, Clone, serde::Deserialize, serde::Serialize, sqlx::Type)]
 #[sqlx(type_name = "account_rank", rename_all = "lowercase")]
@@ -61,10 +73,10 @@ pub struct Account {
     /// Date and time when the account was banned
     /// Only present if the account is banned
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub banned_at: Option<NaiveDateTime>,
+    pub banned_at: Option<DateTime<Utc>>,
 
     /// Date and time when the account was created
-    pub created_at: NaiveDateTime,
+    pub created_at: DateTime<Utc>,
 
     /// Events the account created
     #[sqlx(skip)]
@@ -72,11 +84,11 @@ pub struct Account {
     pub events: Option<Vec<Event>>,
 }
 
-#[derive(Debug, serde::Serialize)]
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct PublicAccount {
     id: Uuid,
     username: String,
-    created_at: NaiveDateTime,
+    created_at: DateTime<Utc>,
     rank: AccountRank,
     events: Vec<Event>,
 }

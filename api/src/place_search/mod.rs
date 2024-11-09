@@ -1,0 +1,132 @@
+use std::sync::Arc;
+
+use crate::global::Global;
+use redis::AsyncCommands;
+use reqwest::StatusCode;
+
+const API_URL: &str = "https://eu1.locationiq.com/v1/autocomplete";
+const MAX_RESULTS: u8 = 5;
+const REDIS_KEY_PREFIX: &str = "place-search";
+
+#[derive(Debug, serde::Deserialize, serde::Serialize)]
+pub struct LocationIQAddress {
+    pub name: Option<String>,
+    pub house_number: Option<String>,
+    pub road: Option<String>,
+    pub neighbourhood: Option<String>,
+    pub suburb: Option<String>,
+    pub city: Option<String>,
+}
+
+#[derive(Debug, serde::Deserialize, serde::Serialize)]
+pub struct LocationIQPlace {
+    pub place_id: String,
+    pub lat: String,
+    pub lon: String,
+    pub address: LocationIQAddress,
+}
+
+#[derive(Debug, serde::Deserialize, serde::Serialize)]
+pub struct Place {
+    pub place_id: String,
+    pub latitude: f64,
+    pub longitude: f64,
+    pub name: String,
+}
+
+impl From<LocationIQPlace> for Place {
+    fn from(place: LocationIQPlace) -> Self {
+        Self {
+            place_id: place.place_id,
+            latitude: place.lat.parse().unwrap(),
+            longitude: place.lon.parse().unwrap(),
+            name: make_address(place.address),
+        }
+    }
+}
+
+pub async fn search(query: String, global: Arc<Global>) -> Result<Vec<Place>, String> {
+    let redis = global.redis();
+    let mut redis_con = match redis.get_multiplexed_async_connection().await {
+        Ok(redis_con) => redis_con,
+        Err(err) => return Err(format!("failed to connect to redis: {}", err)),
+    };
+
+    let query = query.to_ascii_lowercase();
+    let cache_key = format!("{}:{}", REDIS_KEY_PREFIX, query);
+
+    let results: Option<String> = redis_con.get(&cache_key).await.unwrap_or_default();
+    if let Some(hit) = results {
+        return match serde_json::from_str::<Vec<LocationIQPlace>>(&hit) {
+            Ok(places) => Ok(location_iq_places_to_places(places)),
+            Err(err) => Err(format!("failed to parse cache hit: {}", err)),
+        };
+    }
+
+    let location_iq_api_key = &global.config().location_iq_api_key;
+    let request_url = format!(
+        "{}?q={}&countrycodes=pl&limit={}&key={}",
+        API_URL, query, MAX_RESULTS, location_iq_api_key
+    );
+
+    let response = reqwest::get(request_url).await.unwrap();
+    if response.status() != StatusCode::OK {
+        return Err(format!(
+            "failed to search places: got status code: {}",
+            response.status()
+        ));
+    }
+
+    let body = match response.text().await {
+        Ok(body) => body,
+        Err(err) => return Err(format!("failed to read response body: {}", err)),
+    };
+    let _: () = redis_con.set(cache_key, &body).await.unwrap();
+
+    match serde_json::from_str::<Vec<LocationIQPlace>>(&body) {
+        Ok(places) => Ok(location_iq_places_to_places(places)),
+        Err(err) => Err(format!("failed to parse response: {}", err)),
+    }
+}
+
+fn location_iq_places_to_places(places: Vec<LocationIQPlace>) -> Vec<Place> {
+    places
+        .into_iter()
+        .map(|place| place.into())
+        .collect::<Vec<Place>>()
+}
+
+fn make_address(address: LocationIQAddress) -> String {
+    let mut new_address = String::new();
+
+    if let Some(name) = address.name {
+        new_address.push_str(&name);
+    }
+
+    if let Some(house_number) = address.house_number {
+        new_address.push_str(", ");
+        new_address.push_str(&house_number);
+    }
+
+    if let Some(road) = address.road {
+        new_address.push_str(", ");
+        new_address.push_str(&road);
+    }
+
+    if let Some(neighbourhood) = address.neighbourhood {
+        new_address.push_str(", ");
+        new_address.push_str(&neighbourhood);
+    }
+
+    if let Some(suburb) = address.suburb {
+        new_address.push_str(", ");
+        new_address.push_str(&suburb);
+    }
+
+    if let Some(city) = address.city {
+        new_address.push_str(", ");
+        new_address.push_str(&city);
+    }
+
+    new_address
+}

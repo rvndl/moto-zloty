@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS "account" (
   rank ACCOUNT_RANK default 'user',
   banned BOOLEAN default FALSE,
   ban_reason TEXT,
-  banned_at TIMESTAMP,
-  created_at TIMESTAMP default CURRENT_TIMESTAMP,
+  banned_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ default CURRENT_TIMESTAMP,
   UNIQUE(username)
 );

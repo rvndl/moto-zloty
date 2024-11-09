@@ -23,6 +23,8 @@ pub async fn run(global: Arc<Global>) {
 
     let app = Router::new()
         // authenticated routes
+        .route("/place_search/:query", get(routes::place_search::search))
+        .route("/file", post(routes::file::upload))
         .route("/events", put(routes::events::create))
         .layer(axum::middleware::from_fn(middleware::auth::authenticated))
         // public routes
@@ -31,6 +33,7 @@ pub async fn run(global: Arc<Global>) {
         .route("/register", put(routes::register::handler))
         .route("/login", post(routes::login::handler))
         .route("/profile/:id", get(routes::profile::get_profile))
+        .route("/file/:id", get(routes::file::get_file))
         .layer(CorsLayer::permissive())
         .with_state(app_state);
 

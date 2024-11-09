@@ -1,9 +1,8 @@
 import { Dropdown } from "@components/dropdown";
-import { LogoutIcon, UserIcon } from "@components/icons";
-import { Button } from "@components/ui";
-import { UserState } from "@store/user-store";
+import { LogoutIcon, UserIcon, Button } from "@components";
 import { rankToString } from "@utils/user";
 import { useNavigate } from "react-router-dom";
+import { UserState } from "@features/auth";
 
 interface Props {
   user: UserState;

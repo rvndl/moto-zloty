@@ -1,9 +1,10 @@
-import { Dialog } from "@components/dialog";
-import { Button } from "@components/ui";
+import { Dialog, Button } from "@components";
 import { useRegisterMutation } from "../api";
 import { Form, InputField } from "@components/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { yup } from "@utils/yup";
+import { useAuth } from "../hooks";
+import toast from "react-hot-toast";
 
 interface Fields {
   username: string;
@@ -26,7 +27,13 @@ interface Props {
 }
 
 const RegisterDialog = ({ onOpen }: Props) => {
-  const { mutate: register, isPending } = useRegisterMutation();
+  const { setState } = useAuth();
+  const { mutate: register, isPending } = useRegisterMutation({
+    onSuccess: (data) => {
+      setState(data);
+      toast.success("Utworzono nowe konto");
+    },
+  });
 
   const handleOnRegister = (values: Fields) => {
     register(values);
@@ -42,6 +49,7 @@ const RegisterDialog = ({ onOpen }: Props) => {
         </Button>
       }
       onOpen={onOpen}
+      unmount={false}
     >
       <Form<Fields> onSubmit={handleOnRegister} resolver={yupResolver(schema)}>
         {(isValid) => (
@@ -73,7 +81,12 @@ const RegisterDialog = ({ onOpen }: Props) => {
               type="email"
               isRequired
             />
-            <Button type="submit" isLoading={isPending} disabled={!isValid}>
+            <Button
+              type="submit"
+              loadingText="Tworzenie konta..."
+              isLoading={isPending}
+              disabled={!isValid || isPending}
+            >
               Utwórz konto
             </Button>
           </>
