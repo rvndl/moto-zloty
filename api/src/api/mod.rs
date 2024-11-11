@@ -29,6 +29,7 @@ pub async fn run(global: Arc<Global>) {
         .layer(axum::middleware::from_fn(middleware::auth::authenticated))
         // public routes
         .route("/health", get(routes::health::handler))
+        .route("/events/:id", get(routes::events::get))
         .route("/events", get(routes::events::list))
         .route("/register", put(routes::register::handler))
         .route("/login", post(routes::login::handler))

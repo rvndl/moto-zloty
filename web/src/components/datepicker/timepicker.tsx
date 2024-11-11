@@ -1,5 +1,5 @@
 import { minTwoDigits } from "@utils/index";
-import { Button } from "./button";
+import { Button } from "../button";
 import clsx from "clsx";
 import { setHours, setMinutes } from "date-fns";
 

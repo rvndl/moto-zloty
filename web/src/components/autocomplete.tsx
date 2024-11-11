@@ -9,6 +9,7 @@ import clsx from "clsx";
 import { Button } from "./button";
 import { Label } from "./label";
 import { useDebounce } from "@hooks/use-debounce";
+import { HelpText } from "./help-text";
 
 interface AutocompleteOption {
   id: string;
@@ -76,32 +77,34 @@ const Autocomplete = ({
           className={classes}
           autoComplete="off"
         />
-        <ComboboxOptions
-          anchor="bottom"
-          className="p-1 mt-1 bg-white border rounded-md shadow inline-table"
-          style={{ zIndex: 9999, width: inputRef.current?.clientWidth }}
-        >
-          {Boolean(options?.length) ? (
-            options?.map((option) => (
-              <ComboboxOption
-                as={Button}
-                key={option.id}
-                value={option}
-                variant="ghost"
-                className="w-full font-normal text-ellipsis"
-                textAlignment="left"
-              >
-                {option.label}
-              </ComboboxOption>
-            ))
-          ) : (
-            <div className="w-full p-2 text-sm text-center text-muted">
-              Brak wyników
-            </div>
-          )}
-        </ComboboxOptions>
+        {query.length >= minLength && (
+          <ComboboxOptions
+            anchor="bottom"
+            className="p-1 mt-1 bg-white border rounded-md shadow inline-table"
+            style={{ zIndex: 9999, width: inputRef.current?.clientWidth }}
+          >
+            {Boolean(options?.length) ? (
+              options?.map((option) => (
+                <ComboboxOption
+                  as={Button}
+                  key={option.id}
+                  value={option}
+                  variant="ghost"
+                  className="w-full font-normal text-ellipsis"
+                  textAlignment="left"
+                >
+                  {option.label}
+                </ComboboxOption>
+              ))
+            ) : (
+              <div className="w-full p-2 text-sm text-center text-muted">
+                Brak wyników
+              </div>
+            )}
+          </ComboboxOptions>
+        )}
       </HeadlessCombobox>
-      {Boolean(error) && <Label varaint="error">{error}</Label>}
+      {Boolean(error) && <HelpText variant="error">{error}</HelpText>}
     </div>
   );
 };

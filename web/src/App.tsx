@@ -6,12 +6,11 @@ import {
   Routes,
   createBrowserRouter,
 } from "react-router-dom";
-import "leaflet/dist/leaflet.css";
 import { useEffect } from "react";
 import { setupYup } from "utils/yup";
 import { Toaster } from "react-hot-toast";
 import { ProfilePage } from "@features/profile";
-import { EventsPage } from "@features/event";
+import { EventPage, EventsPage } from "@features/event";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +40,7 @@ function Root() {
       <Routes>
         <Route path="/" element={<EventsPage />} />
         <Route path="/profile/:id" element={<ProfilePage />} />
+        <Route path="/event/:id" element={<EventPage />} />
       </Routes>
     </Layout>
   );

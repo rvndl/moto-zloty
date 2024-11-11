@@ -1,10 +1,11 @@
 use std::sync::Arc;
 
+use crate::api::AppState;
 use crate::api_error_log;
 use crate::db::models::account::AccountMappingType;
 use crate::db::models::file::FileStatus;
 use crate::jwt::JwtClaims;
-use crate::{api::AppState, db::models::event::Event};
+use axum::extract::Path;
 use axum::response::IntoResponse;
 use axum::{extract::State, response::Response, Json};
 use axum::{Extension, Form};
@@ -35,6 +36,20 @@ pub async fn list(State(state): State<Arc<AppState>>) -> Response {
     };
 
     Json(events).into_response()
+}
+
+pub async fn get(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Response {
+    let repos = state.global.repos();
+    let event = match repos
+        .event
+        .fetch_by_id_with_account(id, AccountMappingType::Public)
+        .await
+    {
+        Ok(event) => event,
+        Err(err) => return api_error_log!("failed to fetch event: {}", err),
+    };
+
+    Json(event).into_response()
 }
 
 pub async fn create(

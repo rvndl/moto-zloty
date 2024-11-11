@@ -1,19 +1,6 @@
-import {
-  AutocompleteField,
-  DatepickerField,
-  Form,
-  InputField,
-} from "@components/form";
-import {
-  PlusIcon,
-  Button,
-  Map,
-  Dialog,
-  Checkbox,
-  AutocompleteOption,
-} from "@components";
+import { AutocompleteField, Form, InputField } from "@components/form";
+import { PlusIcon, Button, Dialog, AutocompleteOption } from "@components";
 import { useCreateEventMutation } from "../../api";
-import { useState } from "react";
 import { TextEditorField } from "@components/form/fields/text-editor-field";
 import { DropzoneField } from "@components/form/fields/dropzone-field";
 import { yup } from "@utils/yup";
@@ -22,8 +9,8 @@ import toast from "react-hot-toast";
 import { useAuth } from "@features/auth";
 import { Api } from "api";
 import { Place } from "types/place";
-import { PreviewMap } from "./preview-map";
-import { toFixedISOString } from "@utils/date";
+import { PreviewMap } from "../preview-map";
+import { DatePicker } from "./date-picker";
 
 interface Fields {
   name: string;
@@ -91,7 +78,7 @@ const CreateEventDialog = () => {
           resolver={yupResolver(schema)}
         >
           <section className="flex gap-8">
-            <div className="flex flex-col gap-2 w-[32rem]">
+            <div className="flex flex-col gap-4 w-[32rem]">
               <InputField
                 name="name"
                 label="Nazwa"
@@ -99,15 +86,13 @@ const CreateEventDialog = () => {
                 isRequired
               />
               <DropzoneField name="banner_id" label="Banner" />
-              <div className="flex justify-between gap-4">
-                <DatepickerField name="date_from" label="Data od" isRequired />
-                <DatepickerField name="date_to" label="Data do" isRequired />
-              </div>
+              <DatePicker />
               <div className="h-[294px]">
                 <TextEditorField
                   name="description"
                   label="Opis"
                   placeholder="Opis wydarzenia"
+                  isRequired
                 />
               </div>
             </div>
@@ -129,7 +114,7 @@ const CreateEventDialog = () => {
                 }}
                 isRequired
               />
-              <PreviewMap />
+              <PreviewMap className="h-[32rem] w-[32rem]" />
             </div>
           </section>
           <section className="flex flex-row-reverse gap-2">

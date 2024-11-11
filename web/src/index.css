@@ -73,6 +73,7 @@ h6 {
 .ck-balloon-panel {
   z-index: 99999 !important;
 }
+
 .ck-content {
   height: 100% !important;
   padding-top: 0.25rem !important;
@@ -113,4 +114,14 @@ h6 {
 
 .editor-container {
   height: 100% !important;
+}
+.leaflet-popup-content {
+  @apply m-2 font-geist;
+}
+.leaflet-popup-content-wrapper {
+  @apply border rounded-lg shadow;
+}
+
+.leaflet-popup-content p {
+  margin: unset;
 }

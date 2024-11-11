@@ -51,16 +51,18 @@ import { Label } from "@components";
 interface TextEditorProps {
   label?: string;
   placeholder?: string;
-  isRequired?: boolean;
   value?: string;
+  isRequired?: boolean;
+  isNonEditable?: boolean;
   onChange?: (value: string) => void;
 }
 
 const TextEditor = ({
   label,
   placeholder,
-  isRequired,
   value,
+  isRequired,
+  isNonEditable,
   onChange,
 }: TextEditorProps) => {
   const editorContainerRef = useRef(null);
@@ -232,25 +234,32 @@ const TextEditor = ({
 
   return (
     <div className="h-full">
-      <div className="h-full main-container">
+      <div className="flex flex-col h-full gap-2">
         {Boolean(label) && <Label isRequired={isRequired}>{label}</Label>}
-        <div
-          className="editor-container editor-container_inline-editor"
-          ref={editorContainerRef}
-        >
-          <div className="editor-container__editor">
-            <div className="h-full" ref={editorRef}>
-              {isLayoutReady && (
-                <CKEditor
-                  editor={InlineEditor}
-                  config={editorConfig}
-                  data={value}
-                  onChange={handleOnDataChange}
-                />
-              )}
+        {isNonEditable ? (
+          <div
+            className="mt-0"
+            dangerouslySetInnerHTML={{ __html: value || "" }}
+          />
+        ) : (
+          <div
+            className="editor-container editor-container_inline-editor"
+            ref={editorContainerRef}
+          >
+            <div className="editor-container__editor">
+              <div className="h-full" ref={editorRef}>
+                {isLayoutReady && (
+                  <CKEditor
+                    editor={InlineEditor}
+                    config={editorConfig}
+                    data={value}
+                    onChange={handleOnDataChange}
+                  />
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

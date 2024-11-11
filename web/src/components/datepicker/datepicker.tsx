@@ -1,14 +1,17 @@
-import { Button, Calendar, Label, Popover, Timepicker } from "@components";
+import { Button, Calendar, HelpText, Label, Popover } from "@components";
 import { CalendarIcon } from "@components/icons";
 import clsx from "clsx";
 import { format } from "date-fns";
+import { DayPickerProps } from "react-day-picker";
+import { Timepicker } from "./timepicker";
 
 interface DatepickerProps {
   label?: string;
   value?: Date;
   error?: string;
-  hasTimePicker?: boolean;
+  calendarProps?: Omit<DayPickerProps, "onSelect" | "selected" | "mode">;
   isRequired?: boolean;
+  isDisabled?: boolean;
   onChange?: (value: Date | undefined) => void;
 }
 
@@ -17,6 +20,8 @@ const Datepicker = ({
   value,
   error,
   isRequired,
+  calendarProps,
+  isDisabled,
   onChange,
 }: DatepickerProps) => {
   const handleOnSelect = (date?: Date) => onChange?.(date);
@@ -27,7 +32,7 @@ const Datepicker = ({
         <div
           className={clsx(
             "flex flex-col items-start",
-            Boolean(label) && "gap-1"
+            Boolean(label) && "gap-2"
           )}
         >
           {Boolean(label) && <Label isRequired={isRequired}>{label}</Label>}
@@ -38,21 +43,28 @@ const Datepicker = ({
               "font-normal shadow-sm",
               !Boolean(value) && "text-muted"
             )}
+            disabled={isDisabled}
           >
             {Boolean(value)
               ? format(value!, "dd.MM.yyyy HH:mm")
               : "Wybierz datę"}
           </Button>
           {Boolean(error) && (
-            <Label varaint="error" className="mt-0.5">
+            <HelpText variant="error" className="">
               {error}
-            </Label>
+            </HelpText>
           )}
         </div>
       }
+      isDisabled={isDisabled}
     >
       <div className="flex gap-2">
-        <Calendar mode="single" selected={value} onSelect={handleOnSelect} />
+        <Calendar
+          mode="single"
+          selected={value}
+          onSelect={handleOnSelect}
+          {...calendarProps}
+        />
         <Timepicker date={value} onChange={handleOnSelect} />
       </div>
     </Popover>

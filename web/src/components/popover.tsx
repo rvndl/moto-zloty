@@ -7,12 +7,17 @@ import { PropsWithChildren } from "react";
 
 interface Props {
   trigger: React.ReactNode;
+  isDisabled?: boolean;
 }
 
-const Popover = ({ trigger, children }: PropsWithChildren<Props>) => {
+const Popover = ({
+  trigger,
+  isDisabled,
+  children,
+}: PropsWithChildren<Props>) => {
   return (
     <HeadlessPopover className="relative">
-      <PopoverButton>{trigger}</PopoverButton>
+      <PopoverButton disabled={isDisabled}>{trigger}</PopoverButton>
       <PopoverPanel
         className="z-50 p-4 bg-white border rounded-md shadow-md"
         anchor="bottom"

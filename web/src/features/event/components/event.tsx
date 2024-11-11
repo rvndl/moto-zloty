@@ -1,31 +1,31 @@
 import { getFilePath } from "@utils/index";
-import { formatDistance, isAfter } from "date-fns";
+import { formatDistance } from "date-fns";
 import { useMemo } from "react";
 import { type Event } from "types/event";
 import { pl } from "date-fns/locale";
 import { Badge } from "@components/badge";
 import clsx from "clsx";
+import { getEventStatus } from "@utils/event";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   event: Event;
 }
 
 const Event = ({ event }: Props) => {
-  const distance = useMemo(
-    () =>
-      formatDistance(event.date_from, new Date(), {
-        locale: pl,
-        addSuffix: true,
-      }),
-    [event.date_from]
+  const navigate = useNavigate();
+
+  const { isOngoing, isPast } = useMemo(() => getEventStatus(event), [event]);
+
+  const distance = formatDistance(
+    isPast ? event.date_to : event.date_from,
+    new Date(),
+    { locale: pl, addSuffix: true }
   );
 
-  const { isOngoing, isPast } = useMemo(() => {
-    const isPast = isAfter(new Date(), event.date_to);
-    const isOngoing = !isPast && isAfter(new Date(), event.date_from);
-
-    return { isOngoing, isPast };
-  }, [event.date_to]);
+  const handleOnClick = () => {
+    navigate(`/event/${event.id}`);
+  };
 
   return (
     <div
@@ -33,6 +33,7 @@ const Event = ({ event }: Props) => {
         "relative overflow-hidden border rounded-lg shadow-sm cursor-pointer h-36 white w-60 shrink-0",
         isPast && "opacity-50"
       )}
+      onClick={handleOnClick}
     >
       <Badge
         variant={isOngoing ? "danger" : "secondary"}

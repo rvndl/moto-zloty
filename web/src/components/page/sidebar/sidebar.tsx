@@ -3,12 +3,12 @@ import { SidebarItem, SidebarItemProps } from "./sidebar-item";
 import { useState } from "react";
 
 interface Props {
-  items: SidebarItemProps[];
+  items?: SidebarItemProps[];
   onChange: (item: string) => void;
 }
 
 const Sidebar = ({ items, onChange }: Props) => {
-  const [activeItem, setActiveItem] = useState(items[0].label);
+  const [activeItem, setActiveItem] = useState(items?.[0]?.label);
 
   const handleOnChange = (item: string) => {
     setActiveItem(item);
@@ -17,7 +17,7 @@ const Sidebar = ({ items, onChange }: Props) => {
 
   return (
     <Card className="flex flex-col p-4" contentClassName="w-full flex flex-col">
-      {items.map(({ label, ...rest }) => (
+      {items?.map(({ label, ...rest }) => (
         <SidebarItem
           key={label}
           isActive={activeItem === label}

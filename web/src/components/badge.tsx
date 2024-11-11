@@ -1,7 +1,7 @@
 import { HTMLAttributes, PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
 
-type BadgeVariant = "primary" | "success" | "danger" | "secondary";
+type BadgeVariant = "primary" | "success" | "danger" | "secondary" | "warning";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   variant?: BadgeVariant;
@@ -20,6 +20,8 @@ const Badge = ({
     variant === "danger" &&
       "border-transparent bg-red-500 text-white shadow hover:bg-red-500/80",
     variant === "secondary" && "bg-accent border",
+    variant === "warning" && "bg-yellow-500 text-white",
+    variant === "success" && "bg-green-500 text-white",
     className
   );
   return (

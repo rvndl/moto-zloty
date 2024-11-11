@@ -2,7 +2,12 @@ import { useUserStore } from "@features/auth";
 import axios, { AxiosRequestConfig } from "axios";
 import toast from "react-hot-toast";
 
-type GetUrl = "/events" | `/profile/${string}` | `/place_search/${string}`;
+type GetUrl =
+  | "/events"
+  | `/profile/${string}`
+  | `/place_search/${string}`
+  | `/events/${string}`;
+
 type PostUrl = "/login" | "/file";
 type PutUrl = "/register" | "/events";
 

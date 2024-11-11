@@ -1,5 +1,5 @@
 import { Map } from "@components/map";
-import { Event, CreateEventDialog } from "../components";
+import { Event, CreateEventDialog, EventMapMarker } from "../components";
 import { useEventsQuery } from "../api";
 import { useMemo } from "react";
 import { compareAsc, isAfter } from "date-fns";
@@ -37,7 +37,11 @@ const EventsPage = () => {
         ))}
       </section>
       <section className="w-full h-full bg-red-100 border rounded-lg shadow-sm">
-        <Map />
+        <Map zoom={7}>
+          {sortedEvents?.map((event) => (
+            <EventMapMarker event={event} key={event.id} />
+          ))}
+        </Map>
       </section>
     </div>
   );

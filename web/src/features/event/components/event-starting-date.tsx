@@ -1,0 +1,49 @@
+import { Value, Badge, Tooltip } from "@components";
+import { getEventStatus } from "@utils/event";
+import { format, formatDistance } from "date-fns";
+import { pl } from "date-fns/locale";
+import { useMemo } from "react";
+import { type Event } from "types/event";
+
+interface Props {
+  event?: Event;
+}
+
+const EventStartingDate = ({ event }: Props) => {
+  const { isOngoing } = useMemo(() => getEventStatus(event), [event]);
+
+  const distance = useMemo(() => {
+    if (!event?.date_from) {
+      return "";
+    }
+
+    return formatDistance(event?.date_from, new Date(), {
+      locale: pl,
+      addSuffix: true,
+    });
+  }, [event?.date_from]);
+
+  return (
+    <div>
+      <Value
+        title="Rozpoczęcie"
+        data-tooltip-id="starting-date-tooltip"
+        data-tooltip-content={format(
+          event?.date_from ?? new Date(),
+          "dd.MM.yyyy HH:mm"
+        )}
+      >
+        {isOngoing ? (
+          <Badge className="w-max" variant="danger">
+            W trakcie
+          </Badge>
+        ) : (
+          <p className="text-muted">{distance}</p>
+        )}
+      </Value>
+      <Tooltip id="starting-date-tooltip" />
+    </div>
+  );
+};
+
+export { EventStartingDate };

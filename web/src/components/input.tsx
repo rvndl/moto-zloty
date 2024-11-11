@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { InputHTMLAttributes, useId } from "react";
 import { Label } from "./label";
+import { HelpText } from "./help-text";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -30,7 +31,7 @@ const Input = ({
         </Label>
       )}
       <input id={id} className={classes} {...rest} />
-      {Boolean(error) && <Label varaint="error">{error}</Label>}
+      {Boolean(error) && <HelpText variant="error">{error}</HelpText>}
     </div>
   );
 };
