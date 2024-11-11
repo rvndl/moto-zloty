@@ -1,17 +1,17 @@
 import { useParams } from "react-router-dom";
 import { useEventQuery } from "../api";
 import { Page } from "@components";
-import { EventTab } from "../components";
+import { EventPageContent } from "../components";
 
 const EventPage = () => {
   const { id } = useParams();
-  const { data: event } = useEventQuery(id!, {
+  const { data: event, isLoading } = useEventQuery(id!, {
     enabled: Boolean(id),
   });
 
   return (
     <Page>
-      <EventTab event={event} />
+      <EventPageContent event={event} isLoading={isLoading} />
     </Page>
   );
 };

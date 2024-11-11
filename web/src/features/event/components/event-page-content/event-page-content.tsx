@@ -8,9 +8,10 @@ import { PreviewMap } from "../preview-map";
 
 interface Props {
   event?: Event;
+  isLoading?: boolean;
 }
 
-const EventTab = ({ event }: Props) => {
+const EventPageContent = ({ event, isLoading }: Props) => {
   return (
     <section className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2">
       <Card
@@ -33,12 +34,16 @@ const EventTab = ({ event }: Props) => {
           </Dialog>
         </div>
         <div className="flex flex-col gap-4">
-          <Value title="Nazwa">{event?.name}</Value>
-          <Value title="Lokalizacja">{event?.address}</Value>
-          <EventStatus status={event?.status} />
+          <Value title="Nazwa" isLoading={isLoading}>
+            {event?.name}
+          </Value>
+          <Value title="Lokalizacja" isLoading={isLoading}>
+            {event?.address}
+          </Value>
+          <EventStatus status={event?.status} isLoading={isLoading} />
           <div className="flex justify-between">
-            <EventStartingDate event={event} />
-            <EventEndingDate event={event} />
+            <EventStartingDate event={event} isLoading={isLoading} />
+            <EventEndingDate event={event} isLoading={isLoading} />
           </div>
           <TextEditor label="Opis" value={event?.description} isNonEditable />
         </div>
@@ -56,4 +61,4 @@ const EventTab = ({ event }: Props) => {
   );
 };
 
-export { EventTab };
+export { EventPageContent };

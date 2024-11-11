@@ -4,4 +4,5 @@ export * from "./event-starting-date";
 export * from "./event-ending-date";
 export * from "./event-status";
 export * from "./event";
-export * from "./tabs";
+export * from "./event-page-content";
+export * from "./events-page-content";

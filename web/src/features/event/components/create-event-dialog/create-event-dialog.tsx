@@ -11,6 +11,7 @@ import { Api } from "api";
 import { Place } from "types/place";
 import { PreviewMap } from "../preview-map";
 import { DatePicker } from "./date-picker";
+import { useNavigate } from "react-router-dom";
 
 interface Fields {
   name: string;
@@ -36,6 +37,7 @@ const CreateEventDialog = () => {
   } = useAuth<true>();
 
   const { mutateAsync: createEvent, isPending } = useCreateEventMutation();
+  const navigate = useNavigate();
 
   const handleOnCreate =
     (close: () => void) =>
@@ -58,9 +60,10 @@ const CreateEventDialog = () => {
           account_id,
         },
         {
-          onSuccess: () => {
+          onSuccess: (data) => {
             toast.success("Wydarzenie zostało utworzone!");
             close();
+            navigate(`/event/${data.id}`);
           },
         }
       );

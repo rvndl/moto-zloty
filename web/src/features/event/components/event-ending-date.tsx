@@ -8,9 +8,10 @@ import { type Event } from "types/event";
 
 interface Props {
   event?: Event;
+  isLoading?: boolean;
 }
 
-const EventEndingDate = ({ event }: Props) => {
+const EventEndingDate = ({ event, isLoading }: Props) => {
   const { isPast } = useMemo(() => getEventStatus(event), [event]);
 
   const distance = useMemo(() => {
@@ -33,6 +34,7 @@ const EventEndingDate = ({ event }: Props) => {
           event?.date_to ?? new Date(),
           "dd.MM.yyyy HH:mm"
         )}
+        isLoading={isLoading}
       >
         {isPast ? (
           <Badge className="w-max" variant="secondary">

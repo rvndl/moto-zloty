@@ -1,7 +1,7 @@
+import { default as SpinnerSvg } from "@assets/svg/spinner.svg?react";
+
 const Spinner = () => {
-  return (
-    <div className="w-6 h-6 border-t-2 border-b-2 border-white rounded-full animate-spin" />
-  );
+  return <SpinnerSvg />;
 };
 
 export { Spinner };

@@ -23,3 +23,4 @@ export * from "./value";
 export * from "./help-text";
 export * from "./tooltip";
 export * from "./badge";
+export * from "./skeleton";

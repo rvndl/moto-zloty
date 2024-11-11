@@ -1,10 +1,6 @@
 import { Badge, Value } from "@components";
 import { type EventStatus } from "types/event";
 
-interface Props {
-  status?: EventStatus;
-}
-
 const statusToVariant = (status?: EventStatus) => {
   switch (status) {
     case "PENDING":
@@ -27,7 +23,12 @@ const statusToText = (status?: EventStatus) => {
   }
 };
 
-const EventStatus = ({ status }: Props) => {
+interface Props {
+  status?: EventStatus;
+  isLoading?: boolean;
+}
+
+const EventStatus = ({ status, isLoading }: Props) => {
   return (
     <Value
       title="Status"
@@ -41,6 +42,7 @@ const EventStatus = ({ status }: Props) => {
           </>
         ),
       })}
+      isLoading={isLoading}
     >
       <Badge className="w-max" variant={statusToVariant(status)}>
         {statusToText(status)}

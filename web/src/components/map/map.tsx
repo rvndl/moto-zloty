@@ -3,6 +3,7 @@ import "leaflet/dist/leaflet.css";
 import { LatLngExpression } from "leaflet";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import { PropsWithChildren } from "react";
+import { Spinner } from "@components/spinner";
 
 const CENTER_OF_POLAND: LatLngExpression = [52.106379, 19.495893];
 
@@ -19,16 +20,26 @@ const ComponentResize = ({ zoom }: { zoom: number }) => {
 
 interface Props {
   zoom?: number;
+  isLoading?: boolean;
 }
 
-export const Map = ({ zoom = 6, children }: PropsWithChildren<Props>) => {
+export const Map = ({
+  zoom = 6,
+  isLoading,
+  children,
+}: PropsWithChildren<Props>) => {
   return (
     <MapContainer
       center={CENTER_OF_POLAND}
       zoom={zoom}
       scrollWheelZoom={true}
-      className="min-w-full min-h-full border rounded-xl"
+      className="relative min-w-full min-h-full border rounded-xl"
     >
+      {isLoading && (
+        <div className="absolute top-0 left-0 z-[400] w-full h-full bg-black/30 flex items-center justify-center">
+          <Spinner />
+        </div>
+      )}
       <ComponentResize zoom={zoom} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

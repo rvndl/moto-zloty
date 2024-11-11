@@ -1,15 +1,10 @@
-import { Badge } from "@components/badge";
 import { Button } from "@components/button";
-import { Label } from "@components/label";
-import { getEventStatus } from "@utils/event";
-import { formatDistance } from "date-fns";
-import { pl } from "date-fns/locale";
-import { useMemo } from "react";
 import { Marker, Popup } from "react-leaflet";
 import { type Event } from "types/event";
 import { truncate } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { EventStartingDate } from "./event-starting-date";
+import { Icon } from "leaflet";
 
 interface Props {
   event: Event;
