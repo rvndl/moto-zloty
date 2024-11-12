@@ -52,6 +52,17 @@ pub async fn get(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Re
     Json(event).into_response()
 }
 
+pub async fn actions(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Response {
+    let repos = state.global.repos();
+
+    let actions = match repos.action.fetch_all_by_event_id(id).await {
+        Ok(actions) => actions,
+        Err(err) => return api_error_log!("failed to fetch actions: {}", err),
+    };
+
+    Json(actions).into_response()
+}
+
 pub async fn create(
     State(state): State<Arc<AppState>>,
     Extension(claims): Extension<JwtClaims>,
@@ -90,6 +101,14 @@ pub async fn create(
         {
             return api_error_log!("failed to change file status: {}", err);
         }
+    };
+
+    if let Err(err) = repos
+        .action
+        .create(event.id, user_id, claims.username, "Stworzenie wydarzenia")
+        .await
+    {
+        return api_error_log!("failed to create action: {}", err);
     };
 
     Json(event).into_response()

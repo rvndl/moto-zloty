@@ -5,6 +5,7 @@ import { EventStartingDate } from "../event-starting-date";
 import { EventEndingDate } from "../event-ending-date";
 import { EventStatus } from "../event-status";
 import { PreviewMap } from "../preview-map";
+import { ActionsList } from "./actions-list";
 
 interface Props {
   event?: Event;
@@ -48,14 +49,16 @@ const EventPageContent = ({ event, isLoading }: Props) => {
           <TextEditor label="Opis" value={event?.description} isNonEditable />
         </div>
       </Card>
-      <div className="w-full aspect-square">
+      <div className="flex flex-col w-full gap-4 aspect-square">
         {event && (
           <PreviewMap
             className="w-full h-full"
             latitude={event?.latitude}
             longitude={event?.longitude}
+            isLoading={isLoading}
           />
         )}
+        <ActionsList />
       </div>
     </section>
   );

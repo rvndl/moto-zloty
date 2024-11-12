@@ -3,26 +3,28 @@ import { Map } from "@components/map";
 import { PropsWithChildren } from "react";
 import { Marker, useMap } from "react-leaflet";
 
+interface Props {
+  latitude?: number;
+  longitude?: number;
+  isLoading?: boolean;
+  className?: string;
+}
+
 const MapWrapper = ({
   children,
+  isLoading,
   className,
-}: PropsWithChildren<{ className?: string }>) => {
+}: PropsWithChildren<Pick<Props, "isLoading" | "className">>) => {
   return (
     <div className={className}>
-      <Map>{children}</Map>
+      <Map isLoading={isLoading}>{children}</Map>
     </div>
   );
 };
 
-interface Props {
-  latitude?: number;
-  longitude?: number;
-  className?: string;
-}
-
-const PreviewMap = ({ latitude, longitude, className }: Props) => {
+const PreviewMap = ({ latitude, longitude, isLoading, className }: Props) => {
   return (
-    <MapWrapper className={className}>
+    <MapWrapper className={className} isLoading={isLoading}>
       <MapContent latitude={latitude} longitude={longitude} />
     </MapWrapper>
   );

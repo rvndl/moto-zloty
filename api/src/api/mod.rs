@@ -30,6 +30,7 @@ pub async fn run(global: Arc<Global>) {
         // public routes
         .route("/health", get(routes::health::handler))
         .route("/events/:id", get(routes::events::get))
+        .route("/events/:id/actions", get(routes::events::actions))
         .route("/events", get(routes::events::list))
         .route("/register", put(routes::register::handler))
         .route("/login", post(routes::login::handler))

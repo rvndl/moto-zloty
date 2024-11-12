@@ -19,7 +19,7 @@ const EventEndingDate = ({ event, isLoading }: Props) => {
       return "";
     }
 
-    return formatDistance(event?.date_to, new Date(), {
+    return formatDistance(event.date_to, new Date(), {
       locale: pl,
       addSuffix: true,
     });

@@ -6,7 +6,8 @@ type GetUrl =
   | "/events"
   | `/profile/${string}`
   | `/place_search/${string}`
-  | `/events/${string}`;
+  | `/events/${string}`
+  | `/events/${string}/actions`;
 
 type PostUrl = "/login" | "/file";
 type PutUrl = "/register" | "/events";
