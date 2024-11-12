@@ -1,7 +1,7 @@
 import { useForm } from "@components/form";
-import { Map } from "@components/map";
+import { Map, MapMarker } from "@components/map";
 import { PropsWithChildren } from "react";
-import { Marker, useMap } from "react-leaflet";
+import { useMap } from "react-leaflet";
 
 interface Props {
   latitude?: number;
@@ -50,7 +50,7 @@ const MapContent = ({
     return null;
   }
 
-  return <Marker position={[latitude, longitude]} />;
+  return <MapMarker position={[latitude, longitude]} isLive />;
 };
 
 export { PreviewMap };

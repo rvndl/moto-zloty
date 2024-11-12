@@ -1,10 +1,12 @@
 import { Button } from "@components/button";
-import { Marker, Popup } from "react-leaflet";
+import { Popup } from "react-leaflet";
 import { type Event } from "types/event";
 import { truncate } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { EventStartingDate } from "./event-starting-date";
-import { Icon } from "leaflet";
+import { MapMarker } from "@components/map";
+import { getEventStatus } from "@utils/event";
+import { useMemo } from "react";
 
 interface Props {
   event: Event;
@@ -12,13 +14,14 @@ interface Props {
 
 const EventMapMarker = ({ event }: Props) => {
   const navigate = useNavigate();
+  const { isOngoing } = useMemo(() => getEventStatus(event), [event]);
 
   const handleOnDetails = () => {
     navigate(`/event/${event.id}`);
   };
 
   return (
-    <Marker position={[event.latitude, event.longitude]}>
+    <MapMarker position={[event.latitude, event.longitude]} isLive={isOngoing}>
       <Popup>
         <div className="leading-snug">
           <h2 className="text-lg font-semibold">{event.name}</h2>
@@ -38,7 +41,7 @@ const EventMapMarker = ({ event }: Props) => {
           Szczegóły
         </Button>
       </Popup>
-    </Marker>
+    </MapMarker>
   );
 };
 
