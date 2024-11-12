@@ -8,11 +8,14 @@ import clsx from "clsx";
 import { getEventStatus } from "@utils/event";
 import { useNavigate } from "react-router-dom";
 
+type EventSize = "normal" | "small";
+
 interface Props {
   event: Event;
+  size?: EventSize;
 }
 
-const Event = ({ event }: Props) => {
+const Event = ({ event, size = "normal" }: Props) => {
   const navigate = useNavigate();
 
   const { isOngoing, isPast } = useMemo(() => getEventStatus(event), [event]);
@@ -30,7 +33,8 @@ const Event = ({ event }: Props) => {
   return (
     <div
       className={clsx(
-        "relative overflow-hidden border rounded-lg shadow-sm cursor-pointer h-36 white w-60 shrink-0",
+        "relative overflow-hidden border rounded-lg shadow-sm cursor-pointer h-36 white shrink-0",
+        size === "normal" ? "w-60" : "w-56",
         isPast && "opacity-50"
       )}
       onClick={handleOnClick}

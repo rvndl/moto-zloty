@@ -1,3 +1,5 @@
+import { Event } from "./event";
+
 export type AccountRank = "USER" | "ADMIN";
 
 export interface PublicAccount {
@@ -5,6 +7,5 @@ export interface PublicAccount {
   username: string;
   created_at: string;
   rank: AccountRank;
-  // TODO: add event type
-  events: any[];
+  events: Event[];
 }

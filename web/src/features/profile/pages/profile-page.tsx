@@ -33,7 +33,7 @@ const ProfilePage = () => {
       {(tab) =>
         match(tab)
           .with("Profil", () => <ProfileTab account={data} />)
-          .with("Wydarzenia", () => <EventsTab />)
+          .with("Wydarzenia", () => <EventsTab account={data} />)
           .with("Ustawienia", () => <SettingsTab />)
           .otherwise(() => null)
       }

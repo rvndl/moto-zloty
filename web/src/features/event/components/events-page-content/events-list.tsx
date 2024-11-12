@@ -1,31 +1,15 @@
 import { type Event as EventType } from "types/event";
 import { Event } from "../event";
 import { useMemo } from "react";
-import { compareAsc, isAfter } from "date-fns";
 import { Skeleton } from "@components/skeleton";
+import { sortEvents } from "@utils/event";
 
 interface Props {
   events?: EventType[];
 }
 
 const EventsList = ({ events }: Props) => {
-  const sortedEvents = useMemo(() => {
-    if (!events) {
-      return [];
-    }
-
-    const today = new Date();
-
-    return events.sort((a, b) => {
-      const aHasEnded = isAfter(today, new Date(a.date_to));
-      const bHasEnded = isAfter(today, new Date(b.date_to));
-
-      if (aHasEnded && !bHasEnded) return 1;
-      if (!aHasEnded && bHasEnded) return -1;
-
-      return compareAsc(new Date(a.date_from), new Date(b.date_from));
-    });
-  }, [events]);
+  const sortedEvents = useMemo(() => sortEvents(events), [events]);
 
   if (!events) {
     return (
