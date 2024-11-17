@@ -1,5 +1,4 @@
-import { useForm } from "@components/form";
-import { Map, MapMarker } from "@components/map";
+import { Map, MapMarker, useForm } from "@components";
 import { PropsWithChildren } from "react";
 import { useMap } from "react-leaflet";
 

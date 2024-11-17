@@ -2,8 +2,8 @@ import {
   ChartAreaIcon,
   ShieldCheckIcon,
   UserBookIcon,
-} from "@components/icons";
-import { Page } from "@components/page";
+  Page,
+} from "@components";
 import { useAuth } from "@features/auth";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,7 @@ const ModerationPage = () => {
     if (!isPermitted) {
       navigate("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPermitted]);
 
   return (

@@ -23,7 +23,7 @@ const Form = <TValues,>({
     formState: { isValid },
   } = useForm({
     resolver,
-    defaultValues: defaultValues as Record<string, any>,
+    defaultValues: defaultValues as Record<string, unknown>,
     mode: "all",
   });
 

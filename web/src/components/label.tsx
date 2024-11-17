@@ -1,4 +1,5 @@
 import { LabelHTMLAttributes, PropsWithChildren } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface Props extends LabelHTMLAttributes<HTMLLabelElement> {
   isRequired?: boolean;
@@ -12,7 +13,10 @@ const Label = ({
 }: PropsWithChildren<Props>) => {
   return (
     <label
-      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      className={twMerge(
+        "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+        className
+      )}
       {...rest}
     >
       {children} {isRequired && <span className="text-red-500">*</span>}

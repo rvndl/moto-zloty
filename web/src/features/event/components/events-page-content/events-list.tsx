@@ -1,7 +1,7 @@
 import { type Event as EventType } from "types/event";
 import { Event } from "../event";
 import { useMemo } from "react";
-import { Skeleton } from "@components/skeleton";
+import { Skeleton } from "@components";
 import { sortEvents } from "@utils/event";
 
 interface Props {

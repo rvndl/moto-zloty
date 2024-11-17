@@ -1,4 +1,4 @@
-import { Card } from "@components/card";
+import { Card } from "@components";
 import { Event } from "@features/event";
 import { ProfileResponse } from "@features/profile/api/types/profile";
 import { sortEvents } from "@utils/event";

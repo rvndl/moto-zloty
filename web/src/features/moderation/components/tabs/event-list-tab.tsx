@@ -1,5 +1,4 @@
-import { Card } from "@components/card";
-import { Table } from "@components/table";
+import { Card, Table } from "@components";
 import { EventStatusBadge } from "@features/event/components";
 import { useEventListQuery } from "@features/moderation/api";
 import { ColumnDef } from "@tanstack/react-table";

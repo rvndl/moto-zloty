@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 import { LatLngExpression } from "leaflet";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import { PropsWithChildren } from "react";
-import { Spinner } from "@components/spinner";
+import { Spinner } from "@components";
 
 const CENTER_OF_POLAND: LatLngExpression = [52.106379, 19.495893];
 

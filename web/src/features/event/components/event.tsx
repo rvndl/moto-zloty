@@ -3,7 +3,7 @@ import { formatDistance } from "date-fns";
 import { useMemo } from "react";
 import { type Event } from "types/event";
 import { pl } from "date-fns/locale";
-import { Badge } from "@components/badge";
+import { Badge } from "@components";
 import clsx from "clsx";
 import { getEventStatus } from "@utils/event";
 import { useNavigate } from "react-router-dom";

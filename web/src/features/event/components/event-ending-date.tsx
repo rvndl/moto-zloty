@@ -1,5 +1,4 @@
-import { Tooltip, Value } from "@components";
-import { Badge } from "@components/badge";
+import { Tooltip, Value, Badge } from "@components";
 import { getEventStatus } from "@utils/event";
 import { format, formatDistance } from "date-fns";
 import { pl } from "date-fns/locale";
@@ -23,7 +22,7 @@ const EventEndingDate = ({ event, isLoading }: Props) => {
       locale: pl,
       addSuffix: true,
     });
-  }, [event?.date_from]);
+  }, [event?.date_to]);
 
   return (
     <div>

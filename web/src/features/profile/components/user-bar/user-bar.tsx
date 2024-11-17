@@ -1,5 +1,4 @@
-import { Card } from "@components/card";
-import { UserIcon } from "@components/icons";
+import { Card, UserIcon } from "@components";
 import { rankToString } from "@utils/user";
 import { DataItem } from "./data-item";
 import { getValue } from "@utils/index";

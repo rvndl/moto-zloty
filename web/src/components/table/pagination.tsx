@@ -1,10 +1,10 @@
-import { Button } from "@components/button";
 import {
+  Button,
   ChevronLeftIcon,
   ChevronRightIcon,
   ChevronsLeftIcon,
   ChevronsRightIcon,
-} from "@components/icons";
+} from "@components";
 import { Table } from "@tanstack/react-table";
 
 interface Props<TColumn> {

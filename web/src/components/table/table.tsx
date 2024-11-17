@@ -15,14 +15,14 @@ import { TableHead } from "./table-head";
 import { TableBody } from "./table-body";
 import { TableRow } from "./table-row";
 import { TableCell } from "./table-cell";
-import { ArrowDownIcon, ArrowUpIcon } from "@components/icons";
+import { ArrowDownIcon, ArrowUpIcon } from "@components";
 import { Pagination } from "./pagination";
 
 const DEFAULT_PAGE_SIZE = 10;
 
 interface Props<TColumn> extends HTMLAttributes<HTMLTableElement> {
   data?: TColumn[];
-  columns: ColumnDef<TColumn, any>[];
+  columns: ColumnDef<TColumn, unknown>[];
   pageSize?: number;
   initialState?: InitialTableState;
 }

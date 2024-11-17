@@ -1,16 +1,24 @@
-import { AutocompleteField, Form, InputField } from "@components/form";
-import { PlusIcon, Button, Dialog, AutocompleteOption } from "@components";
-import { useCreateEventMutation } from "../../api";
-import { TextEditorField, DropzoneField } from "@components/form/fields";
-import { yup } from "@utils/yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import toast from "react-hot-toast";
+import {
+  AutocompleteField,
+  AutocompleteOption,
+  Button,
+  Dialog,
+  DropzoneField,
+  Form,
+  InputField,
+  PlusIcon,
+  TextEditorField,
+} from "@components";
 import { useAuth } from "@features/auth";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Api } from "api";
+import { yup } from "@utils/yup";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { Place } from "types/place";
+import { useCreateEventMutation } from "../../api";
 import { PreviewMap } from "../preview-map";
 import { DatePicker } from "./date-picker";
-import { useNavigate } from "react-router-dom";
 
 interface Fields {
   name: string;

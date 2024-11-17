@@ -23,7 +23,7 @@ const Timepicker = ({ date, onChange }: Props) => {
               value={i}
               onClick={(hour) => handleOnChange(setHours(date!, hour))}
               isSelected={(hour) => hour === date?.getHours()}
-              isDisabled={!Boolean(date)}
+              isDisabled={!date}
             />
           ))}
         </div>
@@ -36,7 +36,7 @@ const Timepicker = ({ date, onChange }: Props) => {
               value={i * 5}
               onClick={(minute) => handleOnChange(setMinutes(date!, minute))}
               isSelected={(minute) => minute === date?.getMinutes()}
-              isDisabled={!Boolean(date)}
+              isDisabled={!date}
             />
           ))}
         </div>

@@ -1,6 +1,4 @@
-import { Button } from "@components/button";
-import { HelpText } from "@components/help-text";
-import { Label } from "@components/label";
+import { Button, HelpText, Label } from "@components";
 import {
   Listbox as HeadlessListbox,
   ListboxButton,
@@ -13,7 +11,7 @@ import { CheckIcon, ChevronDownIcon } from "./icons";
 interface ListboxOption {
   id: string;
   label: string;
-  value?: any;
+  value?: unknown;
 }
 
 interface ListboxProps {

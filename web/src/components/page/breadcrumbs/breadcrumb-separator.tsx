@@ -1,4 +1,4 @@
-import { ChevronRightIcon } from "@components/icons";
+import { ChevronRightIcon } from "@components";
 
 const BreadcrumbSeparator = () => {
   return (

@@ -1,5 +1,11 @@
-import { Button, Calendar, HelpText, Label, Popover } from "@components";
-import { CalendarIcon } from "@components/icons";
+import {
+  Button,
+  Calendar,
+  HelpText,
+  Label,
+  Popover,
+  CalendarIcon,
+} from "@components";
 import clsx from "clsx";
 import { format } from "date-fns";
 import { DayPickerProps } from "react-day-picker";
@@ -39,15 +45,10 @@ const Datepicker = ({
           <Button
             variant="outline"
             icon={<CalendarIcon />}
-            className={clsx(
-              "font-normal shadow-sm",
-              !Boolean(value) && "text-muted"
-            )}
+            className={clsx("font-normal shadow-sm", !value && "text-muted")}
             disabled={isDisabled}
           >
-            {Boolean(value)
-              ? format(value!, "dd.MM.yyyy HH:mm")
-              : "Wybierz datę"}
+            {value ? format(value!, "dd.MM.yyyy HH:mm") : "Wybierz datę"}
           </Button>
           {Boolean(error) && (
             <HelpText variant="error" className="">

@@ -1,4 +1,4 @@
-import { Card } from "@components/card";
+import { Card } from "@components";
 import { SidebarItem, SidebarItemProps } from "./sidebar-item";
 import { useState } from "react";
 

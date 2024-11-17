@@ -1,5 +1,4 @@
-import { Dropdown } from "@components/dropdown";
-import { LogoutIcon, UserIcon, Button } from "@components";
+import { LogoutIcon, UserIcon, Button, Dropdown } from "@components";
 import { rankToString } from "@utils/user";
 import { useNavigate } from "react-router-dom";
 import { UserState } from "@features/auth";

@@ -14,7 +14,7 @@ import { HelpText } from "./help-text";
 interface AutocompleteOption {
   id: string;
   label: string;
-  value?: any;
+  value?: unknown;
 }
 
 interface AutocompleteProps {
@@ -55,6 +55,7 @@ const Autocomplete = ({
 
     setOptions(undefined);
     fetch?.(query).then((data) => setOptions(data));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, minLength]);
 
   return (
@@ -83,7 +84,7 @@ const Autocomplete = ({
             className="p-1 mt-1 bg-white border rounded-md shadow inline-table"
             style={{ zIndex: 9999, width: inputRef.current?.clientWidth }}
           >
-            {Boolean(options?.length) ? (
+            {options?.length ? (
               options?.map((option) => (
                 <ComboboxOption
                   as={Button}

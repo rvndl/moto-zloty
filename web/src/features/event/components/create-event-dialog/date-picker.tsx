@@ -1,4 +1,4 @@
-import { DatepickerField, useForm } from "@components/form";
+import { DatepickerField, useForm } from "@components";
 
 const DatePicker = () => {
   const { watch } = useForm();

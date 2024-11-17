@@ -1,10 +1,9 @@
-import { Button } from "@components/button";
 import { Popup } from "react-leaflet";
 import { type Event } from "types/event";
 import { truncate } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { EventStartingDate } from "./event-starting-date";
-import { MapMarker } from "@components/map";
+import { MapMarker, Button } from "@components";
 import { getEventStatus } from "@utils/event";
 import { useMemo } from "react";
 

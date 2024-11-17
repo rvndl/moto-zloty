@@ -1,6 +1,16 @@
 import * as yup from "yup";
 
-const notType = ({ path, type, value, originalValue }: any) => {
+const notType = ({
+  path,
+  type,
+  value,
+  originalValue,
+}: {
+  path: string;
+  type: string;
+  value: unknown;
+  originalValue: unknown;
+}) => {
   const castMsg =
     originalValue != null && originalValue !== value
       ? ` (przekonwertowano z wartości \`${yup.printValue(

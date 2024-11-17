@@ -1,10 +1,9 @@
-import { Button, Dialog, Form, ListboxField } from "@components";
+import { Button, Dialog, Form, ListboxField, ListboxOption } from "@components";
 import {
   EVENT_ACTIONS_QUERY,
   EVENT_QUERY_KEY,
   useChangeEventStatusMutation,
 } from "../api";
-import { ListboxOption } from "@components/listbox";
 import { yup } from "@utils/yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Event, EventStatus } from "types/event";

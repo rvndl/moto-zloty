@@ -1,7 +1,6 @@
-import { UserIcon } from "@components/icons";
-import { Tooltip } from "@components/tooltip";
+import { UserIcon, Tooltip } from "@components";
 import { EventAction } from "@features/event/api/types/event-action";
-import { format, formatDistance } from "date-fns";
+import { formatDistance, format } from "date-fns";
 import { pl } from "date-fns/locale";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";

@@ -1,6 +1,5 @@
-import { Button, ButtonProps, Dialog } from "@components";
+import { Button, ButtonProps, Dialog, Form, InputField } from "@components";
 import { useLoginMutation } from "../api";
-import { Form, InputField } from "@components/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { yup } from "@utils/yup";
 import { RegisterDialog } from "./register-dialog";
