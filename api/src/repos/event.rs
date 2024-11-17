@@ -2,7 +2,7 @@ use crate::db::{
     self,
     models::{
         account::{Account, AccountInfo, AccountMappingType, PublicAccount},
-        event::Event,
+        event::{Event, EventStatus},
     },
 };
 use chrono::{DateTime, Utc};
@@ -59,6 +59,7 @@ impl<'a> EventRepo<'a> {
     pub async fn fetch_all_with_accounts(
         &self,
         account_mapping_type: AccountMappingType,
+        status: EventStatus,
     ) -> Result<Vec<Event>, sqlx::Error> {
         let query = sqlx::query(
             r#"
@@ -70,8 +71,10 @@ impl<'a> EventRepo<'a> {
                 event e
             LEFT JOIN 
                 account a ON e.account_id = a.id
+            WHERE e.status = $1
             "#,
         )
+        .bind(status)
         .fetch_all(self.db)
         .await?;
 
@@ -190,6 +193,29 @@ impl<'a> EventRepo<'a> {
             .bind(id)
             .fetch_one(self.db)
             .await;
+
+        query
+    }
+
+    pub async fn fetch_all_by_status(
+        &self,
+        status: EventStatus,
+    ) -> Result<Vec<Event>, sqlx::Error> {
+        let query = sqlx::query_as::<_, Event>(r#"SELECT * FROM event WHERE status = $1"#)
+            .bind(status)
+            .fetch_all(self.db)
+            .await;
+
+        query
+    }
+
+    pub async fn change_status(&self, id: Uuid, status: EventStatus) -> Result<Event, sqlx::Error> {
+        let query =
+            sqlx::query_as::<_, Event>(r#"UPDATE event SET status = $1 WHERE id = $2 RETURNING *"#)
+                .bind(status)
+                .bind(id)
+                .fetch_one(self.db)
+                .await;
 
         query
     }

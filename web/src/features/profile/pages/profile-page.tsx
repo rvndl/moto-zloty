@@ -20,6 +20,11 @@ const ProfilePage = () => {
 
   return (
     <Page
+      title={`${data?.username} - {TAB}`}
+      breadcrumbs={[
+        { to: "/", label: "Moto Zloty" },
+        { label: `Profil: ${data?.username}`, isActive: true },
+      ]}
       sidebarItems={[
         { label: "Profil", icon: <UserIcon /> },
         { label: "Wydarzenia", icon: <TicketIcon /> },
@@ -29,6 +34,7 @@ const ProfilePage = () => {
           isHidden: !isOwner(id),
         },
       ]}
+      isInline
     >
       {(tab) =>
         match(tab)

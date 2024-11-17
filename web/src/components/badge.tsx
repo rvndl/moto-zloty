@@ -20,8 +20,8 @@ const Badge = ({
     variant === "danger" &&
       "border-transparent bg-red-500 text-white shadow hover:bg-red-500/80",
     variant === "secondary" && "bg-accent border",
-    variant === "warning" && "bg-yellow-500 text-white",
-    variant === "success" && "bg-green-500 text-white",
+    variant === "warning" && "bg-yellow-500 text-white border-yellow-400/80",
+    variant === "success" && "bg-green-500 text-white border-green-400/80",
     className
   );
   return (

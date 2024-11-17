@@ -7,10 +7,11 @@ type GetUrl =
   | `/profile/${string}`
   | `/place_search/${string}`
   | `/events/${string}`
-  | `/events/${string}/actions`;
+  | `/events/${string}/actions`
+  | "/mod/events";
 
 type PostUrl = "/login" | "/file";
-type PutUrl = "/register" | "/events";
+type PutUrl = "/register" | "/events" | `/events/${string}/update-status`;
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,

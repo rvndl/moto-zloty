@@ -22,6 +22,12 @@ pub async fn run(global: Arc<Global>) {
     });
 
     let app = Router::new()
+        // authenticated routes (mod, admin)
+        .route("/mod/events", get(routes::events::list_all))
+        .route(
+            "/events/:id/update-status",
+            put(routes::events::update_status),
+        )
         // authenticated routes
         .route("/place_search/:query", get(routes::place_search::search))
         .route("/file", post(routes::file::upload))

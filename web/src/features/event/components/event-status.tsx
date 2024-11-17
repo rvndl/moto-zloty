@@ -28,6 +28,14 @@ interface Props {
   isLoading?: boolean;
 }
 
+const EventStatusBadge = ({ status }: Props) => {
+  return (
+    <Badge className="w-max" variant={statusToVariant(status)}>
+      {statusToText(status)}
+    </Badge>
+  );
+};
+
 const EventStatus = ({ status, isLoading }: Props) => {
   return (
     <Value
@@ -44,11 +52,9 @@ const EventStatus = ({ status, isLoading }: Props) => {
       })}
       isLoading={isLoading}
     >
-      <Badge className="w-max" variant={statusToVariant(status)}>
-        {statusToText(status)}
-      </Badge>
+      <EventStatusBadge status={status} />
     </Value>
   );
 };
 
-export { EventStatus };
+export { EventStatus, EventStatusBadge };

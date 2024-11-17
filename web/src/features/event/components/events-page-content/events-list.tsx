@@ -13,7 +13,7 @@ const EventsList = ({ events }: Props) => {
 
   if (!events) {
     return (
-      <section className="flex gap-4 pb-6 overflow-hidden gap-x-6">
+      <section className="flex gap-4 pb-4 overflow-hidden gap-x-6">
         {Array.from({ length: 6 }).map((_, i) => (
           <Skeleton key={i} className="h-36 w-60 shrink-0" />
         ))}
@@ -22,7 +22,7 @@ const EventsList = ({ events }: Props) => {
   }
 
   return (
-    <section className="flex pb-6 overflow-x-auto overflow-y-hidden gap-x-4">
+    <section className="flex pb-4 overflow-x-auto overflow-y-hidden gap-x-4">
       {sortedEvents?.map((event) => (
         <Event key={event.id} event={event} />
       ))}

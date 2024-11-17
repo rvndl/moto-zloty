@@ -23,6 +23,7 @@ pub enum AccountInfo {
 pub enum AccountRank {
     #[default]
     USER,
+    MOD,
     ADMIN,
 }
 

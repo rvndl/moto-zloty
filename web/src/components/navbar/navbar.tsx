@@ -3,11 +3,12 @@ import { NavbarItem } from "./navbar-item";
 import Logo from "@assets/img/mz-logo-black.png";
 import { isEmpty } from "lodash";
 import { UserMenu } from "./user-menu";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, isPermitted } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <nav className="pb-4">
@@ -25,7 +26,17 @@ const Navbar = () => {
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
-                  <NavbarItem isActive>Wydarzenia</NavbarItem>
+                  <NavbarItem to="/" isActive={location.pathname === "/"}>
+                    Wydarzenia
+                  </NavbarItem>
+                  {isPermitted && (
+                    <NavbarItem
+                      to="/moderation"
+                      isActive={location.pathname === "/moderation"}
+                    >
+                      Moderacja
+                    </NavbarItem>
+                  )}
                 </div>
               </div>
             </div>

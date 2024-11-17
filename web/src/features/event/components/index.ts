@@ -6,3 +6,4 @@ export * from "./event-status";
 export * from "./event";
 export * from "./event-page-content";
 export * from "./events-page-content";
+export * from "./change-event-status-dialog";

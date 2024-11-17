@@ -1,23 +1,17 @@
-import clsx from "clsx";
+import { Button } from "@components/button";
 import { PropsWithChildren } from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
+  to: string;
   isActive?: boolean;
 }
 
-const NavbarItem = ({ isActive, children }: PropsWithChildren<Props>) => {
+const NavbarItem = ({ to, isActive, children }: PropsWithChildren<Props>) => {
   return (
-    <a
-      className={clsx(
-        "px-3 py-2 text-sm font-medium rounded-md cursor-pointer transition-colors",
-        isActive
-          ? "text-white bg-gray-900"
-          : "text-gray-800 hover:bg-gray-900 hover:text-white"
-      )}
-      aria-current="page"
-    >
-      {children}
-    </a>
+    <Link to={to}>
+      <Button variant={isActive ? "primary" : "ghost"}>{children}</Button>
+    </Link>
   );
 };
 

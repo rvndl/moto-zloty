@@ -24,3 +24,5 @@ export * from "./help-text";
 export * from "./tooltip";
 export * from "./badge";
 export * from "./skeleton";
+export * from "./table";
+export * from "./listbox";

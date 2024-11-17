@@ -3,13 +3,23 @@ use uuid::Uuid;
 
 use super::account::AccountInfo;
 
-#[derive(Debug, Default, serde::Deserialize, serde::Serialize, sqlx::Type)]
+#[derive(Debug, Default, serde::Deserialize, serde::Serialize, sqlx::Type, Clone)]
 #[sqlx(type_name = "event_status", rename_all = "lowercase")]
 pub enum EventStatus {
     #[default]
     PENDING,
     APPROVED,
     REJECTED,
+}
+
+impl EventStatus {
+    pub fn get_action_name(&self) -> &'static str {
+        match self {
+            EventStatus::PENDING => "Stworzenie wydarzenia",
+            EventStatus::APPROVED => "Akceptacja wydarzenia",
+            EventStatus::REJECTED => "Odrzucenie wydarzenia",
+        }
+    }
 }
 
 #[derive(Debug, serde::Deserialize, serde::Serialize, sqlx::FromRow)]

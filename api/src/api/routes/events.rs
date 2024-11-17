@@ -1,10 +1,12 @@
 use std::sync::Arc;
 
 use crate::api::AppState;
-use crate::api_error_log;
 use crate::db::models::account::AccountMappingType;
+use crate::db::models::event::EventStatus;
 use crate::db::models::file::FileStatus;
 use crate::jwt::JwtClaims;
+use crate::utils::account::is_permitted;
+use crate::{api_error, api_error_log};
 use axum::extract::Path;
 use axum::response::IntoResponse;
 use axum::{extract::State, response::Response, Json};
@@ -24,15 +26,37 @@ pub struct CreateForm {
     banner_id: Option<Uuid>,
 }
 
+#[derive(serde::Deserialize, Debug)]
+pub struct UpdateStatusForm {
+    status: EventStatus,
+}
+
 pub async fn list(State(state): State<Arc<AppState>>) -> Response {
     let repos = state.global.repos();
     let events = match repos
         .event
-        .fetch_all_with_accounts(AccountMappingType::Public)
+        .fetch_all_with_accounts(AccountMappingType::Public, EventStatus::APPROVED)
         .await
     {
         Ok(events) => events,
-        Err(err) => return api_error_log!("failed to fetch events: {}", err),
+        Err(err) => return api_error_log!("failed to fetch approved events: {}", err),
+    };
+
+    Json(events).into_response()
+}
+
+pub async fn list_all(
+    State(state): State<Arc<AppState>>,
+    Extension(claims): Extension<JwtClaims>,
+) -> Response {
+    if !is_permitted(claims.rank) {
+        return api_error!("Brak uprawnień");
+    }
+
+    let repos = state.global.repos();
+    let events = match repos.event.fetch_all().await {
+        Ok(events) => events,
+        Err(err) => return api_error_log!("failed to fetch approved events: {}", err),
     };
 
     Json(events).into_response()
@@ -105,7 +129,45 @@ pub async fn create(
 
     if let Err(err) = repos
         .action
-        .create(event.id, user_id, claims.username, "Stworzenie wydarzenia")
+        .create(
+            event.id,
+            user_id,
+            claims.username,
+            &EventStatus::PENDING.get_action_name(),
+        )
+        .await
+    {
+        return api_error_log!("failed to create action: {}", err);
+    };
+
+    Json(event).into_response()
+}
+
+pub async fn update_status(
+    State(state): State<Arc<AppState>>,
+    Path(id): Path<Uuid>,
+    Extension(claims): Extension<JwtClaims>,
+    Form(form): Form<UpdateStatusForm>,
+) -> Response {
+    if !is_permitted(claims.rank) {
+        return api_error!("Brak uprawnień");
+    }
+
+    let repos = state.global.repos();
+
+    let event = match repos.event.change_status(id, form.status.clone()).await {
+        Ok(event) => event,
+        Err(err) => return api_error_log!("failed to change event status: {}", err),
+    };
+
+    if let Err(err) = repos
+        .action
+        .create(
+            event.id,
+            claims.id,
+            claims.username,
+            &form.status.get_action_name(),
+        )
         .await
     {
         return api_error_log!("failed to create action: {}", err);

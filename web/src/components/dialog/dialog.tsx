@@ -9,10 +9,10 @@ import clsx from "clsx";
 import { XIcon } from "@components";
 
 interface DialogProps {
-  trigger: React.ReactNode;
+  trigger: ReactNode;
   title?: string;
   description?: string;
-  footerContent?: React.ReactNode;
+  footerContent?: ((close: () => void) => ReactNode) | ReactNode;
   isCloseButtonVisible?: boolean;
   unmount?: boolean;
   children: ((close: () => void) => ReactNode) | ReactNode;
@@ -82,7 +82,9 @@ const Dialog = ({
             </section>
             {footerContent && (
               <section className="flex flex-row-reverse gap-4 px-6 pb-6 mt-2 rounded-b-lg">
-                {footerContent}
+                {typeof footerContent === "function"
+                  ? footerContent(handleOnClose)
+                  : footerContent}
               </section>
             )}
           </DialogPanel>

@@ -1,6 +1,6 @@
 import { Event } from "./event";
 
-export type AccountRank = "USER" | "ADMIN";
+export type AccountRank = "USER" | "MOD" | "ADMIN";
 
 export interface PublicAccount {
   id: string;

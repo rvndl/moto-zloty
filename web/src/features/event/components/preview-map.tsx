@@ -50,7 +50,7 @@ const MapContent = ({
     return null;
   }
 
-  return <MapMarker position={[latitude, longitude]} isLive />;
+  return <MapMarker position={[latitude, longitude]} />;
 };
 
 export { PreviewMap };

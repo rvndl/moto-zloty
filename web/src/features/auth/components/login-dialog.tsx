@@ -1,4 +1,4 @@
-import { Button, Dialog } from "@components";
+import { Button, ButtonProps, Dialog } from "@components";
 import { useLoginMutation } from "../api";
 import { Form, InputField } from "@components/form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -23,7 +23,12 @@ const schema = yup.object<Fields>({
     .min(8, "Hasło musi mieć co najmniej 8 znaków"),
 });
 
-const LoginDialog = () => {
+interface Props {
+  label?: string;
+  buttonProps?: ButtonProps;
+}
+
+const LoginDialog = ({ label = "Zaloguj się", buttonProps }: Props) => {
   const { setState } = useAuth();
   const { mutate: login, isPending } = useLoginMutation({
     onSuccess: (data) => {
@@ -40,7 +45,11 @@ const LoginDialog = () => {
     <Dialog
       title="Logowanie"
       description="Zaloguj się na swoje konto"
-      trigger={<Button variant="ghost">Zaloguj się</Button>}
+      trigger={
+        <Button variant="ghost" {...buttonProps}>
+          {label}
+        </Button>
+      }
       unmount={false}
     >
       {(close) => (

@@ -1,8 +1,7 @@
 import { AutocompleteField, Form, InputField } from "@components/form";
 import { PlusIcon, Button, Dialog, AutocompleteOption } from "@components";
 import { useCreateEventMutation } from "../../api";
-import { TextEditorField } from "@components/form/fields/text-editor-field";
-import { DropzoneField } from "@components/form/fields/dropzone-field";
+import { TextEditorField, DropzoneField } from "@components/form/fields";
 import { yup } from "@utils/yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
@@ -25,7 +24,7 @@ interface Fields {
 }
 
 const schema = yup.object<Fields>({
-  name: yup.string().required().min(3),
+  name: yup.string().required().min(3).max(64),
   address: yup.object().required(),
   date_from: yup.date().required(),
   date_to: yup.date().required(),

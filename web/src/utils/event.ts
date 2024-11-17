@@ -1,5 +1,6 @@
 import { compareAsc, isAfter } from "date-fns";
-import { type Event } from "types/event";
+import { match } from "ts-pattern";
+import { EventStatus, type Event } from "types/event";
 
 export const getEventStatus = (event?: Event) => {
   if (!event) {
@@ -28,4 +29,12 @@ export const sortEvents = (events?: Event[]) => {
 
     return compareAsc(new Date(a.date_from), new Date(b.date_from));
   });
+};
+
+export const getEventStatusText = (eventStatus?: EventStatus) => {
+  return match(eventStatus)
+    .with("PENDING", () => "Oczekujące")
+    .with("APPROVED", () => "Zaakceptowane")
+    .with("REJECTED", () => "Odrzucone")
+    .otherwise(() => "Nieznany status");
 };
