@@ -1,7 +1,6 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { FieldValues, Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { FormContext } from "./fom-context";
-import { setupYup } from "@utils/yup";
 
 interface Props<TValues> {
   onSubmit: (values: TValues) => void;
@@ -26,10 +25,6 @@ const Form = <TValues,>({
     defaultValues: defaultValues as Record<string, unknown>,
     mode: "all",
   });
-
-  useEffect(() => {
-    setupYup();
-  }, []);
 
   return (
     <FormContext.Provider value={{ control, watch }}>

@@ -6,8 +6,6 @@ import {
   Routes,
   createBrowserRouter,
 } from "react-router-dom";
-import { useEffect } from "react";
-import { setupYup } from "utils/yup";
 import { Toaster } from "react-hot-toast";
 import { ProfilePage } from "@features/profile";
 import { EventPage, EventsPage } from "@features/event";
@@ -23,10 +21,6 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  useEffect(() => {
-    setupYup();
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
