@@ -101,9 +101,9 @@ pub async fn create(
     let event = match repos
         .event
         .create(
-            form.name,
+            &form.name,
             form.description,
-            form.address,
+            &form.address,
             form.latitude,
             form.longitude,
             date_from,
@@ -132,7 +132,7 @@ pub async fn create(
         .create(
             event.id,
             user_id,
-            claims.username,
+            &claims.username,
             &EventStatus::PENDING.get_action_name(),
         )
         .await
@@ -165,7 +165,7 @@ pub async fn update_status(
         .create(
             event.id,
             claims.id,
-            claims.username,
+            &claims.username,
             &form.status.get_action_name(),
         )
         .await

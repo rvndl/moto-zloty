@@ -11,13 +11,17 @@ use axum::{
     Form, Json,
 };
 
-use crate::{api::AppState, api_error, api_error_log, db::models::account::AccountRank, jwt};
+use crate::{
+    api::AppState, api_error, api_error_log, config::Config, db::models::account::AccountRank, jwt,
+    recaptcha,
+};
 
 #[derive(serde::Deserialize, Debug)]
 pub struct RegisterForm {
     username: String,
     password: String,
     email: String,
+    recaptcha: String,
 }
 
 #[derive(serde::Serialize, Debug, Default)]
@@ -33,11 +37,19 @@ pub async fn handler(
     Form(form): Form<RegisterForm>,
 ) -> Response {
     let repos = state.global.repos();
-    if repos.account.exists_username(form.username.clone()).await {
+    let Config {
+        re_captcha_secret, ..
+    } = &state.global.config();
+
+    if !recaptcha::verify(&re_captcha_secret, &form.recaptcha).await {
+        return api_error!("Weryfikacja reCAPTCHA nie powiodła się");
+    }
+
+    if repos.account.exists_username(&form.username).await {
         return api_error!("Konto z taką nazwą użytkownika już istnieje");
     }
 
-    if repos.account.exists_email(form.email.clone()).await {
+    if repos.account.exists_email(&form.email).await {
         return api_error!("Konto z takim adresem e-mail już istnieje");
     };
 
@@ -50,7 +62,11 @@ pub async fn handler(
         Ok(password_hash) => {
             match repos
                 .account
-                .create(form.username.clone(), password_hash.to_string(), form.email)
+                .create(
+                    &form.username,
+                    password_hash.to_string().as_str(),
+                    &form.email,
+                )
                 .await
             {
                 Ok(account) => {

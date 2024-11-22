@@ -1,4 +1,4 @@
-import { Dialog, Button, Form, InputField } from "@components";
+import { Dialog, Button, Form, InputField, ReCaptchaField } from "@components";
 import { useRegisterMutation } from "../api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { yup } from "@utils/yup";
@@ -13,12 +13,13 @@ interface Fields {
 }
 
 const schema = yup.object<Fields>({
-  username: yup.string().required().min(3),
-  password: yup.string().required().min(8),
+  username: yup.string().required().min(3).max(32),
+  password: yup.string().required().min(8).max(64),
   password2: yup
     .string()
     .oneOf([yup.ref("password")], "Hasła muszą być takie same"),
-  email: yup.string().required().email(),
+  email: yup.string().required().email().max(128),
+  recaptcha: yup.string().required(),
 });
 
 interface Props {
@@ -80,6 +81,7 @@ const RegisterDialog = ({ onOpen }: Props) => {
               type="email"
               isRequired
             />
+            <ReCaptchaField name="recaptcha" />
             <Button
               type="submit"
               loadingText="Tworzenie konta..."

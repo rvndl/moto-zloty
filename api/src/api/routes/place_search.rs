@@ -9,7 +9,7 @@ use axum::{
 use crate::{api::AppState, api_error, place_search};
 
 pub async fn search(State(state): State<Arc<AppState>>, Path(query): Path<String>) -> Response {
-    let places = match place_search::search(query, state.global.clone()).await {
+    let places = match place_search::search(&query, state.global.clone()).await {
         Ok(places) => places,
         Err(err) => return api_error!("{}", err),
     };

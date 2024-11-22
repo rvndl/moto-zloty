@@ -20,9 +20,9 @@ impl<'a> EventRepo<'a> {
 
     pub async fn create(
         &self,
-        name: String,
+        name: &str,
         description: Option<String>,
-        address: String,
+        address: &str,
         latitude: f64,
         longitude: f64,
         date_from: DateTime<Utc>,
@@ -31,27 +31,56 @@ impl<'a> EventRepo<'a> {
         account_id: Uuid,
     ) -> Result<Event, sqlx::Error> {
         let result = sqlx::query_as::<_, Event>(
-          r#"INSERT INTO event (name, description, address, latitude, longitude, date_from, date_to, banner_id, account_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *"#,
-      )
-      .bind(name)
-      .bind(description)
-      .bind(address)
-      .bind(latitude)
-      .bind(longitude)
-      .bind(date_from)
-      .bind(date_to)
-      .bind(banner_id)
-      .bind(account_id)
-      .fetch_one(self.db)
-      .await;
+            r#"
+            INSERT INTO event (
+                name,
+                description,
+                address,
+                latitude,
+                longitude,
+                date_from,
+                date_to,
+                banner_id,
+                account_id
+            )
+            VALUES (
+                $1,
+                $2,
+                $3,
+                $4,
+                $5,
+                $6,
+                $7,
+                $8,
+                $9
+            )
+            RETURNING *;
+            "#,
+        )
+        .bind(name)
+        .bind(description)
+        .bind(address)
+        .bind(latitude)
+        .bind(longitude)
+        .bind(date_from)
+        .bind(date_to)
+        .bind(banner_id)
+        .bind(account_id)
+        .fetch_one(self.db)
+        .await;
 
         result
     }
 
     pub async fn fetch_all(&self) -> Result<Vec<Event>, sqlx::Error> {
-        let query = sqlx::query_as::<_, Event>(r#"SELECT * FROM event"#)
-            .fetch_all(self.db)
-            .await;
+        let query = sqlx::query_as::<_, Event>(
+            r#"
+            SELECT *
+            FROM event
+            "#,
+        )
+        .fetch_all(self.db)
+        .await;
 
         query
     }
@@ -63,14 +92,29 @@ impl<'a> EventRepo<'a> {
     ) -> Result<Vec<Event>, sqlx::Error> {
         let query = sqlx::query(
             r#"
-            SELECT 
-                e.id, e.name, e.description, e.address, e.status, e.longitude, e.latitude, 
-                e.date_from, e.date_to, e.created_at, e.banner_id, e.account_id,
-                a.id as account_id, a.username, a.password, a.email, a.rank, a.banned, a.ban_reason, a.banned_at, a.created_at as account_created_at
-            FROM 
-                event e
-            LEFT JOIN 
-                account a ON e.account_id = a.id
+            SELECT e.id,
+                e.name,
+                e.description,
+                e.address,
+                e.status,
+                e.longitude,
+                e.latitude,
+                e.date_from,
+                e.date_to,
+                e.created_at,
+                e.banner_id,
+                e.account_id,
+                a.id as account_id,
+                a.username,
+                a.password,
+                a.email,
+                a.rank,
+                a.banned,
+                a.ban_reason,
+                a.banned_at,
+                a.created_at as account_created_at
+            FROM event e
+                LEFT JOIN account a ON e.account_id = a.id
             WHERE e.status = $1
             "#,
         )
@@ -132,14 +176,29 @@ impl<'a> EventRepo<'a> {
     ) -> Result<Event, sqlx::Error> {
         let query = sqlx::query(
             r#"
-            SELECT 
-                e.id, e.name, e.description, e.address, e.status, e.longitude, e.latitude, 
-                e.date_from, e.date_to, e.created_at, e.banner_id, e.account_id,
-                a.id as account_id, a.username, a.password, a.email, a.rank, a.banned, a.ban_reason, a.banned_at, a.created_at as account_created_at
-            FROM 
-                event e
-            LEFT JOIN 
-                account a ON e.account_id = a.id
+            SELECT e.id,
+                e.name,
+                e.description,
+                e.address,
+                e.status,
+                e.longitude,
+                e.latitude,
+                e.date_from,
+                e.date_to,
+                e.created_at,
+                e.banner_id,
+                e.account_id,
+                a.id as account_id,
+                a.username,
+                a.password,
+                a.email,
+                a.rank,
+                a.banned,
+                a.ban_reason,
+                a.banned_at,
+                a.created_at as account_created_at
+            FROM event e
+                LEFT JOIN account a ON e.account_id = a.id
             WHERE e.id = $1
             "#,
         )
@@ -189,10 +248,16 @@ impl<'a> EventRepo<'a> {
     }
 
     pub async fn fetch_by_id(&self, id: Uuid) -> Result<Event, sqlx::Error> {
-        let query = sqlx::query_as::<_, Event>(r#"SELECT * FROM event WHERE id = $1"#)
-            .bind(id)
-            .fetch_one(self.db)
-            .await;
+        let query = sqlx::query_as::<_, Event>(
+            r#"
+            SELECT *
+            FROM event
+            WHERE id = $1
+            "#,
+        )
+        .bind(id)
+        .fetch_one(self.db)
+        .await;
 
         query
     }
@@ -201,30 +266,48 @@ impl<'a> EventRepo<'a> {
         &self,
         status: EventStatus,
     ) -> Result<Vec<Event>, sqlx::Error> {
-        let query = sqlx::query_as::<_, Event>(r#"SELECT * FROM event WHERE status = $1"#)
-            .bind(status)
-            .fetch_all(self.db)
-            .await;
+        let query = sqlx::query_as::<_, Event>(
+            r#"
+            SELECT *
+            FROM event
+            WHERE status = $1
+            "#,
+        )
+        .bind(status)
+        .fetch_all(self.db)
+        .await;
 
         query
     }
 
     pub async fn change_status(&self, id: Uuid, status: EventStatus) -> Result<Event, sqlx::Error> {
-        let query =
-            sqlx::query_as::<_, Event>(r#"UPDATE event SET status = $1 WHERE id = $2 RETURNING *"#)
-                .bind(status)
-                .bind(id)
-                .fetch_one(self.db)
-                .await;
+        let query = sqlx::query_as::<_, Event>(
+            r#"
+            UPDATE event
+            SET status = $1
+            WHERE id = $2
+            RETURNING *
+            "#,
+        )
+        .bind(status)
+        .bind(id)
+        .fetch_one(self.db)
+        .await;
 
         query
     }
 
     pub async fn fetch_by_account_id(&self, account_id: Uuid) -> Result<Vec<Event>, sqlx::Error> {
-        let query = sqlx::query_as::<_, Event>(r#"SELECT * FROM event WHERE account_id = $1"#)
-            .bind(account_id)
-            .fetch_all(self.db)
-            .await;
+        let query = sqlx::query_as::<_, Event>(
+            r#"
+            SELECT *
+            FROM event
+            WHERE account_id = $1
+            "#,
+        )
+        .bind(account_id)
+        .fetch_all(self.db)
+        .await;
 
         query
     }

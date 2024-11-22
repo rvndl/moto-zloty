@@ -50,7 +50,7 @@ pub async fn upload(State(state): State<Arc<AppState>>, mut multipart: Multipart
                 return api_error_log!("failed to write file: {}", err);
             }
 
-            let file = match repos.file.create(save_path).await {
+            let file = match repos.file.create(&save_path).await {
                 Ok(file) => file,
                 Err(err) => return api_error_log!("failed to create file: {}", err),
             };

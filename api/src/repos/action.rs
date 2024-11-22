@@ -15,7 +15,7 @@ impl<'a> ActionRepo<'a> {
         &self,
         event_id: Uuid,
         actor_id: Uuid,
-        actor_name: String,
+        actor_name: &str,
         content: &str,
     ) -> Result<Action, sqlx::Error> {
         let result = sqlx::query_as::<_, Action>(

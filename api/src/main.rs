@@ -12,9 +12,11 @@ pub mod jobs;
 pub mod jwt;
 pub mod logger;
 pub mod place_search;
+pub mod recaptcha;
 pub mod redis;
 pub mod repos;
 pub mod utils;
+pub mod validation;
 
 #[tokio::main]
 async fn main() -> Result<(), ()> {
@@ -22,9 +24,11 @@ async fn main() -> Result<(), ()> {
     let global = Arc::new(Global::new().await);
 
     let api_hander = tokio::spawn(api::run(global.clone()));
+    let jobs_hander = tokio::spawn(jobs::run(global.clone()));
 
     select! {
-        r = api_hander => println!("api error: {:?}", r)
+        r = api_hander => println!("api error: {:?}", r),
+        r = jobs_hander => println!("jobs error: {:?}", r)
     }
 
     drop(global);

@@ -8,6 +8,7 @@ pub struct Config {
     pub redis_url: String,
     pub upload_path: String,
     pub location_iq_api_key: String,
+    pub re_captcha_secret: String,
 }
 
 impl Config {
@@ -21,12 +22,14 @@ impl Config {
         let redis_url = Env::new("REDIS_URL", true, |val| val).get();
         let upload_path = Env::new("UPLOAD_PATH", true, |val| val).get();
         let location_iq_api_key = Env::new("LOCATION_IQ_API_KEY", true, |val| val).get();
+        let re_captcha_secret = Env::new("RECAPTCHA_SECRET", true, |val| val).get();
 
         Config {
             db_url,
             redis_url,
             upload_path,
             location_iq_api_key,
+            re_captcha_secret,
         }
     }
 }

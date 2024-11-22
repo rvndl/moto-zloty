@@ -45,7 +45,7 @@ impl From<LocationIQPlace> for Place {
     }
 }
 
-pub async fn search(query: String, global: Arc<Global>) -> Result<Vec<Place>, String> {
+pub async fn search(query: &str, global: Arc<Global>) -> Result<Vec<Place>, String> {
     let redis = global.redis();
     let mut redis_con = match redis.get_multiplexed_async_connection().await {
         Ok(redis_con) => redis_con,
