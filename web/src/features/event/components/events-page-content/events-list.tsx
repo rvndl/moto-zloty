@@ -22,7 +22,7 @@ const EventsList = ({ events }: Props) => {
   }
 
   return (
-    <section className="flex pb-4 overflow-x-auto overflow-y-hidden gap-x-4">
+    <section className="flex pb-2 overflow-x-auto overflow-y-hidden gap-x-1 md:gap-x-4">
       {sortedEvents?.map((event) => (
         <Event key={event.id} event={event} />
       ))}

@@ -20,7 +20,7 @@ const EventPageContent = ({ event, isLoading }: Props) => {
         description="Informacje o wydarzeniu"
         className="relative h-min"
       >
-        <div className="absolute overflow-hidden top-5 right-5 w-28 h-28 rounded-xl">
+        <div className="absolute w-20 h-20 overflow-hidden top-5 right-5 md:w-28 md:h-28 rounded-xl">
           <Dialog
             title="Banner"
             description="Banner wydarzenia"

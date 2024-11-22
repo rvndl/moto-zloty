@@ -33,8 +33,8 @@ const Event = ({ event, size = "normal" }: Props) => {
   return (
     <div
       className={clsx(
-        "relative overflow-hidden border rounded-lg shadow-sm cursor-pointer h-32 white shrink-0",
-        size === "normal" ? "w-52" : "w-44",
+        "relative overflow-hidden border rounded-lg shadow-sm cursor-pointer h-20 md:h-32 white shrink-0",
+        size === "normal" ? "w-32 md:w-52" : "w-36 md:w-44",
         isPast && "opacity-50"
       )}
       onClick={handleOnClick}

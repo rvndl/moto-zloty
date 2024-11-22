@@ -87,8 +87,8 @@ const CreateEventDialog = () => {
           onSubmit={handleOnCreate(close)}
           resolver={yupResolver(schema)}
         >
-          <section className="flex gap-8">
-            <div className="flex flex-col gap-4 w-[32rem]">
+          <section className="flex flex-col gap-4 md:gap-8 md:flex-row">
+            <div className="flex flex-col gap-4 w-auto md:w-[32rem]">
               <InputField
                 name="name"
                 label="Nazwa"
@@ -106,7 +106,7 @@ const CreateEventDialog = () => {
                 />
               </div>
             </div>
-            <div className="flex flex-col gap-4 w-[32rem]">
+            <div className="flex flex-col gap-4 w-auto md:w-[32rem]">
               <AutocompleteField
                 name="address"
                 label="Adress"
@@ -124,7 +124,7 @@ const CreateEventDialog = () => {
                 }}
                 isRequired
               />
-              <PreviewMap className="h-[32rem] w-[32rem]" />
+              <PreviewMap className="h-[24rem] md:h-[32rem] md:w-[32rem]" />
             </div>
           </section>
           <section className="flex flex-row-reverse gap-2">

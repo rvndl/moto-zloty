@@ -32,7 +32,7 @@ const Page = ({
   }, [title, activeTab]);
 
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex flex-col w-full h-full p-2 md:p-0">
       <div className="flex items-center justify-between w-full">
         <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-4xl lg:leading-[1.1]">
           {`${title}`.replace("{TAB}", activeTab ?? "")}

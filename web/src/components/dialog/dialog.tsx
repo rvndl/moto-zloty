@@ -42,7 +42,6 @@ const Dialog = ({
   return (
     <>
       <span onClick={handleOnOpen}>{trigger}</span>
-
       <HeadlessDialog
         open={open}
         onClose={setOpen}
@@ -56,11 +55,11 @@ const Dialog = ({
           />
         )}
         <div className="fixed inset-0 flex items-center justify-center w-screen">
-          <DialogPanel className="relative bg-white border border-separate rounded-lg shadow-sm min-w-96">
+          <DialogPanel className="relative h-full bg-white border border-separate rounded-lg shadow-sm md:h-auto min-w-96">
             {isCloseButtonVisible && <CloseButton onClick={handleOnClose} />}
             <section
               className={clsx(
-                "flex flex-col gap-4 px-6 pt-4 rounded-t-lg",
+                "flex flex-col gap-4 px-6 pt-4 rounded-t-lg h-full overflow-auto",
                 !footerContent && "pb-6"
               )}
             >
