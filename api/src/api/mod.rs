@@ -1,6 +1,7 @@
 use std::sync::Arc;
 
 use axum::{
+    extract::DefaultBodyLimit,
     routing::{get, post, put},
     Router,
 };
@@ -11,6 +12,8 @@ use crate::global::Global;
 pub mod error;
 pub mod middleware;
 pub mod routes;
+
+const FOUR_MB: usize = 1024 * 1024 * 4;
 
 pub struct AppState {
     pub global: Arc<Global>,
@@ -42,6 +45,7 @@ pub async fn run(global: Arc<Global>) {
         .route("/login", post(routes::login::handler))
         .route("/profile/:id", get(routes::profile::get_profile))
         .route("/file/:id", get(routes::file::get_file))
+        .layer(DefaultBodyLimit::max(FOUR_MB))
         .layer(CorsLayer::permissive())
         .with_state(app_state);
 
