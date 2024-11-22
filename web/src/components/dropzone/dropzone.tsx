@@ -1,11 +1,10 @@
 import { useDropzone } from "react-dropzone";
-import { Label } from "./label";
+import { Label } from "../label";
 import { useState } from "react";
-import { Button } from "./button";
-import { XIcon } from "./icons";
 import clsx from "clsx";
 import { Api } from "api";
 import { File } from "types/file";
+import { DropzonePreview } from "./dropzone-preview";
 
 const MAX_FILES = 1;
 const MAX_FILE_SIZE = 1024 * 1024 * 2;
@@ -17,6 +16,7 @@ interface DropzoneProps {
 }
 
 const Dropzone = ({ label, isRequired, onChange }: DropzoneProps) => {
+  const [isUploading, setIsUploading] = useState(false);
   const [preview, setPreview] = useState<string>();
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: MAX_FILES,
@@ -24,6 +24,7 @@ const Dropzone = ({ label, isRequired, onChange }: DropzoneProps) => {
     accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp"] },
     disabled: Boolean(preview),
     onDropAccepted: async (acceptedFiles) => {
+      setIsUploading(true);
       const [file] = acceptedFiles;
       const objectUrl = URL.createObjectURL(file);
 
@@ -34,6 +35,7 @@ const Dropzone = ({ label, isRequired, onChange }: DropzoneProps) => {
 
       setPreview(objectUrl);
       onChange?.(response.data.id);
+      setIsUploading(false);
     },
   });
 
@@ -43,24 +45,19 @@ const Dropzone = ({ label, isRequired, onChange }: DropzoneProps) => {
     <div className="flex flex-col gap-2">
       {Boolean(label) && <Label isRequired={isRequired}>{label}</Label>}
       <section className="transition-colors border-2 border-dashed rounded-md shadow hover:bg-accent">
-        <div {...getRootProps()} className={clsx(hasPreview ? "p-2" : "p-6")}>
+        <div
+          {...getRootProps()}
+          className={clsx(hasPreview || isUploading ? "p-2" : "p-6")}
+        >
           <input {...getInputProps()} />
           {hasPreview ? (
-            <div className="relative w-fit">
-              <Button
-                variant="secondary"
-                size="small"
-                className="absolute w-5 h-5 p-0.5 right-1 top-1 text-muted shadow"
-                type="button"
-                onClick={() => setPreview(undefined)}
-              >
-                <XIcon />
-              </Button>
-              <img
-                className="object-cover w-20 rounded-md"
-                src={preview}
-                alt="Banner"
-              />
+            <DropzonePreview
+              preview={preview}
+              onCancel={() => setPreview(undefined)}
+            />
+          ) : isUploading ? (
+            <div className="w-16 h-20 border rounded-md shadow-sm bg-muted/10 animate-pulse">
+              &nbsp;
             </div>
           ) : (
             <p className="text-sm text-center transition-colors cursor-pointer text-muted hover:text-primary">
