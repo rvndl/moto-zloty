@@ -2,9 +2,11 @@ import { Map } from "@components";
 import { useEventsQuery } from "@features/event/api";
 import { EventsList } from "./events-list";
 import { EventMapMarker } from "../event-map-marker";
+import { useIsMobile } from "@hooks/use-is-mobile";
 
 const EventsPageContent = () => {
   const { data: events, isLoading } = useEventsQuery();
+  const isMobile = useIsMobile();
 
   return (
     <div className="flex flex-col w-full h-full gap-2">
@@ -13,7 +15,7 @@ const EventsPageContent = () => {
         <EventsList events={events} />
       </div>
       <section className="w-full h-full bg-red-100 border rounded-lg shadow-sm">
-        <Map zoom={7} isLoading={isLoading}>
+        <Map zoom={isMobile ? 6 : 7} isLoading={isLoading}>
           {events?.map((event) => (
             <EventMapMarker event={event} key={event.id} />
           ))}

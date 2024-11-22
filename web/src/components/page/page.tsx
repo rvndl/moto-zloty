@@ -40,7 +40,7 @@ const Page = ({
             {`${title}`.replace("{TAB}", activeTab ?? "")}
           </h1>
         ) : (
-          <Skeleton className="w-64 h-6" />
+          <Skeleton className="w-64 h-10" />
         )}
         {headerContent}
       </div>
