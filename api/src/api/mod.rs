@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use axum::{
     extract::DefaultBodyLimit,
-    routing::{get, post, put},
+    routing::{get, patch, post, put},
     Router,
 };
 use tower_http::cors::CorsLayer;
@@ -32,6 +32,10 @@ pub async fn run(global: Arc<Global>) {
             put(routes::events::update_status),
         )
         // authenticated routes
+        .route(
+            "/profile/change_password",
+            patch(routes::profile::change_password),
+        )
         .route("/place_search/:query", get(routes::place_search::search))
         .route("/file", post(routes::file::upload))
         .route("/events", put(routes::events::create))

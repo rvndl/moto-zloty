@@ -12,6 +12,7 @@ type GetUrl =
 
 type PostUrl = "/login" | "/file";
 type PutUrl = "/register" | "/events" | `/events/${string}/update-status`;
+type PatchUrl = "/profile/change_password";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -61,10 +62,17 @@ const put = <TResponse, TData = unknown>(
   config?: AxiosRequestConfig
 ) => instance.put<TResponse>(url, data, config);
 
+const patch = <TResponse, TData = unknown>(
+  url: PatchUrl,
+  data?: TData,
+  config?: AxiosRequestConfig
+) => instance.patch<TResponse>(url, data, config);
+
 const Api = {
   get,
   post,
   put,
+  patch,
 };
 
 export { Api };

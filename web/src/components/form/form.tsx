@@ -3,8 +3,10 @@ import { FieldValues, Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { FormContext } from "./fom-context";
 
 interface Props<TValues> {
-  onSubmit: (values: TValues) => void;
-  defaultValues?: Partial<Record<keyof TValues, any>>;
+  onSubmit:
+    | ((reset: () => void) => (values: TValues) => void)
+    | ((values: TValues) => void);
+  defaultValues?: Partial<Record<keyof TValues, unknown>>;
   resolver?: Resolver<any>;
   children: ((isValid?: boolean) => ReactNode) | ReactNode;
 }

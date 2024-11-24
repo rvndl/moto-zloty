@@ -62,11 +62,7 @@ pub async fn handler(
         Ok(password_hash) => {
             match repos
                 .account
-                .create(
-                    &form.username,
-                    password_hash.to_string().as_str(),
-                    &form.email,
-                )
+                .create(&form.username, &password_hash.to_string(), &form.email)
                 .await
             {
                 Ok(account) => {

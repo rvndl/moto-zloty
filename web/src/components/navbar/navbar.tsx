@@ -10,6 +10,11 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const handleOnLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <nav className="pb-4">
       <div className="bg-white border border-gray-100 rounded-md shadow-sm">
@@ -44,7 +49,7 @@ const Navbar = () => {
               {isEmpty(user) ? (
                 <LoginDialog />
               ) : (
-                <UserMenu user={user} logout={logout} />
+                <UserMenu user={user} logout={handleOnLogout} />
               )}
             </div>
           </div>

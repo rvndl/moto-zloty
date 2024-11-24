@@ -1,7 +1,7 @@
 use uuid::Uuid;
 
 use crate::{
-    db::{self, models},
+    db::{self, models::account::Account},
     utils,
 };
 
@@ -19,8 +19,8 @@ impl<'a> AccountRepo<'a> {
         username: &str,
         password: &str,
         email: &str,
-    ) -> Result<models::account::Account, sqlx::Error> {
-        let result = sqlx::query_as::<_, models::account::Account>(
+    ) -> Result<Account, sqlx::Error> {
+        let result = sqlx::query_as::<_, Account>(
             r#"INSERT INTO account (username, password, email) VALUES ($1, $2, $3) RETURNING *"#,
         )
         .bind(username)
@@ -32,40 +32,29 @@ impl<'a> AccountRepo<'a> {
         result
     }
 
-    pub async fn fetch_one(&self, id: Uuid) -> Result<models::account::Account, sqlx::Error> {
-        let query =
-            sqlx::query_as::<_, models::account::Account>(r#"SELECT * FROM account WHERE id = $1"#)
-                .bind(id)
-                .fetch_one(self.db)
-                .await;
+    pub async fn fetch_one(&self, id: Uuid) -> Result<Account, sqlx::Error> {
+        let query = sqlx::query_as::<_, Account>(r#"SELECT * FROM account WHERE id = $1"#)
+            .bind(id)
+            .fetch_one(self.db)
+            .await;
 
         query
     }
 
-    pub async fn fetch_by_username(
-        &self,
-        username: &str,
-    ) -> Result<models::account::Account, sqlx::Error> {
-        let query = sqlx::query_as::<_, models::account::Account>(
-            r#"SELECT * FROM account WHERE username = $1"#,
-        )
-        .bind(username)
-        .fetch_one(self.db)
-        .await;
+    pub async fn fetch_by_username(&self, username: &str) -> Result<Account, sqlx::Error> {
+        let query = sqlx::query_as::<_, Account>(r#"SELECT * FROM account WHERE username = $1"#)
+            .bind(username)
+            .fetch_one(self.db)
+            .await;
 
         query
     }
 
-    pub async fn fetch_by_email(
-        &self,
-        username: &str,
-    ) -> Result<models::account::Account, sqlx::Error> {
-        let query = sqlx::query_as::<_, models::account::Account>(
-            r#"SELECT * FROM account WHERE email = $1"#,
-        )
-        .bind(username)
-        .fetch_one(self.db)
-        .await;
+    pub async fn fetch_by_email(&self, username: &str) -> Result<Account, sqlx::Error> {
+        let query = sqlx::query_as::<_, Account>(r#"SELECT * FROM account WHERE email = $1"#)
+            .bind(username)
+            .fetch_one(self.db)
+            .await;
 
         query
     }
@@ -86,5 +75,17 @@ impl<'a> AccountRepo<'a> {
             .await;
 
         utils::db::has_any_or_error(query)
+    }
+
+    pub async fn change_password(&self, id: Uuid, password: &str) -> Result<Account, sqlx::Error> {
+        let result = sqlx::query_as::<_, Account>(
+            r#"UPDATE account SET password = $1 WHERE id = $2 RETURNING *"#,
+        )
+        .bind(password)
+        .bind(id)
+        .fetch_one(self.db)
+        .await;
+
+        result
     }
 }
