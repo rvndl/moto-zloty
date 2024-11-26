@@ -13,7 +13,7 @@ use axum::{
 
 use crate::{
     api::AppState, api_error, api_error_log, config::Config, db::models::account::AccountRank, jwt,
-    recaptcha,
+    turnstile,
 };
 
 #[derive(serde::Deserialize, Debug)]
@@ -38,10 +38,10 @@ pub async fn handler(
 ) -> Response {
     let repos = state.global.repos();
     let Config {
-        re_captcha_secret, ..
+        turnstile_secret, ..
     } = &state.global.config();
 
-    if !recaptcha::verify(&re_captcha_secret, &form.recaptcha).await {
+    if !turnstile::verify(&turnstile_secret, &form.recaptcha).await {
         return api_error!("Weryfikacja reCAPTCHA nie powiodła się");
     }
 

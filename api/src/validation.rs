@@ -7,11 +7,11 @@ pub enum RangeValidationStatus {
 }
 
 pub trait RangeValidation {
-    fn in_range(&self, boundaries: (usize, usize)) -> RangeValidationStatus;
+    fn in_range(&self, boundary: RangeBoundary) -> RangeValidationStatus;
 }
 
 impl RangeValidation for String {
-    fn in_range(&self, (min, max): (usize, usize)) -> RangeValidationStatus {
+    fn in_range(&self, (min, max): RangeBoundary) -> RangeValidationStatus {
         if self.len() < min {
             return RangeValidationStatus::TooShort;
         }

@@ -12,9 +12,9 @@ pub mod jobs;
 pub mod jwt;
 pub mod logger;
 pub mod place_search;
-pub mod recaptcha;
 pub mod redis;
 pub mod repos;
+pub mod turnstile;
 pub mod utils;
 pub mod validation;
 

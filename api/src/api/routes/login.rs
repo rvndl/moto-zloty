@@ -13,7 +13,7 @@ use crate::{
     api_error, api_error_log,
     config::Config,
     db::models::account::AccountRank,
-    jwt, recaptcha,
+    jwt, turnstile,
     validation::{RangeBoundary, RangeValidation, RangeValidationStatus},
 };
 
@@ -54,10 +54,10 @@ pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<LoginF
 
     let repos = state.global.repos();
     let Config {
-        re_captcha_secret, ..
+        turnstile_secret, ..
     } = &state.global.config();
 
-    if !recaptcha::verify(re_captcha_secret, &form.recaptcha).await {
+    if !turnstile::verify(turnstile_secret, &form.recaptcha).await {
         return api_error!("Weryfikacja reCAPTCHA nie powiodła się");
     }
 
