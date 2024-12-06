@@ -6,10 +6,10 @@ use tokio::time::sleep;
 
 use crate::{db::models::file::FileStatus, global::Global};
 
-const EVENRY_30_MINUTES: &str = "0,30 * * * * *";
+const EVERY_30_MINUTES: &str = "0,30 * * * * *";
 
 pub async fn run(global: Arc<Global>) {
-    let schedule = Schedule::from_str(EVENRY_30_MINUTES).unwrap();
+    let schedule = Schedule::from_str(EVERY_30_MINUTES).unwrap();
 
     loop {
         let now = Utc::now();
