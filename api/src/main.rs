@@ -8,6 +8,7 @@ pub mod config;
 pub mod db;
 pub mod env;
 pub mod global;
+pub mod image_processor;
 pub mod jobs;
 pub mod jwt;
 pub mod logger;

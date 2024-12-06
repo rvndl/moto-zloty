@@ -11,6 +11,8 @@ interface Payload {
   date_from: string;
   date_to: string;
   account_id: string;
+  banner_id?: string;
+  banner_small_id?: string;
 }
 
 const createEvent = async (payload: Payload) => {

@@ -9,9 +9,15 @@ import {
 import { Toaster } from "react-hot-toast";
 import { ProfilePage } from "@features/profile";
 import { EventPage, EventsPage } from "@features/event";
-import { ModerationPage } from "@features/moderation";
+import { lazy, Suspense } from "react";
 
 const queryClient = new QueryClient();
+
+const ModerationPage = lazy(() =>
+  import("@features/moderation").then((mod) => ({
+    default: mod.ModerationPage,
+  }))
+);
 
 const router = createBrowserRouter([
   {
@@ -33,10 +39,17 @@ function Root() {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<EventsPage />} />
+        <Route index path="/" element={<EventsPage />} />
         <Route path="/profile/:id" element={<ProfilePage />} />
         <Route path="/event/:id" element={<EventPage />} />
-        <Route path="/moderation/" element={<ModerationPage />} />
+        <Route
+          path="/moderation/"
+          element={
+            <Suspense>
+              <ModerationPage />
+            </Suspense>
+          }
+        />
       </Routes>
     </Layout>
   );

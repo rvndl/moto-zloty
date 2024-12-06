@@ -46,7 +46,7 @@ const Event = ({ event, size = "normal" }: Props) => {
         {isOngoing ? "W trakcie" : distance}
       </Badge>
       <img
-        src={getFilePath(event.banner_id)}
+        src={getFilePath(event.banner_small_id ?? event.banner_id)}
         className="object-cover w-full h-full transition rounded-md z-200 hover:scale-105"
         alt="banner"
       />

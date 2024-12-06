@@ -2,25 +2,31 @@ use std::sync::Arc;
 
 use axum::{
     extract::{Multipart, Path, Request, State},
+    http::{header, HeaderValue},
     response::{IntoResponse, Response},
     Json,
 };
 
-use tokio::{fs::File, io::AsyncWriteExt};
+use tokio::{
+    fs::{self, File},
+    io::AsyncWriteExt,
+};
 use tower::ServiceExt;
 use tower_http::services::{fs::ServeFileSystemResponseBody, ServeFile};
 use uuid::Uuid;
 
-use crate::{api::AppState, api_error, api_error_log};
+use crate::{api::AppState, api_error, api_error_log, image_processor::convert::convert_image};
 
 #[derive(Debug, serde::Serialize)]
 struct UploadReponse {
-    id: Uuid,
+    full_id: Uuid,
+    small_id: Option<Uuid>,
 }
 
 const ACCEPTED_CONTENT_TYPES: [&str; 4] = ["image/png", "image/jpeg", "image/webp", "image/jpg"];
 const TWO_MB: i32 = 1024 * 1024 * 2;
 
+// TODO: decide if we want to encode small images
 pub async fn upload(State(state): State<Arc<AppState>>, mut multipart: Multipart) -> Response {
     let upload_path = &state.global.config().upload_path;
     let repos = state.global.repos();
@@ -45,20 +51,49 @@ pub async fn upload(State(state): State<Arc<AppState>>, mut multipart: Multipart
         let save_path = format!("{}/{}", upload_path, file_name);
 
         let file = File::create(&save_path).await;
-        if let Ok(mut file) = file {
-            if let Err(err) = file.write_all(&data).await {
-                return api_error_log!("failed to write file: {}", err);
+
+        let mut file = match file {
+            Ok(file) => file,
+            Err(err) => {
+                log::error!("failed to create file: {}", err);
+                return api_error!("Wystąpił błąd podczas wgrywania pliku");
             }
+        };
 
-            let file = match repos.file.create(&save_path).await {
-                Ok(file) => file,
-                Err(err) => return api_error_log!("failed to create file: {}", err),
-            };
-
-            return Json(UploadReponse { id: file.id }).into_response();
+        if let Err(err) = file.write_all(&data).await {
+            return api_error_log!("failed to write file: {}", err);
         }
 
-        return api_error!("failed to create file");
+        let full_image = convert_image(&save_path, false);
+        let small_image = convert_image(&save_path, true);
+
+        let (full_image_path, small_image_path) = match (full_image, small_image) {
+            (Ok(full_image_path), Ok(small_image_path)) => (full_image_path, small_image_path),
+            (_, _) => {
+                log::error!("failed to convert file to .webp");
+                return api_error!("Wystąpił błąd podczas konwersji pliku do .webp");
+            }
+        };
+
+        let full_image_file = match repos.file.create(&full_image_path).await {
+            Ok(file) => file,
+            Err(err) => return api_error_log!("failed to create full image file: {}", err),
+        };
+
+        let small_image_file = match repos.file.create(&small_image_path).await {
+            Ok(file) => file,
+            Err(err) => return api_error_log!("failed to create small image file: {}", err),
+        };
+
+        if let Err(err) = fs::remove_file(save_path).await {
+            log::error!("failed to remove file: {}", err);
+        }
+
+        return Json(UploadReponse {
+            full_id: full_image_file.id,
+            small_id: Some(small_image_file.id),
+        })
+        .into_response();
     }
 
     api_error!("no file found")
@@ -73,6 +108,12 @@ pub async fn get_file(
     let repos = state.global.repos();
 
     let file = repos.file.fetch_one(id).await.unwrap();
-    let response = ServeFile::new(file.path).oneshot(request).await.unwrap();
-    return response;
+    let mut response = ServeFile::new(file.path).oneshot(request).await.unwrap();
+
+    response.headers_mut().insert(
+        header::CACHE_CONTROL,
+        HeaderValue::from_static("public, max-age=3600"),
+    );
+
+    response
 }

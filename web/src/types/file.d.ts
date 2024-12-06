@@ -1,3 +1,4 @@
 export interface File {
-  id: string;
+  full_id: string;
+  small_id?: string;
 }

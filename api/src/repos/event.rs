@@ -28,6 +28,7 @@ impl<'a> EventRepo<'a> {
         date_from: DateTime<Utc>,
         date_to: DateTime<Utc>,
         banner_id: Option<Uuid>,
+        banner_small_id: Option<Uuid>,
         account_id: Uuid,
     ) -> Result<Event, sqlx::Error> {
         let result = sqlx::query_as::<_, Event>(
@@ -41,6 +42,7 @@ impl<'a> EventRepo<'a> {
                 date_from,
                 date_to,
                 banner_id,
+                banner_small_id,
                 account_id
             )
             VALUES (
@@ -52,7 +54,8 @@ impl<'a> EventRepo<'a> {
                 $6,
                 $7,
                 $8,
-                $9
+                $9,
+                $10
             )
             RETURNING *;
             "#,
@@ -65,6 +68,7 @@ impl<'a> EventRepo<'a> {
         .bind(date_from)
         .bind(date_to)
         .bind(banner_id)
+        .bind(banner_small_id)
         .bind(account_id)
         .fetch_one(self.db)
         .await;
@@ -103,6 +107,7 @@ impl<'a> EventRepo<'a> {
                 e.date_to,
                 e.created_at,
                 e.banner_id,
+                e.banner_small_id,
                 e.account_id,
                 a.id as account_id,
                 a.username,
@@ -137,6 +142,7 @@ impl<'a> EventRepo<'a> {
                     date_to: row.get("date_to"),
                     created_at: row.get("created_at"),
                     banner_id: row.get("banner_id"),
+                    banner_small_id: row.get("banner_small_id"),
                     account_id: row.get("account_id"),
                     account: if let Some(account_id) = row.try_get("account_id").ok() {
                         let account = Account {
@@ -187,6 +193,7 @@ impl<'a> EventRepo<'a> {
                 e.date_to,
                 e.created_at,
                 e.banner_id,
+                e.banner_small_id,
                 e.account_id,
                 a.id as account_id,
                 a.username,
@@ -218,6 +225,7 @@ impl<'a> EventRepo<'a> {
             date_to: query.get("date_to"),
             created_at: query.get("created_at"),
             banner_id: query.get("banner_id"),
+            banner_small_id: query.get("banner_small_id"),
             account_id: query.get("account_id"),
             account: if let Some(account_id) = query.try_get("account_id").ok() {
                 let account = Account {

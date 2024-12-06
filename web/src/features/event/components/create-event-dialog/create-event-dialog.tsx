@@ -4,6 +4,7 @@ import {
   Button,
   Dialog,
   DropzoneField,
+  DropzoneImage,
   Form,
   InputField,
   PlusIcon,
@@ -28,7 +29,7 @@ interface Fields {
   longitude: number;
   latitude: number;
   address: AutocompleteOption;
-  banner_id?: string;
+  banner?: DropzoneImage;
 }
 
 const schema = yup.object<Fields>({
@@ -54,6 +55,7 @@ const CreateEventDialog = () => {
       address: {
         value: { latitude, longitude, name },
       },
+      banner,
       ...rest
     }: Fields) => {
       createEvent(
@@ -65,6 +67,8 @@ const CreateEventDialog = () => {
           longitude,
           latitude,
           account_id,
+          banner_id: banner?.full_id,
+          banner_small_id: banner?.small_id,
         },
         {
           onSuccess: (data) => {
@@ -95,7 +99,7 @@ const CreateEventDialog = () => {
                 placeholder="Nazwa wydarzenia"
                 isRequired
               />
-              <DropzoneField name="banner_id" label="Banner" />
+              <DropzoneField name="banner" label="Banner" />
               <DatePicker />
               <div className="h-[294px]">
                 <TextEditorField

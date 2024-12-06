@@ -9,10 +9,15 @@ import { DropzonePreview } from "./dropzone-preview";
 const MAX_FILES = 1;
 const MAX_FILE_SIZE = 1024 * 1024 * 2;
 
+interface DropzoneImage {
+  full_id: string;
+  small_id?: string;
+}
+
 interface DropzoneProps {
   label?: string;
   isRequired?: boolean;
-  onChange?: (value: string) => void;
+  onChange?: (value: DropzoneImage) => void;
 }
 
 const Dropzone = ({ label, isRequired, onChange }: DropzoneProps) => {
@@ -34,7 +39,7 @@ const Dropzone = ({ label, isRequired, onChange }: DropzoneProps) => {
       const response = await Api.post<File>("/file", formData);
 
       setPreview(objectUrl);
-      onChange?.(response.data.id);
+      onChange?.(response.data);
       setIsUploading(false);
     },
   });
@@ -60,9 +65,15 @@ const Dropzone = ({ label, isRequired, onChange }: DropzoneProps) => {
               &nbsp;
             </div>
           ) : (
-            <p className="text-sm text-center transition-colors cursor-pointer text-muted hover:text-primary">
-              Przeciągnij lub kliknij tutaj, aby wybrać plik
-            </p>
+            <div className="flex flex-col items-center">
+              <p className="text-sm text-center transition-colors cursor-pointer text-muted hover:text-primary">
+                Przeciągnij lub kliknij tutaj, aby wybrać plik
+              </p>
+              <small className="text-xs text-muted">
+                Wspierane pliki: .jpeg, .jpg, .png, .webp. Maksymalny rozmiar: 2
+                MB
+              </small>
+            </div>
           )}
         </div>
       </section>
@@ -70,4 +81,4 @@ const Dropzone = ({ label, isRequired, onChange }: DropzoneProps) => {
   );
 };
 
-export { Dropzone, type DropzoneProps };
+export { Dropzone, type DropzoneProps, type DropzoneImage };

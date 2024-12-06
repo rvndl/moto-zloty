@@ -1,11 +1,11 @@
-import { Value, Card, TextEditor, Dialog } from "@components";
-import { getFilePath } from "@utils/index";
+import { Value, Card, TextEditor } from "@components";
 import { type Event } from "types/event";
 import { EventStartingDate } from "../event-starting-date";
 import { EventEndingDate } from "../event-ending-date";
 import { EventStatus } from "../event-status";
 import { PreviewMap } from "../preview-map";
 import { ActionsList } from "./actions-list";
+import { BannerPreview } from "./banner-preview";
 
 interface Props {
   event?: Event;
@@ -13,6 +13,8 @@ interface Props {
 }
 
 const EventPageContent = ({ event, isLoading }: Props) => {
+  const hasBanner = event?.banner_id || event?.banner_small_id;
+
   return (
     <section className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2">
       <Card
@@ -20,20 +22,7 @@ const EventPageContent = ({ event, isLoading }: Props) => {
         description="Informacje o wydarzeniu"
         className="relative h-min"
       >
-        <div className="absolute w-20 h-20 overflow-hidden top-5 right-5 md:w-28 md:h-28 rounded-xl">
-          <Dialog
-            title="Banner"
-            description="Banner wydarzenia"
-            trigger={
-              <img
-                src={getFilePath(event?.banner_id)}
-                className="z-10 object-cover w-full h-full transition-transform border cursor-pointer rounded-xl hover:scale-105"
-              />
-            }
-          >
-            <img src={getFilePath(event?.banner_id)} />
-          </Dialog>
-        </div>
+        {hasBanner && <BannerPreview event={event} />}
         <div className="flex flex-col gap-4">
           <Value title="Nazwa" isLoading={isLoading}>
             {event?.name}

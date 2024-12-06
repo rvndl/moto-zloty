@@ -13,6 +13,7 @@ export interface Event {
   date_from: string;
   date_to: string;
   banner_id?: string;
+  banner_small_id?: string;
   created_at: string;
   account_id: string;
   account?: PublicAccount;

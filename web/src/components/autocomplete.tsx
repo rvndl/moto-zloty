@@ -11,10 +11,10 @@ import { Label } from "./label";
 import { useDebounce } from "@hooks/use-debounce";
 import { HelpText } from "./help-text";
 
-interface AutocompleteOption {
+interface AutocompleteOption<TValue = unknown> {
   id: string;
   label: string;
-  value?: unknown;
+  value?: TValue;
 }
 
 interface AutocompleteProps {

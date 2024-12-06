@@ -60,6 +60,10 @@ pub struct Event {
     /// Only present if the event has a banner
     pub banner_id: Option<Uuid>,
 
+    /// Smaller version of the banner of the event
+    /// Only present if the event has a banner
+    pub banner_small_id: Option<Uuid>,
+
     /// Id of the account that created the event
     pub account_id: Uuid,
 

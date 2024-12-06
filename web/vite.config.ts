@@ -7,6 +7,7 @@ import adsense from "./plugins/adsense";
 import robots from "./plugins/robots";
 import Sitemap from "vite-plugin-sitemap";
 import prerender from "@prerenderer/rollup-plugin";
+import { VitePluginRadar } from "vite-plugin-radar";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -22,6 +23,11 @@ export default defineConfig({
     adsense(),
     robots(),
     Sitemap({ hostname: "https://moto-zloty.pl" }),
+    VitePluginRadar({
+      analytics: {
+        id: "GTM-5DVLF4R5",
+      },
+    }),
     prerender({
       routes: ["/"],
       renderer: "@prerenderer/renderer-puppeteer",
@@ -38,4 +44,13 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          lodash: ["lodash"],
+        },
+      },
+    },
+  },
 });

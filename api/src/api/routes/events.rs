@@ -24,6 +24,7 @@ pub struct CreateForm {
     date_from: String,
     date_to: String,
     banner_id: Option<Uuid>,
+    banner_small_id: Option<Uuid>,
 }
 
 #[derive(serde::Deserialize, Debug)]
@@ -109,6 +110,7 @@ pub async fn create(
             date_from,
             date_to,
             form.banner_id,
+            form.banner_small_id,
             user_id,
         )
         .await
@@ -121,6 +123,16 @@ pub async fn create(
         if let Err(err) = repos
             .file
             .change_status(banner_id, FileStatus::PERMANENT)
+            .await
+        {
+            return api_error_log!("failed to change file status: {}", err);
+        }
+    };
+
+    if let Some(banner_small_id) = event.banner_small_id {
+        if let Err(err) = repos
+            .file
+            .change_status(banner_small_id, FileStatus::PERMANENT)
             .await
         {
             return api_error_log!("failed to change file status: {}", err);
