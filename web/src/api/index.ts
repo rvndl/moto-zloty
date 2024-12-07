@@ -10,7 +10,7 @@ type GetUrl =
   | `/events/${string}/actions`
   | "/mod/events";
 
-type PostUrl = "/login" | "/file";
+type PostUrl = "/login" | "/file" | "/contact";
 type PutUrl = "/register" | "/events" | `/events/${string}/update-status`;
 type PatchUrl = "/profile/change_password";
 

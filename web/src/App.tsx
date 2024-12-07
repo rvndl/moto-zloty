@@ -10,6 +10,8 @@ import { Toaster } from "react-hot-toast";
 import { ProfilePage } from "@features/profile";
 import { EventPage, EventsPage } from "@features/event";
 import { lazy, Suspense } from "react";
+import { NotFoundPage } from "pages";
+import { ContactPage } from "@features/contact";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +52,8 @@ function Root() {
             </Suspense>
           }
         />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Layout>
   );

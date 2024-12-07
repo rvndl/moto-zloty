@@ -8,7 +8,7 @@ pub fn convert_image(input_path: &str, resize: bool) -> Result<String, String> {
     let input_path = Path::new(input_path);
 
     let image_render =
-        ImageReader::open(input_path).map_err(|e| format!("Failed to open image: {}", e))?;
+        ImageReader::open(input_path).map_err(|e| format!("failed to open image: {}", e))?;
 
     let image = image_render
         .decode()

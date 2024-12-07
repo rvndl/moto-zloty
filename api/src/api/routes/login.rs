@@ -58,7 +58,7 @@ pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<LoginF
     } = &state.global.config();
 
     if !turnstile::verify(turnstile_secret, &form.recaptcha).await {
-        return api_error!("Weryfikacja reCAPTCHA nie powiodła się");
+        return api_error!("Weryfikacja Turnstile nie powiodła się");
     }
 
     let account = repos.account.fetch_by_username(&form.username).await;

@@ -42,7 +42,7 @@ pub async fn handler(
     } = &state.global.config();
 
     if !turnstile::verify(&turnstile_secret, &form.recaptcha).await {
-        return api_error!("Weryfikacja reCAPTCHA nie powiodła się");
+        return api_error!("Weryfikacja Turnstile nie powiodła się");
     }
 
     if repos.account.exists_username(&form.username).await {

@@ -16,6 +16,8 @@ import ArrowUpIcon from "@assets/svg/icons/arrow-up-icon.svg?react";
 import ChevronsLeftIcon from "@assets/svg/icons/chevrons-left-icon.svg?react";
 import ChevronsRightIcon from "@assets/svg/icons/chevrons-right-icon.svg?react";
 import ChevronDownIcon from "@assets/svg/icons/chevron-down-icon.svg?react";
+import InstagramIcon from "@assets/svg/icons/instagram-icon.svg?react";
+import AtIcon from "@assets/svg/icons/at-icon.svg?react";
 
 export {
   UserIcon,
@@ -36,4 +38,6 @@ export {
   ChevronsLeftIcon,
   ChevronsRightIcon,
   ChevronDownIcon,
+  InstagramIcon,
+  AtIcon,
 };

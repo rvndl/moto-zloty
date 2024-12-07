@@ -27,3 +27,4 @@ export * from "./skeleton";
 export * from "./table";
 export * from "./listbox";
 export * from "./dropdown";
+export * from "./textarea";

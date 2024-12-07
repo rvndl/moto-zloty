@@ -1,7 +1,13 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
-    <footer className="flex flex-col justify-center w-full gap-2 p-2 border">
-      <p className="text-sm text-muted">&copy; Moto Zloty</p>
+    <footer className="flex flex-row items-center justify-center w-full gap-8 p-2 border-t shadow-sm text-primary">
+      <p className="text-sm font-medium">&copy; Moto-Zloty.pl</p>
+      <div className="flex items-center justify-center gap-3 text-sm text-muted">
+        <Link to="/tos">Regulamin</Link>
+        <Link to="/contact">Kontakt</Link>
+      </div>
     </footer>
   );
 };
