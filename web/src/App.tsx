@@ -32,7 +32,17 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      <Toaster position="bottom-right" containerStyle={{ zIndex: 99999 }} />
+      <Toaster
+        position="bottom-right"
+        containerStyle={{ zIndex: 99999 }}
+        toastOptions={{
+          className: "bg-black text-white",
+          iconTheme: {
+            primary: "#52b629",
+            secondary: "#fff",
+          },
+        }}
+      />
     </QueryClientProvider>
   );
 }
