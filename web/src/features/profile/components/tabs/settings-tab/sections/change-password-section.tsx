@@ -45,7 +45,7 @@ const ChangePasswordSection = () => {
           type="password"
           isRequired
         />
-        <Button type="submit" isLoading={isPending}>
+        <Button type="submit" isLoading={isPending} disabled={isPending}>
           Zmień hasło
         </Button>
       </Form>

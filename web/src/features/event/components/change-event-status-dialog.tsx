@@ -34,7 +34,7 @@ const ChangeEventStatusDialog = ({ event }: Props) => {
     await changeEventStatus(
       {
         id: event.id,
-        status: data.status.value,
+        status: data.status.value as string,
       },
       {
         onSuccess: () => {
@@ -79,7 +79,12 @@ const ChangeEventStatusDialog = ({ event }: Props) => {
             isRequired
           />
           <section className="flex flex-row-reverse gap-2">
-            <Button variant="primary" type="submit" isLoading={isPending}>
+            <Button
+              variant="primary"
+              type="submit"
+              isLoading={isPending}
+              disabled={isPending}
+            >
               Zaktualizuj
             </Button>
             <Button variant="ghost" onClick={close}>

@@ -120,7 +120,10 @@ impl<'a> EventRepo<'a> {
                 a.created_at as account_created_at
             FROM event e
                 LEFT JOIN account a ON e.account_id = a.id
-            WHERE e.status = $1
+            WHERE
+                e.status = $1
+            AND 
+                e.date_to + '3 day'::INTERVAL > CURRENT_DATE;
             "#,
         )
         .bind(status)

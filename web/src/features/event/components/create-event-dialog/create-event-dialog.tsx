@@ -132,7 +132,12 @@ const CreateEventDialog = () => {
             </div>
           </section>
           <section className="flex flex-row-reverse gap-2">
-            <Button variant="primary" type="submit" isLoading={isPending}>
+            <Button
+              variant="primary"
+              type="submit"
+              isLoading={isPending}
+              disabled={isPending}
+            >
               Utwórz wydarzenie
             </Button>
             <Button variant="ghost" onClick={close}>

@@ -3,11 +3,17 @@ import { useEventsQuery } from "@features/event/api";
 import { EventsList } from "./events-list";
 import { EventMapMarker } from "../event-map-marker";
 import { useIsMobile } from "@hooks/use-is-mobile";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { getEventStatus } from "@utils/event";
 
 const EventsPageContent = () => {
   const { data: events, isLoading } = useEventsQuery();
   const isMobile = useIsMobile();
+
+  const activeEvents = useMemo(
+    () => events?.filter((event) => !getEventStatus(event).isPast),
+    [events]
+  );
 
   useEffect(() => {
     if (events?.length) {
@@ -23,7 +29,7 @@ const EventsPageContent = () => {
       </div>
       <section className="w-full h-full bg-red-100 border rounded-lg shadow-sm">
         <Map zoom={isMobile ? 6 : 7} isLoading={isLoading}>
-          {events?.map((event) => (
+          {activeEvents?.map((event) => (
             <EventMapMarker event={event} key={event.id} />
           ))}
         </Map>
