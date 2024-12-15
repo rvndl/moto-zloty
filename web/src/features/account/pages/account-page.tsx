@@ -1,14 +1,14 @@
 import { SettingsIcon, TicketIcon, UserIcon, Page } from "@components";
 import { useEffect } from "react";
-import { EventsTab, ProfileTab, SettingsTab } from "../components";
+import { EventsTab, AccountTab, SettingsTab } from "../components";
 import { match } from "ts-pattern";
 import { useNavigate, useParams } from "react-router-dom";
-import { useProfileQuery } from "../api";
+import { useAccountQuery } from "../api";
 import { useAuth } from "@features/auth";
 
-const ProfilePage = () => {
+const AccountPage = () => {
   const { id } = useParams();
-  const { data } = useProfileQuery(id!, { enabled: Boolean(id) });
+  const { data } = useAccountQuery(id!, { enabled: Boolean(id) });
   const { isOwner } = useAuth();
   const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ const ProfilePage = () => {
     >
       {(tab) =>
         match(tab)
-          .with("Profil", () => <ProfileTab account={data} />)
+          .with("Profil", () => <AccountTab account={data} />)
           .with("Wydarzenia", () => <EventsTab account={data} />)
           .with("Ustawienia", () => <SettingsTab />)
           .otherwise(() => null)
@@ -48,4 +48,4 @@ const ProfilePage = () => {
   );
 };
 
-export { ProfilePage };
+export { AccountPage };

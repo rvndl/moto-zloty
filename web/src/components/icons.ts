@@ -18,6 +18,7 @@ import ChevronsRightIcon from "@assets/svg/icons/chevrons-right-icon.svg?react";
 import ChevronDownIcon from "@assets/svg/icons/chevron-down-icon.svg?react";
 import InstagramIcon from "@assets/svg/icons/instagram-icon.svg?react";
 import AtIcon from "@assets/svg/icons/at-icon.svg?react";
+import MapPinnedIcon from "@assets/svg/icons/map-pinned-icon.svg?react";
 
 export {
   UserIcon,
@@ -40,4 +41,5 @@ export {
   ChevronDownIcon,
   InstagramIcon,
   AtIcon,
+  MapPinnedIcon,
 };

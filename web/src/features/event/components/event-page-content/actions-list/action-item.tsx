@@ -20,7 +20,7 @@ const ActionItem = ({ action }: Props) => {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-2 text-muted">
-        <Link to={`/profile/${action.actor_id}`} className="flex w-max">
+        <Link to={`/account/${action.actor_id}`} className="flex w-max">
           <div className="flex gap-2 mt-1">
             <div className="flex items-center justify-center w-6 h-6 p-1 rounded-full bg-accent">
               <UserIcon />

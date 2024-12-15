@@ -1,11 +1,11 @@
 import { Card } from "@components";
+import { AccountResponse } from "@features/account/api/types/account";
 import { Event } from "@features/event";
-import { ProfileResponse } from "@features/profile/api/types/profile";
 import { sortEvents } from "@utils/event";
 import { useMemo } from "react";
 
 interface Props {
-  account?: ProfileResponse;
+  account?: AccountResponse;
 }
 
 const EventsTab = ({ account }: Props) => {
@@ -25,7 +25,7 @@ const EventsTab = ({ account }: Props) => {
         {isEmpty ? (
           <p className="text-muted">Brak wydarzeń</p>
         ) : (
-          sortedEvents?.map((event) => (
+          sortedEvents.map((event) => (
             <Event key={event.id} event={event} size="small" />
           ))
         )}

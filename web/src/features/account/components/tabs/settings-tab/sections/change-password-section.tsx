@@ -2,7 +2,7 @@ import { Button, Card, Form, InputField } from "@components";
 import {
   ChangePasswordPayload,
   useChangePasswordMutation,
-} from "@features/profile/api";
+} from "@features/account/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { yup } from "@utils/yup";
 import toast from "react-hot-toast";

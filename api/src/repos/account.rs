@@ -88,4 +88,17 @@ impl<'a> AccountRepo<'a> {
 
         result
     }
+
+    pub async fn fetch_all(&self) -> Result<Vec<Account>, sqlx::Error> {
+        let query = sqlx::query_as::<_, Account>(
+            r#"
+            SELECT *
+            FROM account
+            "#,
+        )
+        .fetch_all(self.db)
+        .await;
+
+        query
+    }
 }

@@ -7,11 +7,11 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { ProfilePage } from "@features/profile";
 import { EventPage, EventsPage } from "@features/event";
 import { lazy, Suspense } from "react";
 import { NotFoundPage } from "pages";
 import { ContactPage } from "@features/contact";
+import { AccountPage } from "@features/account";
 
 const queryClient = new QueryClient();
 
@@ -36,7 +36,10 @@ function App() {
         position="bottom-right"
         containerStyle={{ zIndex: 99999 }}
         toastOptions={{
-          className: "bg-black text-white",
+          style: {
+            background: "#000",
+            color: "#fff",
+          },
           iconTheme: {
             primary: "#52b629",
             secondary: "#fff",
@@ -52,7 +55,7 @@ function Root() {
     <Layout>
       <Routes>
         <Route index path="/" element={<EventsPage />} />
-        <Route path="/profile/:id" element={<ProfilePage />} />
+        <Route path="/account/:id" element={<AccountPage />} />
         <Route path="/event/:id" element={<EventPage />} />
         <Route
           path="/moderation/"

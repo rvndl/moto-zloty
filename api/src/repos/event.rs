@@ -1,12 +1,14 @@
 use crate::db::{
     self,
     models::{
-        account::{Account, AccountInfo, AccountMappingType, PublicAccount},
+        account::{
+            Account, AccountInfo, AccountMappingType, AccountWithoutPassword, PublicAccount,
+        },
         event::{Event, EventStatus},
     },
 };
 use chrono::{DateTime, Utc};
-use sqlx::Row;
+use sqlx::{postgres::PgRow, Row};
 use uuid::Uuid;
 
 pub struct EventRepo<'a> {
@@ -132,47 +134,7 @@ impl<'a> EventRepo<'a> {
 
         let events_with_accounts = query
             .into_iter()
-            .map(|row| {
-                let event = Event {
-                    id: row.get("id"),
-                    name: row.get("name"),
-                    description: row.get("description"),
-                    address: row.get("address"),
-                    status: row.get("status"),
-                    longitude: row.get("longitude"),
-                    latitude: row.get("latitude"),
-                    date_from: row.get("date_from"),
-                    date_to: row.get("date_to"),
-                    created_at: row.get("created_at"),
-                    banner_id: row.get("banner_id"),
-                    banner_small_id: row.get("banner_small_id"),
-                    account_id: row.get("account_id"),
-                    account: if let Some(account_id) = row.try_get("account_id").ok() {
-                        let account = Account {
-                            id: account_id,
-                            username: row.get("username"),
-                            password: row.get("password"),
-                            email: row.get("email"),
-                            rank: row.get("rank"),
-                            banned: row.get("banned"),
-                            ban_reason: row.get("ban_reason"),
-                            banned_at: row.get("banned_at"),
-                            created_at: row.get("account_created_at"),
-                            events: None,
-                        };
-
-                        match account_mapping_type {
-                            AccountMappingType::Full => Some(AccountInfo::Full(account)),
-                            AccountMappingType::Public => {
-                                Some(AccountInfo::Public(PublicAccount::from(account)))
-                            }
-                        }
-                    } else {
-                        None
-                    },
-                };
-                event
-            })
+            .map(|row| join_with_account(row, account_mapping_type.clone()))
             .collect();
 
         Ok(events_with_accounts)
@@ -216,44 +178,7 @@ impl<'a> EventRepo<'a> {
         .fetch_one(self.db)
         .await?;
 
-        let event_with_account = Event {
-            id: query.get("id"),
-            name: query.get("name"),
-            description: query.get("description"),
-            address: query.get("address"),
-            status: query.get("status"),
-            longitude: query.get("longitude"),
-            latitude: query.get("latitude"),
-            date_from: query.get("date_from"),
-            date_to: query.get("date_to"),
-            created_at: query.get("created_at"),
-            banner_id: query.get("banner_id"),
-            banner_small_id: query.get("banner_small_id"),
-            account_id: query.get("account_id"),
-            account: if let Some(account_id) = query.try_get("account_id").ok() {
-                let account = Account {
-                    id: account_id,
-                    username: query.get("username"),
-                    password: query.get("password"),
-                    email: query.get("email"),
-                    rank: query.get("rank"),
-                    banned: query.get("banned"),
-                    ban_reason: query.get("ban_reason"),
-                    banned_at: query.get("banned_at"),
-                    created_at: query.get("account_created_at"),
-                    events: None,
-                };
-
-                match account_mapping_type {
-                    AccountMappingType::Full => Some(AccountInfo::Full(account)),
-                    AccountMappingType::Public => {
-                        Some(AccountInfo::Public(PublicAccount::from(account)))
-                    }
-                }
-            } else {
-                None
-            },
-        };
+        let event_with_account = join_with_account(query, account_mapping_type);
 
         Ok(event_with_account)
     }
@@ -322,4 +247,50 @@ impl<'a> EventRepo<'a> {
 
         query
     }
+}
+
+fn join_with_account(row: PgRow, account_mapping_type: AccountMappingType) -> Event {
+    let event_with_account = Event {
+        id: row.get("id"),
+        name: row.get("name"),
+        description: row.get("description"),
+        address: row.get("address"),
+        status: row.get("status"),
+        longitude: row.get("longitude"),
+        latitude: row.get("latitude"),
+        date_from: row.get("date_from"),
+        date_to: row.get("date_to"),
+        created_at: row.get("created_at"),
+        banner_id: row.get("banner_id"),
+        banner_small_id: row.get("banner_small_id"),
+        account_id: row.get("account_id"),
+        account: if let Some(account_id) = row.try_get("account_id").ok() {
+            let account = Account {
+                id: account_id,
+                username: row.get("username"),
+                password: row.get("password"),
+                email: row.get("email"),
+                rank: row.get("rank"),
+                banned: row.get("banned"),
+                ban_reason: row.get("ban_reason"),
+                banned_at: row.get("banned_at"),
+                created_at: row.get("account_created_at"),
+                events: None,
+            };
+
+            match account_mapping_type {
+                AccountMappingType::Full => Some(AccountInfo::Full(account)),
+                AccountMappingType::Public => {
+                    Some(AccountInfo::Public(PublicAccount::from(account)))
+                }
+                AccountMappingType::WithoutPassword => Some(AccountInfo::WithoutPassword(
+                    AccountWithoutPassword::from(account),
+                )),
+            }
+        } else {
+            None
+        },
+    };
+
+    event_with_account
 }

@@ -8,7 +8,7 @@ interface ChangePasswordPayload {
 }
 
 const changePassword = async (payload: ChangePasswordPayload) => {
-  const response = await Api.patch<string>("/profile/change_password", payload);
+  const response = await Api.patch<string>("/account/change_password", payload);
 
   return response.data;
 };

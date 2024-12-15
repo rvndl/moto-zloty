@@ -1,4 +1,4 @@
-import { Value, Card, TextEditor } from "@components";
+import { Value, Card, TextEditor, Button, MapPinnedIcon } from "@components";
 import { type Event } from "types/event";
 import { EventStartingDate } from "../event-starting-date";
 import { EventEndingDate } from "../event-ending-date";
@@ -28,7 +28,22 @@ const EventPageContent = ({ event, isLoading }: Props) => {
             {event?.name}
           </Value>
           <Value title="Lokalizacja" isLoading={isLoading}>
-            {event?.address}
+            <div className="flex items-center gap-2">
+              <p>{event?.address}</p>
+              <a
+                href={`https://maps.google.com/?q=${event?.latitude},${event?.longitude}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Button
+                  size="small"
+                  variant="outline"
+                  className="w-6 h-6 p-1 text-muted"
+                >
+                  <MapPinnedIcon />
+                </Button>
+              </a>
+            </div>
           </Value>
           <EventStatus status={event?.status} isLoading={isLoading} />
           <div className="flex justify-between">

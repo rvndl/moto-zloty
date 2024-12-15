@@ -1,7 +1,8 @@
 use crate::api::AppState;
 use crate::api_error;
-use crate::db::models::account::{Account, PublicAccount};
+use crate::db::models::account::{Account, AccountWithoutPassword, PublicAccount};
 use crate::jwt::JwtClaims;
+use crate::utils::account::is_permitted;
 use argon2::password_hash::rand_core::OsRng;
 use argon2::password_hash::SaltString;
 use argon2::{password_hash::PasswordHasher, Argon2};
@@ -20,7 +21,7 @@ pub struct ChangePasswordForm {
     confirm_password: String,
 }
 
-pub async fn get_profile(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Response {
+pub async fn get(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Response {
     let repos = state.global.repos();
 
     match repos.account.fetch_one(id).await {
@@ -99,4 +100,27 @@ pub async fn change_password(
     };
 
     "ok".into_response()
+}
+
+pub async fn list_all(
+    State(state): State<Arc<AppState>>,
+    Extension(claims): Extension<JwtClaims>,
+) -> Response {
+    if !is_permitted(claims.rank) {
+        return api_error!("Brak uprawnień");
+    }
+
+    let repos = state.global.repos();
+    let accounts: Vec<AccountWithoutPassword> = match repos.account.fetch_all().await {
+        Ok(accounts) => accounts
+            .into_iter()
+            .map(AccountWithoutPassword::from)
+            .collect(),
+        Err(err) => {
+            log::error!("could not fetch accounts: {}", err);
+            return api_error!("Nie udało się pobrać listy użytkowników");
+        }
+    };
+
+    Json(accounts).into_response()
 }

@@ -65,10 +65,14 @@ const Table = <TColumn,>({
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
+                const isRightAligned =
+                  header.column.columnDef.meta?.rightAligned;
+
                 return (
                   <TableHead
                     key={header.id}
                     onClick={header.column.getToggleSortingHandler()}
+                    isRightAligned={isRightAligned}
                     className="cursor-pointer"
                   >
                     {flexRender(
@@ -90,16 +94,20 @@ const Table = <TColumn,>({
         <TableBody>
           {table.getRowModel().rows.map((row) => (
             <TableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell
-                  className={
-                    cell.column.columnDef.meta?.bolded ? "font-semibold" : ""
-                  }
-                  key={cell.id}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
+              {row.getVisibleCells().map((cell) => {
+                const bolded = cell.column.columnDef.meta?.bolded;
+                const rightAligned = cell.column.columnDef.meta?.rightAligned;
+
+                return (
+                  <TableCell
+                    isBolded={bolded}
+                    isRightAligned={rightAligned}
+                    key={cell.id}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                );
+              })}
             </TableRow>
           ))}
         </TableBody>

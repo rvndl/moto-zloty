@@ -5,7 +5,8 @@ import "@tanstack/react-table";
 declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
-    bolded: boolean;
+    bolded?: boolean;
+    rightAligned?: boolean;
   }
 }
 interface ImportMetaEnv {

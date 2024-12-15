@@ -32,37 +32,6 @@ pub struct UpdateStatusForm {
     status: EventStatus,
 }
 
-pub async fn list(State(state): State<Arc<AppState>>) -> Response {
-    let repos = state.global.repos();
-    let events = match repos
-        .event
-        .fetch_all_with_accounts(AccountMappingType::Public, EventStatus::APPROVED)
-        .await
-    {
-        Ok(events) => events,
-        Err(err) => return api_error_log!("failed to fetch approved events: {}", err),
-    };
-
-    Json(events).into_response()
-}
-
-pub async fn list_all(
-    State(state): State<Arc<AppState>>,
-    Extension(claims): Extension<JwtClaims>,
-) -> Response {
-    if !is_permitted(claims.rank) {
-        return api_error!("Brak uprawnień");
-    }
-
-    let repos = state.global.repos();
-    let events = match repos.event.fetch_all().await {
-        Ok(events) => events,
-        Err(err) => return api_error_log!("failed to fetch approved events: {}", err),
-    };
-
-    Json(events).into_response()
-}
-
 pub async fn get(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Response {
     let repos = state.global.repos();
     let event = match repos
@@ -75,17 +44,6 @@ pub async fn get(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Re
     };
 
     Json(event).into_response()
-}
-
-pub async fn actions(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Response {
-    let repos = state.global.repos();
-
-    let actions = match repos.action.fetch_all_by_event_id(id).await {
-        Ok(actions) => actions,
-        Err(err) => return api_error_log!("failed to fetch actions: {}", err),
-    };
-
-    Json(actions).into_response()
 }
 
 pub async fn create(
@@ -155,6 +113,37 @@ pub async fn create(
     Json(event).into_response()
 }
 
+pub async fn list_public(State(state): State<Arc<AppState>>) -> Response {
+    let repos = state.global.repos();
+    let events = match repos
+        .event
+        .fetch_all_with_accounts(AccountMappingType::Public, EventStatus::APPROVED)
+        .await
+    {
+        Ok(events) => events,
+        Err(err) => return api_error_log!("failed to fetch approved events: {}", err),
+    };
+
+    Json(events).into_response()
+}
+
+pub async fn list_all(
+    State(state): State<Arc<AppState>>,
+    Extension(claims): Extension<JwtClaims>,
+) -> Response {
+    if !is_permitted(claims.rank) {
+        return api_error!("Brak uprawnień");
+    }
+
+    let repos = state.global.repos();
+    let events = match repos.event.fetch_all().await {
+        Ok(events) => events,
+        Err(err) => return api_error_log!("failed to fetch approved events: {}", err),
+    };
+
+    Json(events).into_response()
+}
+
 pub async fn update_status(
     State(state): State<Arc<AppState>>,
     Path(id): Path<Uuid>,
@@ -186,4 +175,15 @@ pub async fn update_status(
     };
 
     Json(event).into_response()
+}
+
+pub async fn actions(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Response {
+    let repos = state.global.repos();
+
+    let actions = match repos.action.fetch_all_by_event_id(id).await {
+        Ok(actions) => actions,
+        Err(err) => return api_error_log!("failed to fetch actions: {}", err),
+    };
+
+    Json(actions).into_response()
 }

@@ -6,9 +6,11 @@ use sqlx::types::Uuid;
 
 use super::event::Event;
 
+#[derive(Debug, Clone)]
 pub enum AccountMappingType {
     Full,
     Public,
+    WithoutPassword,
 }
 
 #[derive(Debug, serde::Serialize, serde::Deserialize)]
@@ -16,6 +18,7 @@ pub enum AccountMappingType {
 pub enum AccountInfo {
     Full(Account),
     Public(PublicAccount),
+    WithoutPassword(AccountWithoutPassword),
 }
 
 #[derive(Default, Debug, Clone, serde::Deserialize, serde::Serialize, sqlx::Type)]
@@ -68,12 +71,10 @@ pub struct Account {
 
     /// Reason for the ban
     /// Only present if the account is banned
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub ban_reason: Option<String>,
 
     /// Date and time when the account was banned
     /// Only present if the account is banned
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub banned_at: Option<DateTime<Utc>>,
 
     /// Date and time when the account was created
@@ -81,7 +82,6 @@ pub struct Account {
 
     /// Events the account created
     #[sqlx(skip)]
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub events: Option<Vec<Event>>,
 }
 
@@ -101,6 +101,35 @@ impl From<Account> for PublicAccount {
             username: account.username,
             created_at: account.created_at,
             rank: account.rank,
+            events: account.events.unwrap_or_default(),
+        }
+    }
+}
+
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
+pub struct AccountWithoutPassword {
+    id: Uuid,
+    username: String,
+    email: String,
+    rank: AccountRank,
+    banned: bool,
+    ban_reason: Option<String>,
+    banned_at: Option<DateTime<Utc>>,
+    created_at: DateTime<Utc>,
+    events: Vec<Event>,
+}
+
+impl From<Account> for AccountWithoutPassword {
+    fn from(account: Account) -> Self {
+        AccountWithoutPassword {
+            id: account.id,
+            username: account.username,
+            email: account.email,
+            rank: account.rank,
+            banned: account.banned,
+            ban_reason: account.ban_reason,
+            banned_at: account.banned_at,
+            created_at: account.created_at,
             events: account.events.unwrap_or_default(),
         }
     }

@@ -4,15 +4,16 @@ import toast from "react-hot-toast";
 
 type GetUrl =
   | "/events"
-  | `/profile/${string}`
+  | `/account/${string}`
   | `/place_search/${string}`
   | `/events/${string}`
   | `/events/${string}/actions`
-  | "/mod/events";
+  | "/mod/events"
+  | "/mod/accounts";
 
 type PostUrl = "/login" | "/file" | "/contact";
 type PutUrl = "/register" | "/events" | `/events/${string}/update-status`;
-type PatchUrl = "/profile/change_password";
+type PatchUrl = "/account/change_password";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
