@@ -57,8 +57,8 @@ const EventPageContent = ({ event, isLoading }: Props) => {
         {event && (
           <PreviewMap
             className="w-full h-full"
-            latitude={event?.latitude}
-            longitude={event?.longitude}
+            latitude={event.latitude}
+            longitude={event.longitude}
             isLoading={isLoading}
           />
         )}

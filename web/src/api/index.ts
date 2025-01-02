@@ -19,13 +19,11 @@ const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
   transformResponse: (response, headers, status) => {
+    if (status === 401) {
+      handleStatus401();
+    }
     if (status === 500) {
-      try {
-        const message = JSON.parse(response).message;
-        toast.error(message);
-      } catch (error) {
-        toast.error("Wystąpił nieznany błąd");
-      }
+      handleStatus500(response);
     }
 
     if (headers["content-type"] === "application/json") {
@@ -74,6 +72,20 @@ const Api = {
   post,
   put,
   patch,
+};
+
+const handleStatus500 = (response: string) => {
+  try {
+    const message = JSON.parse(response).message;
+    toast.error(message);
+  } catch (error) {
+    toast.error("Wystąpił nieznany błąd");
+  }
+};
+
+const handleStatus401 = () => {
+  toast.success("Twoja sesja wygasła. Zaloguj się ponownie.");
+  useUserStore.getState().logout();
 };
 
 export { Api };
