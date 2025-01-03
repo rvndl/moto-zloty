@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import tsconfigPaths from "vite-tsconfig-paths";
 import svgr from "vite-plugin-svgr";
 import Unfonts from "unplugin-fonts/vite";
+import cookiebot from "./plugins/cookiebot";
 import adsense from "./plugins/adsense";
 import robots from "./plugins/robots";
 import Sitemap from "vite-plugin-sitemap";
@@ -43,6 +44,7 @@ export default defineConfig({
           );
       },
     }),
+    cookiebot(),
   ],
   build: {
     rollupOptions: {
