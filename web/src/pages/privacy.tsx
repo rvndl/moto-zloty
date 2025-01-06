@@ -6,7 +6,7 @@ const PrivacyPage = () => {
       title="Polityka prywatności"
       breadcrumbs={[
         { to: "/", label: "Moto Zloty" },
-        { label: "Kontakt", isActive: true },
+        { label: "Polityka prywatności", isActive: true },
       ]}
     >
       <div id="CookieDeclaration"></div>
