@@ -24,10 +24,7 @@ const ModerationPage = () => {
   return (
     <Page
       title="Moderacja - {TAB}"
-      breadcrumbs={[
-        { to: "/", label: "Moto Zloty" },
-        { label: "Moderacja", isActive: true },
-      ]}
+      breadcrumbs={[{ label: "Moderacja", isActive: true }]}
       sidebarItems={[
         { label: "Statystyki", icon: <ChartAreaIcon /> },
         { label: "Użytkownicy", icon: <UserBookIcon /> },

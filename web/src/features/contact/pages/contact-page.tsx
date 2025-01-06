@@ -37,13 +37,7 @@ const ContactPage = () => {
   };
 
   return (
-    <Page
-      title="Kontakt"
-      breadcrumbs={[
-        { to: "/", label: "Moto Zloty" },
-        { label: "Kontakt", isActive: true },
-      ]}
-    >
+    <Page title="Kontakt" breadcrumbs={[{ label: "Kontakt", isActive: true }]}>
       <div className="flex flex-col w-full gap-4 md:flex-row">
         <Card
           title="Formularz kontaktowy"

@@ -22,10 +22,7 @@ const AccountPage = () => {
   return (
     <Page
       title={`${data?.username} - {TAB}`}
-      breadcrumbs={[
-        { to: "/", label: "Moto Zloty" },
-        { label: `Profil: ${data?.username}`, isActive: true },
-      ]}
+      breadcrumbs={[{ label: `Profil: ${data?.username}`, isActive: true }]}
       sidebarItems={[
         { label: "Profil", icon: <UserIcon /> },
         { label: "Wydarzenia", icon: <TicketIcon /> },
