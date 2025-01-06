@@ -9,7 +9,7 @@ import {
 import { Toaster } from "react-hot-toast";
 import { EventPage, EventsPage } from "@features/event";
 import { lazy, Suspense } from "react";
-import { NotFoundPage } from "pages";
+import { NotFoundPage, PrivacyPage } from "pages";
 import { ContactPage } from "@features/contact";
 import { AccountPage } from "@features/account";
 
@@ -66,6 +66,7 @@ function Root() {
           }
         />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Layout>

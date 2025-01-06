@@ -46,9 +46,7 @@ const LoginDialog = ({ label = "Zaloguj się", buttonProps }: Props) => {
     },
   });
 
-  const handleOnLogin = (values: Fields) => {
-    login(values);
-  };
+  const handleOnLogin = (values: Fields) => login(values);
 
   return (
     <Dialog

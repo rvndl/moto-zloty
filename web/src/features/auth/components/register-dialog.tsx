@@ -35,9 +35,7 @@ const RegisterDialog = ({ onOpen }: Props) => {
     },
   });
 
-  const handleOnRegister = (values: Fields) => {
-    register(values);
-  };
+  const handleOnRegister = (values: Fields) => register(values);
 
   return (
     <Dialog
