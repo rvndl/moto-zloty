@@ -15,7 +15,7 @@ const Dropdown = ({ trigger, items, header }: Props) => {
       <MenuButton>{trigger}</MenuButton>
       <MenuItems
         className={clsx(
-          "z-50 min-w-[10rem] overflow-hidden rounded-md border bg-white shadow-lg"
+          "z-50 min-w-[10rem] overflow-hidden rounded-md border bg-white shadow-lg transition duration-100 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
         )}
         anchor="bottom end"
         transition
