@@ -112,7 +112,7 @@ pub async fn get_file(
 
     response.headers_mut().insert(
         header::CACHE_CONTROL,
-        HeaderValue::from_static("public, max-age=3600"),
+        HeaderValue::from_static("public, max-age=172800"),
     );
 
     response
