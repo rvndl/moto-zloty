@@ -14,6 +14,9 @@ interface ImportMetaEnv {
   readonly VITE_PUBLIC_URL: string;
   readonly VITE_SITE_NAME: string;
   readonly VITE_TURNSTILE_KEY: string;
+  readonly VITE_PRIVACY_ADMIN_FULL_NAME: string;
+  readonly VITE_PRIVACY_CONTACT_EMAIL: string;
+  readonly VITE_PRIVACY_SITE_URL: string;
 }
 
 interface ImportMeta {
