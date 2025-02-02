@@ -129,22 +129,27 @@ h6 {
   margin: unset;
 }
 
-body::-webkit-scrollbar {
+::-webkit-scrollbar {
+  height: var(--sb-size);
   width: var(--sb-size);
 }
 
-body::-webkit-scrollbar-track {
-  background: var(--sb-track-color);
-  border-radius: 20px;
+::-webkit-scrollbar-track {
+  @apply rounded-full bg-accent;
 }
 
-body::-webkit-scrollbar-thumb {
-  background: var(--sb-thumb-color);
-  border-radius: 20px;
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-primary/90;
 }
 
-@supports not selector(::-webkit-scrollbar) {
-  body {
-    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
-  }
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary;
+}
+
+::-webkit-scrollbar-thumb:horizontal:hover {
+  @apply bg-primary;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  @apply rounded-full bg-primary/90;
 }
