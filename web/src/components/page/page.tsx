@@ -26,10 +26,9 @@ const Page = ({
 
   useEffect(() => {
     if (title) {
-      document.title = `${import.meta.env.VITE_SITE_NAME} - ${title}`.replace(
-        "{TAB}",
-        activeTab ?? ""
-      );
+      document.title = `${import.meta.env.VITE_SITE_NAME} - ${title} ${
+        activeTab ? " - " + activeTab : ""
+      }`;
     }
   }, [title, activeTab]);
 
