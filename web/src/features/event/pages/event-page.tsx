@@ -14,7 +14,13 @@ const EventPage = () => {
   return (
     <Page
       title={event?.name}
-      breadcrumbs={[{ label: `Wydarzenie: ${event?.name}`, isActive: true }]}
+      breadcrumbs={[
+        {
+          label: `Wydarzenie: ${event?.name}`,
+          isActive: true,
+          isLoading,
+        },
+      ]}
       {...(isPermitted &&
         event && {
           headerContent: <ChangeEventStatusDialog event={event} />,

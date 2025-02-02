@@ -8,7 +8,7 @@ import { useAuth } from "@features/auth";
 
 const AccountPage = () => {
   const { id } = useParams();
-  const { data } = useAccountQuery(id!, { enabled: Boolean(id) });
+  const { data, isLoading } = useAccountQuery(id!, { enabled: Boolean(id) });
   const { isOwner } = useAuth();
   const navigate = useNavigate();
 
@@ -22,7 +22,9 @@ const AccountPage = () => {
   return (
     <Page
       title={`${data?.username} - {TAB}`}
-      breadcrumbs={[{ label: `Profil: ${data?.username}`, isActive: true }]}
+      breadcrumbs={[
+        { label: `Profil: ${data?.username}`, isActive: true, isLoading },
+      ]}
       sidebarItems={[
         { label: "Profil", icon: <UserIcon /> },
         { label: "Wydarzenia", icon: <TicketIcon /> },
