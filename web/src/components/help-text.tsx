@@ -28,9 +28,9 @@ const HelpText = ({
         className
       )}
       key={children + ""}
-      initial={{ opacity: 0, y: 3 }}
+      initial={{ opacity: 0, y: -5 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -3 }}
+      exit={{ opacity: 0, y: 5 }}
       transition={{ duration: 0.3 }}
       {...rest}
     >
