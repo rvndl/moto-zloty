@@ -2,14 +2,15 @@ import { ReactNode, useEffect, useState } from "react";
 import { Sidebar, SidebarItemProps } from "./sidebar";
 import clsx from "clsx";
 import { Breadcrumbs, BreadcrumbProps } from "./breadcrumbs";
-import { Skeleton } from "@components/skeleton";
+import { PageHeader } from "./page-header";
 
 interface Props {
   title?: string;
   sidebarItems?: SidebarItemProps[];
   breadcrumbs?: BreadcrumbProps[];
-  isInline?: boolean;
   headerContent?: ReactNode;
+  isTitleTabSeperated?: boolean;
+  isInline?: boolean;
   children: ((tab?: string) => ReactNode) | ReactNode;
 }
 
@@ -34,16 +35,7 @@ const Page = ({
 
   return (
     <div className="flex flex-col w-full h-full p-2 md:p-0">
-      <div className="flex items-center justify-between w-full">
-        {title ? (
-          <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-4xl lg:leading-[1.1]">
-            {`${title}`.replace("{TAB}", activeTab ?? "")}
-          </h1>
-        ) : (
-          <Skeleton className="w-64 h-10" />
-        )}
-        {headerContent}
-      </div>
+      <PageHeader title={title} content={headerContent} activeTab={activeTab} />
       <Breadcrumbs breadcrumbs={breadcrumbs} />
       <div
         className={clsx(

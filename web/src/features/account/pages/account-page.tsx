@@ -21,12 +21,12 @@ const AccountPage = () => {
 
   return (
     <Page
-      title={`${data?.username} - {TAB}`}
+      title={data?.username}
       breadcrumbs={[
-        { label: `Profil: ${data?.username}`, isActive: true, isLoading },
+        { label: `Szczegóły: ${data?.username}`, isActive: true, isLoading },
       ]}
       sidebarItems={[
-        { label: "Profil", icon: <UserIcon /> },
+        { label: "Szczegóły", icon: <UserIcon /> },
         { label: "Wydarzenia", icon: <TicketIcon /> },
         {
           label: "Ustawienia",
@@ -38,7 +38,7 @@ const AccountPage = () => {
     >
       {(tab) =>
         match(tab)
-          .with("Profil", () => <AccountTab account={data} />)
+          .with("Szczegóły", () => <AccountTab account={data} />)
           .with("Wydarzenia", () => <EventsTab account={data} />)
           .with("Ustawienia", () => <SettingsTab />)
           .otherwise(() => null)
