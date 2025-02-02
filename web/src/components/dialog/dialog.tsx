@@ -7,6 +7,7 @@ import {
 } from "@headlessui/react";
 import clsx from "clsx";
 import { XIcon } from "@components";
+import { motion } from "framer-motion";
 
 interface DialogProps {
   trigger: ReactNode;
@@ -49,13 +50,20 @@ const Dialog = ({
         unmount={unmount}
       >
         {open && (
-          <div
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.3 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             className="fixed inset-0 bg-black -z-10 opacity-30"
             onClick={handleOnClose}
           />
         )}
         <div className="fixed inset-0 flex items-center justify-center w-screen">
-          <DialogPanel className="relative h-full bg-white border border-separate rounded-lg shadow-sm md:h-auto min-w-96">
+          <DialogPanel
+            transition
+            className="relative h-full bg-white border border-separate rounded-lg shadow-sm md:h-auto min-w-96 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:translate-y-3 data-[closed]:opacity-0"
+          >
             {isCloseButtonVisible && <CloseButton onClick={handleOnClose} />}
             <section
               className={clsx(
