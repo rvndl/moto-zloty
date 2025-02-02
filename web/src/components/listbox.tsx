@@ -53,8 +53,9 @@ const Listbox = ({
           </Button>
         </ListboxButton>
         <ListboxOptions
+          transition
           anchor="bottom"
-          className="p-1 mt-1 bg-white border rounded-md shadow min-w-40"
+          className="p-1 mt-1 transition duration-100 ease-out bg-white border rounded-md shadow min-w-40 data-[closed]:scale-95 data-[closed]:opacity-0"
         >
           {options.map((option) => (
             <ListboxOption
