@@ -2,7 +2,7 @@ import { Popup } from "react-leaflet";
 import { type Event } from "types/event";
 import { truncate } from "lodash";
 import { useNavigate } from "react-router-dom";
-import { EventStartingDate } from "./event-starting-date";
+import { EventStartingDate } from "../../../event-starting-date";
 import { MapMarker, Button } from "@components";
 import { getEventStatus } from "@utils/event";
 import { useMemo } from "react";
@@ -11,7 +11,7 @@ interface Props {
   event: Event;
 }
 
-const EventMapMarker = ({ event }: Props) => {
+const MapEventMarker = ({ event }: Props) => {
   const navigate = useNavigate();
   const { isOngoing } = useMemo(() => getEventStatus(event), [event]);
 
@@ -44,4 +44,4 @@ const EventMapMarker = ({ event }: Props) => {
   );
 };
 
-export { EventMapMarker };
+export { MapEventMarker };

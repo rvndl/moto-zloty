@@ -1,5 +1,5 @@
 export * from "./create-event-dialog";
-export * from "./event-map-marker";
+export * from "./events-page-content/tabs/map-tab/map-event-marker";
 export * from "./event-starting-date";
 export * from "./event-ending-date";
 export * from "./event-status";
