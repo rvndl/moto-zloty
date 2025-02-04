@@ -1,25 +1,34 @@
-import clsx from "clsx";
 import { InputHTMLAttributes, useId } from "react";
 import { Label } from "./label";
 import { HelpText } from "./help-text";
+import { twMerge } from "tailwind-merge";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+type InputSize = "small" | "default";
+
+interface InputProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
   label?: string;
-  isRequired?: boolean;
+  size?: InputSize;
   error?: string;
+  isRequired?: boolean;
 }
 
 const Input = ({
   className,
-  isRequired,
   label,
+  size = "default",
   error,
+  isRequired,
   ...rest
 }: InputProps) => {
   const id = useId();
 
-  const classes = clsx(
-    "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+  const classes = twMerge(
+    "flex w-full px-3 rounded-md border border-input bg-transparent shadow-sm transition-colors placeholder:text-muted disabled:cursor-not-allowed disabled:opacity-50",
+    "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+    "file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground",
+    size === "default" && "h-9 py-1 text-sm",
+    size === "small" && "h-8 py-2 text-xs",
     className
   );
 

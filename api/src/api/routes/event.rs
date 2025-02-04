@@ -6,8 +6,9 @@ use crate::db::models::event::EventStatus;
 use crate::db::models::file::FileStatus;
 use crate::jwt::JwtClaims;
 use crate::utils::account::is_permitted;
+use crate::utils::db::SortOrder;
 use crate::{api_error, api_error_log};
-use axum::extract::Path;
+use axum::extract::{Path, Query};
 use axum::response::IntoResponse;
 use axum::{extract::State, response::Response, Json};
 use axum::{Extension, Form};
@@ -30,6 +31,13 @@ pub struct CreateForm {
 #[derive(serde::Deserialize, Debug)]
 pub struct UpdateStatusForm {
     status: EventStatus,
+}
+
+#[derive(serde::Deserialize, Debug)]
+pub struct PublicListFilters {
+    date_from: Option<DateTime<Utc>>,
+    date_to: Option<DateTime<Utc>>,
+    sort_order: Option<SortOrder>,
 }
 
 pub async fn get(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Response {
@@ -113,11 +121,44 @@ pub async fn create(
     Json(event).into_response()
 }
 
-pub async fn list_public(State(state): State<Arc<AppState>>) -> Response {
+pub async fn carousel(State(state): State<Arc<AppState>>) -> Response {
     let repos = state.global.repos();
+
+    let events = repos.event.fetch_all_carousel().await;
+    let events = match events {
+        Ok(events) => events,
+        Err(err) => {
+            log::error!("failed to fetch carousel events: {}", err);
+            return api_error!("Wystąpił błąd podczas pobierania wydarzeń karuzeli");
+        }
+    };
+
+    Json(events).into_response()
+}
+
+pub async fn list_public(
+    State(state): State<Arc<AppState>>,
+    Query(filters): Query<PublicListFilters>,
+) -> Response {
+    let repos = state.global.repos();
+
+    let PublicListFilters {
+        date_from,
+        date_to,
+        sort_order,
+    } = filters;
+
+    let sort_order = sort_order.unwrap_or(SortOrder::Desc);
+
     let events = match repos
         .event
-        .fetch_all_with_accounts(AccountMappingType::Public, EventStatus::APPROVED)
+        .fetch_all_with_accounts(
+            AccountMappingType::Public,
+            EventStatus::APPROVED,
+            date_from,
+            date_to,
+            sort_order,
+        )
         .await
     {
         Ok(events) => events,

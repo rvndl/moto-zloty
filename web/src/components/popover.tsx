@@ -19,7 +19,8 @@ const Popover = ({
     <HeadlessPopover className="relative">
       <PopoverButton disabled={isDisabled}>{trigger}</PopoverButton>
       <PopoverPanel
-        className="z-50 p-4 bg-white border rounded-md shadow-md"
+        transition
+        className="z-50 p-4 bg-white border rounded-md shadow-md transition duration-200 ease-in-out data-[closed]:scale-95 data-[closed]:opacity-0"
         anchor="bottom"
       >
         {children}

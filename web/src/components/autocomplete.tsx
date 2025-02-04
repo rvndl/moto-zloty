@@ -5,11 +5,13 @@ import {
   ComboboxOptions,
 } from "@headlessui/react";
 import { useEffect, useId, useRef, useState } from "react";
-import clsx from "clsx";
 import { Button } from "./button";
 import { Label } from "./label";
 import { useDebounce } from "@hooks/use-debounce";
 import { HelpText } from "./help-text";
+import { twMerge } from "tailwind-merge";
+
+type AutocompleteSize = "small" | "default";
 
 interface AutocompleteOption<TValue = unknown> {
   id: string;
@@ -20,9 +22,10 @@ interface AutocompleteOption<TValue = unknown> {
 interface AutocompleteProps {
   value?: AutocompleteOption;
   label?: string;
-  error?: string;
   placeholder?: string;
   minLength?: number;
+  size?: AutocompleteSize;
+  error?: string;
   isRequired?: boolean;
   fetch?: (query: string) => Promise<AutocompleteOption[]>;
   onChange?: (value: AutocompleteOption) => void;
@@ -32,9 +35,10 @@ const Autocomplete = ({
   value,
   label,
   fetch,
-  error,
   placeholder,
   minLength = 3,
+  size = "default",
+  error,
   isRequired,
   onChange,
 }: AutocompleteProps) => {
@@ -44,8 +48,11 @@ const Autocomplete = ({
   const setDebouncedQuery = useDebounce(setQuery, 500);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const classes = clsx(
-    "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+  const classes = twMerge(
+    "flex w-full rounded-md border border-input bg-transparent px-3 shadow-sm transition-colors placeholder:text-muted disabled:cursor-not-allowed disabled:opacity-50",
+    "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+    size === "default" && "h-9 py-1 text-sm",
+    size === "small" && "h-8 py-2 text-xs"
   );
 
   useEffect(() => {

@@ -10,6 +10,7 @@ const DatePicker = () => {
         name="date_from"
         label="Data od"
         calendarProps={{ disabled: { before: new Date() } }}
+        showTimepicker
         isRequired
       />
       <DatepickerField
@@ -17,6 +18,7 @@ const DatePicker = () => {
         label="Data do"
         calendarProps={{ disabled: { before: date_from }, month: date_from }}
         isDisabled={!date_from}
+        showTimepicker
         isRequired
       />
     </div>

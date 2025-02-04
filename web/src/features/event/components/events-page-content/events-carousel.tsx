@@ -9,7 +9,7 @@ interface Props {
   events?: EventType[];
 }
 
-const EventsList = ({ events }: Props) => {
+const EventsCarousel = ({ events }: Props) => {
   const sortedEvents = useMemo(() => sortEvents(events), [events]);
 
   if (!events) {
@@ -42,4 +42,4 @@ const EventsList = ({ events }: Props) => {
   );
 };
 
-export { EventsList };
+export { EventsCarousel };

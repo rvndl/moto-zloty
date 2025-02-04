@@ -1,19 +1,27 @@
-import { Map } from "@components";
-import { useEventsQuery } from "@features/event/api";
-import { EventsList } from "./events-list";
-import { EventMapMarker } from "../event-map-marker";
-import { useIsMobile } from "@hooks/use-is-mobile";
-import { useEffect, useMemo } from "react";
-import { getEventStatus } from "@utils/event";
+import { Tabs } from "@components";
+import { useEventCarouselQuery, useEventsQuery } from "@features/event/api";
+import { EventsCarousel } from "./events-carousel";
+import { useEffect, useState } from "react";
+import { EventsFilters, Filters, initialFiltersState } from "./events-filters";
+import { match } from "ts-pattern";
+import { ListTab, MapTab } from "./tabs";
+
+type Tab = "Widok mapy" | "Widok listy";
 
 const EventsPageContent = () => {
-  const { data: events, isLoading } = useEventsQuery();
-  const isMobile = useIsMobile();
-
-  const activeEvents = useMemo(
-    () => events?.filter((event) => !getEventStatus(event).isPast),
-    [events]
-  );
+  const [tab, setTab] = useState<Tab>("Widok mapy");
+  const [filters, setFilters] = useState<Filters>(initialFiltersState);
+  const {
+    data: events,
+    isLoading,
+    isFetching,
+    refetch,
+  } = useEventsQuery({
+    date_from: filters.dateFrom,
+    date_to: filters.dateTo,
+    sort_order: filters.sortOption?.id,
+  });
+  const { data: carouselEvents } = useEventCarouselQuery();
 
   useEffect(() => {
     if (events?.length) {
@@ -21,18 +29,39 @@ const EventsPageContent = () => {
     }
   }, [events]);
 
+  useEffect(() => {
+    refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters]);
+
   return (
     <div className="flex flex-col w-full h-full gap-2">
       <div className="flex flex-col gap-1">
-        <h2 className="font-semibold">Najbliższe wydarzenia</h2>
-        <EventsList events={events} />
+        <h3 className="font-semibold">Najbliższe wydarzenia</h3>
+        <EventsCarousel events={carouselEvents} />
       </div>
-      <section className="w-full h-full bg-red-100 border rounded-lg shadow-sm">
-        <Map zoom={isMobile ? 6 : 7} isLoading={isLoading}>
-          {activeEvents?.map((event) => (
-            <EventMapMarker event={event} key={event.id} />
-          ))}
-        </Map>
+      <section className="w-full h-full rounded-xl">
+        <div className="flex items-center justify-between w-full mt-4">
+          <EventsFilters
+            filters={filters}
+            showSorting={tab === "Widok listy"}
+            isLoading={isLoading}
+            onChange={(filters) => setFilters(filters)}
+          />
+          <Tabs<Tab>
+            tabs={["Widok mapy", "Widok listy"]}
+            activeTab={tab}
+            onChange={(tab) => setTab(tab)}
+          />
+        </div>
+        <div className="w-full h-full mt-2">
+          {match(tab)
+            .with("Widok mapy", () => (
+              <MapTab events={events} isLoading={isLoading || isFetching} />
+            ))
+            .with("Widok listy", () => <ListTab events={events} />)
+            .otherwise(() => null)}
+        </div>
       </section>
     </div>
   );

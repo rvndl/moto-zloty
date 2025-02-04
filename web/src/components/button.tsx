@@ -49,8 +49,8 @@ const Button = ({
 
   return (
     <button className={classes} {...rest}>
-      {Boolean(icon) && <span className="w-4 -ml-1">{icon}</span>}
-      {isLoading && <Spinner />}
+      {Boolean(icon) && !isLoading && <span className="w-4 -ml-1">{icon}</span>}
+      {isLoading && <Spinner fill="currentColor" className="w-4 h-4 -ml-1" />}
       {isLoading && loadingText ? loadingText : children}
     </button>
   );

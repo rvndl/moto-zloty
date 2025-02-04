@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 
 type GetUrl =
   | "/events"
+  | "/events/carousel"
   | `/account/${string}`
   | `/place_search/${string}`
   | `/events/${string}`

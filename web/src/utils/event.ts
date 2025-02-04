@@ -1,4 +1,11 @@
-import { compareAsc, isAfter } from "date-fns";
+import {
+  compareAsc,
+  endOfWeek,
+  format,
+  isAfter,
+  parseISO,
+  startOfWeek,
+} from "date-fns";
 import { match } from "ts-pattern";
 import { EventStatus, type Event } from "types/event";
 
@@ -37,4 +44,28 @@ export const getEventStatusText = (eventStatus?: EventStatus) => {
     .with("APPROVED", () => "Zaakceptowane")
     .with("REJECTED", () => "Odrzucone")
     .otherwise(() => "Nieznany status");
+};
+
+export const groupEventsByWeek = (events?: Event[]) => {
+  const grouped: Record<string, Event[]> = {};
+
+  events?.forEach((event) => {
+    const eventDate = parseISO(event.date_from);
+    const weekStart = format(
+      startOfWeek(eventDate, { weekStartsOn: 1 }),
+      "dd.MM.yyyy"
+    );
+    const weekEnd = format(
+      endOfWeek(eventDate, { weekStartsOn: 1 }),
+      "dd.MM.yyyy"
+    );
+    const weekKey = `${weekStart} - ${weekEnd}`;
+
+    if (!grouped[weekKey]) {
+      grouped[weekKey] = [];
+    }
+    grouped[weekKey].push(event);
+  });
+
+  return grouped;
 };

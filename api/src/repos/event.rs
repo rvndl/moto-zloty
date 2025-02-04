@@ -1,11 +1,14 @@
-use crate::db::{
-    self,
-    models::{
-        account::{
-            Account, AccountInfo, AccountMappingType, AccountWithoutPassword, PublicAccount,
+use crate::{
+    db::{
+        self,
+        models::{
+            account::{
+                Account, AccountInfo, AccountMappingType, AccountWithoutPassword, PublicAccount,
+            },
+            event::{Event, EventStatus},
         },
-        event::{Event, EventStatus},
     },
+    utils::db::SortOrder,
 };
 use chrono::{DateTime, Utc};
 use sqlx::{postgres::PgRow, Row};
@@ -91,12 +94,42 @@ impl<'a> EventRepo<'a> {
         query
     }
 
+    pub async fn fetch_all_carousel(&self) -> Result<Vec<Event>, sqlx::Error> {
+        let query = sqlx::query_as::<_, Event>(
+            r#"
+            SELECT id,
+                name,
+                date_from,
+                date_to,
+                created_at,
+                banner_id,
+                banner_small_id,
+                description,
+                address,
+                status,
+                longitude,
+                latitude,
+                account_id
+            FROM event
+            WHERE
+                date_to + '3 day'::INTERVAL > CURRENT_DATE;
+            "#,
+        )
+        .fetch_all(self.db)
+        .await;
+
+        query
+    }
+
     pub async fn fetch_all_with_accounts(
         &self,
         account_mapping_type: AccountMappingType,
         status: EventStatus,
+        date_from: Option<DateTime<Utc>>,
+        date_to: Option<DateTime<Utc>>,
+        sort_order: SortOrder,
     ) -> Result<Vec<Event>, sqlx::Error> {
-        let query = sqlx::query(
+        let mut query_str = format!(
             r#"
             SELECT e.id,
                 e.name,
@@ -124,15 +157,38 @@ impl<'a> EventRepo<'a> {
                 LEFT JOIN account a ON e.account_id = a.id
             WHERE
                 e.status = $1
-            AND 
-                e.date_to + '3 day'::INTERVAL > CURRENT_DATE;
-            "#,
-        )
-        .bind(status)
-        .fetch_all(self.db)
-        .await?;
+            AND
+                e.date_to > CURRENT_DATE 
+            "#
+        );
 
-        let events_with_accounts = query
+        let mut bind_index = 2;
+
+        if date_from.is_some() {
+            query_str.push_str(&format!(" AND e.date_from >= ${}", bind_index));
+            bind_index += 1;
+        }
+
+        if date_to.is_some() {
+            query_str.push_str(&format!(" AND e.date_from <= ${}", bind_index));
+        }
+
+        query_str.push_str(&format!(" ORDER BY e.date_from {}", sort_order.to_str()));
+
+        let mut query = sqlx::query(&query_str);
+        query = query.bind(status);
+
+        if let Some(date_from) = date_from {
+            query = query.bind(date_from);
+        }
+
+        if let Some(date_to) = date_to {
+            query = query.bind(date_to);
+        }
+
+        let result = query.fetch_all(self.db).await?;
+
+        let events_with_accounts = result
             .into_iter()
             .map(|row| join_with_account(row, account_mapping_type.clone()))
             .collect();

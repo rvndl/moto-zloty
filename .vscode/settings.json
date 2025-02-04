@@ -2,7 +2,12 @@
   "editor.formatOnSave": true,
   "editor.detectIndentation": false,
   "tailwindCSS.experimental.classRegex": [
-    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+    [
+      "clsx\\(([^)]*)\\)",
+      "(?:'|\"|`)([^']*)(?:'|\"|`)",
+      "(?:twMerge|twJoin)\\(([^;]*)[\\);]",
+      "[`'\"`]([^'\"`;]*)[`'\"`]"
+    ]
   ],
   "[rust]": {
     "editor.tabSize": 4

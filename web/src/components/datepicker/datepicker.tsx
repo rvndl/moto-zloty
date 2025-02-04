@@ -5,6 +5,7 @@ import {
   Label,
   Popover,
   CalendarIcon,
+  ButtonSize,
 } from "@components";
 import clsx from "clsx";
 import { format } from "date-fns";
@@ -16,8 +17,12 @@ interface DatepickerProps {
   value?: Date;
   error?: string;
   calendarProps?: Omit<DayPickerProps, "onSelect" | "selected" | "mode">;
+  size?: ButtonSize;
+  placeholder?: string;
+  showTimepicker?: boolean;
   isRequired?: boolean;
   isDisabled?: boolean;
+  isLoading?: boolean;
   onChange?: (value: Date | undefined) => void;
 }
 
@@ -25,9 +30,13 @@ const Datepicker = ({
   label,
   value,
   error,
-  isRequired,
   calendarProps,
+  size,
+  placeholder,
+  showTimepicker,
+  isRequired,
   isDisabled,
+  isLoading,
   onChange,
 }: DatepickerProps) => {
   const handleOnSelect = (date?: Date) => onChange?.(date);
@@ -47,8 +56,12 @@ const Datepicker = ({
             icon={<CalendarIcon />}
             className={clsx("font-normal shadow-sm", !value && "text-muted")}
             disabled={isDisabled}
+            isLoading={isLoading}
+            size={size}
           >
-            {value ? format(value!, "dd.MM.yyyy HH:mm") : "Wybierz datę"}
+            {value
+              ? format(value!, "dd.MM.yyyy HH:mm")
+              : placeholder ?? "Wybierz datę"}
           </Button>
           {Boolean(error) && (
             <HelpText variant="error" className="">
@@ -66,7 +79,9 @@ const Datepicker = ({
           onSelect={handleOnSelect}
           {...calendarProps}
         />
-        <Timepicker date={value} onChange={handleOnSelect} />
+        {showTimepicker && (
+          <Timepicker date={value} onChange={handleOnSelect} />
+        )}
       </div>
     </Popover>
   );

@@ -19,6 +19,8 @@ import ChevronDownIcon from "@assets/svg/icons/chevron-down-icon.svg?react";
 import InstagramIcon from "@assets/svg/icons/instagram-icon.svg?react";
 import AtIcon from "@assets/svg/icons/at-icon.svg?react";
 import MapPinnedIcon from "@assets/svg/icons/map-pinned-icon.svg?react";
+import ArrowDownNarrowWideIcon from "@assets/svg/icons/arrow-down-narrow-wide-icon.svg?react";
+import ArrowUpNarrowWideIcon from "@assets/svg/icons/arrow-up-wide-narrow-icon.svg?react";
 
 export {
   UserIcon,
@@ -42,4 +44,6 @@ export {
   InstagramIcon,
   AtIcon,
   MapPinnedIcon,
+  ArrowDownNarrowWideIcon,
+  ArrowUpNarrowWideIcon,
 };
