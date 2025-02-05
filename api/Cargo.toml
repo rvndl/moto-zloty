@@ -35,4 +35,3 @@ mime_guess = "2.0.5"
 cron = "0.13.0"
 image = "0.25.5"
 lettre = "0.11.11"
-validator = { version = "0.19.0", features = ["derive"] }
