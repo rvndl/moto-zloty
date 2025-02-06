@@ -2,7 +2,7 @@ import { Controller } from "react-hook-form";
 import { useForm } from "../fom-context";
 import Turnstile, { TurnstileProps } from "react-turnstile";
 
-const sitekey = import.meta.env.VITE_TURNSTILE_KEY;
+const sitekey = process.env.NEXT_PUBLIC_TURNSTILE_KEY as string;
 
 const ReCaptchaField = ({
   name,

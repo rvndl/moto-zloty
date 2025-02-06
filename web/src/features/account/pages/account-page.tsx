@@ -2,19 +2,22 @@ import { SettingsIcon, TicketIcon, UserIcon, Page } from "@components";
 import { useEffect } from "react";
 import { EventsTab, AccountTab, SettingsTab } from "../components";
 import { match } from "ts-pattern";
-import { useNavigate, useParams } from "react-router-dom";
 import { useAccountQuery } from "../api";
 import { useAuth } from "@features/auth";
+import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const AccountPage = () => {
   const { id } = useParams();
-  const { data, isLoading } = useAccountQuery(id!, { enabled: Boolean(id) });
+  const { data, isLoading } = useAccountQuery(id as string, {
+    enabled: Boolean(id),
+  });
   const { isOwner } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     if (!id) {
-      navigate("/");
+      router.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -31,7 +34,7 @@ const AccountPage = () => {
         {
           label: "Ustawienia",
           icon: <SettingsIcon />,
-          isHidden: !isOwner(id),
+          isHidden: !isOwner(id as string),
         },
       ]}
       isInline

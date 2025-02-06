@@ -1,9 +1,9 @@
+@config "../tailwind.config.js";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  @apply font-geist;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -98,7 +98,7 @@ h6 {
 }
 
 .ck-placeholder {
-  @apply font-geist text-muted;
+  @reference text-muted;
   font-size: 14px !important;
   margin: 0 !important;
 }
@@ -119,10 +119,10 @@ h6 {
   height: 100% !important;
 }
 .leaflet-popup-content {
-  @apply m-2 font-geist;
+  @reference m-2;
 }
 .leaflet-popup-content-wrapper {
-  @apply border rounded-lg shadow;
+  @reference border rounded-lg shadow;
 }
 
 .leaflet-popup-content p {
@@ -135,21 +135,21 @@ h6 {
 }
 
 ::-webkit-scrollbar-track {
-  @apply rounded-full bg-accent;
+  @reference rounded-full bg-accent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-primary/90;
+  @reference rounded-full bg-primary/90;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary;
+  @reference bg-primary;
 }
 
 ::-webkit-scrollbar-thumb:horizontal:hover {
-  @apply bg-primary;
+  @reference bg-primary;
 }
 
 ::-webkit-scrollbar-thumb:horizontal {
-  @apply rounded-full bg-primary/90;
+  @reference rounded-full bg-primary/90;
 }

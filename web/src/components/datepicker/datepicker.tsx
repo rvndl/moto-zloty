@@ -52,6 +52,8 @@ const Datepicker = ({
         >
           {Boolean(label) && <Label isRequired={isRequired}>{label}</Label>}
           <Button
+            // avoid nesting buttons
+            as="span"
             variant="outline"
             icon={<CalendarIcon />}
             className={clsx("font-normal shadow-sm", !value && "text-muted")}

@@ -3,7 +3,7 @@ import { Breadcrumb, BreadcrumbProps } from "./breadcrumb";
 import { BreadcrumbSeparator } from "./breadcrumb-separator";
 
 const INITIAL_BREADCRUMB: BreadcrumbProps = {
-  label: import.meta.env.VITE_SITE_NAME,
+  label: process.env.NEXT_PUBLIC_SITE_NAME as string,
   to: "/",
 };
 

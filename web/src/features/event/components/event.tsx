@@ -6,7 +6,7 @@ import { pl } from "date-fns/locale";
 import { Badge } from "@components";
 import clsx from "clsx";
 import { getEventStatus } from "@utils/event";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 type EventSize = "normal" | "small";
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const Event = ({ event, size = "normal" }: Props) => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const { isOngoing, isPast } = useMemo(() => getEventStatus(event), [event]);
 
@@ -27,7 +27,7 @@ const Event = ({ event, size = "normal" }: Props) => {
   );
 
   const handleOnClick = () => {
-    navigate(`/event/${event.id}`);
+    router.push(`/event/${event.id}`);
   };
 
   return (

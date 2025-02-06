@@ -1,11 +1,11 @@
 import { Card, Skeleton } from "@components";
 import { useEventActionsQuery } from "@features/event/api";
-import { useParams } from "react-router-dom";
 import { ActionItem } from "./action-item";
+import { useParams } from "next/navigation";
 
 const ActionsList = () => {
   const { id } = useParams();
-  const { data: actions, isLoading } = useEventActionsQuery(id!, {
+  const { data: actions, isLoading } = useEventActionsQuery(id as string, {
     enabled: Boolean(id),
   });
 

@@ -17,7 +17,7 @@ type PutUrl = "/register" | "/events" | `/events/${string}/update-status`;
 type PatchUrl = "/account/change_password";
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
   transformResponse: (response, headers, status) => {
     if (status === 401) {

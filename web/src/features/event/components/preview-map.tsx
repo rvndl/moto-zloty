@@ -1,6 +1,6 @@
 import { Map, MapMarker, useForm } from "@components";
 import { PropsWithChildren } from "react";
-import { useMap } from "react-leaflet";
+// import { useMap } from "react-leaflet";
 
 interface Props {
   latitude?: number;
@@ -34,16 +34,16 @@ const MapContent = ({
   longitude: longitudeProps,
 }: Props) => {
   const form = useForm();
-  const map = useMap();
+  // const map = useMap();
 
   const address = form?.watch?.("address");
   const latitude = address?.value?.latitude ?? latitudeProps;
   const longitude = address?.value?.longitude ?? longitudeProps;
 
-  map.whenReady(() => {
-    // Workaround for shared leaflet map
-    setTimeout(() => map.setView([latitude, longitude], 16), 0);
-  });
+  // map.whenReady(() => {
+  //   // Workaround for shared leaflet map
+  //   setTimeout(() => map.setView([latitude, longitude], 16), 0);
+  // });
 
   if (!latitude || !longitude) {
     return null;

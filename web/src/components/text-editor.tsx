@@ -1,52 +1,52 @@
 import { useState, useEffect, useRef } from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
 
-import {
-  InlineEditor,
-  AccessibilityHelp,
-  Alignment,
-  Autoformat,
-  AutoImage,
-  Autosave,
-  BalloonToolbar,
-  BlockQuote,
-  Bold,
-  Essentials,
-  Heading,
-  HorizontalLine,
-  ImageBlock,
-  ImageInline,
-  ImageInsertViaUrl,
-  ImageResize,
-  ImageToolbar,
-  Indent,
-  IndentBlock,
-  Italic,
-  Link,
-  LinkImage,
-  List,
-  ListProperties,
-  Paragraph,
-  SelectAll,
-  Strikethrough,
-  Table,
-  TableCaption,
-  TableCellProperties,
-  TableColumnResize,
-  TableProperties,
-  TableToolbar,
-  TextTransformation,
-  TodoList,
-  Underline,
-  Undo,
-  EditorConfig,
-  EventInfo,
-} from "ckeditor5";
+// import {
+//   InlineEditor,
+//   AccessibilityHelp,
+//   Alignment,
+//   Autoformat,
+//   AutoImage,
+//   Autosave,
+//   BalloonToolbar,
+//   BlockQuote,
+//   Bold,
+//   Essentials,
+//   Heading,
+//   HorizontalLine,
+//   ImageBlock,
+//   ImageInline,
+//   ImageInsertViaUrl,
+//   ImageResize,
+//   ImageToolbar,
+//   Indent,
+//   IndentBlock,
+//   Italic,
+//   Link,
+//   LinkImage,
+//   List,
+//   ListProperties,
+//   Paragraph,
+//   SelectAll,
+//   Strikethrough,
+//   Table,
+//   TableCaption,
+//   TableCellProperties,
+//   TableColumnResize,
+//   TableProperties,
+//   TableToolbar,
+//   TextTransformation,
+//   TodoList,
+//   Underline,
+//   Undo,
+//   EditorConfig,
+//   EventInfo,
+// } from "ckeditor5";
 
 import translations from "ckeditor5/translations/pl.js";
 
 import "ckeditor5/ckeditor5.css";
 import { Label } from "@components";
+import dynamic from "next/dynamic";
 
 interface TextEditorProps {
   label?: string;
@@ -68,6 +68,13 @@ const TextEditor = ({
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
+
+  const CKEditor = dynamic(
+    () => import("@ckeditor/ckeditor5-react").then((mod) => mod.CKEditor),
+    {
+      ssr: false,
+    }
+  );
 
   useEffect(() => {
     setIsLayoutReady(true);
@@ -98,44 +105,44 @@ const TextEditor = ({
       ],
       shouldNotGroupWhenFull: true,
     },
-    plugins: [
-      AccessibilityHelp,
-      Alignment,
-      Autoformat,
-      AutoImage,
-      Autosave,
-      BalloonToolbar,
-      BlockQuote,
-      Bold,
-      Essentials,
-      Heading,
-      HorizontalLine,
-      ImageBlock,
-      ImageInline,
-      ImageInsertViaUrl,
-      ImageResize,
-      ImageToolbar,
-      Indent,
-      IndentBlock,
-      Italic,
-      Link,
-      LinkImage,
-      List,
-      ListProperties,
-      Paragraph,
-      SelectAll,
-      Strikethrough,
-      Table,
-      TableCaption,
-      TableCellProperties,
-      TableColumnResize,
-      TableProperties,
-      TableToolbar,
-      TextTransformation,
-      TodoList,
-      Underline,
-      Undo,
-    ],
+    // plugins: [
+    //   AccessibilityHelp,
+    //   Alignment,
+    //   Autoformat,
+    //   AutoImage,
+    //   Autosave,
+    //   BalloonToolbar,
+    //   BlockQuote,
+    //   Bold,
+    //   Essentials,
+    //   Heading,
+    //   HorizontalLine,
+    //   ImageBlock,
+    //   ImageInline,
+    //   ImageInsertViaUrl,
+    //   ImageResize,
+    //   ImageToolbar,
+    //   Indent,
+    //   IndentBlock,
+    //   Italic,
+    //   Link,
+    //   LinkImage,
+    //   List,
+    //   ListProperties,
+    //   Paragraph,
+    //   SelectAll,
+    //   Strikethrough,
+    //   Table,
+    //   TableCaption,
+    //   TableCellProperties,
+    //   TableColumnResize,
+    //   TableProperties,
+    //   TableToolbar,
+    //   TextTransformation,
+    //   TodoList,
+    //   Underline,
+    //   Undo,
+    // ],
     balloonToolbar: [
       "bold",
       "italic",
@@ -249,12 +256,13 @@ const TextEditor = ({
             <div className="editor-container__editor">
               <div className="h-full" ref={editorRef}>
                 {isLayoutReady && (
-                  <CKEditor
-                    editor={InlineEditor}
-                    config={editorConfig}
-                    data={value}
-                    onChange={handleOnDataChange}
-                  />
+                  <div />
+                  // <CKEditor
+                  //   editor={InlineEditor}
+                  //   config={editorConfig}
+                  //   data={value}
+                  //   onChange={handleOnDataChange}
+                  // />
                 )}
               </div>
             </div>

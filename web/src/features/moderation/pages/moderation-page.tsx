@@ -6,17 +6,17 @@ import {
 } from "@components";
 import { useAuth } from "@features/auth";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { match } from "ts-pattern";
 import { EventListTab, StatisticsTab, UserListTab } from "../components";
+import { useRouter } from "next/navigation";
 
 const ModerationPage = () => {
   const { isPermitted } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     if (!isPermitted) {
-      navigate("/");
+      router.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPermitted]);

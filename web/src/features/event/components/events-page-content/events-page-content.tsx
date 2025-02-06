@@ -56,9 +56,9 @@ const EventsPageContent = () => {
         </div>
         <div className="w-full h-full mt-2">
           {match(tab)
-            .with("Widok mapy", () => (
-              <MapTab events={events} isLoading={isLoading || isFetching} />
-            ))
+            // .with("Widok mapy", () => (
+            //   <MapTab events={events} isLoading={isLoading || isFetching} />
+            // ))
             .with("Widok listy", () => <ListTab events={events} />)
             .otherwise(() => null)}
         </div>

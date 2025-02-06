@@ -1,5 +1,10 @@
-import { ButtonHTMLAttributes, PropsWithChildren, ReactNode } from "react";
-import Spinner from "@assets/svg/spinner.svg?react";
+import {
+  ButtonHTMLAttributes,
+  ElementType,
+  PropsWithChildren,
+  ReactNode,
+} from "react";
+import Spinner from "@assets/svg/spinner.svg";
 import { twMerge } from "tailwind-merge";
 
 export type ButtonSize = "default" | "small";
@@ -13,6 +18,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode;
   loadingText?: string;
   isLoading?: boolean;
+  as?: ElementType;
 }
 
 const Button = ({
@@ -24,6 +30,7 @@ const Button = ({
   isLoading,
   children,
   className,
+  as,
   ...rest
 }: PropsWithChildren<ButtonProps>) => {
   const classes = twMerge(
@@ -47,12 +54,14 @@ const Button = ({
     className
   );
 
+  const Component = as ? as : "button";
+
   return (
-    <button className={classes} {...rest}>
+    <Component className={classes} {...rest}>
       {Boolean(icon) && !isLoading && <span className="w-4 -ml-1">{icon}</span>}
       {isLoading && <Spinner fill="currentColor" className="w-4 h-4 -ml-1" />}
       {isLoading && loadingText ? loadingText : children}
-    </button>
+    </Component>
   );
 };
 

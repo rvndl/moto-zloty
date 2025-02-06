@@ -3,8 +3,8 @@ import { EventStatusBadge } from "@features/event/components";
 import { useEventListQuery } from "@features/moderation/api";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import Link from "next/link";
 import { useMemo } from "react";
-import { Link } from "react-router-dom";
 import { Event, EventStatus } from "types/event";
 
 const EventListTab = () => {
@@ -16,7 +16,7 @@ const EventListTab = () => {
         accessorKey: "name",
         header: "Nazwa",
         cell: (info) => (
-          <Link to={`/event/${info.row.original.id}`}>
+          <Link href={`/event/${info.row.original.id}`}>
             {info.getValue() as string}
           </Link>
         ),

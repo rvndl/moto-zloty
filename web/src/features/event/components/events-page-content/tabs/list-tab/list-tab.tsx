@@ -1,16 +1,16 @@
 import { useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import { Event } from "types/event";
 import Logo from "@assets/img/mz-logo-black.png";
 import { groupEventsByWeek } from "@utils/event";
 import { ListItem } from "./list-item";
+import { useRouter } from "next/navigation";
 
 interface Props {
   events?: Event[];
 }
 
 const ListTab = ({ events }: Props) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const groupedEvents = useMemo(() => groupEventsByWeek(events), [events]);
 
   if (events?.length === 0) {
@@ -19,9 +19,9 @@ const ListTab = ({ events }: Props) => {
         <div className="mt-24 w-96">
           <img
             className=""
-            src={Logo}
+            src={Logo.src}
             alt="Moto Zloty"
-            onClick={() => navigate("/")}
+            onClick={() => router.push("/")}
           />
           <div className="mt-6 leading-5">
             <h3 className="text-2xl font-bold">Brak wydarzeń</h3>
