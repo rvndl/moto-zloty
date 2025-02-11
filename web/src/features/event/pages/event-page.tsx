@@ -2,10 +2,13 @@ import { useEventQuery } from "../api";
 import { Page } from "@components";
 import { ChangeEventStatusDialog, EventPageContent } from "../components";
 import { useAuth } from "@features/auth";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/router";
 
 const EventPage = () => {
-  const { id } = useParams();
+  const {
+    query: { id },
+  } = useRouter();
+
   const { data: event, isLoading } = useEventQuery(id as string, {
     enabled: Boolean(id),
   });

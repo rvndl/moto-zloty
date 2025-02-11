@@ -22,8 +22,8 @@ const ActionItem = ({ action }: Props) => {
       <div className="flex items-center gap-2 text-muted">
         <Link href={`/account/${action.actor_id}`} className="flex w-max">
           <div className="flex gap-2 mt-1">
-            <div className="flex items-center justify-center w-6 h-6 p-1 rounded-full bg-accent">
-              <UserIcon />
+            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-accent">
+              <UserIcon className="scale-[0.68]" />
             </div>
             <p className="text-sm">{action.actor_name}</p>
           </div>
@@ -37,7 +37,7 @@ const ActionItem = ({ action }: Props) => {
           {distance}
         </p>
       </div>
-      <p className="">{action.content}</p>
+      <p>{action.content}</p>
       <Tooltip id="action-created" />
     </div>
   );

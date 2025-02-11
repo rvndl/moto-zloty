@@ -46,7 +46,7 @@ const EventPageContent = ({ event, isLoading }: Props) => {
                 <Button
                   size="small"
                   variant="outline"
-                  className="w-6 h-6 p-1 text-muted"
+                  className="p-1 scale-75 text-muted"
                 >
                   <MapPinnedIcon />
                 </Button>

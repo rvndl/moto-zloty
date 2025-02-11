@@ -10,8 +10,8 @@ const UserDetailsCell = ({ account }: Props) => {
   return (
     <div className="flex items-center gap-2">
       <Link href={`/account/${account.id}`}>
-        <div className="flex items-center justify-center w-8 h-8 p-2 rounded-full bg-accent">
-          <UserIcon />
+        <div className="flex items-center justify-center p-2 rounded-full bg-accent">
+          <UserIcon className="scale-[0.68]" />
         </div>
       </Link>
 

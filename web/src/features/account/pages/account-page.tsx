@@ -4,20 +4,22 @@ import { EventsTab, AccountTab, SettingsTab } from "../components";
 import { match } from "ts-pattern";
 import { useAccountQuery } from "../api";
 import { useAuth } from "@features/auth";
-import { useRouter } from "next/navigation";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/router";
 
 const AccountPage = () => {
-  const { id } = useParams();
+  const {
+    push,
+    query: { id },
+  } = useRouter();
+
   const { data, isLoading } = useAccountQuery(id as string, {
     enabled: Boolean(id),
   });
   const { isOwner } = useAuth();
-  const router = useRouter();
 
   useEffect(() => {
     if (!id) {
-      router.push("/");
+      push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

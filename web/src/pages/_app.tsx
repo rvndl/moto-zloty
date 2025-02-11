@@ -8,7 +8,7 @@ import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
-const MyApp = ({ Component, pageProps }: AppProps) => (
+const App = ({ Component, pageProps }: AppProps) => (
   <QueryClientProvider client={queryClient}>
     <Toaster
       position="bottom-right"
@@ -30,4 +30,4 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
   </QueryClientProvider>
 );
 
-export default MyApp;
+export default App;

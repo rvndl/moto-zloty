@@ -1,23 +1,11 @@
 import "leaflet/dist/leaflet.css";
 
-import { LatLngExpression } from "leaflet";
-// import { useMap } from "react-leaflet";
+import { type LatLngExpression } from "leaflet";
 import { PropsWithChildren } from "react";
 import { Spinner } from "@components";
 import dynamic from "next/dynamic";
 
 const CENTER_OF_POLAND: LatLngExpression = [52.106379, 19.495893];
-
-// Workaround for leaflet tiles bug
-const ComponentResize = ({ zoom }: { zoom: number }) => {
-  // const map = useMap();
-  // setTimeout(() => {
-  //   map.invalidateSize();
-  //   map.setZoom(zoom);
-  // }, 0);
-
-  return null;
-};
 
 interface Props {
   zoom?: number;
@@ -55,7 +43,6 @@ export const Map = ({
           <Spinner />
         </div>
       )}
-      <ComponentResize zoom={zoom} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"

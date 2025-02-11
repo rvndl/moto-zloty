@@ -65,11 +65,7 @@ const Datepicker = ({
               ? format(value!, "dd.MM.yyyy HH:mm")
               : placeholder ?? "Wybierz datę"}
           </Button>
-          {Boolean(error) && (
-            <HelpText variant="error" className="">
-              {error}
-            </HelpText>
-          )}
+          {Boolean(error) && <HelpText variant="error">{error}</HelpText>}
         </div>
       }
       isDisabled={isDisabled}

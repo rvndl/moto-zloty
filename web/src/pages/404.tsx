@@ -1,7 +1,7 @@
 import { Button } from "@components/button";
 import { useRouter } from "next/navigation";
 
-const NotFoundPage = () => {
+export default function NotFoundPage() {
   const router = useRouter();
 
   return (
@@ -13,6 +13,4 @@ const NotFoundPage = () => {
       </Button>
     </div>
   );
-};
-
-export { NotFoundPage };
+}

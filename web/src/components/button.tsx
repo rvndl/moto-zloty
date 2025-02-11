@@ -34,7 +34,7 @@ const Button = ({
   ...rest
 }: PropsWithChildren<ButtonProps>) => {
   const classes = twMerge(
-    "gap-2 rounded-md inline-flex items-center font-medium whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+    "gap-1 rounded-md inline-flex items-center font-medium whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
 
     // sizes
     size === "small" && "h-8 px-4 py-2 text-xs",
@@ -58,8 +58,12 @@ const Button = ({
 
   return (
     <Component className={classes} {...rest}>
-      {Boolean(icon) && !isLoading && <span className="w-4 -ml-1">{icon}</span>}
-      {isLoading && <Spinner fill="currentColor" className="w-4 h-4 -ml-1" />}
+      {Boolean(icon) && !isLoading && (
+        <span className="-ml-2 scale-[0.68]">{icon}</span>
+      )}
+      {isLoading && (
+        <Spinner fill="currentColor" className="scale-[0.68] -ml-2" />
+      )}
       {isLoading && loadingText ? loadingText : children}
     </Component>
   );

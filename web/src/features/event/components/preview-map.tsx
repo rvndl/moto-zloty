@@ -1,12 +1,13 @@
 import { Map, MapMarker, useForm } from "@components";
+import { withDynamicHook } from "@hoc";
 import { PropsWithChildren } from "react";
-// import { useMap } from "react-leaflet";
 
 interface Props {
   latitude?: number;
   longitude?: number;
   isLoading?: boolean;
   className?: string;
+  useMap?: () => any;
 }
 
 const MapWrapper = ({
@@ -29,27 +30,30 @@ const PreviewMap = ({ latitude, longitude, isLoading, className }: Props) => {
   );
 };
 
-const MapContent = ({
-  latitude: latitudeProps,
-  longitude: longitudeProps,
-}: Props) => {
-  const form = useForm();
-  // const map = useMap();
+const MapContent = withDynamicHook<Props>(
+  "useMap",
+  () => import("react-leaflet"),
+  ({ latitude: latitudeProps, longitude: longitudeProps, useMap }: Props) => {
+    const form = useForm();
+    const map = useMap?.();
 
-  const address = form?.watch?.("address");
-  const latitude = address?.value?.latitude ?? latitudeProps;
-  const longitude = address?.value?.longitude ?? longitudeProps;
+    const address = form?.watch?.("address");
+    const latitude = address?.value?.latitude ?? latitudeProps;
+    const longitude = address?.value?.longitude ?? longitudeProps;
 
-  // map.whenReady(() => {
-  //   // Workaround for shared leaflet map
-  //   setTimeout(() => map.setView([latitude, longitude], 16), 0);
-  // });
+    map.whenReady(() => {
+      // Workaround for shared leaflet map
+      if (latitude && longitude) {
+        setTimeout(() => map.setView([latitude, longitude], 16), 0);
+      }
+    });
 
-  if (!latitude || !longitude) {
-    return null;
+    if (!latitude || !longitude) {
+      return null;
+    }
+
+    return <MapMarker position={[latitude, longitude]} />;
   }
-
-  return <MapMarker position={[latitude, longitude]} />;
-};
+);
 
 export { PreviewMap };
