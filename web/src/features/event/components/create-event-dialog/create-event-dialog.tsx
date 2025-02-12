@@ -61,6 +61,7 @@ const CreateEventDialog = () => {
       date_from,
       date_to,
       address: {
+        // @ts-expect-error TODO: extend typings
         value: { latitude, longitude, name },
       },
       banner,

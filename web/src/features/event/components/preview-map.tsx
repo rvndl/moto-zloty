@@ -7,6 +7,7 @@ interface Props {
   longitude?: number;
   isLoading?: boolean;
   className?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useMap?: () => any;
 }
 

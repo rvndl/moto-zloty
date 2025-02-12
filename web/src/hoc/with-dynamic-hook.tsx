@@ -1,8 +1,9 @@
 import { ComponentType, useEffect, useState } from "react";
 
-function withDynamicHook<TProps, TModExport = unknown, TMod = unknown>(
+function withDynamicHook<TProps, TModExport = unknown>(
   hookName: string,
-  importFunc: () => Promise<TMod>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  importFunc: () => Promise<any>,
   Component: ComponentType<TProps>
 ) {
   return (props: TProps) => {

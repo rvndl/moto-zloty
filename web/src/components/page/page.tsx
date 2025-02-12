@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import { Sidebar, SidebarItemProps } from "./sidebar";
 import clsx from "clsx";
 import { Breadcrumbs, BreadcrumbProps } from "./breadcrumbs";
@@ -23,14 +23,6 @@ const Page = ({
   children,
 }: Props) => {
   const [activeTab, setActiveTab] = useState(sidebarItems?.[0]?.label);
-
-  useEffect(() => {
-    if (title) {
-      document.title = `${process.env.NEXT_PUBLIC_SITE_NAME} - ${title} ${
-        activeTab ? " - " + activeTab : ""
-      }`;
-    }
-  }, [title, activeTab]);
 
   return (
     <div className="flex flex-col w-full h-full p-2 md:p-0">

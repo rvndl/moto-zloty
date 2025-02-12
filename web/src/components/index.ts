@@ -29,3 +29,4 @@ export * from "./listbox";
 export * from "./dropdown";
 export * from "./textarea";
 export * from "./tabs";
+export * from "./metadata";

@@ -60,7 +60,6 @@ interface TextEditorProps {
 
 const TextEditor = ({
   label,
-  placeholder,
   value,
   isRequired,
   isNonEditable,

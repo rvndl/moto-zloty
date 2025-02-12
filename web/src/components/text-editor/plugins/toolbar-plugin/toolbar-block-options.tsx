@@ -55,10 +55,10 @@ const ToolbarBlockOptions = ({
   useEffect(() => {
     const dropdown = dropdownRef.current;
     if (dropdown && toolbar) {
-      const handle = (event) => {
+      const handle = (event: Event) => {
         const target = event.target;
 
-        if (!dropdown.contains(target) /*&& !toolbar.contains(target)*/) {
+        if (!dropdown.contains(target as Element)) {
           setIsVisible(false);
         }
       };

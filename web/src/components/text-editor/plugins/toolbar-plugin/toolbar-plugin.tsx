@@ -44,7 +44,7 @@ const supportedBlockTypes = new Set([
   "ol",
 ]);
 
-const blockTypeMeta = {
+const blockTypeMeta: Record<string, string> = {
   code: "Blok kodu",
   h1: "Duży nagłówek",
   h2: "Mały nagłówek",

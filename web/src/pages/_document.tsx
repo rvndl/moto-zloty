@@ -4,14 +4,13 @@ export default function Document() {
   return (
     <Html lang="pl">
       <Head>
-        <meta charSet="UTF-8" />
-        {/* <title>
-          Moto Zloty - Wszystkie zloty motocyklowe w twojej okolicy!
-        </title> */}
-        <meta
-          name="description"
-          content="Wszystkie zloty motocyklowe w twojej okolicy! Od motocyklisty dla motocyklistów."
-        />
+        <script
+          id="Cookiebot"
+          src="https://consent.cookiebot.com/uc.js"
+          data-cbid={process.env.NEXT_PUBLIC_COOKIEBOT_API_KEY}
+          type="text/javascript"
+        ></script>
+        <link rel="canonical" href="https://www.moto-zloty.pl" />
         <meta
           name="keywords"
           content="zloty, zlot, motocykl, motocykle, zloty motocyklowe, zloty motocyklowy, imprezy motocyklowe"
@@ -95,10 +94,6 @@ export default function Document() {
         <meta
           property="og:image"
           content="https://www.moto-zloty.pl/event-placeholder.png"
-        />
-        <meta
-          property="og:description"
-          content="Wszystkie zloty motocyklowe w twojej okolicy! Od motocyklisty dla motocyklistów."
         />
       </Head>
       <body>

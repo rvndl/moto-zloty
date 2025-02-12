@@ -8,6 +8,7 @@ export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 type ValueKind = "string" | "number" | "boolean" | "date" | "datetime";
 
 export const getValue = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any,
   kind: ValueKind = "string",
   emptyText = "-"

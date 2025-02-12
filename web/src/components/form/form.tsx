@@ -7,6 +7,7 @@ interface Props<TValues> {
     | ((reset: () => void) => (values: TValues) => void)
     | ((values: TValues) => void);
   defaultValues?: Partial<Record<keyof TValues, unknown>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   resolver?: Resolver<any>;
   children: ((isValid?: boolean) => ReactNode) | ReactNode;
 }

@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { type MarkerProps } from "react-leaflet";
-import { Icon } from "../../leaflet";
+import { Icon } from "../../leaflet-local";
 
 const icon = new Icon({
   iconUrl: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/marker.png`,
