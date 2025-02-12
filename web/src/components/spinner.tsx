@@ -1,4 +1,4 @@
-import { default as SpinnerSvg } from "@assets/svg/spinner.svg?react";
+import SpinnerSvg from "@assets/svg/spinner.svg";
 
 const Spinner = () => {
   return <SpinnerSvg />;

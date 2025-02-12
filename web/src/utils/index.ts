@@ -8,6 +8,7 @@ export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 type ValueKind = "string" | "number" | "boolean" | "date" | "datetime";
 
 export const getValue = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any,
   kind: ValueKind = "string",
   emptyText = "-"
@@ -36,7 +37,7 @@ export const getFilePath = (fileId?: string) => {
   if (!fileId) {
     return "/event-placeholder.png";
   }
-  return `${import.meta.env.VITE_API_URL}file/${fileId}`;
+  return `${process.env.NEXT_PUBLIC_API_URL}file/${fileId}`;
 };
 
 export const minTwoDigits = (n: number) => {

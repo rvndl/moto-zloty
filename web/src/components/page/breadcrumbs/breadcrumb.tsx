@@ -1,6 +1,6 @@
 import { Skeleton } from "@components/skeleton";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 interface BreadcrumbProps {
   label: string;
@@ -10,7 +10,7 @@ interface BreadcrumbProps {
 }
 
 const Breadcrumb = ({ label, to, isActive, isLoading }: BreadcrumbProps) => {
-  const content = to ? <Link to={to}>{label}</Link> : label;
+  const content = to ? <Link href={to}>{label}</Link> : label;
   return (
     <li className="inline-flex items-center gap-1.5">
       <span

@@ -2,7 +2,7 @@ import { Page } from "@components";
 import clsx from "clsx";
 import { PropsWithChildren } from "react";
 
-const PrivacyPage = () => {
+export default function PrivacyPage() {
   return (
     <Page
       title="Polityka prywatności"
@@ -14,15 +14,15 @@ const PrivacyPage = () => {
           <List type="primary">
             <li>
               Niniejsza polityka dotyczy Serwisu www, funkcjonującego pod
-              adresem url: {" " + import.meta.env.VITE_PRIVACY_SITE_URL}
+              adresem url: {" " + process.env.NEXT_PUBLIC_PRIVACY_SITE_URL}
             </li>
             <li>
               Operatorem serwisu oraz Administratorem danych osobowych jest:
-              {" " + import.meta.env.VITE_PRIVACY_ADMIN_FULL_NAME}
+              {" " + process.env.NEXT_PUBLIC_PRIVACY_ADMIN_FULL_NAME}
             </li>
             <li>
               Adres kontaktowy poczty elektronicznej operatora:
-              {" " + import.meta.env.VITE_PRIVACY_CONTACT_EMAIL}
+              {" " + process.env.NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL}
             </li>
             <li>
               Operator jest Administratorem Twoich danych osobowych w
@@ -360,7 +360,7 @@ const PrivacyPage = () => {
       </div>
     </Page>
   );
-};
+}
 
 const Heading = ({ children }: PropsWithChildren) => (
   <h2 className="mb-2 text-2xl font-bold">{children}</h2>
@@ -380,5 +380,3 @@ const List = ({
     {children}
   </ol>
 );
-
-export { PrivacyPage };

@@ -4,7 +4,7 @@ import { EventResponse } from "../types/event";
 
 const EVENT_QUERY_KEY = "EVENT_QUERY_KEY";
 
-const event = async (id: string) => {
+const getEventQuery = async (id: string) => {
   const response = await Api.get<EventResponse>(`/events/${id}`);
 
   return response.data;
@@ -16,9 +16,9 @@ const useEventQuery = (
 ) => {
   return useQuery({
     queryKey: [EVENT_QUERY_KEY, id],
-    queryFn: () => event(id),
+    queryFn: () => getEventQuery(id),
     ...options,
   });
 };
 
-export { useEventQuery, EVENT_QUERY_KEY };
+export { useEventQuery, getEventQuery, EVENT_QUERY_KEY };

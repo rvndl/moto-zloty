@@ -58,11 +58,13 @@ const Listbox = ({
             disabled={isDisabled}
             size={size}
           >
-            <p className="flex items-center gap-2">
-              {value?.icon && <span className="w-4 -ml-1">{value?.icon}</span>}
+            <p className="flex items-center gap-1">
+              {value?.icon && (
+                <span className="scale-[0.68] -ml-1">{value?.icon}</span>
+              )}
               {value?.label ?? "Wybierz..."}
             </p>
-            <ChevronDownIcon className="w-4" />
+            <ChevronDownIcon className="scale-[0.68]" />
           </Button>
         </ListboxButton>
         <ListboxOptions
@@ -79,7 +81,7 @@ const Listbox = ({
               variant="ghost"
               textAlignment="left"
             >
-              <span className="w-4 shrink-0">
+              <span className="scale-[0.68] shrink-0">
                 {option.icon ? (
                   <span className="group-data-[selected]:opacity-100 opacity-50 group-hover:opacity-100">
                     {option.icon}

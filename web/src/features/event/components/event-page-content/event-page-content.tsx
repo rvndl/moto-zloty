@@ -1,4 +1,4 @@
-import { Value, Card, TextEditor, Button, MapPinnedIcon } from "@components";
+import { Value, Card, Button, MapPinnedIcon } from "@components";
 import { type Event } from "types/event";
 import { EventStartingDate } from "../event-starting-date";
 import { EventEndingDate } from "../event-ending-date";
@@ -6,6 +6,7 @@ import { EventStatus } from "../event-status";
 import { PreviewMap } from "../preview-map";
 import { ActionsList } from "./actions-list";
 import { BannerPreview } from "./banner-preview";
+import dynamic from "next/dynamic";
 
 interface Props {
   event?: Event;
@@ -14,6 +15,16 @@ interface Props {
 
 const EventPageContent = ({ event, isLoading }: Props) => {
   const hasBanner = event?.banner_id || event?.banner_small_id;
+
+  const TextEditor = dynamic(
+    () =>
+      import("@components/text-editor/text-editor").then(
+        (mod) => mod.TextEditor
+      ),
+    {
+      ssr: false,
+    }
+  );
 
   return (
     <section className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2">
@@ -38,7 +49,7 @@ const EventPageContent = ({ event, isLoading }: Props) => {
                 <Button
                   size="small"
                   variant="outline"
-                  className="w-6 h-6 p-1 text-muted"
+                  className="p-1 scale-75 text-muted"
                 >
                   <MapPinnedIcon />
                 </Button>

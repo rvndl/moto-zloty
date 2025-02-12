@@ -52,6 +52,8 @@ const Datepicker = ({
         >
           {Boolean(label) && <Label isRequired={isRequired}>{label}</Label>}
           <Button
+            // avoid nesting buttons
+            as="span"
             variant="outline"
             icon={<CalendarIcon />}
             className={clsx("font-normal shadow-sm", !value && "text-muted")}
@@ -63,11 +65,7 @@ const Datepicker = ({
               ? format(value!, "dd.MM.yyyy HH:mm")
               : placeholder ?? "Wybierz datę"}
           </Button>
-          {Boolean(error) && (
-            <HelpText variant="error" className="">
-              {error}
-            </HelpText>
-          )}
+          {Boolean(error) && <HelpText variant="error">{error}</HelpText>}
         </div>
       }
       isDisabled={isDisabled}

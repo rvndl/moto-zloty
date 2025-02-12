@@ -80,9 +80,11 @@ const Table = <TColumn,>({
                       header.getContext()
                     )}
                     {{
-                      asc: <ArrowUpIcon className="inline-flex w-4 h-4 ml-1" />,
+                      asc: (
+                        <ArrowUpIcon className="inline-flex scale-[0.68] ml-1" />
+                      ),
                       desc: (
-                        <ArrowDownIcon className="inline-flex w-4 h-4 ml-1" />
+                        <ArrowDownIcon className="inline-flex scale-[0.68] ml-1" />
                       ),
                     }[header.column.getIsSorted() as string] ?? null}
                   </TableHead>

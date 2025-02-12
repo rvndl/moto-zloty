@@ -10,7 +10,7 @@ interface Payload {
   sort_order?: string;
 }
 
-const events = async (payload?: Payload) => {
+const getEventsQuery = async (payload?: Payload) => {
   const response = await Api.get<EventsResponse>("/events", {
     params: payload,
   });
@@ -24,9 +24,9 @@ const useEventsQuery = (
 ) => {
   return useQuery({
     queryKey: [EVENTS_QUERY_KEY],
-    queryFn: () => events(payload),
+    queryFn: () => getEventsQuery(payload),
     ...options,
   });
 };
 
-export { useEventsQuery, EVENTS_QUERY_KEY };
+export { useEventsQuery, getEventsQuery, EVENTS_QUERY_KEY };

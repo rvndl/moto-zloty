@@ -25,7 +25,7 @@ const Pagination = <TColumn,>({ table }: Props<TColumn>) => {
           onClick={() => table.firstPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          <ChevronsLeftIcon className="w-4 h-4" />
+          <ChevronsLeftIcon className="scale-[0.68]" />
         </Button>
         <Button
           variant="outline"
@@ -33,7 +33,7 @@ const Pagination = <TColumn,>({ table }: Props<TColumn>) => {
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          <ChevronLeftIcon className="w-4 h-4" />
+          <ChevronLeftIcon className="scale-[0.68]" />
         </Button>
         <Button
           variant="outline"
@@ -41,7 +41,7 @@ const Pagination = <TColumn,>({ table }: Props<TColumn>) => {
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          <ChevronRightIcon className="w-4 h-4" />
+          <ChevronRightIcon className="scale-[0.68]" />
         </Button>
         <Button
           variant="outline"
@@ -49,7 +49,7 @@ const Pagination = <TColumn,>({ table }: Props<TColumn>) => {
           onClick={() => table.lastPage()}
           disabled={!table.getCanNextPage()}
         >
-          <ChevronsRightIcon className="w-4 h-4" />
+          <ChevronsRightIcon className="scale-[0.68]" />
         </Button>
       </div>
     </div>

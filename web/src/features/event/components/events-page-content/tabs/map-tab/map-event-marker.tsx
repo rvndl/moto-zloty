@@ -1,22 +1,36 @@
-import { Popup } from "react-leaflet";
 import { type Event } from "types/event";
 import { truncate } from "lodash";
-import { useNavigate } from "react-router-dom";
 import { EventStartingDate } from "../../../event-starting-date";
-import { MapMarker, Button } from "@components";
+import { Button } from "@components";
 import { getEventStatus } from "@utils/event";
 import { useMemo } from "react";
+import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 
 interface Props {
   event: Event;
 }
 
 const MapEventMarker = ({ event }: Props) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { isOngoing } = useMemo(() => getEventStatus(event), [event]);
 
+  const Popup = dynamic(
+    () => import("react-leaflet").then((mod) => mod.Popup),
+    {
+      ssr: false,
+    }
+  );
+
+  const MapMarker = dynamic(
+    () => import("@components/map/map-marker").then((mod) => mod.MapMarker),
+    {
+      ssr: false,
+    }
+  );
+
   const handleOnDetails = () => {
-    navigate(`/event/${event.id}`);
+    router.push(`/event/${event.id}`);
   };
 
   return (

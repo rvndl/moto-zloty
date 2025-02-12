@@ -1,7 +1,7 @@
 import { getFilePath } from "@utils/index";
 import { formatDistanceToNow } from "date-fns";
 import { pl } from "date-fns/locale";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { Event } from "types/event";
 
 interface Props {
@@ -9,14 +9,14 @@ interface Props {
 }
 
 const ListItem = ({ event }: Props) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const distance = formatDistanceToNow(event.date_from, {
     locale: pl,
     addSuffix: true,
   });
 
   const handleOnClick = (event: Event) => {
-    navigate(`/event/${event.id}`);
+    router.push(`/event/${event.id}`);
   };
 
   return (

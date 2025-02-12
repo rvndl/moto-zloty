@@ -8,18 +8,18 @@ import {
   Form,
   InputField,
   PlusIcon,
-  TextEditorField,
 } from "@components";
 import { useAuth } from "@features/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Api } from "api";
 import { yup } from "@utils/yup";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import { Place } from "types/place";
 import { useCreateEventMutation } from "../../api";
 import { PreviewMap } from "../preview-map";
 import { DatePicker } from "./date-picker";
+import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 
 interface Fields {
   name: string;
@@ -45,7 +45,15 @@ const CreateEventDialog = () => {
   } = useAuth<true>();
 
   const { mutateAsync: createEvent, isPending } = useCreateEventMutation();
-  const navigate = useNavigate();
+  const router = useRouter();
+
+  const TextEditorField = dynamic(
+    () =>
+      import("@components/form/fields/text-editor-field").then(
+        (mod) => mod.TextEditorField
+      ),
+    { ssr: false }
+  );
 
   const handleOnCreate =
     (close: () => void) =>
@@ -53,6 +61,7 @@ const CreateEventDialog = () => {
       date_from,
       date_to,
       address: {
+        // @ts-expect-error TODO: extend typings
         value: { latitude, longitude, name },
       },
       banner,
@@ -74,7 +83,7 @@ const CreateEventDialog = () => {
           onSuccess: (data) => {
             toast.success("Wydarzenie zostało utworzone!");
             close();
-            navigate(`/event/${data.id}`);
+            router.push(`/event/${data.id}`);
           },
         }
       );

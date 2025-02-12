@@ -3,16 +3,16 @@ import { NavbarItem } from "./navbar-item";
 import Logo from "@assets/img/mz-logo-black.png";
 import { isEmpty } from "lodash";
 import { UserMenu } from "./user-menu";
-import { useLocation, useNavigate } from "react-router-dom";
+import { usePathname, useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { user, logout, isPermitted } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleOnLogout = () => {
     logout();
-    navigate("/");
+    router.push("/");
   };
 
   return (
@@ -24,20 +24,20 @@ const Navbar = () => {
               <div className="flex items-center flex-shrink-0">
                 <img
                   className="w-auto h-5 cursor-pointer"
-                  src={Logo}
+                  src={Logo.src}
                   alt="Moto Zloty"
-                  onClick={() => navigate("/")}
+                  onClick={() => router.push("/")}
                 />
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
-                  <NavbarItem to="/" isActive={location.pathname === "/"}>
+                  <NavbarItem to="/" isActive={pathname === "/"}>
                     Wydarzenia
                   </NavbarItem>
                   {isPermitted && (
                     <NavbarItem
                       to="/moderation"
-                      isActive={location.pathname === "/moderation"}
+                      isActive={pathname === "/moderation"}
                     >
                       Moderacja
                     </NavbarItem>

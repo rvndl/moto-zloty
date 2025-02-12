@@ -4,7 +4,7 @@ import { EventsResponse } from "../types/event";
 
 const EVENT_CAROUSEL_QUERY = "EVENT_CAROUSEL_QUERY";
 
-const eventCarousel = async () => {
+const getEventCarouselQuery = async () => {
   const response = await Api.get<EventsResponse>("/events/carousel");
 
   return response.data;
@@ -15,9 +15,9 @@ const useEventCarouselQuery = (
 ) => {
   return useQuery({
     queryKey: [EVENT_CAROUSEL_QUERY],
-    queryFn: () => eventCarousel(),
+    queryFn: () => getEventCarouselQuery(),
     ...options,
   });
 };
 
-export { useEventCarouselQuery, EVENT_CAROUSEL_QUERY };
+export { useEventCarouselQuery, getEventCarouselQuery, EVENT_CAROUSEL_QUERY };

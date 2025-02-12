@@ -1,7 +1,7 @@
 import { LogoutIcon, UserIcon, Button, Dropdown } from "@components";
 import { rankToString } from "@utils/user";
-import { useNavigate } from "react-router-dom";
 import { UserState } from "@features/auth";
+import { useRouter } from "next/navigation";
 
 interface Props {
   user: UserState;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const UserMenu = ({ user, logout }: Props) => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <Dropdown
@@ -22,7 +22,7 @@ const UserMenu = ({ user, logout }: Props) => {
         {
           label: "Profil",
           icon: <UserIcon />,
-          onClick: () => navigate(`/account/${user.id}`),
+          onClick: () => router.push(`/account/${user.id}`),
         },
         {
           label: "Wyloguj",

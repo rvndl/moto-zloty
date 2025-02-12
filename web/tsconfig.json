@@ -4,28 +4,30 @@
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
+    "esModuleInterop": true,
     "skipLibCheck": true,
-
-    /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-
-    /* Linting */
+    "jsx": "preserve",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
     "baseUrl": "./src",
     "paths": {
       "@assets/*": ["assets/*"],
       "@assets": ["assets/"],
       "@components/*": ["components/*"],
       "@components": ["components/"],
+      "@hoc/*": ["hoc/*"],
+      "@hoc*": ["hoc/"],
       "@features/*": ["features/*"],
       "@features": ["features/"],
       "@hooks/*": ["hooks/*"],
@@ -36,6 +38,6 @@
       "@utils": ["utils/"]
     }
   },
-  "include": ["src", "plugins"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["./src", "./dist/types/**/*.ts", "./next-env.d.ts", "svgr.d.ts"],
+  "exclude": ["./node_modules"]
 }

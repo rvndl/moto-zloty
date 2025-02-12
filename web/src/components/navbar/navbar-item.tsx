@@ -1,6 +1,6 @@
 import { Button } from "@components";
+import Link from "next/link";
 import { PropsWithChildren } from "react";
-import { Link } from "react-router-dom";
 
 interface Props {
   to: string;
@@ -9,7 +9,7 @@ interface Props {
 
 const NavbarItem = ({ to, isActive, children }: PropsWithChildren<Props>) => {
   return (
-    <Link to={to}>
+    <Link href={to}>
       <Button variant={isActive ? "primary" : "ghost"}>{children}</Button>
     </Link>
   );

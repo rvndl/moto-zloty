@@ -45,6 +45,7 @@ const Autocomplete = ({
   const id = useId();
   const [options, setOptions] = useState<AutocompleteOption[]>();
   const [query, setQuery] = useState("");
+  // @ts-expect-error TODO: fix types
   const setDebouncedQuery = useDebounce(setQuery, 500);
   const inputRef = useRef<HTMLInputElement>(null);
 
