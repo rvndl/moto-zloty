@@ -1,10 +1,14 @@
 import { PropsWithChildren } from "react";
 import { Navbar } from "./navbar";
 import { Footer } from "./footer";
+import { Geist } from "next/font/google";
+import clsx from "clsx";
+
+const geist = Geist();
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
-    <div className="w-screen h-screen">
+    <div className={clsx("w-screen h-screen", geist.className)}>
       <div className="flex flex-col w-full h-full">
         <Navbar />
         <div className="flex w-full h-full overflow-x-hidden">
