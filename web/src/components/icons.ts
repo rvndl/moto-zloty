@@ -1,3 +1,4 @@
+// Icons
 import UserIcon from "@assets/svg/icons/user-icon.svg";
 import XIcon from "@assets/svg/icons/x-icon.svg";
 import LogoutIcon from "@assets/svg/icons/logout-icon.svg";
@@ -21,6 +22,24 @@ import AtIcon from "@assets/svg/icons/at-icon.svg";
 import MapPinnedIcon from "@assets/svg/icons/map-pinned-icon.svg";
 import ArrowDownNarrowWideIcon from "@assets/svg/icons/arrow-down-narrow-wide-icon.svg";
 import ArrowUpNarrowWideIcon from "@assets/svg/icons/arrow-up-wide-narrow-icon.svg";
+import PencilIcon from "@assets/svg/icons/pencil.svg";
+
+// Editor icons
+import TypeBoldIcon from "@assets/svg/editor/type-bold.svg";
+import TypeItalicIcon from "@assets/svg/editor/type-italic.svg";
+import TypeUnderlineIcon from "@assets/svg/editor/type-underline.svg";
+import TypeStrikethroughIcon from "@assets/svg/editor/type-strikethrough.svg";
+import TypeH1Icon from "@assets/svg/editor/type-h1.svg";
+import TypeH2Icon from "@assets/svg/editor/type-h2.svg";
+import CodeIcon from "@assets/svg/editor/code.svg";
+import LinkIcon from "@assets/svg/editor/link.svg";
+import TextLeftIcon from "@assets/svg/editor/text-left.svg";
+import TextConterIcon from "@assets/svg/editor/text-center.svg";
+import TextRightIcon from "@assets/svg/editor/text-right.svg";
+import TextParagraph from "@assets/svg/editor/text-paragraph.svg";
+import JustifyIcon from "@assets/svg/editor/justify.svg";
+import ListOLIcon from "@assets/svg/editor/list-ol.svg";
+import QuoteIcon from "@assets/svg/editor/chat-square-quote.svg";
 
 export {
   UserIcon,
@@ -46,4 +65,20 @@ export {
   MapPinnedIcon,
   ArrowDownNarrowWideIcon,
   ArrowUpNarrowWideIcon,
+  TypeBoldIcon,
+  TypeItalicIcon,
+  TypeUnderlineIcon,
+  TypeStrikethroughIcon,
+  CodeIcon,
+  LinkIcon,
+  TextLeftIcon,
+  TextConterIcon,
+  TextRightIcon,
+  JustifyIcon,
+  PencilIcon,
+  ListOLIcon,
+  QuoteIcon,
+  TypeH1Icon,
+  TypeH2Icon,
+  TextParagraph,
 };

@@ -17,7 +17,10 @@ const EventPageContent = ({ event, isLoading }: Props) => {
   const hasBanner = event?.banner_id || event?.banner_small_id;
 
   const TextEditor = dynamic(
-    () => import("@components/text-editor").then((mod) => mod.TextEditor),
+    () =>
+      import("@components/text-editor/text-editor").then(
+        (mod) => mod.TextEditor
+      ),
     {
       ssr: false,
     }
