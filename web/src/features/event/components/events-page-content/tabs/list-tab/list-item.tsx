@@ -32,13 +32,13 @@ const ListItem = ({ event }: Props) => {
       />
       <div className="flex flex-col p-2">
         <a
-          className="w-full text-lg font-semibold leading-5 truncate cursor-pointer"
+          className="w-full text-base font-semibold leading-5 truncate cursor-pointer md:text-lg"
           onClick={() => handleOnClick(event)}
         >
           {event.name}
         </a>
         <p className="w-full text-xs text-gray-500 truncate">{event.address}</p>
-        <p className="flex items-center w-full mt-1 text-sm truncate">
+        <p className="flex items-center w-full mt-1 text-xs truncate md:text-sm">
           {distance}
         </p>
       </div>

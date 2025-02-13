@@ -5,17 +5,18 @@ import {
   Listbox,
   ListboxOption,
 } from "@components";
+import { useIsMobile } from "@hooks/use-is-mobile";
 import { AnimatePresence, motion } from "framer-motion";
 
 const sortOptions: ListboxOption[] = [
   {
     id: "Asc",
-    label: "Rozpoczęcie (rosnąco)",
+    label: "Rozpoczęcie (malejąco)",
     icon: <ArrowUpNarrowWideIcon />,
   },
   {
     id: "Desc",
-    label: "Rozpoczęcie (malejąco)",
+    label: "Rozpoczęcie (rosnąco)",
     icon: <ArrowDownNarrowWideIcon />,
   },
 ];
@@ -43,12 +44,13 @@ const EventsFilters = ({
   isLoading,
   onChange,
 }: Props) => {
+  const isMobile = useIsMobile();
   return (
-    <div className="flex items-center gap-2 my-1">
+    <div className="flex items-center content-start gap-1 md:gap-2 shrink-0">
       <Datepicker
         value={filters.dateFrom}
         size="small"
-        placeholder="Wybierdz datę od"
+        placeholder={isMobile ? "Data od" : "Wybierdz datę od"}
         calendarProps={{ defaultMonth: filters.dateFrom }}
         isLoading={isLoading}
         isDisabled={isLoading}
@@ -57,7 +59,7 @@ const EventsFilters = ({
       <Datepicker
         value={filters.dateTo}
         size="small"
-        placeholder="Wybierdz datę do"
+        placeholder={isMobile ? "Data do" : "Wybierdz datę do"}
         calendarProps={{ defaultMonth: filters.dateTo }}
         isLoading={isLoading}
         isDisabled={isLoading}

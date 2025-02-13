@@ -171,6 +171,7 @@ export function ToolbarPlugin() {
             className="px-1 min-w-32"
             onClick={() => setShowBlockOptions(!showBlockOptions)}
             aria-label="Formatting Options"
+            type="button"
           >
             <p className="flex items-center gap-1">
               {/* TODO: add block type icon */}

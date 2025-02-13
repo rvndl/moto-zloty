@@ -15,7 +15,10 @@ const ActionsList = () => {
   const isEmpty = !actions?.length;
 
   return (
-    <Card title="Akcje" description="Lista ostatnich aktualizacji wydarzenia">
+    <Card
+      title="Aktualizacje"
+      description="Lista ostatnich aktualizacji wydarzenia"
+    >
       <section className="flex flex-col gap-4">
         {isLoading && <LoadingPlaceholder />}
         {!isLoading &&

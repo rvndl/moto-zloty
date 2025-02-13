@@ -59,10 +59,10 @@ const Button = ({
   return (
     <Component className={classes} {...rest}>
       {Boolean(icon) && !isLoading && (
-        <span className="-ml-2 scale-[0.68]">{icon}</span>
+        <span className="-ml-2 scale-[0.68] shrink-0">{icon}</span>
       )}
       {isLoading && (
-        <Spinner fill="currentColor" className="scale-[0.68] -ml-2" />
+        <Spinner fill="currentColor" className="scale-[0.68] -ml-2 shrink-0" />
       )}
       {isLoading && loadingText ? loadingText : children}
     </Component>

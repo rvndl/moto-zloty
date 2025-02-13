@@ -41,7 +41,7 @@ const EventsPageContent = () => {
         <EventsCarousel events={carouselEvents} />
       </div>
       <section className="w-full h-full rounded-xl">
-        <div className="flex items-center justify-between w-full mt-4">
+        <div className="flex flex-col-reverse items-start justify-between w-full gap-2 mt-2 md:mt-4 md:flex-row md:items-end">
           <EventsFilters
             filters={filters}
             showSorting={tab === "Widok listy"}
@@ -51,6 +51,7 @@ const EventsPageContent = () => {
           <Tabs<Tab>
             tabs={["Widok mapy", "Widok listy"]}
             activeTab={tab}
+            className="self-end"
             onChange={(tab) => setTab(tab)}
           />
         </div>

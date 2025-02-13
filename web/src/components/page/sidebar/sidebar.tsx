@@ -1,6 +1,7 @@
 import { Card } from "@components";
 import { SidebarItem, SidebarItemProps } from "./sidebar-item";
 import { useState } from "react";
+import { useIsMobile } from "@hooks/use-is-mobile";
 
 interface Props {
   items?: SidebarItemProps[];
@@ -9,6 +10,7 @@ interface Props {
 
 const Sidebar = ({ items, onChange }: Props) => {
   const [activeItem, setActiveItem] = useState(items?.[0]?.label);
+  const isMobile = useIsMobile();
 
   const handleOnChange = (item: string) => {
     setActiveItem(item);
@@ -16,12 +18,13 @@ const Sidebar = ({ items, onChange }: Props) => {
   };
 
   return (
-    <Card className="flex flex-col p-4" contentClassName="w-full flex flex-col">
+    <Card className="flex flex-col" contentClassName="w-full flex flex-col">
       {items?.map(({ label, ...rest }) => (
         <SidebarItem
           key={label}
           isActive={activeItem === label}
           label={label}
+          isLabelVisible={!isMobile}
           onClick={() => handleOnChange(label)}
           {...rest}
         />

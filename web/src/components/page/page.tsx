@@ -30,12 +30,12 @@ const Page = ({
       <Breadcrumbs breadcrumbs={breadcrumbs} />
       <div
         className={clsx(
-          "flex w-full h-full gap-4 mt-4",
+          "flex w-full h-full gap-2 md:gap-4 mt-1 md:mt-2",
           !isInline && "flex-col"
         )}
       >
         {sidebarItems && (
-          <section className="w-52">
+          <section className=" md:w-52">
             <Sidebar items={sidebarItems} onChange={setActiveTab} />
           </section>
         )}

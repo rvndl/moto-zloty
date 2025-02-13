@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { HTMLAttributes, PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -19,7 +18,7 @@ const Card = ({
   return (
     <div
       className={twMerge(
-        "p-6 rounded-xl border bg-card bg-white shadow",
+        "p-4 md:p-6 rounded-xl border bg-card bg-white shadow",
         className
       )}
       {...rest}
@@ -33,7 +32,7 @@ const Card = ({
         </div>
       )}
 
-      <div className={clsx(Boolean(title) && "mt-6", contentClassName)}>
+      <div className={twMerge(Boolean(title) && "mt-6", contentClassName)}>
         {children}
       </div>
     </div>

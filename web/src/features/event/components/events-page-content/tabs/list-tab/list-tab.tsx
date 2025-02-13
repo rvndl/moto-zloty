@@ -38,13 +38,13 @@ const ListTab = ({ events }: Props) => {
     <div className="grid gap-6">
       {Object.keys(groupedEvents)?.map((weekRange) => (
         <section key={weekRange}>
-          <h3 className="text-2xl font-bold">
+          <h3 className="text-xl font-bold md:text-2xl">
             {weekRange}{" "}
-            <span className="text-base font-normal text-muted">
+            <span className="text-sm font-normal md:text-base text-muted">
               ({groupedEvents[weekRange]?.length} wydarzeń)
             </span>
           </h3>
-          <div className="grid w-full grid-cols-2 gap-4 mt-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid w-full grid-cols-2 gap-2 mt-2 md:gap-4 md:grid-cols-3 lg:grid-cols-4">
             {groupedEvents[weekRange]?.map((event) => (
               <ListItem key={event.id} event={event} />
             ))}
