@@ -62,7 +62,10 @@ const Datepicker = ({
             size={size}
           >
             {value
-              ? format(value!, "dd.MM.yyyy HH:mm")
+              ? format(
+                  value!,
+                  showTimepicker ? "dd.MM.yyyy HH:mm" : "dd.MM.yyyy"
+                )
               : placeholder ?? "Wybierz datę"}
           </Button>
           {Boolean(error) && <HelpText variant="error">{error}</HelpText>}
