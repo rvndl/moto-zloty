@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { EventsFilters, Filters, initialFiltersState } from "./events-filters";
 import { match } from "ts-pattern";
 import { ListTab, MapTab } from "./tabs";
+import { AnimatePresence } from "framer-motion";
 
 type Tab = "Widok mapy" | "Widok listy";
 
@@ -56,12 +57,14 @@ const EventsPageContent = () => {
           />
         </div>
         <div className="w-full h-full mt-2">
-          {match(tab)
-            .with("Widok mapy", () => (
-              <MapTab events={events} isLoading={isLoading || isFetching} />
-            ))
-            .with("Widok listy", () => <ListTab events={events} />)
-            .otherwise(() => null)}
+          <AnimatePresence>
+            {match(tab)
+              .with("Widok mapy", () => (
+                <MapTab events={events} isLoading={isLoading || isFetching} />
+              ))
+              .with("Widok listy", () => <ListTab events={events} />)
+              .otherwise(() => null)}
+          </AnimatePresence>
         </div>
       </section>
     </div>

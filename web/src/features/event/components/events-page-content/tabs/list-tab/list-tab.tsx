@@ -4,6 +4,7 @@ import Logo from "@assets/img/mz-logo-black.png";
 import { groupEventsByWeek } from "@utils/event";
 import { ListItem } from "./list-item";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 interface Props {
   events?: Event[];
@@ -35,7 +36,12 @@ const ListTab = ({ events }: Props) => {
   }
 
   return (
-    <div className="grid gap-6">
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      className="grid gap-6"
+    >
       {Object.keys(groupedEvents)?.map((weekRange) => (
         <section key={weekRange}>
           <h3 className="text-xl font-bold md:text-2xl">
@@ -51,7 +57,7 @@ const ListTab = ({ events }: Props) => {
           </div>
         </section>
       ))}
-    </div>
+    </motion.div>
   );
 };
 
