@@ -4,7 +4,7 @@ import { Footer } from "./footer";
 import { Geist } from "next/font/google";
 import clsx from "clsx";
 
-const geist = Geist();
+const geist = Geist({ subsets: ["latin"] });
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
