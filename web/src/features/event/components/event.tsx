@@ -33,7 +33,7 @@ const Event = ({ event, size = "normal" }: Props) => {
           isPast && "opacity-50"
         )}
       >
-        <p className="pointer-events-none max-w-fit translate-y-1 truncate font-normal absolute bottom-1 left-1 right-1 z-10 px-2 py-0.5 leading-none transition border border-muted/50 text-white text-sm bg-white/30 opacity-0 rounded-md group-hover:opacity-100 group-hover:translate-y-0 backdrop-blur-md">
+        <p className="pointer-events-none max-w-fit translate-y-1 truncate font-normal absolute bottom-1 left-1 right-1 z-10 px-2 py-0.5 leading-none transition border border-muted/50 text-white text-sm bg-muted/50 opacity-0 rounded-md group-hover:opacity-100 group-hover:translate-y-0 backdrop-blur-xl">
           {event.name}
         </p>
         <Badge
