@@ -56,7 +56,7 @@ const EventsFilters = ({
   };
 
   return (
-    <div className="flex items-center content-start w-full gap-1 overflow-x-auto md:gap-2 shrink-0">
+    <div className="flex items-center content-start gap-1 overflow-x-auto md:gap-2 shrink-0">
       <AnimatePresence>
         <Datepicker
           value={filters.dateFrom}
