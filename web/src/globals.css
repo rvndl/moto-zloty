@@ -29,6 +29,7 @@ body {
   --sb-track-color: #f3f3f3;
   --sb-thumb-color: #000000;
   --sb-size: 10px;
+  background: #fafafa;
 }
 
 img,

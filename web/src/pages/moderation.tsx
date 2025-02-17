@@ -5,7 +5,7 @@ export default function Moderation() {
   return (
     <>
       <Metadata title="Moderacja" canonical="/moderation" />
-      <ModerationPage />;
+      <ModerationPage />
     </>
   );
 }

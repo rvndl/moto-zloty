@@ -30,7 +30,7 @@ export default function Index({
 }) {
   return (
     <HydrationBoundary state={dehydratedState}>
-      <EventsPage />;
+      <EventsPage />
     </HydrationBoundary>
   );
 }

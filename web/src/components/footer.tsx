@@ -1,12 +1,24 @@
+import Image from "next/image";
+import Logo from "@assets/img/mz-logo-black.png";
 import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="flex flex-row items-center justify-center w-full gap-8 p-2 border-t shadow-sm text-primary">
-      <p className="text-sm font-medium">&copy; Moto-Zloty.pl</p>
-      <div className="flex items-center justify-center gap-3 text-sm text-muted">
-        <Link href="/privacy">Polityka prywatności</Link>
-        <Link href="/contact">Kontakt</Link>
+    <footer className="w-full mt-auto border-t shadow-sm text-primary">
+      <div className="grid w-full gap-4 px-8 py-6 mx-auto text-sm font-normal max-w-7xl">
+        <div className="flex gap-4 text-sm font-normal">
+          <Image
+            src={Logo}
+            alt="Moto-Zloty.pl"
+            className="h-fit"
+            width={50}
+            height={20}
+          />
+          <Link href="/">Strona główna</Link>
+          <Link href="/contact">Kontakt</Link>
+          <Link href="/privacy">Polityka prywatności</Link>
+        </div>
+        <p className="text-xs text-muted">&copy; Moto-Zloty.pl</p>
       </div>
     </footer>
   );
