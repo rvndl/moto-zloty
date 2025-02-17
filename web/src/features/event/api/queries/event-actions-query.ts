@@ -4,7 +4,7 @@ import { EventAction } from "../types/event-action";
 
 const EVENT_ACTIONS_QUERY = "EVENT_ACTIONS_QUERY";
 
-const eventActions = async (id: string) => {
+const getEventActionsQuery = async (id: string) => {
   const response = await Api.get<EventAction[]>(`/events/${id}/actions`);
 
   return response.data;
@@ -16,9 +16,9 @@ const useEventActionsQuery = (
 ) => {
   return useQuery({
     queryKey: [EVENT_ACTIONS_QUERY, id],
-    queryFn: () => eventActions(id),
+    queryFn: () => getEventActionsQuery(id),
     ...options,
   });
 };
 
-export { useEventActionsQuery, EVENT_ACTIONS_QUERY };
+export { useEventActionsQuery, getEventActionsQuery, EVENT_ACTIONS_QUERY };

@@ -9,7 +9,7 @@ const EventsPage = () => {
   return (
     <>
       <Metadata
-        title="Moto Zloty - Wszystkie zloty motocyklowe w Polsce - znajdź zlot motocyklowy już teraz!"
+        title="Moto Zloty - Wszystkie zloty motocyklowe w Polsce!"
         description="Lista wszystkich zlotów motocyklowych w polsce! Wyszukaj najbliższe wydarzenie motocyklowe już dzisiaj!"
         canonical=""
       />

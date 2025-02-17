@@ -5,7 +5,11 @@ import { PropsWithChildren } from "react";
 export default function PrivacyPage() {
   return (
     <>
-      <Metadata title="Polityka prywatności" canonical="/privacy" />
+      <Metadata
+        title="Polityka prywatności"
+        description="Polityka prywatności"
+        canonical="/privacy"
+      />
       <Page
         title="Polityka prywatności"
         breadcrumbs={[{ label: "Polityka prywatności", isActive: true }]}

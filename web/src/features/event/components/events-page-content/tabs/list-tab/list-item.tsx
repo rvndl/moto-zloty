@@ -1,6 +1,7 @@
 import { getFilePath } from "@utils/index";
 import { formatDistanceToNow } from "date-fns";
 import { pl } from "date-fns/locale";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Event } from "types/event";
 
@@ -31,12 +32,13 @@ const ListItem = ({ event }: Props) => {
         onClick={() => handleOnClick(event)}
       />
       <div className="flex flex-col p-2">
-        <a
+        <Link
+          href={`/event/${event.id}`}
           className="w-full text-base font-semibold leading-5 truncate cursor-pointer md:text-lg"
           onClick={() => handleOnClick(event)}
         >
           {event.name}
-        </a>
+        </Link>
         <p className="w-full text-xs text-gray-500 truncate">{event.address}</p>
         <p className="flex items-center w-full mt-1 text-xs truncate md:text-sm">
           {distance}
