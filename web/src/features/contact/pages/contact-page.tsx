@@ -1,10 +1,8 @@
 import {
-  AtIcon,
   Button,
   Card,
   Form,
   InputField,
-  InstagramIcon,
   ReCaptchaField,
   TextareaField,
 } from "@components";
@@ -13,6 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { yup } from "@utils/yup";
 import { useContactMutation } from "../api";
 import toast from "react-hot-toast";
+import { AtSignIcon, InstagramIcon } from "lucide-react";
 
 interface Fields {
   name: string;
@@ -87,7 +86,7 @@ const ContactPage = () => {
             href="mailto:kontakt@moto-zloty.pl"
             className="flex items-center gap-1 mt-1"
           >
-            <AtIcon className="w-5" /> kontakt@moto-zloty.pl
+            <AtSignIcon className="w-5" /> kontakt@moto-zloty.pl
           </a>
           <a
             href="https://instagram.com/moto.zloty"

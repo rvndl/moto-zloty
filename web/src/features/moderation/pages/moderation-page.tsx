@@ -1,14 +1,10 @@
-import {
-  ChartAreaIcon,
-  ShieldCheckIcon,
-  UserBookIcon,
-  Page,
-} from "@components";
+import { Page } from "@components";
 import { useAuth } from "@features/auth";
 import { useEffect } from "react";
 import { match } from "ts-pattern";
 import { EventListTab, StatisticsTab, UserListTab } from "../components";
 import { useRouter } from "next/navigation";
+import { ChartAreaIcon, BookUserIcon, ShieldCheckIcon } from "lucide-react";
 
 const ModerationPage = () => {
   const { isPermitted } = useAuth();
@@ -27,7 +23,7 @@ const ModerationPage = () => {
       breadcrumbs={[{ label: "Moderacja", isActive: true }]}
       sidebarItems={[
         { label: "Statystyki", icon: <ChartAreaIcon /> },
-        { label: "Użytkownicy", icon: <UserBookIcon /> },
+        { label: "Użytkownicy", icon: <BookUserIcon /> },
         { label: "Wydarzenia", icon: <ShieldCheckIcon /> },
       ]}
       isInline

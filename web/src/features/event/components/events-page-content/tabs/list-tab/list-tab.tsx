@@ -19,7 +19,6 @@ const ListTab = ({ events }: Props) => {
       <div className="flex flex-col items-center w-full h-full ">
         <div className="mt-24 w-96">
           <img
-            className=""
             src={Logo.src}
             alt="Moto Zloty"
             onClick={() => router.push("/")}

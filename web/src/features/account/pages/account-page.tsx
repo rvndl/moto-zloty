@@ -1,10 +1,11 @@
-import { SettingsIcon, TicketIcon, UserIcon, Page } from "@components";
+import { Metadata, Page } from "@components";
 import { useEffect } from "react";
 import { EventsTab, AccountTab, SettingsTab } from "../components";
 import { match } from "ts-pattern";
 import { useAccountQuery } from "../api";
 import { useAuth } from "@features/auth";
 import { useRouter } from "next/router";
+import { SettingsIcon, TicketIcon, UserIcon } from "lucide-react";
 
 const AccountPage = () => {
   const {
@@ -25,30 +26,33 @@ const AccountPage = () => {
   }, []);
 
   return (
-    <Page
-      title={data?.username}
-      breadcrumbs={[
-        { label: `Szczegóły: ${data?.username}`, isActive: true, isLoading },
-      ]}
-      sidebarItems={[
-        { label: "Szczegóły", icon: <UserIcon /> },
-        { label: "Wydarzenia", icon: <TicketIcon /> },
-        {
-          label: "Ustawienia",
-          icon: <SettingsIcon />,
-          isHidden: !isOwner(id as string),
-        },
-      ]}
-      isInline
-    >
-      {(tab) =>
-        match(tab)
-          .with("Szczegóły", () => <AccountTab account={data} />)
-          .with("Wydarzenia", () => <EventsTab account={data} />)
-          .with("Ustawienia", () => <SettingsTab />)
-          .otherwise(() => null)
-      }
-    </Page>
+    <>
+      <Metadata title={data?.username ?? ""} />
+      <Page
+        title={data?.username}
+        breadcrumbs={[
+          { label: `Szczegóły: ${data?.username}`, isActive: true, isLoading },
+        ]}
+        sidebarItems={[
+          { label: "Szczegóły", icon: <UserIcon /> },
+          { label: "Wydarzenia", icon: <TicketIcon /> },
+          {
+            label: "Ustawienia",
+            icon: <SettingsIcon />,
+            isHidden: !isOwner(id as string),
+          },
+        ]}
+        isInline
+      >
+        {(tab) =>
+          match(tab)
+            .with("Szczegóły", () => <AccountTab account={data} />)
+            .with("Wydarzenia", () => <EventsTab account={data} />)
+            .with("Ustawienia", () => <SettingsTab />)
+            .otherwise(() => null)
+        }
+      </Page>
+    </>
   );
 };
 

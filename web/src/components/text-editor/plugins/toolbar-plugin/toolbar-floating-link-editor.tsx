@@ -13,7 +13,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { $isAtNodeEnd } from "@lexical/selection";
 import { Input } from "@components/input";
 import { Button } from "@components/button";
-import { PencilIcon } from "@components/icons";
+import { PencilIcon } from "lucide-react";
 
 function getSelectedNode(selection: RangeSelection) {
   const anchor = selection.anchor;

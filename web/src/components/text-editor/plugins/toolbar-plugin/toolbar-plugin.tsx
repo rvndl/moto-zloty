@@ -14,23 +14,23 @@ import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import { $isListNode, ListNode } from "@lexical/list";
 import { createPortal } from "react-dom";
 import { $isHeadingNode } from "@lexical/rich-text";
-import {
-  Button,
-  ChevronDownIcon,
-  CodeIcon,
-  JustifyIcon,
-  LinkIcon,
-  TextConterIcon,
-  TextLeftIcon,
-  TextRightIcon,
-  TypeBoldIcon,
-  TypeItalicIcon,
-  TypeStrikethroughIcon,
-  TypeUnderlineIcon,
-} from "@components";
+import { Button } from "@components";
 import { ToolbarButton } from "./toolbar-button";
 import { ToolbarFloatingLinkEditor } from "./toolbar-floating-link-editor";
 import { ToolbarBlockOptions } from "./toolbar-block-options";
+import {
+  AlignCenterIcon,
+  AlignJustifyIcon,
+  AlignLeftIcon,
+  AlignRightIcon,
+  BoldIcon,
+  ChevronDownIcon,
+  CodeIcon,
+  ItalicIcon,
+  LinkIcon,
+  StrikethroughIcon,
+  UnderlineIcon,
+} from "lucide-react";
 
 const LowPriority = 1;
 
@@ -199,14 +199,14 @@ export function ToolbarPlugin() {
           isActive={isBold}
           aria-label="Format Bold"
         >
-          <TypeBoldIcon className="scale-[0.6]" />
+          <BoldIcon className="scale-[0.6]" />
         </ToolbarButton>
         <ToolbarButton
           onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
           isActive={isItalic}
           aria-label="Format Italics"
         >
-          <TypeItalicIcon className="scale-[0.6]" />
+          <ItalicIcon className="scale-[0.6]" />
         </ToolbarButton>
         <ToolbarButton
           onClick={() =>
@@ -215,7 +215,7 @@ export function ToolbarPlugin() {
           isActive={isUnderline}
           aria-label="Format Underline"
         >
-          <TypeUnderlineIcon className="scale-[0.6]" />
+          <UnderlineIcon className="scale-[0.6]" />
         </ToolbarButton>
         <ToolbarButton
           onClick={() =>
@@ -224,7 +224,7 @@ export function ToolbarPlugin() {
           isActive={isStrikethrough}
           aria-label="Format Strikethrough"
         >
-          <TypeStrikethroughIcon className="scale-[0.6]" />
+          <StrikethroughIcon className="scale-[0.6]" />
         </ToolbarButton>
         <ToolbarButton
           onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code")}
@@ -250,7 +250,7 @@ export function ToolbarPlugin() {
           onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left")}
           aria-label="Left Align"
         >
-          <TextLeftIcon className="scale-[0.6]" />
+          <AlignLeftIcon className="scale-[0.6]" />
         </ToolbarButton>
         <ToolbarButton
           onClick={() =>
@@ -258,7 +258,7 @@ export function ToolbarPlugin() {
           }
           aria-label="Center Align"
         >
-          <TextConterIcon className="scale-[0.6]" />
+          <AlignCenterIcon className="scale-[0.6]" />
         </ToolbarButton>
         <ToolbarButton
           onClick={() =>
@@ -266,7 +266,7 @@ export function ToolbarPlugin() {
           }
           aria-label="Right Align"
         >
-          <TextRightIcon className="scale-[0.6]" />
+          <AlignRightIcon className="scale-[0.6]" />
         </ToolbarButton>
         <ToolbarButton
           onClick={() =>
@@ -274,7 +274,7 @@ export function ToolbarPlugin() {
           }
           aria-label="Justify Align"
         >
-          <JustifyIcon className="scale-[0.6]" />
+          <AlignJustifyIcon className="scale-[0.6]" />
         </ToolbarButton>
       </div>
     </div>

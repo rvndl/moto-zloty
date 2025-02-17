@@ -1,11 +1,11 @@
+import { Button } from "@components";
+import { Table } from "@tanstack/react-table";
 import {
-  Button,
   ChevronLeftIcon,
   ChevronRightIcon,
   ChevronsLeftIcon,
   ChevronsRightIcon,
-} from "@components";
-import { Table } from "@tanstack/react-table";
+} from "lucide-react";
 
 interface Props<TColumn> {
   table: Table<TColumn>;

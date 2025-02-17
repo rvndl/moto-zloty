@@ -16,15 +16,15 @@ import { $wrapNodes } from "@lexical/selection";
 import { $createCodeNode } from "@lexical/code";
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { Button, ButtonProps } from "@components/button";
+import clsx from "clsx";
 import {
   CodeIcon,
-  ListOLIcon,
+  Heading1Icon,
+  Heading2Icon,
+  ListOrderedIcon,
   QuoteIcon,
-  TextParagraph,
-  TypeH1Icon,
-  TypeH2Icon,
-} from "@components/icons";
-import clsx from "clsx";
+  TypeIcon,
+} from "lucide-react";
 
 interface Props {
   editor: LexicalEditor;
@@ -160,35 +160,35 @@ const ToolbarBlockOptions = ({
       <ToolbarOption
         isActive={blockType === "paragraph"}
         onClick={formatParagraph}
-        icon={<TextParagraph />}
+        icon={<TypeIcon />}
       >
         Paragraf
       </ToolbarOption>
       <ToolbarOption
         isActive={blockType === "h1"}
         onClick={formatLargeHeading}
-        icon={<TypeH1Icon />}
+        icon={<Heading1Icon />}
       >
         Duży nagłówek
       </ToolbarOption>
       <ToolbarOption
         isActive={blockType === "h2"}
         onClick={formatSmallHeading}
-        icon={<TypeH2Icon />}
+        icon={<Heading2Icon />}
       >
         Mały nagłowek
       </ToolbarOption>
       <ToolbarOption
         isActive={blockType === "ul"}
         onClick={formatBulletList}
-        icon={<ListOLIcon />}
+        icon={<ListOrderedIcon />}
       >
         Lista punktowana
       </ToolbarOption>
       <ToolbarOption
         isActive={blockType === "ol"}
         onClick={formatNumberedList}
-        icon={<ListOLIcon />}
+        icon={<ListOrderedIcon />}
       >
         Lista numeryczna
       </ToolbarOption>

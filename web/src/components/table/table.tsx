@@ -15,8 +15,8 @@ import { TableHead } from "./table-head";
 import { TableBody } from "./table-body";
 import { TableRow } from "./table-row";
 import { TableCell } from "./table-cell";
-import { ArrowDownIcon, ArrowUpIcon } from "@components";
 import { Pagination } from "./pagination";
+import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
 
 const DEFAULT_PAGE_SIZE = 10;
 

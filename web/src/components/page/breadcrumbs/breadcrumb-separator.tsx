@@ -1,4 +1,4 @@
-import { ChevronRightIcon } from "@components";
+import { ChevronRightIcon } from "lucide-react";
 
 const BreadcrumbSeparator = () => {
   return (

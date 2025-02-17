@@ -1,6 +1,7 @@
-import { Metadata, Page, PlusIcon } from "@components";
+import { Metadata, Page } from "@components";
 import { CreateEventDialog, EventsPageContent } from "../components";
 import { LoginDialog, useAuth } from "@features/auth";
+import { PlusIcon } from "lucide-react";
 
 const EventsPage = () => {
   const { isAuthenticated } = useAuth();

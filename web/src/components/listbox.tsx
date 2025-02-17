@@ -5,8 +5,8 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
+import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { ReactNode, useId, useRef } from "react";
-import { CheckIcon, ChevronDownIcon } from "./icons";
 
 interface ListboxOption {
   id: string;

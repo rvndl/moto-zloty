@@ -1,7 +1,8 @@
-import { LogoutIcon, UserIcon, Button, Dropdown } from "@components";
+import { Button, Dropdown } from "@components";
 import { rankToString } from "@utils/user";
 import { UserState } from "@features/auth";
 import { useRouter } from "next/navigation";
+import { LogOutIcon, UserIcon } from "lucide-react";
 
 interface Props {
   user: UserState;
@@ -26,7 +27,7 @@ const UserMenu = ({ user, logout }: Props) => {
         },
         {
           label: "Wyloguj",
-          icon: <LogoutIcon />,
+          icon: <LogOutIcon />,
           onClick: logout,
         },
       ]}

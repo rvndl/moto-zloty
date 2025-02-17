@@ -1,19 +1,14 @@
 import { Head, Html, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 export default function Document() {
   return (
     <Html lang="pl">
       <Head>
-        <script
-          id="Cookiebot"
-          src="https://consent.cookiebot.com/uc.js"
-          data-cbid={process.env.NEXT_PUBLIC_COOKIEBOT_API_KEY}
-          type="text/javascript"
-        ></script>
         <link rel="canonical" href="https://www.moto-zloty.pl" />
         <meta
           name="keywords"
-          content="zloty, zlot, motocykl, motocykle, zloty motocyklowe, zloty motocyklowy, imprezy motocyklowe"
+          content="zloty, zlot, motocykl, motocykle, zloty motocyklowe, zloty motocyklowy, imprezy motocyklowe, zloty motocyklowe 2025, zlot motocykli"
         />
         <link
           rel="apple-touch-icon"
@@ -102,6 +97,13 @@ export default function Document() {
           <NextScript />
         </div>
         <div id="headlessui-portal-root"></div>
+        <Script
+          id="Cookiebot"
+          src="https://consent.cookiebot.com/uc.js"
+          data-cbid={process.env.NEXT_PUBLIC_COOKIEBOT_API_KEY}
+          type="text/javascript"
+          strategy="beforeInteractive"
+        />
       </body>
     </Html>
   );

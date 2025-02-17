@@ -7,7 +7,6 @@ import {
   DropzoneImage,
   Form,
   InputField,
-  PlusIcon,
 } from "@components";
 import { useAuth } from "@features/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -20,6 +19,7 @@ import { PreviewMap } from "../preview-map";
 import { DatePicker } from "./date-picker";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { PlusIcon } from "lucide-react";
 
 interface Fields {
   name: string;

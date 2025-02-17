@@ -1,8 +1,8 @@
 import { Checkbox as HeadlessCheckbox } from "@headlessui/react";
 import { ComponentProps } from "react";
-import { CheckIcon } from "./icons";
 import clsx from "clsx";
 import { Label } from "./label";
+import { CheckIcon } from "lucide-react";
 
 interface CheckboxProps extends ComponentProps<typeof HeadlessCheckbox> {
   label?: string;

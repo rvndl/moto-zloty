@@ -6,8 +6,8 @@ import {
   Dialog as HeadlessDialog,
 } from "@headlessui/react";
 import clsx from "clsx";
-import { XIcon } from "@components";
 import { motion } from "framer-motion";
+import { XIcon } from "lucide-react";
 
 interface DialogProps {
   trigger: ReactNode;

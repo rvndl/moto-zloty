@@ -1,15 +1,12 @@
-import {
-  ArrowDownNarrowWideIcon,
-  ArrowUpNarrowWideIcon,
-  Button,
-  Datepicker,
-  Listbox,
-  ListboxOption,
-  XIcon,
-} from "@components";
+import { Button, Datepicker, Listbox, ListboxOption } from "@components";
 import { useIsMobile } from "@hooks/use-is-mobile";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
+import {
+  ArrowDownNarrowWideIcon,
+  ArrowUpNarrowWideIcon,
+  XIcon,
+} from "lucide-react";
 
 const sortOptions: ListboxOption[] = [
   {

@@ -1,4 +1,4 @@
-import { UserIcon } from "@components/icons";
+import { UserIcon } from "lucide-react";
 import Link from "next/link";
 import { AccountWithoutPassword } from "types/account";
 
@@ -11,7 +11,7 @@ const UserDetailsCell = ({ account }: Props) => {
     <div className="flex items-center gap-2">
       <Link href={`/account/${account.id}`}>
         <div className="flex items-center justify-center p-2 rounded-full bg-accent">
-          <UserIcon className="scale-[0.68]" />
+          <UserIcon />
         </div>
       </Link>
 

@@ -12,7 +12,6 @@ export * from "./label";
 export * from "./input";
 export * from "./popover";
 export * from "./form";
-export * from "./icons";
 export * from "./dialog";
 export * from "./checkbox";
 export * from "./dropzone";

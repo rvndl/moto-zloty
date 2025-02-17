@@ -4,13 +4,13 @@ import {
   HelpText,
   Label,
   Popover,
-  CalendarIcon,
   ButtonSize,
 } from "@components";
 import clsx from "clsx";
 import { format } from "date-fns";
 import { DayPickerProps } from "react-day-picker";
 import { Timepicker } from "./timepicker";
+import { CalendarIcon } from "lucide-react";
 
 interface DatepickerProps {
   label?: string;

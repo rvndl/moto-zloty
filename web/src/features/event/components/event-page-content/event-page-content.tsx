@@ -1,4 +1,4 @@
-import { Value, Card, Button, MapPinnedIcon } from "@components";
+import { Value, Card, Button } from "@components";
 import { type Event } from "types/event";
 import { EventStartingDate } from "../event-starting-date";
 import { EventEndingDate } from "../event-ending-date";
@@ -7,6 +7,7 @@ import { PreviewMap } from "../preview-map";
 import { ActionsList } from "./actions-list";
 import { BannerPreview } from "./banner-preview";
 import dynamic from "next/dynamic";
+import { MapPinnedIcon } from "lucide-react";
 
 interface Props {
   event?: Event;
