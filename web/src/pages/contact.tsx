@@ -5,7 +5,7 @@ export default function Contact() {
   return (
     <>
       <Metadata
-        title="Kontakt"
+        title="Formularz kontaktowy"
         description="Skontaktuj się z nami!"
         canonical="/contact"
       />

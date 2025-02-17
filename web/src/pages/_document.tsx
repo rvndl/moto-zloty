@@ -83,8 +83,6 @@ export default function Document() {
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Moto Zloty" />
-        <meta property="og:url" content="https://moto-zloty.pl/" />
         <meta
           property="og:image"
           content="https://www.moto-zloty.pl/event-placeholder.png"
