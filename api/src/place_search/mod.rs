@@ -16,6 +16,7 @@ pub struct LocationIQAddress {
     pub neighbourhood: Option<String>,
     pub suburb: Option<String>,
     pub city: Option<String>,
+    pub state: Option<String>,
 }
 
 #[derive(Debug, serde::Deserialize, serde::Serialize)]
@@ -65,7 +66,7 @@ pub async fn search(query: &str, global: Arc<Global>) -> Result<Vec<Place>, Stri
 
     let location_iq_api_key = &global.config().location_iq_api_key;
     let request_url = format!(
-        "{}?q={}&countrycodes=pl&limit={}&key={}",
+        "{}?q={}&accept-language=pl&countrycodes=pl&limit={}&key={}",
         API_URL, query, MAX_RESULTS, location_iq_api_key
     );
 
@@ -126,6 +127,11 @@ fn make_address(address: LocationIQAddress) -> String {
     if let Some(city) = address.city {
         new_address.push_str(", ");
         new_address.push_str(&city);
+    }
+
+    if let Some(state) = address.state {
+        new_address.push_str(", ");
+        new_address.push_str(&state);
     }
 
     new_address
