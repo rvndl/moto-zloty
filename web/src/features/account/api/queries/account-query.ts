@@ -4,7 +4,7 @@ import { AccountResponse } from "../types/account";
 
 const ACCOUNT_QUERY_KEY = "ACCOUNT_QUERY_KEY";
 
-const account = async (id: string) => {
+const getAccountQuery = async (id: string) => {
   const response = await Api.get<AccountResponse>(`/account/${id}`);
 
   return response.data;
@@ -16,9 +16,9 @@ const useAccountQuery = (
 ) => {
   return useQuery({
     queryKey: [ACCOUNT_QUERY_KEY, id],
-    queryFn: () => account(id),
+    queryFn: () => getAccountQuery(id),
     ...options,
   });
 };
 
-export { useAccountQuery, ACCOUNT_QUERY_KEY };
+export { useAccountQuery, getAccountQuery, ACCOUNT_QUERY_KEY };

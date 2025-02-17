@@ -4,7 +4,7 @@ import { ModerationPage } from "@features/moderation";
 export default function Moderation() {
   return (
     <>
-      <Metadata title="Moderacja" />
+      <Metadata title="Moderacja" canonical="/moderation" />
       <ModerationPage />;
     </>
   );

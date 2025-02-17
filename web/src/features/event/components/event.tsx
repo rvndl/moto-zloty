@@ -45,7 +45,7 @@ const Event = ({ event, size = "normal" }: Props) => {
         <img
           src={getFilePath(event.banner_small_id ?? event.banner_id)}
           className="object-cover w-full h-full transition rounded-md z-200 hover:scale-105"
-          alt={event.name}
+          alt={event.name ?? "event banner"}
         />
       </div>
     </Link>

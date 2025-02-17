@@ -27,7 +27,7 @@ const AccountPage = () => {
 
   return (
     <>
-      <Metadata title={data?.username ?? ""} />
+      <Metadata title={data?.username ?? ""} canonical={`/account/${id}`} />
       <Page
         title={data?.username}
         breadcrumbs={[

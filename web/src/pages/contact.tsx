@@ -4,7 +4,7 @@ import { ContactPage } from "@features/contact";
 export default function Contact() {
   return (
     <>
-      <Metadata title="Kontakt" />
+      <Metadata title="Kontakt" canonical="/contact" />
       <ContactPage />;
     </>
   );

@@ -16,7 +16,11 @@ const EventPage = () => {
 
   return (
     <>
-      <Metadata title={event?.name ?? ""} description={event?.description} />
+      <Metadata
+        title={event?.name ?? ""}
+        description={event?.description}
+        canonical={`/event/${id}`}
+      />
       <Page
         title={event?.name}
         breadcrumbs={[

@@ -4,9 +4,11 @@ import Head from "next/head";
 interface Props {
   title: string;
   description?: string;
+  canonical?: string;
 }
 
-const Metadata = ({ title, description }: Props) => {
+const Metadata = ({ title, description, canonical }: Props) => {
+  const siteUrl = process.env.NEXT_PUBLIC_PUBLIC_URL;
   const strippedDescription = stripHtml(description ?? "").result;
   return (
     <Head>
@@ -17,6 +19,9 @@ const Metadata = ({ title, description }: Props) => {
           <meta name="description" content={strippedDescription} />
           <meta property="og:description" content={strippedDescription} />
         </>
+      )}
+      {canonical !== undefined && (
+        <link rel="canonical" href={siteUrl + canonical} />
       )}
     </Head>
   );

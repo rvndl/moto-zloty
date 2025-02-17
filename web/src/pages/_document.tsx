@@ -5,7 +5,6 @@ export default function Document() {
   return (
     <Html lang="pl">
       <Head>
-        <link rel="canonical" href="https://www.moto-zloty.pl" />
         <meta
           name="keywords"
           content="zloty, zlot, motocykl, motocykle, zloty motocyklowe, zloty motocyklowy, imprezy motocyklowe, zloty motocyklowe 2025, zlot motocykli"
