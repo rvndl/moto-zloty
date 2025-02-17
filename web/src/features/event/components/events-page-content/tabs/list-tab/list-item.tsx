@@ -23,7 +23,7 @@ const ListItem = ({ event }: Props) => {
   return (
     <div
       key={event.id}
-      className="flex flex-col transition-transform rounded-lg shadow aspect-video bg-accent hover:-translate-y-1"
+      className="flex flex-col transition-transform bg-white rounded-lg shadow aspect-video hover:-translate-y-1"
     >
       <img
         src={getFilePath(event.banner_small_id ?? event.banner_id)}
