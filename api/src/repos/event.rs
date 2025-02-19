@@ -303,6 +303,22 @@ impl<'a> EventRepo<'a> {
 
         query
     }
+
+    pub async fn search(&self, search_string: &str) -> Result<Vec<Event>, sqlx::Error> {
+        let query = sqlx::query_as::<_, Event>(
+            r#"
+            SELECT *, similarity(name || ' ' || coalesce(address, ''), $1) AS score
+            FROM "event"
+            WHERE similarity(name || ' ' || coalesce(address, ''), $1) > 0.1
+            ORDER BY score DESC LIMIT 10;
+            "#,
+        )
+        .bind(search_string)
+        .fetch_all(self.db)
+        .await;
+
+        query
+    }
 }
 
 fn join_with_account(row: PgRow, account_mapping_type: AccountMappingType) -> Event {

@@ -4,12 +4,13 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
-import { useEffect, useId, useRef, useState } from "react";
+import { ReactNode, useEffect, useId, useRef, useState } from "react";
 import { Button } from "./button";
 import { Label } from "./label";
 import { useDebounce } from "@hooks/use-debounce";
 import { HelpText } from "./help-text";
 import { twMerge } from "tailwind-merge";
+import clsx from "clsx";
 
 type AutocompleteSize = "small" | "default";
 
@@ -19,7 +20,7 @@ interface AutocompleteOption<TValue = unknown> {
   value?: TValue;
 }
 
-interface AutocompleteProps {
+interface AutocompleteProps<TValue = unknown> {
   value?: AutocompleteOption;
   label?: string;
   placeholder?: string;
@@ -27,11 +28,16 @@ interface AutocompleteProps {
   size?: AutocompleteSize;
   error?: string;
   isRequired?: boolean;
-  fetch?: (query: string) => Promise<AutocompleteOption[]>;
-  onChange?: (value: AutocompleteOption) => void;
+  fetch?: (query: string) => Promise<AutocompleteOption<TValue>[]>;
+  onChange?: (value: AutocompleteOption<TValue>) => void;
+  onItemClick?: (value: AutocompleteOption<TValue>) => void;
+  transformer?: (
+    value: AutocompleteOption<TValue>,
+    query?: string
+  ) => ReactNode;
 }
 
-const Autocomplete = ({
+const Autocomplete = <TValue = unknown,>({
   value,
   label,
   fetch,
@@ -41,16 +47,18 @@ const Autocomplete = ({
   error,
   isRequired,
   onChange,
-}: AutocompleteProps) => {
+  onItemClick,
+  transformer,
+}: AutocompleteProps<TValue>) => {
   const id = useId();
-  const [options, setOptions] = useState<AutocompleteOption[]>();
+  const [options, setOptions] = useState<AutocompleteOption<TValue>[]>();
   const [query, setQuery] = useState("");
   // @ts-expect-error TODO: fix types
   const setDebouncedQuery = useDebounce(setQuery, 500);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const classes = twMerge(
-    "flex w-full rounded-md border border-input bg-transparent px-3 shadow-sm transition-colors placeholder:text-muted disabled:cursor-not-allowed disabled:opacity-50",
+    "flex w-full rounded-md border border-input bg-transparent px-3 shadow-sm transition-colors placeholder:text-muted disabled:cursor-not-allowed disabled:opacity-50 relative",
     "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
     size === "default" && "h-9 py-1 text-sm",
     size === "small" && "h-8 py-2 text-xs"
@@ -95,14 +103,20 @@ const Autocomplete = ({
             {options?.length ? (
               options?.map((option) => (
                 <ComboboxOption
-                  as={Button}
                   key={option.id}
+                  {...(!transformer && {
+                    as: Button,
+                    variant: "ghost",
+                    textAlignment: "left",
+                  })}
                   value={option}
-                  variant="ghost"
-                  className="w-full font-normal text-ellipsis"
-                  textAlignment="left"
+                  className={clsx(
+                    "w-full font-normal text-ellipsis",
+                    transformer && "p-0"
+                  )}
+                  onClick={() => onItemClick?.(option)}
                 >
-                  {option.label}
+                  {transformer?.(option, query) ?? option.label}
                 </ComboboxOption>
               ))
             ) : (

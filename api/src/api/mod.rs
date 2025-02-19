@@ -46,6 +46,7 @@ pub async fn run(global: Arc<Global>) {
         .route("/events/:id", get(routes::event::get))
         .route("/events/:id/actions", get(routes::event::actions))
         .route("/events/carousel", get(routes::event::carousel))
+        .route("/events/search/:query", get(routes::event::search))
         .route("/events", get(routes::event::list_public))
         .route("/register", put(routes::register::handler))
         .route("/login", post(routes::login::handler))

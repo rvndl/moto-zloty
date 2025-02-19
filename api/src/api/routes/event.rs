@@ -228,3 +228,14 @@ pub async fn actions(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -
 
     Json(actions).into_response()
 }
+
+pub async fn search(State(state): State<Arc<AppState>>, Path(query): Path<String>) -> Response {
+    let repos = state.global.repos();
+
+    let events = match repos.event.search(&query).await {
+        Ok(events) => events,
+        Err(err) => return api_error_log!("failed to search events: {}", err),
+    };
+
+    Json(events).into_response()
+}

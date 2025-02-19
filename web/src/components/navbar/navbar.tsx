@@ -4,6 +4,7 @@ import Logo from "@assets/img/mz-logo-black.png";
 import { isEmpty } from "lodash";
 import { UserMenu } from "./user-menu";
 import { usePathname, useRouter } from "next/navigation";
+import { EventSearch } from "@features/event";
 
 const Navbar = () => {
   const { user, logout, isPermitted } = useAuth();
@@ -45,7 +46,8 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <div className="absolute inset-y-0 right-0 flex items-center gap-8 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <EventSearch />
               {isEmpty(user) ? (
                 <LoginDialog />
               ) : (

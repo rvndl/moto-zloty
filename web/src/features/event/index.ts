@@ -1,2 +1,2 @@
-export * from "./components/event";
+export * from "./components";
 export * from "./pages";
