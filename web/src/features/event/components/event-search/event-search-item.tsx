@@ -10,7 +10,7 @@ interface Props {
 
 const EventSearchItem = ({ option, query }: Props) => {
   return (
-    <div className="z-10 flex items-center h-10 gap-2 p-1 rounded-md cursor-pointer w-max hover:bg-accent">
+    <div className="z-10 flex items-center w-full h-10 max-w-full gap-2 p-1 rounded-md cursor-pointer hover:bg-accent">
       <img
         src={getFilePath(option.value?.banner_small_id)}
         alt="Banner"
@@ -18,7 +18,7 @@ const EventSearchItem = ({ option, query }: Props) => {
       />
       <div className="grid w-full leading-5">
         <Highlighter
-          className="font-medium"
+          className="text-sm font-medium truncate md:font-normal"
           searchWords={query?.split(" ") ?? []}
           autoEscape={true}
           textToHighlight={option.label}

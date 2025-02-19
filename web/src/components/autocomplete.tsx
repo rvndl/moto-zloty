@@ -26,6 +26,7 @@ interface AutocompleteProps<TValue = unknown> {
   placeholder?: string;
   minLength?: number;
   size?: AutocompleteSize;
+  className?: string;
   error?: string;
   isRequired?: boolean;
   fetch?: (query: string) => Promise<AutocompleteOption<TValue>[]>;
@@ -44,6 +45,7 @@ const Autocomplete = <TValue = unknown,>({
   placeholder,
   minLength = 3,
   size = "default",
+  className,
   error,
   isRequired,
   onChange,
@@ -61,7 +63,8 @@ const Autocomplete = <TValue = unknown,>({
     "flex w-full rounded-md border border-input bg-transparent px-3 shadow-sm transition-colors placeholder:text-muted disabled:cursor-not-allowed disabled:opacity-50 relative",
     "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
     size === "default" && "h-9 py-1 text-sm",
-    size === "small" && "h-8 py-2 text-xs"
+    size === "small" && "h-8 py-2 text-xs",
+    className
   );
 
   useEffect(() => {

@@ -19,9 +19,9 @@ const Navbar = () => {
   return (
     <nav className="pb-4">
       <div className="bg-white border border-gray-100 rounded-md shadow-sm">
-        <div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-16">
-            <div className="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
+            <div className="flex items-center flex-1 sm:items-stretch sm:justify-start">
               <div className="flex items-center flex-shrink-0">
                 <img
                   className="w-auto h-5 cursor-pointer"
@@ -46,7 +46,7 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-            <div className="absolute inset-y-0 right-0 flex items-center gap-8 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <div className="absolute inset-y-0 right-0 flex items-center gap-2 pr-2 md:gap-8 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <EventSearch />
               {isEmpty(user) ? (
                 <LoginDialog />

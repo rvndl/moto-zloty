@@ -60,7 +60,9 @@ const Listbox = ({
           >
             <p className="flex items-center gap-1">
               {value?.icon && (
-                <span className="scale-[0.68] -ml-1">{value?.icon}</span>
+                <span className="scale-[0.68] -ml-1 shrink-0">
+                  {value?.icon}
+                </span>
               )}
               {value?.label ?? "Wybierz..."}
             </p>

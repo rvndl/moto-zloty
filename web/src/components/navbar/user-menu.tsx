@@ -15,8 +15,8 @@ const UserMenu = ({ user, logout }: Props) => {
   return (
     <Dropdown
       trigger={
-        <Button variant="ghost">
-          <UserIcon />
+        <Button variant="ghost" className="shrink-0">
+          <UserIcon className="shrink-0" />
         </Button>
       }
       items={[

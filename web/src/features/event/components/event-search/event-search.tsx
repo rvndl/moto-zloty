@@ -10,6 +10,7 @@ const EventSearch = () => {
   return (
     <Autocomplete
       placeholder="Wyszukaj..."
+      className="w-auto sm:focus:w-72 md:focus:w-80 lg:focus:w-96"
       fetch={async (query) => {
         const res = await Api.get<Event[]>(`/events/search/${query}`);
         return res.data?.map((event) => ({
