@@ -75,14 +75,14 @@ h6 {
 }
 
 .leaflet-popup-content {
-  @apply m-2;
+  @apply m-2 !important;
 }
 .leaflet-popup-content-wrapper {
-  @apply border rounded-lg shadow;
+  @apply border rounded-lg shadow !important;
 }
 
 .leaflet-popup-content p {
-  margin: unset;
+  margin: unset !important;
 }
 
 ::-webkit-scrollbar {
