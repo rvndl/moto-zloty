@@ -40,7 +40,7 @@ const EventPageContent = ({ event, isLoading }: Props) => {
             {event?.name}
           </Value>
           <Value title="Lokalizacja" isLoading={isLoading}>
-            <div className="flex items-center gap-2 shrink-0 w-max">
+            <div className="flex flex-wrap items-center w-full gap-2 shrink-0">
               <p>{event?.address}</p>
               <a
                 href={`https://maps.google.com/?q=${event?.latitude},${event?.longitude}`}
