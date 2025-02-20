@@ -112,9 +112,11 @@ impl<'a> EventRepo<'a> {
                 account_id
             FROM event
             WHERE
-                date_to + '3 day'::INTERVAL > CURRENT_DATE;
+                date_to + '3 day'::INTERVAL > CURRENT_DATE
+            AND status != $1
             "#,
         )
+        .bind(EventStatus::REJECTED)
         .fetch_all(self.db)
         .await;
 
@@ -309,11 +311,12 @@ impl<'a> EventRepo<'a> {
             r#"
             SELECT *, similarity(name || ' ' || coalesce(address, ''), $1) AS score
             FROM "event"
-            WHERE similarity(name || ' ' || coalesce(address, ''), $1) > 0.1
+            WHERE similarity(name || ' ' || coalesce(address, ''), $1) > 0.06 AND status != $2
             ORDER BY score DESC LIMIT 10;
             "#,
         )
         .bind(search_string)
+        .bind(EventStatus::REJECTED)
         .fetch_all(self.db)
         .await;
 
