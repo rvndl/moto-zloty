@@ -1,4 +1,4 @@
-import { Value, Card, Button } from "@components";
+import { Value, Card, Button, Tooltip } from "@components";
 import { type Event } from "types/event";
 import { EventStartingDate } from "../event-starting-date";
 import { EventEndingDate } from "../event-ending-date";
@@ -40,19 +40,21 @@ const EventPageContent = ({ event, isLoading }: Props) => {
             {event?.name}
           </Value>
           <Value title="Lokalizacja" isLoading={isLoading}>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0 w-max">
               <p>{event?.address}</p>
               <a
                 href={`https://maps.google.com/?q=${event?.latitude},${event?.longitude}`}
                 target="_blank"
                 rel="noreferrer"
+                data-tooltip-id="map-icon-tooltip"
+                data-tooltip-content="Otwórz w mapach Google"
               >
                 <Button
                   size="small"
                   variant="outline"
-                  className="p-1 scale-75 text-muted"
+                  className="p-1 scale-75 text-muted shrink-0"
                 >
-                  <MapPinnedIcon />
+                  <MapPinnedIcon className="shrink-0" />
                 </Button>
               </a>
             </div>
@@ -76,6 +78,7 @@ const EventPageContent = ({ event, isLoading }: Props) => {
         )}
         <ActionsList />
       </div>
+      <Tooltip id="map-icon-tooltip" />
     </section>
   );
 };
