@@ -17,9 +17,9 @@ import { Place } from "types/place";
 import { useCreateEventMutation } from "../../api";
 import { PreviewMap } from "../preview-map";
 import { DatePicker } from "./date-picker";
-import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { PlusIcon } from "lucide-react";
+import { useRouter } from "next/router";
 
 interface Fields {
   name: string;
