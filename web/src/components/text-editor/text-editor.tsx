@@ -94,7 +94,10 @@ const TextEditor = ({
           />
         ) : (
           <LexicalComposer
-            initialConfig={{ ...editorConfig, editorState: value }}
+            initialConfig={{
+              ...editorConfig,
+              ...(typeof value !== "string" && { editorState: value }),
+            }}
           >
             <div className="border rounded-md shadow-sm">
               <ToolbarPlugin />
