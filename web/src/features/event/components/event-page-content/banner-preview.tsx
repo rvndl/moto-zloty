@@ -16,6 +16,7 @@ const BannerPreview = ({ event }: Props) => {
           <img
             src={getFilePath(event?.banner_small_id ?? event?.banner_id)}
             className="z-10 object-cover w-full h-full transition-transform border cursor-pointer rounded-xl hover:scale-105"
+            alt={event?.name}
           />
         }
       >
