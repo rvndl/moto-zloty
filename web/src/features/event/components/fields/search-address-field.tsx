@@ -6,12 +6,13 @@ import { Place } from "types/place";
 
 interface Props {
   name: string;
+  label?: string;
 }
 
-const SearchAddressField = ({ name }: Props) => (
+const SearchAddressField = ({ name, label = "Adres" }: Props) => (
   <AutocompleteField
     name={name}
-    label="Adres"
+    label={label}
     placeholder="Wyszukaj lokalizację..."
     fetch={async (query) => {
       const res = await Api.get<Place[]>(`/place_search/${query}`);

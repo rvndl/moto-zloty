@@ -63,10 +63,7 @@ const EventDetailsPage = () => {
         <Details event={event} isLoading={isLoading} />
         {event && (
           <>
-            <ChangeAddressDialog
-              id={id as string}
-              openRef={changeAddressOpenRef}
-            />
+            <ChangeAddressDialog event={event} openRef={changeAddressOpenRef} />
             <ChangeStatusDialog event={event} openRef={changeStatusOpenRef} />
           </>
         )}

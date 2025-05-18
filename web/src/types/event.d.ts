@@ -18,5 +18,7 @@ export interface Event {
   created_at: string;
   account_id: string;
   account?: PublicAccount;
+
+  full_address_id?: string;
   full_address?: Address;
 }

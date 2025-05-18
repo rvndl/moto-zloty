@@ -14,6 +14,9 @@ import {
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { Place } from "types/place";
+import { Event } from "types/event";
+import { Value } from "@components/value";
+import { makeAddressString } from "@features/event/utils";
 
 interface Fields {
   place: AutocompleteOption<Place>;
@@ -24,11 +27,11 @@ const schema = yup.object<Fields>({
 });
 
 interface Props {
-  id: string;
+  event: Event;
   openRef: OpenRef;
 }
 
-const ChangeAddressDialog = ({ id, openRef }: Props) => {
+const ChangeAddressDialog = ({ event, openRef }: Props) => {
   const queryClient = useQueryClient();
   const { mutate, isPending } = useChangeEventAddressMutation();
 
@@ -40,7 +43,7 @@ const ChangeAddressDialog = ({ id, openRef }: Props) => {
 
     await mutate(
       {
-        id,
+        id: event.id,
         ...place,
       },
       {
@@ -50,10 +53,10 @@ const ChangeAddressDialog = ({ id, openRef }: Props) => {
           ),
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: [EVENT_QUERY_KEY, id],
+            queryKey: [EVENT_QUERY_KEY, event.id],
           });
           queryClient.invalidateQueries({
-            queryKey: [EVENT_ACTIONS_QUERY, id],
+            queryKey: [EVENT_ACTIONS_QUERY, event.id],
           });
 
           toast.success("Adres został zaktualizowany");
@@ -75,7 +78,10 @@ const ChangeAddressDialog = ({ id, openRef }: Props) => {
           resolver={yupResolver(schema)}
         >
           <section className="flex flex-col gap-2">
-            <SearchAddressField name="place" />
+            <Value title="Aktualny adres">
+              {event?.address ?? makeAddressString(event.full_address)}
+            </Value>
+            <SearchAddressField name="place" label="Nowy adres" />
             <PreviewMap className="h-[24rem] md:h-[32rem] md:w-[32rem]" />
           </section>
           <section className="flex flex-row-reverse gap-2">
