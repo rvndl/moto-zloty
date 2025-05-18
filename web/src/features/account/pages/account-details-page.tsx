@@ -7,7 +7,7 @@ import { useAuth } from "@features/auth";
 import { useRouter } from "next/router";
 import { SettingsIcon, TicketIcon, UserIcon } from "lucide-react";
 
-const AccountPage = () => {
+const AccountDetailsPage = () => {
   const {
     push,
     query: { id },
@@ -60,4 +60,4 @@ const AccountPage = () => {
   );
 };
 
-export { AccountPage };
+export { AccountDetailsPage };

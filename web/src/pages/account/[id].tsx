@@ -1,4 +1,4 @@
-import { AccountPage } from "@features/account";
+import { AccountDetailsPage } from "@features/account";
 import { ACCOUNT_QUERY_KEY, getAccountQuery } from "@features/account/api";
 import {
   dehydrate,
@@ -35,7 +35,7 @@ export default function Account({
 }) {
   return (
     <HydrationBoundary state={dehydratedState}>
-      <AccountPage />
+      <AccountDetailsPage />
     </HydrationBoundary>
   );
 }

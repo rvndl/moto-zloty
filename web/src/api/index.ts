@@ -14,8 +14,8 @@ type GetUrl =
   | "/mod/accounts";
 
 type PostUrl = "/login" | "/file" | "/contact";
-type PutUrl = "/register" | "/events" | `/events/${string}/update-status`;
-type PatchUrl = "/account/change_password";
+type PutUrl = "/register" | "/events" | `/events/${string}/update_status`;
+type PatchUrl = "/account/change_password" | `/events/${string}/update_address`;
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,

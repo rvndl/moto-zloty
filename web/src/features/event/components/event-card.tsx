@@ -15,7 +15,7 @@ interface Props {
   size?: EventSize;
 }
 
-const Event = ({ event, size = "normal" }: Props) => {
+const EventCard = ({ event, size = "normal" }: Props) => {
   const { isOngoing, isPast } = useMemo(() => getEventStatus(event), [event]);
 
   const distance = formatDistance(
@@ -52,4 +52,4 @@ const Event = ({ event, size = "normal" }: Props) => {
   );
 };
 
-export { Event };
+export { EventCard };

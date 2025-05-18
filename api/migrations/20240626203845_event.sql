@@ -1,8 +1,6 @@
 -- -- Add migration script here
-
 DROP TYPE IF EXISTS EVENT_STATUS;
 CREATE TYPE EVENT_STATUS as ENUM ('pending', 'approved', 'rejected');
-
 CREATE TABLE IF NOT EXISTS "event" (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,

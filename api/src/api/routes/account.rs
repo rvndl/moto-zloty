@@ -21,7 +21,7 @@ pub struct ChangePasswordForm {
     confirm_password: String,
 }
 
-pub async fn get(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Response {
+pub async fn details(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Response {
     let repos = state.global.repos();
 
     match repos.account.fetch_one(id).await {

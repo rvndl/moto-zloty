@@ -9,7 +9,7 @@ interface Payload {
 
 const changeEventStatus = async ({ id, status }: Payload) => {
   const response = await Api.put<ChangeEventStatusReponse>(
-    `/events/${id}/update-status`,
+    `/events/${id}/update_status`,
     { status }
   );
 

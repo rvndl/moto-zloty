@@ -8,7 +8,7 @@ const API_URL: &str = "https://eu1.locationiq.com/v1/autocomplete";
 const MAX_RESULTS: u8 = 5;
 const REDIS_KEY_PREFIX: &str = "place-search";
 
-#[derive(Debug, serde::Deserialize, serde::Serialize)]
+#[derive(Debug, serde::Deserialize, serde::Serialize, Clone)]
 pub struct LocationIQAddress {
     pub name: Option<String>,
     pub house_number: Option<String>,
@@ -27,26 +27,7 @@ pub struct LocationIQPlace {
     pub address: LocationIQAddress,
 }
 
-#[derive(Debug, serde::Deserialize, serde::Serialize)]
-pub struct Place {
-    pub place_id: String,
-    pub latitude: f64,
-    pub longitude: f64,
-    pub name: String,
-}
-
-impl From<LocationIQPlace> for Place {
-    fn from(place: LocationIQPlace) -> Self {
-        Self {
-            place_id: place.place_id,
-            latitude: place.lat.parse().unwrap(),
-            longitude: place.lon.parse().unwrap(),
-            name: make_address(place.address),
-        }
-    }
-}
-
-pub async fn search(query: &str, global: Arc<Global>) -> Result<Vec<Place>, String> {
+pub async fn search(query: &str, global: Arc<Global>) -> Result<Vec<LocationIQPlace>, String> {
     let redis = global.redis();
     let mut redis_con = match redis.get_multiplexed_async_connection().await {
         Ok(redis_con) => redis_con,
@@ -59,7 +40,7 @@ pub async fn search(query: &str, global: Arc<Global>) -> Result<Vec<Place>, Stri
     let results: Option<String> = redis_con.get(&cache_key).await.unwrap_or_default();
     if let Some(hit) = results {
         return match serde_json::from_str::<Vec<LocationIQPlace>>(&hit) {
-            Ok(places) => Ok(location_iq_places_to_places(places)),
+            Ok(places) => Ok(places),
             Err(err) => Err(format!("failed to parse cache hit: {}", err)),
         };
     }
@@ -85,19 +66,12 @@ pub async fn search(query: &str, global: Arc<Global>) -> Result<Vec<Place>, Stri
     let _: () = redis_con.set(cache_key, &body).await.unwrap();
 
     match serde_json::from_str::<Vec<LocationIQPlace>>(&body) {
-        Ok(places) => Ok(location_iq_places_to_places(places)),
+        Ok(places) => Ok(places),
         Err(err) => Err(format!("failed to parse response: {}", err)),
     }
 }
 
-fn location_iq_places_to_places(places: Vec<LocationIQPlace>) -> Vec<Place> {
-    places
-        .into_iter()
-        .map(|place| place.into())
-        .collect::<Vec<Place>>()
-}
-
-fn make_address(address: LocationIQAddress) -> String {
+fn _make_address(address: LocationIQAddress) -> String {
     let mut new_address = String::new();
 
     if let Some(name) = address.name {

@@ -4,17 +4,18 @@ import { EventStartingDate } from "../event-starting-date";
 import { EventEndingDate } from "../event-ending-date";
 import { EventStatus } from "../event-status";
 import { PreviewMap } from "../preview-map";
-import { ActionsList } from "./actions-list";
+import { ActionList } from "./action-list";
 import { BannerPreview } from "./banner-preview";
 import dynamic from "next/dynamic";
 import { MapPinnedIcon } from "lucide-react";
+import { makeAddressString } from "@features/event/utils";
 
 interface Props {
   event?: Event;
   isLoading?: boolean;
 }
 
-const EventPageContent = ({ event, isLoading }: Props) => {
+const Details = ({ event, isLoading }: Props) => {
   const hasBanner = event?.banner_id || event?.banner_small_id;
 
   const TextEditor = dynamic(
@@ -41,7 +42,7 @@ const EventPageContent = ({ event, isLoading }: Props) => {
           </Value>
           <Value title="Lokalizacja" isLoading={isLoading}>
             <div className="flex flex-wrap items-center w-full gap-2 shrink-0">
-              <p>{event?.address}</p>
+              <p>{makeAddressString(event?.full_address)}</p>
               <a
                 href={`https://maps.google.com/?q=${event?.latitude},${event?.longitude}`}
                 target="_blank"
@@ -76,11 +77,11 @@ const EventPageContent = ({ event, isLoading }: Props) => {
             isLoading={isLoading}
           />
         )}
-        <ActionsList />
+        <ActionList />
       </div>
       <Tooltip id="map-icon-tooltip" />
     </section>
   );
 };
 
-export { EventPageContent };
+export { Details };

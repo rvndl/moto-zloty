@@ -29,28 +29,32 @@ pub async fn run(global: Arc<Global>) {
         .route("/mod/accounts", get(routes::account::list_all))
         .route("/mod/events", get(routes::event::list_all))
         .route(
-            "/events/:id/update-status",
+            "/events/:id/update_status",
             put(routes::event::update_status),
         )
         // authenticated routes
+        .route("/events", put(routes::event::create))
+        .route(
+            "/events/:id/update_address",
+            patch(routes::event::update_address),
+        )
         .route(
             "/account/change_password",
             patch(routes::account::change_password),
         )
         .route("/place_search/:query", get(routes::place_search::search))
         .route("/file", post(routes::file::upload))
-        .route("/events", put(routes::event::create))
         .layer(axum::middleware::from_fn(middleware::auth::authenticated))
         // public routes
         .route("/health", get(routes::health::handler))
-        .route("/events/:id", get(routes::event::get))
+        .route("/events/:id", get(routes::event::details))
         .route("/events/:id/actions", get(routes::event::actions))
         .route("/events/carousel", get(routes::event::carousel))
         .route("/events/search/:query", get(routes::event::search))
         .route("/events", get(routes::event::list_public))
         .route("/register", put(routes::register::handler))
         .route("/login", post(routes::login::handler))
-        .route("/account/:id", get(routes::account::get))
+        .route("/account/:id", get(routes::account::details))
         .route("/file/:id", get(routes::file::get_file))
         .route("/contact", post(routes::contact::handler))
         .layer(DefaultBodyLimit::max(FOUR_MB))

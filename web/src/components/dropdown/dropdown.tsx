@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { DropdownItem, DropdownItemProps } from "./dropdown-item";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import clsx from "clsx";
@@ -10,6 +10,16 @@ interface Props {
 }
 
 const Dropdown = ({ trigger, items, header }: Props) => {
+  const visibleItems = useMemo(
+    () => items.filter((item) => !item.isHidden),
+    [items]
+  );
+
+  const hasItems = visibleItems.length > 0;
+  if (!hasItems) {
+    return null;
+  }
+
   return (
     <Menu>
       <MenuButton>{trigger}</MenuButton>
@@ -27,7 +37,7 @@ const Dropdown = ({ trigger, items, header }: Props) => {
           </>
         )}
         <section className="p-1">
-          {items.map(({ label, icon, onClick }) => (
+          {visibleItems.map(({ label, icon, onClick }) => (
             <MenuItem
               key={label}
               as={DropdownItem}

@@ -1,4 +1,5 @@
 import { PublicAccount } from "./account";
+import { Address } from "./address";
 
 export type EventStatus = "PENDING" | "APPROVED" | "REJECTED";
 
@@ -17,4 +18,5 @@ export interface Event {
   created_at: string;
   account_id: string;
   account?: PublicAccount;
+  full_address?: Address;
 }

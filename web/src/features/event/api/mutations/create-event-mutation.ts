@@ -1,13 +1,14 @@
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { Api } from "api";
 import { CreateEventResponse } from "../types/event";
+import { Address } from "types/address";
 
 interface Payload {
   name: string;
   description?: string;
-  address: string;
-  latitude: number;
-  longitude: number;
+  address: Address;
+  lat: number;
+  lon: number;
   date_from: string;
   date_to: string;
   account_id: string;

@@ -1,4 +1,5 @@
 import { AutocompleteOption } from "@components";
+import { makeAddressString } from "@features/event/utils";
 import { getFilePath } from "@utils/index";
 import Highlighter from "react-highlight-words";
 import { Event } from "types/event";
@@ -27,7 +28,7 @@ const EventSearchItem = ({ option, query }: Props) => {
           className="text-xs truncate text-muted"
           searchWords={query?.split(" ") ?? []}
           autoEscape={true}
-          textToHighlight={option.value?.address ?? ""}
+          textToHighlight={makeAddressString(option.value?.full_address) ?? ""}
         />
       </div>
     </div>

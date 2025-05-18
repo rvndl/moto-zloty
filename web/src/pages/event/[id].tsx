@@ -1,4 +1,4 @@
-import { EventPage } from "@features/event";
+import { EventDetailsPage } from "@features/event";
 import {
   EVENT_ACTIONS_QUERY,
   EVENT_QUERY_KEY,
@@ -47,7 +47,7 @@ export default function Event({
 }) {
   return (
     <HydrationBoundary state={dehydratedState}>
-      <EventPage />
+      <EventDetailsPage />
     </HydrationBoundary>
   );
 }

@@ -39,8 +39,9 @@ const MapContent = withDynamicHook<Props>(
     const map = useMap?.();
 
     const address = form?.watch?.("address");
-    const latitude = address?.value?.latitude ?? latitudeProps;
-    const longitude = address?.value?.longitude ?? longitudeProps;
+
+    const latitude = address?.value?.lat ?? latitudeProps;
+    const longitude = address?.value?.lon ?? longitudeProps;
 
     map.whenReady(() => {
       // Workaround for shared leaflet map

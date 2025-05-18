@@ -21,7 +21,7 @@ pub enum AccountInfo {
     WithoutPassword(AccountWithoutPassword),
 }
 
-#[derive(Default, Debug, Clone, serde::Deserialize, serde::Serialize, sqlx::Type)]
+#[derive(Default, Debug, Clone, Copy, serde::Deserialize, serde::Serialize, sqlx::Type)]
 #[sqlx(type_name = "account_rank", rename_all = "lowercase")]
 pub enum AccountRank {
     #[default]

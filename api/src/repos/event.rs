@@ -2,15 +2,15 @@ use crate::{
     db::{
         self,
         models::{
-            account::{
-                Account, AccountInfo, AccountMappingType, AccountWithoutPassword, PublicAccount,
-            },
+            account::{Account, AccountInfo, AccountWithoutPassword, PublicAccount},
+            address::Address,
             event::{Event, EventStatus},
         },
     },
     utils::db::SortOrder,
 };
 use chrono::{DateTime, Utc};
+use enumflags2::{bitflags, BitFlags};
 use sqlx::{postgres::PgRow, Row};
 use uuid::Uuid;
 
@@ -27,9 +27,10 @@ impl<'a> EventRepo<'a> {
         &self,
         name: &str,
         description: Option<String>,
-        address: &str,
-        latitude: f64,
-        longitude: f64,
+        address: Option<&str>,
+        full_address_id: Uuid,
+        lat: f64,
+        lon: f64,
         date_from: DateTime<Utc>,
         date_to: DateTime<Utc>,
         banner_id: Option<Uuid>,
@@ -42,6 +43,7 @@ impl<'a> EventRepo<'a> {
                 name,
                 description,
                 address,
+                full_address_id,
                 latitude,
                 longitude,
                 date_from,
@@ -60,7 +62,8 @@ impl<'a> EventRepo<'a> {
                 $7,
                 $8,
                 $9,
-                $10
+                $10,
+                $11
             )
             RETURNING *;
             "#,
@@ -68,8 +71,9 @@ impl<'a> EventRepo<'a> {
         .bind(name)
         .bind(description)
         .bind(address)
-        .bind(latitude)
-        .bind(longitude)
+        .bind(full_address_id)
+        .bind(lat)
+        .bind(lon)
         .bind(date_from)
         .bind(date_to)
         .bind(banner_id)
@@ -109,7 +113,8 @@ impl<'a> EventRepo<'a> {
                 status,
                 longitude,
                 latitude,
-                account_id
+                account_id,
+                full_address_id
             FROM event
             WHERE
                 date_to + '3 day'::INTERVAL > CURRENT_DATE
@@ -123,9 +128,9 @@ impl<'a> EventRepo<'a> {
         query
     }
 
-    pub async fn fetch_all_with_accounts(
+    pub async fn fetch_all_joined(
         &self,
-        account_mapping_type: AccountMappingType,
+        join_event_flags: BitFlags<JoinEventFlags>,
         status: EventStatus,
         date_from: Option<DateTime<Utc>>,
         date_to: Option<DateTime<Utc>>,
@@ -137,6 +142,7 @@ impl<'a> EventRepo<'a> {
                 e.name,
                 e.description,
                 e.address,
+                e.full_address_id,
                 e.status,
                 e.longitude,
                 e.latitude,
@@ -147,16 +153,26 @@ impl<'a> EventRepo<'a> {
                 e.banner_small_id,
                 e.account_id,
                 a.id as account_id,
-                a.username,
-                a.password,
-                a.email,
-                a.rank,
-                a.banned,
-                a.ban_reason,
-                a.banned_at,
-                a.created_at as account_created_at
+                a.username as account_username,
+                a.password as account_password,
+                a.email as account_email,
+                a.rank as account_rank,
+                a.banned as account_banned,
+                a.ban_reason as account_ban_reason,
+                a.banned_at as account_banned_at,
+                a.created_at as account_created_at,
+                ad.id as address_id,
+                ad.name as address_name,
+                ad.house_number as address_house_number,
+                ad.road as address_road,
+                ad.neighbourhood as address_neighbourhood,
+                ad.suburb as address_suburb,
+                ad.city as address_city,
+                ad.state as address_state,
+                ad.created_at as address_created_at
             FROM event e
                 LEFT JOIN account a ON e.account_id = a.id
+                LEFT JOIN address ad ON e.full_address_id = ad.id
             WHERE
                 e.status = $1
             AND
@@ -192,18 +208,42 @@ impl<'a> EventRepo<'a> {
 
         let events_with_accounts = result
             .into_iter()
-            .map(|row| join_with_account(row, account_mapping_type.clone()))
+            .map(|row| {
+                let EventJoinedProperties { account, address } =
+                    join_event_properties(&row, join_event_flags);
+
+                let event = Event {
+                    id: row.get("id"),
+                    name: row.get("name"),
+                    description: row.get("description"),
+                    address: row.get("address"),
+                    full_address_id: row.get("full_address_id"),
+                    status: row.get("status"),
+                    longitude: row.get("longitude"),
+                    latitude: row.get("latitude"),
+                    date_from: row.get("date_from"),
+                    date_to: row.get("date_to"),
+                    created_at: row.get("created_at"),
+                    banner_id: row.get("banner_id"),
+                    banner_small_id: row.get("banner_small_id"),
+                    account_id: row.get("account_id"),
+                    full_address: address,
+                    account,
+                };
+
+                event
+            })
             .collect();
 
         Ok(events_with_accounts)
     }
 
-    pub async fn fetch_by_id_with_account(
+    pub async fn fetch_by_id_joined(
         &self,
         id: Uuid,
-        account_mapping_type: AccountMappingType,
+        join_event_flags: BitFlags<JoinEventFlags>,
     ) -> Result<Event, sqlx::Error> {
-        let query = sqlx::query(
+        let row = sqlx::query(
             r#"
             SELECT e.id,
                 e.name,
@@ -218,17 +258,28 @@ impl<'a> EventRepo<'a> {
                 e.banner_id,
                 e.banner_small_id,
                 e.account_id,
+                e.full_address_id,
                 a.id as account_id,
-                a.username,
-                a.password,
-                a.email,
-                a.rank,
-                a.banned,
-                a.ban_reason,
-                a.banned_at,
-                a.created_at as account_created_at
+                a.username as account_username,
+                a.password as account_password,
+                a.email as account_email,
+                a.rank as account_rank,
+                a.banned as account_banned,
+                a.ban_reason as account_ban_reason,
+                a.banned_at as account_banned_at,
+                a.created_at as account_created_at,
+                ad.id as address_id,
+                ad.name as address_name,
+                ad.house_number as address_house_number,
+                ad.road as address_road,
+                ad.neighbourhood as address_neighbourhood,
+                ad.suburb as address_suburb,
+                ad.city as address_city,
+                ad.state as address_state,
+                ad.created_at as address_created_at
             FROM event e
                 LEFT JOIN account a ON e.account_id = a.id
+                LEFT JOIN address ad ON e.full_address_id = ad.id
             WHERE e.id = $1
             "#,
         )
@@ -236,9 +287,29 @@ impl<'a> EventRepo<'a> {
         .fetch_one(self.db)
         .await?;
 
-        let event_with_account = join_with_account(query, account_mapping_type);
+        let EventJoinedProperties { account, address } =
+            join_event_properties(&row, join_event_flags);
 
-        Ok(event_with_account)
+        let event = Event {
+            id: row.get("id"),
+            name: row.get("name"),
+            description: row.get("description"),
+            address: row.get("address"),
+            full_address_id: row.get("full_address_id"),
+            status: row.get("status"),
+            longitude: row.get("longitude"),
+            latitude: row.get("latitude"),
+            date_from: row.get("date_from"),
+            date_to: row.get("date_to"),
+            created_at: row.get("created_at"),
+            banner_id: row.get("banner_id"),
+            banner_small_id: row.get("banner_small_id"),
+            account_id: row.get("account_id"),
+            account,
+            full_address: address,
+        };
+
+        Ok(event)
     }
 
     pub async fn fetch_by_id(&self, id: Uuid) -> Result<Event, sqlx::Error> {
@@ -307,65 +378,203 @@ impl<'a> EventRepo<'a> {
     }
 
     pub async fn search(&self, search_string: &str) -> Result<Vec<Event>, sqlx::Error> {
-        let query = sqlx::query_as::<_, Event>(
+        let rows = sqlx::query(
             r#"
-            SELECT *, similarity(name || ' ' || coalesce(address, ''), $1) AS score
-            FROM "event"
-            WHERE similarity(name || ' ' || coalesce(address, ''), $1) > 0.06 AND status != $2
-            ORDER BY score DESC LIMIT 10;
+            SELECT 
+                e.*,
+                ad.id AS address_id,
+                ad.name AS address_name,
+                ad.house_number AS address_house_number,
+                ad.road AS address_road,
+                ad.neighbourhood AS address_neighbourhood,
+                ad.suburb AS address_suburb,
+                ad.city AS address_city,
+                ad.state AS address_state,
+                ad.created_at AS address_created_at,
+                similarity(
+                    e.name || ' ' || 
+                    COALESCE(e.address, '') || ' ' ||
+                    COALESCE(ad.name, '') || ' ' ||
+                    COALESCE(ad.house_number, '') || ' ' ||
+                    COALESCE(ad.road, '') || ' ' ||
+                    COALESCE(ad.neighbourhood, '') || ' ' ||
+                    COALESCE(ad.suburb, '') || ' ' ||
+                    COALESCE(ad.city, '') || ' ' ||
+                    COALESCE(ad.state, '')
+                , $1) AS score
+            FROM event e
+            LEFT JOIN address ad ON e.full_address_id = ad.id
+            WHERE similarity(
+                    e.name || ' ' || 
+                    COALESCE(e.address, '') || ' ' ||
+                    COALESCE(ad.name, '') || ' ' ||
+                    COALESCE(ad.house_number, '') || ' ' ||
+                    COALESCE(ad.road, '') || ' ' ||
+                    COALESCE(ad.neighbourhood, '') || ' ' ||
+                    COALESCE(ad.suburb, '') || ' ' ||
+                    COALESCE(ad.city, '') || ' ' ||
+                    COALESCE(ad.state, '')
+                , $1) > 0.06
+            AND e.status != $2
+            ORDER BY score DESC
+            LIMIT 10;
             "#,
         )
         .bind(search_string)
         .bind(EventStatus::REJECTED)
         .fetch_all(self.db)
+        .await?;
+
+        let events = rows
+            .into_iter()
+            .map(|row| {
+                let joined_event_properties =
+                    join_event_properties(&row, JoinEventFlags::Address.into());
+
+                let event = Event {
+                    id: row.get("id"),
+                    name: row.get("name"),
+                    description: row.get("description"),
+                    address: row.get("address"),
+                    full_address_id: row.get("full_address_id"),
+                    status: row.get("status"),
+                    longitude: row.get("longitude"),
+                    latitude: row.get("latitude"),
+                    date_from: row.get("date_from"),
+                    date_to: row.get("date_to"),
+                    created_at: row.get("created_at"),
+                    banner_id: row.get("banner_id"),
+                    banner_small_id: row.get("banner_small_id"),
+                    account_id: row.get("account_id"),
+                    full_address: joined_event_properties.address,
+                    account: None,
+                };
+
+                event
+            })
+            .collect();
+
+        Ok(events)
+    }
+
+    pub async fn update_full_address_id(
+        &self,
+        id: Uuid,
+        full_address_id: Uuid,
+    ) -> Result<Event, sqlx::Error> {
+        let query = sqlx::query_as::<_, Event>(
+            r#"
+            UPDATE event
+            SET full_address_id = $1
+            WHERE id = $2
+            RETURNING *
+            "#,
+        )
+        .bind(full_address_id)
+        .bind(id)
+        .fetch_one(self.db)
+        .await;
+
+        query
+    }
+
+    pub async fn update_lat_lang(
+        &self,
+        id: Uuid,
+        lat: f64,
+        lon: f64,
+    ) -> Result<Event, sqlx::Error> {
+        let query = sqlx::query_as::<_, Event>(
+            r#"
+            UPDATE event
+            SET latitude = $1, longitude = $2
+            WHERE id = $3
+            RETURNING *
+            "#,
+        )
+        .bind(lat)
+        .bind(lon)
+        .bind(id)
+        .fetch_one(self.db)
         .await;
 
         query
     }
 }
 
-fn join_with_account(row: PgRow, account_mapping_type: AccountMappingType) -> Event {
-    let event_with_account = Event {
-        id: row.get("id"),
-        name: row.get("name"),
-        description: row.get("description"),
-        address: row.get("address"),
-        status: row.get("status"),
-        longitude: row.get("longitude"),
-        latitude: row.get("latitude"),
-        date_from: row.get("date_from"),
-        date_to: row.get("date_to"),
-        created_at: row.get("created_at"),
-        banner_id: row.get("banner_id"),
-        banner_small_id: row.get("banner_small_id"),
-        account_id: row.get("account_id"),
-        account: if let Some(account_id) = row.try_get("account_id").ok() {
+#[bitflags]
+#[repr(u8)]
+#[derive(Copy, Clone, Debug, PartialEq)]
+pub enum JoinEventFlags {
+    None = 1,
+    Account = 1 << 1,
+    Address = 1 << 2,
+    AccountTypeFull = 1 << 3,
+    AccountTypePublic = 1 << 4,
+    AccountTypeWithoutPassword = 1 << 5,
+}
+
+struct EventJoinedProperties {
+    account: Option<AccountInfo>,
+    address: Option<Address>,
+}
+
+/// Function to join event with account and address
+/// - `account` rows have to be prefixed with `account_`
+/// - `address` rows have to be prefixed with `address_`
+fn join_event_properties(row: &PgRow, flags: BitFlags<JoinEventFlags>) -> EventJoinedProperties {
+    let mut event = EventJoinedProperties {
+        account: None,
+        address: None,
+    };
+
+    if flags.contains(JoinEventFlags::Account) {
+        if let Some(id) = row.try_get("account_id").ok() {
             let account = Account {
-                id: account_id,
-                username: row.get("username"),
-                password: row.get("password"),
-                email: row.get("email"),
-                rank: row.get("rank"),
-                banned: row.get("banned"),
-                ban_reason: row.get("ban_reason"),
-                banned_at: row.get("banned_at"),
+                id,
+                username: row.get("account_username"),
+                password: row.get("account_password"),
+                email: row.get("account_email"),
+                rank: row.get("account_rank"),
+                banned: row.get("account_banned"),
+                ban_reason: row.get("account_ban_reason"),
+                banned_at: row.get("account_banned_at"),
                 created_at: row.get("account_created_at"),
                 events: None,
             };
 
-            match account_mapping_type {
-                AccountMappingType::Full => Some(AccountInfo::Full(account)),
-                AccountMappingType::Public => {
+            let mapped_account = match flags {
+                flags if flags.contains(JoinEventFlags::AccountTypeFull) => {
+                    Some(AccountInfo::Full(account))
+                }
+                flags if flags.contains(JoinEventFlags::AccountTypePublic) => {
                     Some(AccountInfo::Public(PublicAccount::from(account)))
                 }
-                AccountMappingType::WithoutPassword => Some(AccountInfo::WithoutPassword(
-                    AccountWithoutPassword::from(account),
-                )),
-            }
-        } else {
-            None
-        },
-    };
+                flags if flags.contains(JoinEventFlags::AccountTypeWithoutPassword) => Some(
+                    AccountInfo::WithoutPassword(AccountWithoutPassword::from(account)),
+                ),
+                _ => None,
+            };
 
-    event_with_account
+            event.account = mapped_account;
+        }
+    }
+
+    if flags.contains(JoinEventFlags::Address) {
+        if let Some(id) = row.try_get("address_id").ok() {
+            event.address = Some(Address {
+                id,
+                name: row.get("address_name"),
+                house_number: row.get("address_house_number"),
+                road: row.get("address_road"),
+                neighbourhood: row.get("address_neighbourhood"),
+                suburb: row.get("address_suburb"),
+                city: row.get("address_city"),
+                state: row.get("address_state"),
+                created_at: row.get("address_created_at"),
+            });
+        }
+    }
+
+    event
 }

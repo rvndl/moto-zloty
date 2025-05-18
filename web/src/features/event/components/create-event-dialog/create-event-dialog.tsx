@@ -1,5 +1,4 @@
 import {
-  AutocompleteField,
   AutocompleteOption,
   Button,
   Dialog,
@@ -10,16 +9,15 @@ import {
 } from "@components";
 import { useAuth } from "@features/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Api } from "api";
 import { yup } from "@utils/yup";
 import toast from "react-hot-toast";
-import { Place } from "types/place";
 import { useCreateEventMutation } from "../../api";
 import { PreviewMap } from "../preview-map";
 import { DatePicker } from "./date-picker";
 import dynamic from "next/dynamic";
 import { PlusIcon } from "lucide-react";
 import { useRouter } from "next/router";
+import { SearchAddressField } from "../fields";
 
 interface Fields {
   name: string;
@@ -62,7 +60,7 @@ const CreateEventDialog = () => {
       date_to,
       address: {
         // @ts-expect-error TODO: extend typings
-        value: { latitude, longitude, name },
+        value: { lat, lon, address: addressValue },
       },
       banner,
       ...rest
@@ -72,9 +70,9 @@ const CreateEventDialog = () => {
           ...rest,
           date_from: date_from.toISOString(),
           date_to: date_to.toISOString(),
-          address: name,
-          longitude,
-          latitude,
+          address: addressValue,
+          lat,
+          lon,
           account_id,
           banner_id: banner?.full_id,
           banner_small_id: banner?.small_id,
@@ -120,23 +118,7 @@ const CreateEventDialog = () => {
               </div>
             </div>
             <div className="flex flex-col gap-4 w-auto md:w-[32rem]">
-              <AutocompleteField
-                name="address"
-                label="Adress"
-                placeholder="Wyszukaj lokalizację..."
-                fetch={async (query) => {
-                  const res = await Api.get<Place[]>(`/place_search/${query}`);
-                  return res.data.map(
-                    (place) =>
-                      ({
-                        id: place.place_id,
-                        label: place.name,
-                        value: place,
-                      } satisfies AutocompleteOption)
-                  );
-                }}
-                isRequired
-              />
+              <SearchAddressField name="address" />
               <PreviewMap className="h-[24rem] md:h-[32rem] md:w-[32rem]" />
             </div>
           </section>

@@ -1,6 +1,6 @@
 import { Card } from "@components";
 import { AccountResponse } from "@features/account/api/types/account";
-import { Event } from "@features/event";
+import { EventCard } from "@features/event";
 import { sortEvents } from "@utils/event";
 import { useMemo } from "react";
 
@@ -26,7 +26,7 @@ const EventsTab = ({ account }: Props) => {
           <p className="text-muted">Brak wydarzeń</p>
         ) : (
           sortedEvents.map((event) => (
-            <Event key={event.id} event={event} size="small" />
+            <EventCard key={event.id} event={event} size="small" />
           ))
         )}
       </div>

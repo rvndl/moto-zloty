@@ -2,6 +2,14 @@
 User-agent: *
 Allow: /
 
+# *
+User-agent: *
+Disallow: /cdn-cgi/
+
+# *
+User-agent: *
+Disallow: api.moto-zloty.pl
+
 # Host
 Host: http://localhost:3000
 

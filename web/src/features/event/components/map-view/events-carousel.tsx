@@ -1,5 +1,5 @@
 import { type Event as EventType } from "types/event";
-import { Event } from "../event";
+import { EventCard } from "../event-card";
 import { useMemo } from "react";
 import { Skeleton } from "@components";
 import { sortEvents } from "@utils/event";
@@ -35,7 +35,7 @@ const EventsCarousel = ({ events }: Props) => {
             transition: { delay: idx * 0.05 },
           }}
         >
-          <Event event={event} />
+          <EventCard event={event} />
         </motion.span>
       ))}
     </section>

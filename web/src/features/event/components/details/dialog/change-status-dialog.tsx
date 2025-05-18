@@ -1,9 +1,16 @@
-import { Button, Dialog, Form, ListboxField, ListboxOption } from "@components";
+import {
+  Button,
+  Dialog,
+  Form,
+  ListboxField,
+  ListboxOption,
+  OpenRef,
+} from "@components";
 import {
   EVENT_ACTIONS_QUERY,
   EVENT_QUERY_KEY,
   useChangeEventStatusMutation,
-} from "../api";
+} from "../../../api";
 import { yup } from "@utils/yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Event, EventStatus } from "types/event";
@@ -23,9 +30,10 @@ const schema = yup.object<Fields>({
 
 interface Props {
   event: Event;
+  openRef: OpenRef;
 }
 
-const ChangeEventStatusDialog = ({ event }: Props) => {
+const ChangeStatusDialog = ({ event, openRef }: Props) => {
   const queryClient = useQueryClient();
   const { mutate: changeEventStatus, isPending } =
     useChangeEventStatusMutation();
@@ -55,7 +63,7 @@ const ChangeEventStatusDialog = ({ event }: Props) => {
     <Dialog
       title="Zmień status"
       description="Zmień status wydarzenia"
-      trigger={<Button variant="outline">Zmień status</Button>}
+      openRef={openRef}
     >
       {(close) => (
         <Form<Fields>
@@ -97,4 +105,4 @@ const ChangeEventStatusDialog = ({ event }: Props) => {
   );
 };
 
-export { ChangeEventStatusDialog };
+export { ChangeStatusDialog };

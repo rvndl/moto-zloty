@@ -3,7 +3,7 @@ import { useEventActionsQuery } from "@features/event/api";
 import { ActionItem } from "./action-item";
 import { useRouter } from "next/router";
 
-const ActionsList = () => {
+const ActionList = () => {
   const {
     query: { id },
   } = useRouter();
@@ -42,4 +42,4 @@ const LoadingPlaceholder = () => (
   </div>
 );
 
-export { ActionsList };
+export { ActionList };

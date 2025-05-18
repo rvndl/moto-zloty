@@ -1,3 +1,4 @@
+import { makeAddressString } from "@features/event/utils";
 import { getFilePath } from "@utils/index";
 import { formatDistanceToNow } from "date-fns";
 import { pl } from "date-fns/locale";
@@ -39,7 +40,9 @@ const ListItem = ({ event }: Props) => {
         >
           {event.name}
         </Link>
-        <p className="w-full text-xs text-gray-500 truncate">{event.address}</p>
+        <p className="w-full text-xs text-gray-500 truncate">
+          {makeAddressString(event.full_address)}
+        </p>
         <p className="flex items-center w-full mt-1 text-xs truncate md:text-sm">
           {distance}
         </p>

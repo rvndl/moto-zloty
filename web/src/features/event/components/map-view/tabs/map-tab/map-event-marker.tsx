@@ -6,6 +6,7 @@ import { getEventStatus } from "@utils/event";
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { makeAddressString } from "@features/event/utils";
 
 interface Props {
   event: Event;
@@ -39,7 +40,7 @@ const MapEventMarker = ({ event }: Props) => {
         <div className="leading-snug">
           <h2 className="text-lg font-semibold">{event.name}</h2>
           <p className="w-48 text-xs text-muted text-ellipsis">
-            {truncate(event.address, { length: 34 })}
+            {truncate(makeAddressString(event.full_address), { length: 34 })}
           </p>
         </div>
         <div className="mt-4 w-min">

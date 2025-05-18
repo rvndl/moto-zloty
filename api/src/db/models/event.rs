@@ -1,7 +1,7 @@
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
-use super::account::AccountInfo;
+use super::{account::AccountInfo, address::Address};
 
 #[derive(Debug, Default, serde::Deserialize, serde::Serialize, sqlx::Type, Clone)]
 #[sqlx(type_name = "event_status", rename_all = "lowercase")]
@@ -34,7 +34,12 @@ pub struct Event {
     pub description: Option<String>,
 
     /// Full address of the event
-    pub address: String,
+    /// Deprecated, use `full_address` instead
+    #[deprecated]
+    pub address: Option<String>,
+
+    /// Id of the full address
+    pub full_address_id: Option<Uuid>,
 
     /// Status of the event
     /// Can be either `PENDING`, `APPROVED` or `REJECTED`
@@ -70,4 +75,7 @@ pub struct Event {
     /// Account that created the event
     #[sqlx(skip)]
     pub account: Option<AccountInfo>,
+
+    #[sqlx(skip)]
+    pub full_address: Option<Address>,
 }

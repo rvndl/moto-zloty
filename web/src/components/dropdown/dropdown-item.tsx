@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 interface DropdownItemProps {
   label: string;
   icon?: ReactNode;
+  isHidden?: boolean;
   onClick: () => void;
 }
 

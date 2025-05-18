@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { MutableRefObject, ReactNode, useState } from "react";
 import {
   Description as DialogDescription,
   DialogPanel,
@@ -9,8 +9,10 @@ import clsx from "clsx";
 import { motion } from "framer-motion";
 import { XIcon } from "lucide-react";
 
+type OpenRef = MutableRefObject<(() => void) | null>;
+
 interface DialogProps {
-  trigger: ReactNode;
+  trigger?: ReactNode;
   title?: string;
   description?: string;
   footerContent?: ((close: () => void) => ReactNode) | ReactNode;
@@ -18,6 +20,7 @@ interface DialogProps {
   unmount?: boolean;
   children: ((close: () => void) => ReactNode) | ReactNode;
   onOpen?: () => void;
+  openRef?: OpenRef;
 }
 
 const Dialog = ({
@@ -29,6 +32,7 @@ const Dialog = ({
   unmount,
   children,
   onOpen,
+  openRef,
 }: DialogProps) => {
   const [open, setOpen] = useState(false);
 
@@ -36,13 +40,18 @@ const Dialog = ({
     setOpen(true);
     onOpen?.();
   };
+
   const handleOnClose = () => {
     setOpen(false);
   };
 
+  if (openRef) {
+    openRef.current = handleOnOpen;
+  }
+
   return (
     <>
-      <span onClick={handleOnOpen}>{trigger}</span>
+      {trigger && <span onClick={handleOnOpen}>{trigger}</span>}
       <HeadlessDialog
         open={open}
         onClose={setOpen}
@@ -110,4 +119,4 @@ const CloseButton = ({ onClick }: { onClick: () => void }) => (
   </button>
 );
 
-export { Dialog };
+export { Dialog, type OpenRef };
