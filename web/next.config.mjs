@@ -25,6 +25,14 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "api.moto-zloty.pl",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
