@@ -23,7 +23,7 @@ const UserMenu = ({ user, logout }: Props) => {
         {
           label: "Profil",
           icon: <UserIcon />,
-          onClick: () => router.push(`/account/${user.id}`),
+          onClick: () => router.push(`/uzytkownik/${user.id}`),
         },
         {
           label: "Wyloguj",

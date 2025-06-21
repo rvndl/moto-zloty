@@ -9,14 +9,14 @@ interface Props {
 const UserDetailsCell = ({ account }: Props) => {
   return (
     <div className="flex items-center gap-2">
-      <Link href={`/account/${account.id}`}>
+      <Link href={`/uzytkownik/${account.id}`}>
         <div className="flex items-center justify-center p-2 rounded-full bg-accent">
           <UserIcon />
         </div>
       </Link>
 
       <div className="flex flex-col">
-        <Link href={`/account/${account.id}`}>{account.username}</Link>
+        <Link href={`/uzytkownik/${account.id}`}>{account.username}</Link>
         <p className="text-sm font-normal text-muted">{account.email}</p>
       </div>
     </div>
