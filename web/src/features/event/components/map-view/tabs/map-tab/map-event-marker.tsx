@@ -31,7 +31,7 @@ const MapEventMarker = ({ event }: Props) => {
   );
 
   const handleOnDetails = () => {
-    router.push(`/event/${event.id}`);
+    router.push(`/wydarzenie/${event.id}`);
   };
 
   return (

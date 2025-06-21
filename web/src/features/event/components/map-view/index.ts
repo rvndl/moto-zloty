@@ -1,1 +1,1 @@
-export * from "./events-page-content";
+export * from "./map-page-content";

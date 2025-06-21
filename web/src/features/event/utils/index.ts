@@ -14,3 +14,24 @@ export const makeAddressString = (address?: Address) => {
 
   return addressFragments.join(", ");
 };
+
+export const states = [
+  "województwo dolnośląskie",
+  "województwo kujawsko-pomorskie",
+  "województwo lubelskie",
+  "województwo lubuskie",
+  "województwo łódzkie",
+  "województwo małopolskie",
+  "województwo mazowieckie",
+  "województwo opolskie",
+  "województwo podkarpackie",
+  "województwo podlaskie",
+  "województwo pomorskie",
+  "województwo śląskie",
+  "województwo świętokrzyskie",
+  "województwo warmińsko-mazurskie",
+  "województwo wielkopolskie",
+  "województwo zachodniopomorskie",
+] as const;
+
+export type State = (typeof states)[number];

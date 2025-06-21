@@ -2,6 +2,7 @@ import { makeAddressString } from "@features/event/utils";
 import { getFilePath } from "@utils/index";
 import { formatDistanceToNow } from "date-fns";
 import { pl } from "date-fns/locale";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Event } from "types/event";
@@ -18,7 +19,7 @@ const ListItem = ({ event }: Props) => {
   });
 
   const handleOnClick = (event: Event) => {
-    router.push(`/event/${event.id}`);
+    router.push(`/wydarzenie/${event.id}`);
   };
 
   return (
@@ -26,20 +27,25 @@ const ListItem = ({ event }: Props) => {
       key={event.id}
       className="flex flex-col transition-transform bg-white rounded-lg shadow aspect-video hover:-translate-y-1"
     >
-      <img
+      <Image
         src={getFilePath(event.banner_small_id ?? event.banner_id)}
         className="object-cover w-full h-full transition rounded-md cursor-pointer z-200"
-        alt="banner"
+        alt={event.name}
+        title={event.name}
         onClick={() => handleOnClick(event)}
+        width={300}
+        height={200}
       />
       <div className="flex flex-col p-2">
-        <Link
-          href={`/event/${event.id}`}
-          className="w-full text-base font-semibold leading-5 truncate cursor-pointer md:text-lg"
-          onClick={() => handleOnClick(event)}
-        >
-          {event.name}
-        </Link>
+        <h3>
+          <Link
+            href={`/wydarzenie/${event.id}`}
+            className="w-full text-base font-semibold leading-5 truncate cursor-pointer md:text-lg"
+            onClick={() => handleOnClick(event)}
+          >
+            {event.name}
+          </Link>
+        </h3>
         <p className="w-full text-xs text-gray-500 truncate">
           {makeAddressString(event.full_address)}
         </p>

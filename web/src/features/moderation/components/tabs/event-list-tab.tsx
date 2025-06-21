@@ -16,7 +16,7 @@ const EventListTab = () => {
         accessorKey: "name",
         header: "Nazwa",
         cell: (info) => (
-          <Link href={`/event/${info.row.original.id}`}>
+          <Link href={`/wydarzenie/${info.row.original.id}`}>
             {info.getValue() as string}
           </Link>
         ),

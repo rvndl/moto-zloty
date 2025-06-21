@@ -10,6 +10,7 @@ type GetUrl =
   | `/place_search/${string}`
   | `/events/${string}`
   | `/events/${string}/actions`
+  | "/sitemap_events"
   | "/mod/events"
   | "/mod/accounts";
 

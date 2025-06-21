@@ -17,5 +17,8 @@
   },
   "[typescript]": {
     "editor.tabSize": 2
+  },
+  "[python]": {
+    "editor.defaultFormatter": "KevinRose.vsc-python-indent"
   }
 }

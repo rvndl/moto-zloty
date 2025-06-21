@@ -10,13 +10,14 @@ const Footer = () => {
           <Image
             src={Logo}
             alt="Moto-Zloty.pl"
+            title="Moto-Zloty.pl"
             className="h-fit"
             width={50}
             height={20}
           />
           <Link href="/">Strona główna</Link>
-          <Link href="/contact">Kontakt</Link>
-          <Link href="/privacy">Polityka prywatności</Link>
+          <Link href="/kontakt">Kontakt</Link>
+          <Link href="/prywatnosc">Polityka prywatności</Link>
         </div>
         <p className="text-xs text-muted">&copy; Moto-Zloty.pl</p>
       </div>

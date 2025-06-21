@@ -30,7 +30,7 @@ const AccountDetailsPage = () => {
       <Metadata
         title={data?.username ?? ""}
         description={`Szczegóły użytkownika ${data?.username}`}
-        canonical={`/account/${id}`}
+        canonical={`/uzytkownik/${id}`}
       />
       <Page
         title={data?.username}

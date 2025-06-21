@@ -19,7 +19,9 @@ const EventSearch = () => {
           value: event,
         }));
       }}
-      onChange={(option) => option?.id && router.push(`/event/${option.id}`)}
+      onChange={(option) =>
+        option?.id && router.push(`/wydarzenie/${option.id}`)
+      }
       transformer={(option, query) => (
         <EventSearchItem option={option} query={query} />
       )}

@@ -1,10 +1,13 @@
 import { getServerSideSitemapLegacy, ISitemapField } from "next-sitemap";
 import { GetServerSideProps } from "next";
-import { getEventCarouselQuery } from "@features/event/api";
+import { Api } from "api";
+import { EventsResponse } from "@features/event/api/types/event";
+import { states } from "@features/event/utils";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const events = await getEventCarouselQuery();
+  const events = (await Api.get<EventsResponse>("/sitemap_events")).data;
+
   const now = new Date();
 
   const upcomingEvents = events.filter(
@@ -19,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         )
       : 0;
 
-  const fields: ISitemapField[] = events.map((event) => {
+  const eventFields: ISitemapField[] = events.map((event) => {
     const start = new Date(event.date_from);
     const end = new Date(event.date_to);
     let priority: number;
@@ -34,14 +37,31 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
 
     return {
-      loc: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/event/${event.id}`,
+      loc: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/wydarzenie/${event.id}`,
       lastmod: event.created_at,
       changefreq: "daily",
       priority: parseFloat(priority.toFixed(2)),
     };
   });
 
-  return getServerSideSitemapLegacy(ctx, fields);
+  const stateFields: ISitemapField[] = states.map((state) => ({
+    loc: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/lista-wydarzen/${state}`,
+    changefreq: "daily",
+    priority: 0.8,
+  }));
+
+  // next sitemap generator doesn't support dynamic routes with params
+  const eventList: ISitemapField = {
+    loc: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/lista-wydarzen`,
+    changefreq: "daily",
+    priority: 0.8,
+  };
+
+  return getServerSideSitemapLegacy(ctx, [
+    ...eventFields,
+    eventList,
+    ...stateFields,
+  ]);
 };
 
 export default function Sitemap() {}

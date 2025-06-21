@@ -8,6 +8,7 @@ interface Payload {
   date_from?: Date;
   date_to?: Date;
   sort_order?: string;
+  state?: string;
 }
 
 const getEventsQuery = async (payload?: Payload) => {

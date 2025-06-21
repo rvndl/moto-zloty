@@ -1,5 +1,6 @@
 import { Dialog } from "@components";
 import { getFilePath } from "@utils/index";
+import Image from "next/image";
 import { Event } from "types/event";
 
 interface Props {
@@ -13,14 +14,23 @@ const BannerPreview = ({ event }: Props) => {
         title="Banner"
         description="Banner wydarzenia"
         trigger={
-          <img
+          <Image
             src={getFilePath(event?.banner_small_id ?? event?.banner_id)}
             className="z-10 object-cover w-full h-full transition-transform border cursor-pointer rounded-xl hover:scale-105"
-            alt={event?.name}
+            alt={event?.name || "Banner wydarzenia"}
+            title={event?.name || "Banner wydarzenia"}
+            width={100}
+            height={100}
           />
         }
       >
-        <img src={getFilePath(event?.banner_id)} />
+        <Image
+          src={getFilePath(event?.banner_id)}
+          alt={event?.name ?? "Banner wydarzenia"}
+          title={event?.name ?? "Banner wydarzenia"}
+          width={100}
+          height={100}
+        />
       </Dialog>
     </div>
   );

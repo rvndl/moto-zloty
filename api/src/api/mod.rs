@@ -57,6 +57,7 @@ pub async fn run(global: Arc<Global>) {
         .route("/account/:id", get(routes::account::details))
         .route("/file/:id", get(routes::file::get_file))
         .route("/contact", post(routes::contact::handler))
+        .route("/sitemap_events", get(routes::event::list_sitemap))
         .layer(DefaultBodyLimit::max(FOUR_MB))
         .layer(CorsLayer::permissive())
         .with_state(app_state);

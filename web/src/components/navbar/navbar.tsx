@@ -5,6 +5,13 @@ import { isEmpty } from "lodash";
 import { UserMenu } from "./user-menu";
 import { usePathname, useRouter } from "next/navigation";
 import { EventSearch } from "@features/event";
+import Image from "next/image";
+
+const routes = [
+  { name: "Mapa wydarzeń", path: "/" },
+  { name: "Lista wydarzeń", path: "/lista-wydarzen" },
+  { name: "Moderacja", path: "/moderation", isProtected: true },
+];
 
 const Navbar = () => {
   const { user, logout, isPermitted } = useAuth();
@@ -23,27 +30,32 @@ const Navbar = () => {
           <div className="relative flex items-center justify-between h-16">
             <div className="flex items-center flex-1 sm:items-stretch sm:justify-start">
               <div className="flex items-center flex-shrink-0">
-                <img
+                <Image
                   className="w-auto h-5 cursor-pointer"
                   src={Logo.src}
                   alt="Moto Zloty"
+                  title="Moto Zloty"
                   onClick={() => router.push("/")}
+                  width={512}
+                  height={203}
                 />
               </div>
               <div className="hidden sm:ml-6 sm:block">
-                <div className="flex space-x-4">
-                  <NavbarItem to="/" isActive={pathname === "/"}>
-                    Wydarzenia
-                  </NavbarItem>
-                  {isPermitted && (
-                    <NavbarItem
-                      to="/moderation"
-                      isActive={pathname === "/moderation"}
-                    >
-                      Moderacja
-                    </NavbarItem>
-                  )}
-                </div>
+                <ol className="flex space-x-4">
+                  {routes.map((route) => {
+                    if (route.isProtected && !isPermitted) return null;
+
+                    return (
+                      <NavbarItem
+                        key={route.name}
+                        to={route.path}
+                        isActive={pathname === route.path}
+                      >
+                        {route.name}
+                      </NavbarItem>
+                    );
+                  })}
+                </ol>
               </div>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center gap-2 pr-2 md:gap-8 sm:static sm:inset-auto sm:ml-6 sm:pr-0">

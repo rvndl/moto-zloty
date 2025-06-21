@@ -1,4 +1,4 @@
-import { EventsPage } from "@features/event";
+import { MapPage } from "@features/event";
 import { EVENTS_QUERY_KEY, getEventsQuery } from "@features/event/api";
 import {
   dehydrate,
@@ -30,7 +30,7 @@ export default function Index({
 }) {
   return (
     <HydrationBoundary state={dehydratedState}>
-      <EventsPage />
+      <MapPage />
     </HydrationBoundary>
   );
 }

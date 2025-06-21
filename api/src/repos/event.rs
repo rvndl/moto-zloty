@@ -135,6 +135,7 @@ impl<'a> EventRepo<'a> {
         date_from: Option<DateTime<Utc>>,
         date_to: Option<DateTime<Utc>>,
         sort_order: SortOrder,
+        state: Option<String>,
     ) -> Result<Vec<Event>, sqlx::Error> {
         let mut query_str = format!(
             r#"
@@ -182,6 +183,11 @@ impl<'a> EventRepo<'a> {
 
         let mut bind_index = 2;
 
+        if state.is_some() {
+            query_str.push_str(&format!(" AND ad.state = ${}", bind_index));
+            bind_index += 1;
+        }
+
         if date_from.is_some() {
             query_str.push_str(&format!(" AND e.date_from >= ${}", bind_index));
             bind_index += 1;
@@ -195,6 +201,10 @@ impl<'a> EventRepo<'a> {
 
         let mut query = sqlx::query(&query_str);
         query = query.bind(status);
+
+        if let Some(state) = state {
+            query = query.bind(state);
+        }
 
         if let Some(date_from) = date_from {
             query = query.bind(date_from);

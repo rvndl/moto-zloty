@@ -81,7 +81,7 @@ const CreateEventDialog = () => {
           onSuccess: (data) => {
             toast.success("Wydarzenie zostało utworzone!");
             close();
-            router.push(`/event/${data.id}`);
+            router.push(`/wydarzenie/${data.id}`);
           },
         }
       );

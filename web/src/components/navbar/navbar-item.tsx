@@ -9,9 +9,11 @@ interface Props {
 
 const NavbarItem = ({ to, isActive, children }: PropsWithChildren<Props>) => {
   return (
-    <Link href={to}>
-      <Button variant={isActive ? "primary" : "ghost"}>{children}</Button>
-    </Link>
+    <li>
+      <Link href={to}>
+        <Button variant={isActive ? "primary" : "ghost"}>{children}</Button>
+      </Link>
+    </li>
   );
 };
 

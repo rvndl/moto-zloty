@@ -1,2 +1,3 @@
-export * from "./events-page";
-export * from "./event-details-page";
+export * from "./map-page";
+export * from "./details-page";
+export * from "./list-page";

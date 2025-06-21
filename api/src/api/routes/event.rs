@@ -88,6 +88,7 @@ pub struct PublicListFilters {
     date_from: Option<DateTime<Utc>>,
     date_to: Option<DateTime<Utc>>,
     sort_order: Option<SortOrder>,
+    state: Option<String>,
 }
 
 pub async fn details(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Response {
@@ -220,6 +221,7 @@ pub async fn list_public(
         date_from,
         date_to,
         sort_order,
+        state,
     } = filters;
 
     let sort_order = sort_order.unwrap_or(SortOrder::Desc);
@@ -232,6 +234,7 @@ pub async fn list_public(
             date_from,
             date_to,
             sort_order,
+            state,
         )
         .await;
 
@@ -257,6 +260,18 @@ pub async fn list_all(
     let events = match events {
         Ok(events) => events,
         Err(err) => return api_error_log!("failed to fetch approved events: {}", err),
+    };
+
+    Json(events).into_response()
+}
+
+pub async fn list_sitemap(State(state): State<Arc<AppState>>) -> Response {
+    let repos = state.global.repos();
+
+    let events = repos.event.fetch_all().await;
+    let events = match events {
+        Ok(events) => events,
+        Err(err) => return api_error_log!("failed to fetch sitemap events: {}", err),
     };
 
     Json(events).into_response()
