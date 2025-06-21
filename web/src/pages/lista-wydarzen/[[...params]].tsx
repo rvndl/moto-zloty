@@ -9,11 +9,12 @@ import {
 import { GetServerSideProps } from "next";
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const state = context.params?.params?.[0];
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: [EVENTS_QUERY_KEY],
-    queryFn: () => getEventsQuery(),
+    queryFn: () => getEventsQuery({ state }),
   });
 
   return {
