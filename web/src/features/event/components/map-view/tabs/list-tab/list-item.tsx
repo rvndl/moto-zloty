@@ -37,10 +37,10 @@ const ListItem = ({ event }: Props) => {
         height={200}
       />
       <div className="flex flex-col p-2">
-        <h3>
+        <h3 className="truncate">
           <Link
             href={`/wydarzenie/${event.id}`}
-            className="w-full text-base font-semibold leading-5 truncate cursor-pointer md:text-lg"
+            className="w-full text-base font-semibold leading-5 cursor-pointer md:text-lg"
             onClick={() => handleOnClick(event)}
           >
             {event.name}
