@@ -11,7 +11,7 @@ interface Props {
   event: Event;
 }
 
-const ListItem = ({ event }: Props) => {
+const EventCard = ({ event }: Props) => {
   const router = useRouter();
   const distance = formatDistanceToNow(event.date_from, {
     locale: pl,
@@ -57,4 +57,4 @@ const ListItem = ({ event }: Props) => {
   );
 };
 
-export { ListItem };
+export { EventCard };

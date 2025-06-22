@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Event } from "types/event";
 import Logo from "@assets/img/mz-logo-black.png";
 import { groupEventsByWeek } from "@utils/event";
-import { ListItem } from "./list-item";
+import { EventCard } from "./event-card";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -13,7 +13,7 @@ interface Props {
   emptyText?: string;
 }
 
-const ListTab = ({
+const EventList = ({
   events,
   emptyRedirectTo = "/",
   emptyText = "Dostosuj filtry, aby wyszukać inne wydarzenia",
@@ -60,7 +60,7 @@ const ListTab = ({
           </h2>
           <div className="grid w-full grid-cols-2 gap-2 mt-2 md:gap-4 md:grid-cols-3 lg:grid-cols-4">
             {groupedEvents[weekRange]?.map((event) => (
-              <ListItem key={event.id} event={event} />
+              <EventCard key={event.id} event={event} />
             ))}
           </div>
         </section>
@@ -69,4 +69,4 @@ const ListTab = ({
   );
 };
 
-export { ListTab };
+export { EventList };
