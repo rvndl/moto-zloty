@@ -9,7 +9,7 @@ import Image from "next/image";
 
 const routes = [
   { name: "Mapa wydarzeń", path: "/" },
-  { name: "Lista wydarzeń", path: "/lista-wydarzen" },
+  { name: "Lista wydarzeń", path: "/lista-wydarzen", isParentPath: true },
   { name: "Moderacja", path: "/moderation", isProtected: true },
 ];
 
@@ -49,7 +49,11 @@ const Navbar = () => {
                       <NavbarItem
                         key={route.name}
                         to={route.path}
-                        isActive={pathname === route.path}
+                        isActive={
+                          route.isParentPath
+                            ? pathname.includes(route.path)
+                            : pathname === route.path
+                        }
                       >
                         {route.name}
                       </NavbarItem>
