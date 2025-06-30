@@ -1,6 +1,6 @@
 import { type Event } from "types/event";
 import { truncate } from "lodash";
-import { EventStartingDate } from "../../../event-starting-date";
+import { EventStartingDate } from "../../event-starting-date";
 import { Button } from "@components";
 import { getEventStatus } from "@utils/event";
 import { useMemo } from "react";
@@ -12,7 +12,7 @@ interface Props {
   event: Event;
 }
 
-const MapEventMarker = ({ event }: Props) => {
+const EventMarker = ({ event }: Props) => {
   const router = useRouter();
   const { isOngoing } = useMemo(() => getEventStatus(event), [event]);
 
@@ -59,4 +59,4 @@ const MapEventMarker = ({ event }: Props) => {
   );
 };
 
-export { MapEventMarker };
+export { EventMarker };

@@ -1,6 +1,6 @@
 import { Map } from "@components";
 import { useIsMobile } from "@hooks/use-is-mobile";
-import { MapEventMarker } from "./map-event-marker";
+import { EventMarker } from "./event-marker";
 import { getEventStatus } from "@utils/event";
 import { useMemo } from "react";
 import { Event } from "types/event";
@@ -11,7 +11,7 @@ interface Props {
   isLoading?: boolean;
 }
 
-const MapTab = ({ events, isLoading }: Props) => {
+const EventMap = ({ events, isLoading }: Props) => {
   const isMobile = useIsMobile();
 
   const activeEvents = useMemo(
@@ -28,11 +28,11 @@ const MapTab = ({ events, isLoading }: Props) => {
     >
       <Map zoom={isMobile ? 6 : 7} isLoading={isLoading}>
         {activeEvents?.map((event) => (
-          <MapEventMarker event={event} key={event.id} />
+          <EventMarker event={event} key={event.id} />
         ))}
       </Map>
     </motion.div>
   );
 };
 
-export { MapTab };
+export { EventMap };

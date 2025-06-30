@@ -1,8 +1,8 @@
 import { useEventCarouselQuery, useEventsQuery } from "@features/event/api";
 import { EventsCarousel } from "./events-carousel";
 import { useEffect, useState } from "react";
-import { EventsFilters, Filters, initialFiltersState } from "./events-filters";
-import { MapTab } from "./tabs";
+import { DateFilters, Filters, initialFiltersState } from "../date-filters";
+import { EventMap } from "./event-map/map";
 
 const MapPageContent = () => {
   const [filters, setFilters] = useState<Filters>(initialFiltersState);
@@ -31,14 +31,14 @@ const MapPageContent = () => {
       </div>
       <section className="w-full h-full rounded-xl">
         <div className="flex flex-col-reverse items-start justify-between w-full gap-2 mt-2 md:mt-4 md:flex-row md:items-end">
-          <EventsFilters
+          <DateFilters
             filters={filters}
             isLoading={isLoading}
             onChange={(filters) => setFilters(filters)}
           />
         </div>
         <div className="w-full h-full mt-2">
-          <MapTab events={events} isLoading={isLoading || isFetching} />
+          <EventMap events={events} isLoading={isLoading || isFetching} />
         </div>
       </section>
     </div>

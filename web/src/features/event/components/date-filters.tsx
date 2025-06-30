@@ -38,7 +38,7 @@ interface Props {
   onChange: (filters: Filters) => void;
 }
 
-const EventsFilters = ({
+const DateFilters = ({
   filters,
   showSorting = false,
   isLoading,
@@ -112,4 +112,4 @@ const EventsFilters = ({
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export { EventsFilters, initialFiltersState, type Filters };
+export { DateFilters, initialFiltersState, type Filters };
