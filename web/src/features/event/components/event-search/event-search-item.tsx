@@ -15,8 +15,8 @@ const EventSearchItem = ({ option, query }: Props) => {
     <div className="z-10 flex items-center w-full h-10 max-w-full gap-2 p-1 rounded-md cursor-pointer hover:bg-accent">
       <Image
         src={getFilePath(option.value?.banner_small_id)}
-        alt="Banner"
-        title="Banner"
+        alt="Plakat"
+        title="Plakat"
         className="object-cover w-auto h-full rounded-md aspect-square shrink-0"
         width={40}
         height={40}

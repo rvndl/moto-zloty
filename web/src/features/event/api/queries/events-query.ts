@@ -21,7 +21,7 @@ const getEventsQuery = async (payload?: Payload) => {
 
 const useEventsQuery = (
   payload?: Payload,
-  options?: Partial<UseQueryOptions<EventsResponse, Error>>
+  options?: Partial<UseQueryOptions<EventsResponse, Error>>,
 ) => {
   return useQuery({
     queryKey: [EVENTS_QUERY_KEY],

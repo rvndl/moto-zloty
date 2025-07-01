@@ -47,13 +47,11 @@ const Datepicker = ({
         <div
           className={clsx(
             "flex flex-col items-start",
-            Boolean(label) && "gap-2"
+            Boolean(label) && "gap-2",
           )}
         >
           {Boolean(label) && <Label isRequired={isRequired}>{label}</Label>}
           <Button
-            // avoid nesting buttons
-            as="span"
             variant="outline"
             icon={<CalendarIcon />}
             className={clsx("font-normal shadow-sm", !value && "text-muted")}
@@ -64,9 +62,9 @@ const Datepicker = ({
             {value
               ? format(
                   value!,
-                  showTimepicker ? "dd.MM.yyyy HH:mm" : "dd.MM.yyyy"
+                  showTimepicker ? "dd.MM.yyyy HH:mm" : "dd.MM.yyyy",
                 )
-              : placeholder ?? "Wybierz datę"}
+              : (placeholder ?? "Wybierz datę")}
           </Button>
           {Boolean(error) && <HelpText variant="error">{error}</HelpText>}
         </div>
@@ -75,6 +73,7 @@ const Datepicker = ({
     >
       <div className="flex gap-2">
         <Calendar
+          disabled={isDisabled}
           mode="single"
           selected={value}
           onSelect={handleOnSelect}

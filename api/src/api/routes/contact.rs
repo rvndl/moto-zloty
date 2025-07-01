@@ -57,7 +57,7 @@ pub async fn handler(
             "Od: \n{} ({})\n\nTreść: \n{}",
             form.name, form.email, form.content
         ))
-        .unwrap();
+        .expect("failed to generate email");
 
     let creds = Credentials::new(config.smtp_login.clone(), config.smtp_pass.clone());
     let mailer = SmtpTransport::relay("smtp.gmail.com")

@@ -24,7 +24,7 @@ struct UploadReponse {
 }
 
 const ACCEPTED_CONTENT_TYPES: [&str; 4] = ["image/png", "image/jpeg", "image/webp", "image/jpg"];
-const TWO_MB: i32 = 1024 * 1024 * 2;
+const FOUR_MB: i32 = 1024 * 1024 * 4;
 
 // TODO: decide if we want to encode small images
 pub async fn upload(State(state): State<Arc<AppState>>, mut multipart: Multipart) -> Response {
@@ -42,7 +42,7 @@ pub async fn upload(State(state): State<Arc<AppState>>, mut multipart: Multipart
             return api_error_log!("invalid content type");
         }
 
-        if data.len() as i32 > TWO_MB {
+        if data.len() as i32 > FOUR_MB {
             return api_error!("file is too big");
         }
 

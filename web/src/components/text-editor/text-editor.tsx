@@ -3,7 +3,7 @@ import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
-import { TRANSFORMERS } from "@lexical/markdown";
+import { $convertFromMarkdownString, TRANSFORMERS } from "@lexical/markdown";
 import { $generateHtmlFromNodes } from "@lexical/html";
 
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
@@ -28,25 +28,35 @@ import { ToolbarPlugin } from "./plugins";
 import { editorTheme } from "./theme";
 import { EditorState, LexicalEditor } from "lexical";
 
-const editorConfig: InitialConfigType = {
-  theme: editorTheme,
-  namespace: "text-editor",
-  onError(error: unknown) {
-    throw error;
-  },
-  nodes: [
-    HeadingNode,
-    ListNode,
-    ListItemNode,
-    QuoteNode,
-    CodeNode,
-    CodeHighlightNode,
-    TableNode,
-    TableCellNode,
-    TableRowNode,
-    AutoLinkNode,
-    LinkNode,
-  ],
+const editorConfig = (
+  value?: string,
+  isMarkdownValue?: boolean,
+): InitialConfigType => {
+  return {
+    theme: editorTheme,
+    namespace: "text-editor",
+    onError(error: unknown) {
+      throw error;
+    },
+    nodes: [
+      HeadingNode,
+      ListNode,
+      ListItemNode,
+      QuoteNode,
+      CodeNode,
+      CodeHighlightNode,
+      TableNode,
+      TableCellNode,
+      TableRowNode,
+      AutoLinkNode,
+      LinkNode,
+    ],
+    ...(typeof value !== "string" && { editorState: value }),
+    ...(typeof value === "string" &&
+      isMarkdownValue && {
+        editorState: () => $convertFromMarkdownString(value),
+      }),
+  };
 };
 
 interface TextEditorProps {
@@ -55,6 +65,7 @@ interface TextEditorProps {
   value?: string;
   isRequired?: boolean;
   isNonEditable?: boolean;
+  isMarkdownValue?: boolean;
   onChange?: (value: string) => void;
 }
 
@@ -63,6 +74,7 @@ const TextEditor = ({
   value,
   isRequired,
   isNonEditable,
+  isMarkdownValue,
   onChange,
 }: TextEditorProps) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -73,7 +85,7 @@ const TextEditor = ({
 
   const handleOnDataChange = (
     editorState: EditorState,
-    editor: LexicalEditor
+    editor: LexicalEditor,
   ) => {
     editorState.read(() => {
       const html = $generateHtmlFromNodes(editor);
@@ -93,12 +105,7 @@ const TextEditor = ({
             dangerouslySetInnerHTML={{ __html: value || "" }}
           />
         ) : (
-          <LexicalComposer
-            initialConfig={{
-              ...editorConfig,
-              ...(typeof value !== "string" && { editorState: value }),
-            }}
-          >
+          <LexicalComposer initialConfig={editorConfig(value, isMarkdownValue)}>
             <div className="border rounded-md shadow-sm">
               <ToolbarPlugin />
               <div className="h-full overflow-y-auto max-h-72">

@@ -2,11 +2,16 @@ import { ReactNode } from "react";
 import { FieldValues, Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { FormContext } from "./fom-context";
 
+interface FormRef {
+  clear: () => void;
+}
+
 interface Props<TValues> {
   onSubmit:
     | ((reset: () => void) => (values: TValues) => void)
     | ((values: TValues) => void);
   defaultValues?: Partial<Record<keyof TValues, unknown>>;
+  values?: Partial<Record<keyof TValues, unknown>>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   resolver?: Resolver<any>;
   children: ((isValid?: boolean) => ReactNode) | ReactNode;
@@ -17,6 +22,7 @@ const Form = <TValues,>({
   onSubmit,
   children,
   resolver,
+  values,
 }: Props<TValues>) => {
   const {
     handleSubmit,
@@ -26,6 +32,7 @@ const Form = <TValues,>({
   } = useForm({
     resolver,
     defaultValues: defaultValues as Record<string, unknown>,
+    values,
     mode: "all",
   });
 
@@ -41,4 +48,4 @@ const Form = <TValues,>({
   );
 };
 
-export { Form };
+export { Form, type FormRef };

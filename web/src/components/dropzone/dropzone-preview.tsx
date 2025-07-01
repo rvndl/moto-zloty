@@ -21,7 +21,7 @@ const DropzonePreview = ({ preview, onCancel }: Props) => {
       <img
         className="object-cover w-20 rounded-md"
         src={preview}
-        alt="Banner"
+        alt="Plakat"
       />
     </div>
   );

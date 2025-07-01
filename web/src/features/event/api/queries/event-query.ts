@@ -12,7 +12,7 @@ const getEventQuery = async (id: string) => {
 
 const useEventQuery = (
   id: string,
-  options?: Partial<UseQueryOptions<EventResponse, Error>>
+  options?: Partial<UseQueryOptions<EventResponse, Error>>,
 ) => {
   return useQuery({
     queryKey: [EVENT_QUERY_KEY, id],

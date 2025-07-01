@@ -7,9 +7,10 @@ import { Place } from "types/place";
 interface Props {
   name: string;
   label?: string;
+  isDisabled?: boolean;
 }
 
-const SearchAddressField = ({ name, label = "Adres" }: Props) => (
+const SearchAddressField = ({ name, label = "Adres", isDisabled }: Props) => (
   <AutocompleteField
     name={name}
     label={label}
@@ -22,9 +23,10 @@ const SearchAddressField = ({ name, label = "Adres" }: Props) => (
             id: place.place_id,
             label: makeAddressString(place.address),
             value: place,
-          } satisfies AutocompleteOption)
+          }) satisfies AutocompleteOption,
       );
     }}
+    isDisabled={isDisabled}
     isRequired
   />
 );

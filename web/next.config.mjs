@@ -4,7 +4,7 @@ const nextConfig = {
   // distDir: "./dist",
   webpack(config) {
     const fileLoaderRule = config.module.rules.find((rule) =>
-      rule.test?.test?.(".svg")
+      rule.test?.test?.(".svg"),
     );
 
     config.module.rules.push(
@@ -18,7 +18,7 @@ const nextConfig = {
         issuer: fileLoaderRule.issuer,
         resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] },
         use: ["@svgr/webpack"],
-      }
+      },
     );
 
     fileLoaderRule.exclude = /\.svg$/i;
@@ -27,6 +27,11 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8080",
+      },
       {
         protocol: "https",
         hostname: "api.moto-zloty.pl",

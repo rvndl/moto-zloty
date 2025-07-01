@@ -29,12 +29,13 @@ interface AutocompleteProps<TValue = unknown> {
   className?: string;
   error?: string;
   isRequired?: boolean;
+  isDisabled?: boolean;
   fetch?: (query: string) => Promise<AutocompleteOption<TValue>[]>;
   onChange?: (value: AutocompleteOption<TValue>) => void;
   onItemClick?: (value: AutocompleteOption<TValue>) => void;
   transformer?: (
     value: AutocompleteOption<TValue>,
-    query?: string
+    query?: string,
   ) => ReactNode;
 }
 
@@ -48,6 +49,7 @@ const Autocomplete = <TValue = unknown,>({
   className,
   error,
   isRequired,
+  isDisabled,
   onChange,
   onItemClick,
   transformer,
@@ -64,7 +66,7 @@ const Autocomplete = <TValue = unknown,>({
     "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
     size === "default" && "h-9 py-1 text-sm",
     size === "small" && "h-8 py-2 text-xs",
-    className
+    className,
   );
 
   useEffect(() => {
@@ -95,6 +97,7 @@ const Autocomplete = <TValue = unknown,>({
           onChange={(event) => setDebouncedQuery(event.target.value)}
           placeholder={placeholder}
           className={classes}
+          disabled={isDisabled}
           autoComplete="off"
         />
         {query.length >= minLength && (
@@ -115,7 +118,7 @@ const Autocomplete = <TValue = unknown,>({
                   value={option}
                   className={clsx(
                     "w-full font-normal text-ellipsis",
-                    transformer && "p-0"
+                    transformer && "p-0",
                   )}
                   onClick={() => onItemClick?.(option)}
                 >
