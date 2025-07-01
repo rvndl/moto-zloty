@@ -30,7 +30,7 @@ pub async fn run(global: Arc<Global>) {
             "/mod/banner_scrap/:file_id",
             get(routes::banner_scrap::handler),
         )
-        .route("/mod/accounts", get(routes::account::list_all))
+        .route("/mod/accounts", get(routes::account::list::handler))
         .route("/mod/events", get(routes::event::list_moderation::handler))
         .route(
             "/events/:id/update_status",
@@ -44,10 +44,10 @@ pub async fn run(global: Arc<Global>) {
         )
         .route(
             "/account/change_password",
-            patch(routes::account::change_password),
+            patch(routes::account::change_password::handler),
         )
-        .route("/place_search/:query", get(routes::place_search::search))
-        .route("/file", post(routes::file::upload))
+        .route("/place_search/:query", get(routes::place_search::handler))
+        .route("/file", post(routes::file::upload::handler))
         .layer(axum::middleware::from_fn(middleware::auth::authenticated))
         // public routes
         .route("/health", get(routes::health::handler))
@@ -58,8 +58,8 @@ pub async fn run(global: Arc<Global>) {
         .route("/events", get(routes::event::list::handler))
         .route("/register", put(routes::register::handler))
         .route("/login", post(routes::login::handler))
-        .route("/account/:id", get(routes::account::details))
-        .route("/file/:id", get(routes::file::get_file))
+        .route("/account/:id", get(routes::account::details::handler))
+        .route("/file/:id", get(routes::file::get::handler))
         .route("/contact", post(routes::contact::handler))
         .route("/sitemap_events", get(routes::event::list_sitemap::handler))
         .layer(DefaultBodyLimit::max(FOUR_MB))
