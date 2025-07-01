@@ -66,7 +66,9 @@ pub async fn run(global: Arc<Global>) {
         .layer(CorsLayer::permissive())
         .with_state(app_state);
 
-    if let Ok(listener) = tokio::net::TcpListener::bind("0.0.0.0:8080").await {
+    let port = &global.config().port;
+    if let Ok(listener) = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await {
+        log::info!("api listening on port {}", port);
         if let Err(err) = axum::serve(listener, app).await {
             log::error!("failed to serve the api: {}", err);
         }

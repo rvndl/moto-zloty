@@ -4,6 +4,7 @@ use crate::env::Env;
 
 #[derive(Debug)]
 pub struct Config {
+    pub port: String,
     pub db_url: String,
     pub redis_url: String,
     pub upload_path: String,
@@ -20,6 +21,7 @@ impl Config {
             std::process::exit(0);
         };
 
+        let port = Env::new("PORT", true, |val| val).get();
         let db_url = Env::new("DATABASE_URL", true, |val| val).get();
         let redis_url = Env::new("REDIS_URL", true, |val| val).get();
         let upload_path = Env::new("UPLOAD_PATH", true, |val| val).get();
@@ -29,6 +31,7 @@ impl Config {
         let smtp_pass = Env::new("SMTP_PASS", true, |val| val).get();
 
         Config {
+            port,
             db_url,
             redis_url,
             upload_path,
