@@ -33,11 +33,6 @@ pub struct Event {
     /// Description of the event
     pub description: Option<String>,
 
-    /// Full address of the event
-    /// Deprecated, use `full_address` instead
-    #[deprecated]
-    pub address: Option<String>,
-
     /// Id of the full address
     pub full_address_id: Option<Uuid>,
 

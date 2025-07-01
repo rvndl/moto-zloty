@@ -7,7 +7,6 @@ export interface Event {
   id: string;
   name: string;
   description: string;
-  address: string;
   status: EventStatus;
   longitude: number;
   latitude: number;

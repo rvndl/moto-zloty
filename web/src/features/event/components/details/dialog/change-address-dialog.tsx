@@ -41,7 +41,7 @@ const ChangeAddressDialog = ({ event, openRef }: Props) => {
       return;
     }
 
-    await mutate(
+    mutate(
       {
         id: event.id,
         ...place,
@@ -49,7 +49,7 @@ const ChangeAddressDialog = ({ event, openRef }: Props) => {
       {
         onError: (err) =>
           toast.error(
-            `Wystąpił błąd podczas aktualizacji adresu: ${err.message}`
+            `Wystąpił błąd podczas aktualizacji adresu: ${err.message}`,
           ),
         onSuccess: () => {
           queryClient.invalidateQueries({
@@ -62,7 +62,7 @@ const ChangeAddressDialog = ({ event, openRef }: Props) => {
           toast.success("Adres został zaktualizowany");
           close();
         },
-      }
+      },
     );
   };
 
@@ -79,7 +79,7 @@ const ChangeAddressDialog = ({ event, openRef }: Props) => {
         >
           <section className="flex flex-col gap-2">
             <Value title="Aktualny adres">
-              {event?.address ?? makeAddressString(event.full_address)}
+              {makeAddressString(event.full_address)}
             </Value>
             <SearchAddressField name="place" label="Nowy adres" />
             <PreviewMap className="h-[24rem] md:h-[32rem] md:w-[32rem]" />

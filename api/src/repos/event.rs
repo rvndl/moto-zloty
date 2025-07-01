@@ -177,7 +177,7 @@ impl<'a> EventRepo<'a> {
             WHERE
                 e.status = $1
             AND
-                e.date_to > CURRENT_DATE 
+                e.date_to > CURRENT_DATE
             "#
         );
 
@@ -226,7 +226,6 @@ impl<'a> EventRepo<'a> {
                     id: row.get("id"),
                     name: row.get("name"),
                     description: row.get("description"),
-                    address: row.get("address"),
                     full_address_id: row.get("full_address_id"),
                     status: row.get("status"),
                     longitude: row.get("longitude"),
@@ -258,7 +257,6 @@ impl<'a> EventRepo<'a> {
             SELECT e.id,
                 e.name,
                 e.description,
-                e.address,
                 e.status,
                 e.longitude,
                 e.latitude,
@@ -304,7 +302,6 @@ impl<'a> EventRepo<'a> {
             id: row.get("id"),
             name: row.get("name"),
             description: row.get("description"),
-            address: row.get("address"),
             full_address_id: row.get("full_address_id"),
             status: row.get("status"),
             longitude: row.get("longitude"),
@@ -390,7 +387,7 @@ impl<'a> EventRepo<'a> {
     pub async fn search(&self, search_string: &str) -> Result<Vec<Event>, sqlx::Error> {
         let rows = sqlx::query(
             r#"
-            SELECT 
+            SELECT
                 e.*,
                 ad.id AS address_id,
                 ad.name AS address_name,
@@ -402,7 +399,7 @@ impl<'a> EventRepo<'a> {
                 ad.state AS address_state,
                 ad.created_at AS address_created_at,
                 similarity(
-                    e.name || ' ' || 
+                    e.name || ' ' ||
                     COALESCE(e.address, '') || ' ' ||
                     COALESCE(ad.name, '') || ' ' ||
                     COALESCE(ad.house_number, '') || ' ' ||
@@ -415,7 +412,7 @@ impl<'a> EventRepo<'a> {
             FROM event e
             LEFT JOIN address ad ON e.full_address_id = ad.id
             WHERE similarity(
-                    e.name || ' ' || 
+                    e.name || ' ' ||
                     COALESCE(e.address, '') || ' ' ||
                     COALESCE(ad.name, '') || ' ' ||
                     COALESCE(ad.house_number, '') || ' ' ||
@@ -445,7 +442,6 @@ impl<'a> EventRepo<'a> {
                     id: row.get("id"),
                     name: row.get("name"),
                     description: row.get("description"),
-                    address: row.get("address"),
                     full_address_id: row.get("full_address_id"),
                     status: row.get("status"),
                     longitude: row.get("longitude"),
