@@ -39,13 +39,17 @@ const schema = yup.object<Fields>({
 });
 
 const QuickAddTab = () => {
+  const [scrapBanner, setScrapBanner] = useState<DropzoneImage>();
   const [banner, setBanner] = useState<DropzoneImage>();
-  const { isFetching, data } = useBannerScrapQuery(banner?.full_id || "", {
-    enabled: !!banner?.full_id,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-  });
+  const { isFetching, data, refetch } = useBannerScrapQuery(
+    scrapBanner?.full_id || "",
+    {
+      enabled: !!scrapBanner?.full_id,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+    },
+  );
   const { mutate: createEvent, isPending } = useCreateEventMutation();
   const { user } = useAuth();
 
@@ -61,6 +65,7 @@ const QuickAddTab = () => {
     banner,
     ...rest
   }: Fields) => {
+    const actualBanner = banner ?? scrapBanner;
     createEvent(
       {
         ...rest,
@@ -70,8 +75,8 @@ const QuickAddTab = () => {
         lat,
         lon,
         account_id: user.id!,
-        banner_id: banner?.full_id,
-        banner_small_id: banner?.small_id,
+        banner_id: actualBanner?.full_id,
+        banner_small_id: actualBanner?.small_id,
       },
       {
         onSuccess: () => {
@@ -99,12 +104,20 @@ const QuickAddTab = () => {
       >
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-2 gap-4">
-            <DropzoneField
-              name="banner"
-              label="Plakat"
-              isRequired
-              onChange={(value) => setBanner(value)}
-            />
+            <div className="grid gap-4">
+              <DropzoneField
+                name="scrapBanner"
+                label="Plakat"
+                isRequired
+                onChange={(value) => setScrapBanner(value)}
+              />
+              <DropzoneField
+                name="banner"
+                label="Alternatywny plakat"
+                onChange={(value) => setBanner(value)}
+              />
+            </div>
+
             <div className="flex flex-col gap-2">
               <InputField
                 name="name"
@@ -140,16 +153,31 @@ const QuickAddTab = () => {
           </div>
           <div>
             <TextEditorField
-              key={data?.description}
+              key={
+                data?.description +
+                (banner?.full_id || "") +
+                (scrapBanner?.full_id || "")
+              }
               name="description"
               label="Opis"
               isRequired
               isMarkdownValue
             />
           </div>
-          <Button type="submit" disabled={isLoading} isLoading={isLoading}>
-            Dodaj wydarzenie
-          </Button>
+          <div className="flex justify-end gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => refetch()}
+              isLoading={isFetching}
+              disabled={isLoading || !scrapBanner?.full_id}
+            >
+              Przegeneruj
+            </Button>
+            <Button type="submit" disabled={isLoading} isLoading={isLoading}>
+              Dodaj wydarzenie
+            </Button>
+          </div>
         </div>
       </Form>
     </Card>

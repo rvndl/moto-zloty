@@ -62,22 +62,33 @@ pub async fn handler(State(state): State<Arc<AppState>>, mut multipart: Multipar
         }
 
         let full_image = convert_image(&save_path, false);
-        let small_image = convert_image(&save_path, true);
-
-        let (full_image_path, small_image_path) = match (full_image, small_image) {
-            (Ok(full_image_path), Ok(small_image_path)) => (full_image_path, small_image_path),
-            (_, _) => {
-                log::error!("failed to convert file to .webp");
-                return api_error!("Wystąpił błąd podczas konwersji pliku do .webp");
+        let full_image = match full_image {
+            Ok(path) => path,
+            Err(err) => {
+                log::error!("failed to convert file to .webp: {}", err);
+                return api_error!(
+                    "Wystąpił błąd podczas konwersji pliku do .webp. Spróbuj ponownie."
+                );
             }
         };
 
-        let full_image_file = match repos.file.create(&full_image_path).await {
+        let small_image = convert_image(&save_path, false);
+        let small_image = match small_image {
+            Ok(path) => path,
+            Err(err) => {
+                log::error!("failed to convert file to .webp: {}", err);
+                return api_error!(
+                    "Wystąpił błąd podczas konwersji mniejszego pliku do .webp. Spróbuj ponownie."
+                );
+            }
+        };
+
+        let full_image_file = match repos.file.create(&full_image).await {
             Ok(file) => file,
             Err(err) => return api_error_log!("failed to create full image file: {}", err),
         };
 
-        let small_image_file = match repos.file.create(&small_image_path).await {
+        let small_image_file = match repos.file.create(&small_image).await {
             Ok(file) => file,
             Err(err) => return api_error_log!("failed to create small image file: {}", err),
         };
