@@ -1,4 +1,4 @@
-name: Node.JS
+name: Web
 
 on: [push]
 
