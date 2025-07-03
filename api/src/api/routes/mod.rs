@@ -1,4 +1,5 @@
 pub mod account;
+pub mod banner_scrap;
 pub mod contact;
 pub mod event;
 pub mod file;

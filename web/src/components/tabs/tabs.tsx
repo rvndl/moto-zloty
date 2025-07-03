@@ -20,7 +20,7 @@ const Tabs = <TTab extends string>({
     <div
       className={twMerge(
         "flex gap-0.5 items-center bg-accent p-0.5 rounded-md",
-        className
+        className,
       )}
       {...rest}
     >

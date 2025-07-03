@@ -52,7 +52,7 @@ const Button = ({
     variant === "secondary" && "bg-white shadow-sm hover:bg-accent bg-white",
     variant === "ghost" && "bg-transparent hover:bg-accent",
     variant === "outline" && "border shadow-sm hover:bg-accent bg-white",
-    className
+    className,
   );
 
   const Component = as ? as : "button";

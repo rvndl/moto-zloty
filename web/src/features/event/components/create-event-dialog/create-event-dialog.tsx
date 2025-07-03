@@ -48,9 +48,9 @@ const CreateEventDialog = () => {
   const TextEditorField = dynamic(
     () =>
       import("@components/form/fields/text-editor-field").then(
-        (mod) => mod.TextEditorField
+        (mod) => mod.TextEditorField,
       ),
-    { ssr: false }
+    { ssr: false },
   );
 
   const handleOnCreate =
@@ -83,7 +83,7 @@ const CreateEventDialog = () => {
             close();
             router.push(`/wydarzenie/${data.id}`);
           },
-        }
+        },
       );
     };
 
@@ -106,7 +106,7 @@ const CreateEventDialog = () => {
                 placeholder="Nazwa wydarzenia"
                 isRequired
               />
-              <DropzoneField name="banner" label="Banner" />
+              <DropzoneField name="banner" label="Plakat" />
               <DatePicker />
               <div className="h-[294px]">
                 <TextEditorField

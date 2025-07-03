@@ -10,9 +10,11 @@ type GetUrl =
   | `/place_search/${string}`
   | `/events/${string}`
   | `/events/${string}/actions`
+  | "/events/list_by_state"
   | "/sitemap_events"
   | "/mod/events"
-  | "/mod/accounts";
+  | "/mod/accounts"
+  | `/mod/banner_scrap/${string}`;
 
 type PostUrl = "/login" | "/file" | "/contact";
 type PutUrl = "/register" | "/events" | `/events/${string}/update_status`;
@@ -46,7 +48,7 @@ instance.interceptors.request.use(
 
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 const get = <TResponse>(url: GetUrl, config?: AxiosRequestConfig) =>
@@ -55,19 +57,19 @@ const get = <TResponse>(url: GetUrl, config?: AxiosRequestConfig) =>
 const post = <TResponse, TData = unknown>(
   url: PostUrl,
   data?: TData,
-  config?: AxiosRequestConfig
+  config?: AxiosRequestConfig,
 ) => instance.post<TResponse>(url, data, config);
 
 const put = <TResponse, TData = unknown>(
   url: PutUrl,
   data?: TData,
-  config?: AxiosRequestConfig
+  config?: AxiosRequestConfig,
 ) => instance.put<TResponse>(url, data, config);
 
 const patch = <TResponse, TData = unknown>(
   url: PatchUrl,
   data?: TData,
-  config?: AxiosRequestConfig
+  config?: AxiosRequestConfig,
 ) => instance.patch<TResponse>(url, data, config);
 
 const Api = {

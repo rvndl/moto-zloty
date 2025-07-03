@@ -1,5 +1,10 @@
 import { MapPage } from "@features/event";
-import { EVENTS_QUERY_KEY, getEventsQuery } from "@features/event/api";
+import {
+  EVENT_LIST_BY_STATE_QUERY_KEY,
+  EVENTS_QUERY_KEY,
+  getEventListByStateQuery,
+  getEventsQuery,
+} from "@features/event/api";
 import {
   dehydrate,
   DehydratedState,
@@ -11,10 +16,17 @@ import { GetServerSideProps } from "next";
 // eslint-disable-next-line react-refresh/only-export-components
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: [EVENTS_QUERY_KEY],
-    queryFn: () => getEventsQuery(),
-  });
+
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: [EVENTS_QUERY_KEY],
+      queryFn: () => getEventsQuery(),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: [EVENT_LIST_BY_STATE_QUERY_KEY],
+      queryFn: () => getEventListByStateQuery(),
+    }),
+  ]);
 
   return {
     props: {

@@ -19,7 +19,7 @@ const Card = ({
     <div
       className={twMerge(
         "p-4 md:p-6 rounded-xl border bg-card bg-white shadow",
-        className
+        className,
       )}
       {...rest}
     >
@@ -31,7 +31,6 @@ const Card = ({
           )}
         </div>
       )}
-
       <div className={twMerge(Boolean(title) && "mt-6", contentClassName)}>
         {children}
       </div>

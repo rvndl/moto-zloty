@@ -31,6 +31,8 @@ prompt = """
     Do not wrap the output in a code block or text block—just return the raw JSON.
     Remove "Pokaż mniej" or "Pokaż więcej" from the description if present.
     Make the description nicely readable and formatted, but do not change the original meaning, it should be capitalized, NOT uppercase, separate the text using new lines, add dashes, bullet points, etc., make it SEO friendly.
+    If the starting date doesn't contain a time, assume it starts at 00:00:00.
+    If the ending date doesn't contain a time, assume it ends at 23:59:59.
 """
 
 def create_input(root, label, type="entry"):
@@ -80,6 +82,16 @@ progress_frame.pack(fill=tk.X, padx=20, pady=(5, 10))
 
 progress = ttk.Progressbar(progress_frame, mode="indeterminate")
 progress.pack(fill=tk.X)
+
+copy_as_json_button = tk.Button(root, text="Copy as JSON", command=lambda:( root.clipboard_clear() or root.clipboard_append(
+  json.dumps({
+    "title": title_input.get(),
+    "starting_date": startup_date_input.get(),
+    "ending_date": ending_date_input.get(),
+    "location": location_input.get(),
+    "description": description_input.get("1.0", tk.END).strip()
+  }, indent=2))), font=("Arial", 12))
+copy_as_json_button.pack(pady=10)
 
 def process_image_in_thread(img):
     try:

@@ -2,9 +2,19 @@ import { Page } from "@components";
 import { useAuth } from "@features/auth";
 import { useEffect } from "react";
 import { match } from "ts-pattern";
-import { EventListTab, StatisticsTab, UserListTab } from "../components";
+import {
+  EventListTab,
+  QuickAddTab,
+  StatisticsTab,
+  UserListTab,
+} from "../components";
 import { useRouter } from "next/navigation";
-import { ChartAreaIcon, BookUserIcon, ShieldCheckIcon } from "lucide-react";
+import {
+  ChartAreaIcon,
+  BookUserIcon,
+  ShieldCheckIcon,
+  SparklesIcon,
+} from "lucide-react";
 
 const ModerationPage = () => {
   const { isPermitted } = useAuth();
@@ -25,6 +35,7 @@ const ModerationPage = () => {
         { label: "Statystyki", icon: <ChartAreaIcon /> },
         { label: "Użytkownicy", icon: <BookUserIcon /> },
         { label: "Wydarzenia", icon: <ShieldCheckIcon /> },
+        { label: "Szybkie dodawanie", icon: <SparklesIcon /> },
       ]}
       isInline
     >
@@ -33,6 +44,7 @@ const ModerationPage = () => {
           .with("Statystyki", () => <StatisticsTab />)
           .with("Użytkownicy", () => <UserListTab />)
           .with("Wydarzenia", () => <EventListTab />)
+          .with("Szybkie dodawanie", () => <QuickAddTab />)
           .otherwise(() => null)
       }
     </Page>
