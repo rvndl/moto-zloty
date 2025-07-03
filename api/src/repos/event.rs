@@ -119,13 +119,76 @@ impl<'a> EventRepo<'a> {
             WHERE
                 date_to + '3 day'::INTERVAL > CURRENT_DATE
             AND status != $1
+            AND status != $2
             "#,
         )
         .bind(EventStatus::REJECTED)
+        .bind(EventStatus::PENDING)
         .fetch_all(self.db)
         .await;
 
         query
+    }
+
+    pub async fn fetch_list_by_state(&self) -> Result<Vec<Event>, sqlx::Error> {
+        let query_str = format!(
+            r#"
+            SELECT e.id,
+                e.name,
+                e.full_address_id,
+                e.description,
+                e.status,
+                e.longitude,
+                e.latitude,
+                e.date_from,
+                e.date_to,
+                e.created_at,
+                e.account_id,
+                ad.id as address_id,
+                ad.state as address_state,
+                ad.created_at as address_created_at
+            FROM event e
+                LEFT JOIN address ad ON e.full_address_id = ad.id
+            WHERE
+                e.status NOT IN ($1, $2)
+            "#
+        );
+
+        let query = sqlx::query(&query_str)
+            .bind(EventStatus::REJECTED)
+            .bind(EventStatus::PENDING);
+
+        let result = query.fetch_all(self.db).await?;
+
+        let events_with_address = result
+            .into_iter()
+            .map(|row| {
+                let EventJoinedProperties { account, address } =
+                    join_event_properties(&row, JoinEventFlags::None | JoinEventFlags::Address);
+
+                let event = Event {
+                    id: row.get("id"),
+                    name: row.get("name"),
+                    description: row.get("description"),
+                    full_address_id: row.get("full_address_id"),
+                    status: row.get("status"),
+                    longitude: row.get("longitude"),
+                    latitude: row.get("latitude"),
+                    date_from: row.get("date_from"),
+                    date_to: row.get("date_to"),
+                    created_at: row.get("created_at"),
+                    banner_id: None,
+                    banner_small_id: None,
+                    account_id: row.get("account_id"),
+                    full_address: address,
+                    account,
+                };
+
+                event
+            })
+            .collect();
+
+        Ok(events_with_address)
     }
 
     pub async fn fetch_all_joined(
@@ -570,13 +633,13 @@ fn join_event_properties(row: &PgRow, flags: BitFlags<JoinEventFlags>) -> EventJ
         if let Some(id) = row.try_get("address_id").ok() {
             event.address = Some(Address {
                 id,
-                name: row.get("address_name"),
-                house_number: row.get("address_house_number"),
-                road: row.get("address_road"),
-                neighbourhood: row.get("address_neighbourhood"),
-                suburb: row.get("address_suburb"),
-                city: row.get("address_city"),
-                state: row.get("address_state"),
+                name: row.try_get("address_name").unwrap_or(None),
+                house_number: row.try_get("address_house_number").unwrap_or(None),
+                road: row.try_get("address_road").unwrap_or(None),
+                neighbourhood: row.try_get("address_neighbourhood").unwrap_or(None),
+                suburb: row.try_get("address_suburb").unwrap_or(None),
+                city: row.try_get("address_city").unwrap_or(None),
+                state: row.try_get("address_state").unwrap_or(None),
                 created_at: row.get("address_created_at"),
             });
         }

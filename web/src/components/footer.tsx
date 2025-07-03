@@ -1,10 +1,20 @@
 import Image from "next/image";
 import Logo from "@assets/img/mz-logo-black.png";
 import Link from "next/link";
+import clsx from "clsx";
 
-const Footer = () => {
+interface Props {
+  variant?: "light" | "dark";
+}
+
+const Footer = ({ variant = "light" }: Props) => {
   return (
-    <footer className="w-full mt-auto border-t shadow-sm text-primary">
+    <footer
+      className={clsx(
+        "w-full mt-auto border-t shadow-sm text-primary bg-white",
+        variant === "dark" && "invert",
+      )}
+    >
       <div className="grid w-full gap-4 px-8 py-6 mx-auto text-sm font-normal max-w-7xl">
         <div className="flex gap-4 text-sm font-normal">
           <Image

@@ -5,6 +5,7 @@ pub mod carousel;
 pub mod create;
 pub mod details;
 pub mod list;
+pub mod list_by_state;
 pub mod list_moderation;
 pub mod list_sitemap;
 pub mod search;
