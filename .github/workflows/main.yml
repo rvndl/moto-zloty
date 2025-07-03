@@ -1,9 +1,7 @@
-name: Web
-
 on: [push]
 
 jobs:
-  lint:
+  lint-web:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -19,12 +17,34 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      
       - name: Install yarn
         run: |
           npm install yarn -g
+      
       - name: Install dependencies
         run: |
           yarn
+      
       - name: Lint
         run: |
           yarn next lint
+
+  lint-api:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory:
+          ./api
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Rust
+        uses: actions/setup-rust@v1
+        with:
+          rust-version: stable
+
+      - name: Clippy
+        run: cargo clippy
