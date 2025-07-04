@@ -48,4 +48,4 @@ jobs:
           cache: true
       
       - name: Clippy
-        run: cargo clippy
+        run: cargo clippy -- -W warnings
