@@ -50,8 +50,67 @@ jobs:
       
       - name: Clippy
         run: cargo clippy -- -W warnings
+  
+  deploy-web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./web
 
-  deploy:
+    needs: [lint-web]
+    steps:
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      
+      - name: Build app
+        run: yarn build
+
+      - name: Archive build
+        run: |
+          tar -czf web.tar.gz .next public package.json yarn.lock
+
+      - name: Upload archive to the server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key
+          chmod 600 private_key
+
+          scp -i private_key -o StrictHostKeyChecking=no next-app.tar.gz $VPS_USER@$VPS_HOST:/home/mz-prod/web/web.tar.gz
+
+      - name: Extract and restart web
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key
+          chmod 600 private_key
+
+          ssh -i private_key -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << 'EOF'
+            cd /home/mz-prod/web/
+            rm -rf ./.next
+            rm -rf ./public
+            rm -rf ./package.json
+            rm -rf ./yarn.lock
+            
+            tar -xzf ./web.tar.gz -C ./
+            yarn install --production
+
+            screen -S web -X stuff "^C"
+            sleep 1
+
+            screen -S web -X stuff "clear\n"
+            screen -S web -X stuff "yarn start\n"
+          EOF
+
+    strategy:
+      matrix:
+        node-version: [24.x]
+
+  deploy-api:
     runs-on: ubuntu-latest
     defaults:
       run:
