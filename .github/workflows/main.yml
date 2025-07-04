@@ -120,10 +120,6 @@ jobs:
             screen -S web -X stuff "yarn start\n"
           EOF
 
-    strategy:
-      matrix:
-        node-version: [24.x]
-
   deploy-api:
     runs-on: ubuntu-latest
     defaults:
