@@ -32,7 +32,7 @@ pub enum AccountRank {
 
 impl fmt::Display for AccountRank {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{:?}", self)
+        write!(f, "{self:?}")
     }
 }
 

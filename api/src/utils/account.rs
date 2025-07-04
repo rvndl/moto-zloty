@@ -4,9 +4,5 @@ use crate::db::models::account::AccountRank;
 ///
 /// Currently, only `MOD` and `ADMIN` ranks are permitted.
 pub fn is_permitted(rank: AccountRank) -> bool {
-    match rank {
-        AccountRank::MOD => true,
-        AccountRank::ADMIN => true,
-        _ => false,
-    }
+    matches!(rank, AccountRank::MOD | AccountRank::ADMIN)
 }

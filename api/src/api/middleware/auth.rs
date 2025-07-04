@@ -1,6 +1,6 @@
 use axum::{extract::Request, http::StatusCode, middleware::Next, response::IntoResponse};
 
-use crate::jwt;
+use crate::{env::Env, jwt};
 
 pub async fn authenticated(mut req: Request, next: Next) -> impl IntoResponse {
     let auth_header = req.headers().get("Authorization");
@@ -18,14 +18,15 @@ pub async fn authenticated(mut req: Request, next: Next) -> impl IntoResponse {
 
     match token {
         Some(token) => {
-            let claims = match jwt::decode(token) {
+            let jwt_secret = Env::new("JWT_SECRET", true, |val| val).get();
+            let claims = match jwt::decode(&jwt_secret, token) {
                 Ok(token_data) => token_data.claims,
                 Err(_) => return StatusCode::UNAUTHORIZED.into_response(),
             };
 
             req.extensions_mut().insert(claims);
-            return next.run(req).await;
+            next.run(req).await
         }
-        None => return StatusCode::UNAUTHORIZED.into_response(),
+        None => StatusCode::UNAUTHORIZED.into_response(),
     }
 }

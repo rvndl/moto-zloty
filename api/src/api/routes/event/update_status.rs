@@ -41,7 +41,7 @@ pub async fn handler(
             event.id,
             claims.id,
             &claims.username,
-            &form.status.get_action_name(),
+            form.status.get_action_name(),
         )
         .await
     {

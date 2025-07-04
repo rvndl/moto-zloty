@@ -71,10 +71,10 @@ pub async fn run(global: Arc<Global>) {
         .with_state(app_state);
 
     let port = &global.config().port;
-    if let Ok(listener) = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await {
-        log::info!("api listening on port {}", port);
+    if let Ok(listener) = tokio::net::TcpListener::bind(format!("0.0.0.0:{port}")).await {
+        log::info!("api listening on port {port}");
         if let Err(err) = axum::serve(listener, app).await {
-            log::error!("failed to serve the api: {}", err);
+            log::error!("failed to serve the api: {err}");
         }
     }
 }

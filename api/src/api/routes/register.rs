@@ -38,10 +38,12 @@ pub async fn handler(
 ) -> Response {
     let repos = state.global.repos();
     let Config {
-        turnstile_secret, ..
+        turnstile_secret,
+        jwt_secret,
+        ..
     } = &state.global.config();
 
-    if !turnstile::verify(&turnstile_secret, &form.recaptcha).await {
+    if !turnstile::verify(turnstile_secret, &form.recaptcha).await {
         return api_error!("Weryfikacja Turnstile nie powiodła się");
     }
 
@@ -58,7 +60,7 @@ pub async fn handler(
 
     let id: Uuid;
 
-    match argon2.hash_password(form.password.as_str().as_bytes(), &salt) {
+    match argon2.hash_password(form.password.as_bytes(), &salt) {
         Ok(password_hash) => {
             match repos
                 .account
@@ -77,7 +79,7 @@ pub async fn handler(
     }
 
     let default_rank = AccountRank::USER;
-    let token = match jwt::sign(id, &form.username, &default_rank) {
+    let token = match jwt::sign(jwt_secret, id, &form.username, default_rank) {
         Ok(token) => token,
         Err(err) => return api_error_log!("failed to create jwt token: {}", err),
     };

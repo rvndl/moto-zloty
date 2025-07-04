@@ -69,7 +69,7 @@ pub async fn handler(
         Ok(_) => "ok".into_response(),
         Err(err) => {
             log::error!("failed to send email: {}", err);
-            return api_error!("Wystąpił błąd podczas wysyłania wiadomości");
+            api_error!("Wystąpił błąd podczas wysyłania wiadomości")
         }
     }
 }

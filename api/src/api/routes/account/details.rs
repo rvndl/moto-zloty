@@ -20,7 +20,7 @@ pub async fn handler(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -
         Ok(account) => {
             let events = repos
                 .event
-                .fetch_by_account_id(account.id.clone())
+                .fetch_by_account_id(account.id)
                 .await
                 .unwrap_or_default();
 
