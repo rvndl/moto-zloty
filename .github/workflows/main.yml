@@ -79,3 +79,23 @@ jobs:
 
           scp -i private_key -o StrictHostKeyChecking=no target/release/api $VPS_USER@$VPS_HOST:/home/mz-prod/api
         
+      - name: Restart api
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key
+          chmod 600 private_key
+  
+          ssh -i private_key -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << 'EOF'
+            cd /home/mz-prod/api
+            chmod +x ./api
+  
+            screen -S api -X stuff "^C"
+            sleep 1
+  
+            screen -S api -X stuff "clear\n"
+  
+            screen -S api -X stuff "./api\n"
+          EOF
