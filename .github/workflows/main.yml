@@ -68,17 +68,6 @@ jobs:
       - name: Build
         run: cargo build --release
 
-      - name: Upload binary to remote server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-        run: |
-          echo "$SSH_PRIVATE_KEY" > private_key
-          chmod 600 private_key
-
-          scp -i private_key -o StrictHostKeyChecking=no target/release/api $VPS_USER@$VPS_HOST:/home/mz-prod/api
-
       - name: Stop API
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -92,6 +81,17 @@ jobs:
             screen -S api -X stuff "^C"
             sleep 1
           EOF
+
+      - name: Upload binary to remote server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key
+          chmod 600 private_key
+
+          scp -i private_key -o StrictHostKeyChecking=no target/release/api $VPS_USER@$VPS_HOST:/home/mz-prod/api
         
       - name: Start API
         env:
