@@ -57,6 +57,10 @@ jobs:
       run:
         working-directory: ./web
 
+    strategy:
+      matrix:
+        node-version: [24.x]
+
     needs: [lint-web]
     steps:
       - uses: actions/checkout@v1
