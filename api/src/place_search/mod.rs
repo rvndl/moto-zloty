@@ -31,24 +31,23 @@ pub async fn search(query: &str, global: Arc<Global>) -> Result<Vec<LocationIQPl
     let redis = global.redis();
     let mut redis_con = match redis.get_multiplexed_async_connection().await {
         Ok(redis_con) => redis_con,
-        Err(err) => return Err(format!("failed to connect to redis: {}", err)),
+        Err(err) => return Err(format!("failed to connect to redis: {err}")),
     };
 
     let query = query.to_ascii_lowercase();
-    let cache_key = format!("{}:{}", REDIS_KEY_PREFIX, query);
+    let cache_key = format!("{REDIS_KEY_PREFIX}:{query}");
 
     let results: Option<String> = redis_con.get(&cache_key).await.unwrap_or_default();
     if let Some(hit) = results {
         return match serde_json::from_str::<Vec<LocationIQPlace>>(&hit) {
             Ok(places) => Ok(places),
-            Err(err) => Err(format!("failed to parse cache hit: {}", err)),
+            Err(err) => Err(format!("failed to parse cache hit: {err}")),
         };
     }
 
     let location_iq_api_key = &global.config().location_iq_api_key;
     let request_url = format!(
-        "{}?q={}&accept-language=pl&countrycodes=pl&limit={}&key={}",
-        API_URL, query, MAX_RESULTS, location_iq_api_key
+        "{API_URL}?q={query}&accept-language=pl&countrycodes=pl&limit={MAX_RESULTS}&key={location_iq_api_key}"
     );
 
     let response = reqwest::get(request_url).await.unwrap();
@@ -61,13 +60,13 @@ pub async fn search(query: &str, global: Arc<Global>) -> Result<Vec<LocationIQPl
 
     let body = match response.text().await {
         Ok(body) => body,
-        Err(err) => return Err(format!("failed to read response body: {}", err)),
+        Err(err) => return Err(format!("failed to read response body: {err}")),
     };
     let _: () = redis_con.set(cache_key, &body).await.unwrap();
 
     match serde_json::from_str::<Vec<LocationIQPlace>>(&body) {
         Ok(places) => Ok(places),
-        Err(err) => Err(format!("failed to parse response: {}", err)),
+        Err(err) => Err(format!("failed to parse response: {err}")),
     }
 }
 

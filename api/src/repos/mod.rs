@@ -21,11 +21,11 @@ pub struct Repos<'a> {
 }
 
 pub fn new(db: &db::DbPool) -> Repos {
-    let account = AccountRepo::new(&db);
-    let event = EventRepo::new(&db);
-    let file = FileRepo::new(&db);
-    let action = ActionRepo::new(&db);
-    let address = AddressRepo::new(&db);
+    let account = AccountRepo::new(db);
+    let event = EventRepo::new(db);
+    let file = FileRepo::new(db);
+    let action = ActionRepo::new(db);
+    let address = AddressRepo::new(db);
 
     Repos {
         account,

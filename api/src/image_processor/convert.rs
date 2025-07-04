@@ -8,11 +8,11 @@ pub fn convert_image(input_path: &str, resize: bool) -> Result<String, String> {
     let input_path = Path::new(input_path);
 
     let image_render =
-        ImageReader::open(input_path).map_err(|e| format!("failed to open image: {}", e))?;
+        ImageReader::open(input_path).map_err(|e| format!("failed to open image: {e}"))?;
 
     let image = image_render
         .decode()
-        .map_err(|e| format!("failed to decode image: {}\n", e))?;
+        .map_err(|e| format!("failed to decode image: {e}\n"))?;
 
     let webp_data = encode_webp(&image, resize)?;
 
@@ -22,8 +22,8 @@ pub fn convert_image(input_path: &str, resize: bool) -> Result<String, String> {
         input_path.with_extension("webp")
     };
 
-    fs::write(output_path.clone(), webp_data.to_vec())
-        .map_err(|e| format!("failed to write WebP file: {}", e))?;
+    fs::write(output_path.clone(), webp_data)
+        .map_err(|e| format!("failed to write WebP file: {e}"))?;
 
     Ok(output_path.display().to_string())
 }

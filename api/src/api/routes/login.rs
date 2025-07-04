@@ -54,7 +54,9 @@ pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<LoginF
 
     let repos = state.global.repos();
     let Config {
-        turnstile_secret, ..
+        turnstile_secret,
+        jwt_secret,
+        ..
     } = &state.global.config();
 
     if !turnstile::verify(turnstile_secret, &form.recaptcha).await {
@@ -68,16 +70,16 @@ pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<LoginF
 
     let account = match account {
         Ok(account) => account,
-        Err(err) => return api_error_log!("failed to get account: {}", err),
+        Err(err) => return api_error_log!("failed to get account: {err}"),
     };
 
     let argon2 = Argon2::default();
     match PasswordHash::new(&account.password) {
-        Ok(hash) => match argon2.verify_password(form.password.as_str().as_bytes(), &hash) {
+        Ok(hash) => match argon2.verify_password(form.password.as_bytes(), &hash) {
             Ok(_) => {
-                let token = match jwt::sign(account.id, &form.username, &account.rank) {
+                let token = match jwt::sign(jwt_secret, account.id, &form.username, account.rank) {
                     Ok(token) => token,
-                    Err(err) => return api_error_log!("failed to create jwt token: {}", err),
+                    Err(err) => return api_error_log!("failed to create jwt token: {err}"),
                 };
 
                 Json(LoginResponse {
@@ -88,8 +90,8 @@ pub async fn handler(State(state): State<Arc<AppState>>, Form(form): Form<LoginF
                 })
                 .into_response()
             }
-            Err(_) => return api_error!("Podano błędny login lub hasło"),
+            Err(_) => api_error!("Podano błędny login lub hasło"),
         },
-        Err(err) => return api_error_log!("failed to hash the password: {}", err),
+        Err(err) => api_error_log!("failed to hash the password: {err}"),
     }
 }

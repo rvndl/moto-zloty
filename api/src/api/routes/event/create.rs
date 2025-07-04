@@ -104,7 +104,7 @@ pub async fn handler(
             event.id,
             user_id,
             &claims.username,
-            &EventStatus::PENDING.get_action_name(),
+            EventStatus::PENDING.get_action_name(),
         )
         .await
     {

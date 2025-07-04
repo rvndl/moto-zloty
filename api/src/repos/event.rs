@@ -131,8 +131,7 @@ impl<'a> EventRepo<'a> {
     }
 
     pub async fn fetch_list_by_state(&self) -> Result<Vec<Event>, sqlx::Error> {
-        let query_str = format!(
-            r#"
+        let query_str = r#"
             SELECT e.id,
                 e.name,
                 e.full_address_id,
@@ -152,7 +151,7 @@ impl<'a> EventRepo<'a> {
             WHERE
                 e.status NOT IN ($1, $2)
             "#
-        );
+        .to_string();
 
         let query = sqlx::query(&query_str)
             .bind(EventStatus::REJECTED)
@@ -166,7 +165,7 @@ impl<'a> EventRepo<'a> {
                 let EventJoinedProperties { account, address } =
                     join_event_properties(&row, JoinEventFlags::None | JoinEventFlags::Address);
 
-                let event = Event {
+                Event {
                     id: row.get("id"),
                     name: row.get("name"),
                     description: row.get("description"),
@@ -182,9 +181,7 @@ impl<'a> EventRepo<'a> {
                     account_id: row.get("account_id"),
                     full_address: address,
                     account,
-                };
-
-                event
+                }
             })
             .collect();
 
@@ -200,8 +197,7 @@ impl<'a> EventRepo<'a> {
         sort_order: SortOrder,
         state: Option<String>,
     ) -> Result<Vec<Event>, sqlx::Error> {
-        let mut query_str = format!(
-            r#"
+        let mut query_str = r#"
             SELECT e.id,
                 e.name,
                 e.description,
@@ -242,22 +238,22 @@ impl<'a> EventRepo<'a> {
             AND
                 e.date_to > CURRENT_DATE
             "#
-        );
+        .to_string();
 
         let mut bind_index = 2;
 
         if state.is_some() {
-            query_str.push_str(&format!(" AND ad.state = ${}", bind_index));
+            query_str.push_str(&format!(" AND ad.state = ${bind_index}"));
             bind_index += 1;
         }
 
         if date_from.is_some() {
-            query_str.push_str(&format!(" AND e.date_from >= ${}", bind_index));
+            query_str.push_str(&format!(" AND e.date_from >= ${bind_index}"));
             bind_index += 1;
         }
 
         if date_to.is_some() {
-            query_str.push_str(&format!(" AND e.date_from <= ${}", bind_index));
+            query_str.push_str(&format!(" AND e.date_from <= ${bind_index}"));
         }
 
         query_str.push_str(&format!(" ORDER BY e.date_from {}", sort_order.to_str()));
@@ -285,7 +281,7 @@ impl<'a> EventRepo<'a> {
                 let EventJoinedProperties { account, address } =
                     join_event_properties(&row, join_event_flags);
 
-                let event = Event {
+                Event {
                     id: row.get("id"),
                     name: row.get("name"),
                     description: row.get("description"),
@@ -301,9 +297,7 @@ impl<'a> EventRepo<'a> {
                     account_id: row.get("account_id"),
                     full_address: address,
                     account,
-                };
-
-                event
+                }
             })
             .collect();
 
@@ -501,7 +495,7 @@ impl<'a> EventRepo<'a> {
                 let joined_event_properties =
                     join_event_properties(&row, JoinEventFlags::Address.into());
 
-                let event = Event {
+                Event {
                     id: row.get("id"),
                     name: row.get("name"),
                     description: row.get("description"),
@@ -517,9 +511,7 @@ impl<'a> EventRepo<'a> {
                     account_id: row.get("account_id"),
                     full_address: joined_event_properties.address,
                     account: None,
-                };
-
-                event
+                }
             })
             .collect();
 
@@ -598,7 +590,7 @@ fn join_event_properties(row: &PgRow, flags: BitFlags<JoinEventFlags>) -> EventJ
     };
 
     if flags.contains(JoinEventFlags::Account) {
-        if let Some(id) = row.try_get("account_id").ok() {
+        if let Ok(id) = row.try_get("account_id") {
             let account = Account {
                 id,
                 username: row.get("account_username"),
@@ -630,7 +622,7 @@ fn join_event_properties(row: &PgRow, flags: BitFlags<JoinEventFlags>) -> EventJ
     }
 
     if flags.contains(JoinEventFlags::Address) {
-        if let Some(id) = row.try_get("address_id").ok() {
+        if let Ok(id) = row.try_get("address_id") {
             event.address = Some(Address {
                 id,
                 name: row.try_get("address_name").unwrap_or(None),

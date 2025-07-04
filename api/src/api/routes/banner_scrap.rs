@@ -120,7 +120,7 @@ pub async fn handler(
         }
     };
 
-    let result = match results.get(0) {
+    let result = match results.first() {
         Some(result) => result,
         None => {
             log::error!("failed to get banner results");

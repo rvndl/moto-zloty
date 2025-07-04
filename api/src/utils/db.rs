@@ -18,7 +18,7 @@ impl SortOrder {
 
 pub fn has_any_or_error(query: Result<Vec<PgRow>, sqlx::Error>) -> bool {
     match query {
-        Ok(rows) => rows.len() > 0,
+        Ok(rows) => !rows.is_empty(),
         Err(_) => false,
     }
 }

@@ -32,7 +32,7 @@ pub async fn handler(
     let account = match repos.account.fetch_one(user_id).await {
         Ok(account) => account,
         Err(err) => {
-            log::error!("could not fetch account using session id: {}", err);
+            log::error!("could not fetch account using session id: {err}");
             return api_error!("Nie udało się pobrać danych użytkownika");
         }
     };
@@ -41,19 +41,19 @@ pub async fn handler(
     let hash = match PasswordHash::new(&account.password) {
         Ok(hash) => hash,
         Err(err) => {
-            log::error!("could not convert the password: {}", err);
+            log::error!("could not convert the password: {err}");
             return api_error!("Nie udało się przekonwertować hasła");
         }
     };
 
-    match argon2.verify_password(&form.current_password.as_bytes(), &hash) {
+    match argon2.verify_password(form.current_password.as_bytes(), &hash) {
         Ok(_) => {
             let salt = SaltString::generate(&mut OsRng);
 
             let hash = match argon2.hash_password(form.new_password.as_bytes(), &salt) {
                 Ok(hash) => hash,
                 Err(err) => {
-                    log::error!("cloud not convert the password: {}", err);
+                    log::error!("cloud not convert the password: {err}");
                     return api_error!("Nie udało się przekonwertować hasła");
                 }
             };
@@ -63,7 +63,7 @@ pub async fn handler(
                 .change_password(user_id, &hash.to_string())
                 .await
             {
-                log::error!("could not change the password: {}", err);
+                log::error!("could not change the password: {err}");
                 return api_error!("Nie udało się zmienić hasła");
             };
         }

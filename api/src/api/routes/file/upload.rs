@@ -28,7 +28,7 @@ pub async fn handler(State(state): State<Arc<AppState>>, mut multipart: Multipar
     let upload_path = &state.global.config().upload_path;
     let repos = state.global.repos();
 
-    while let Some(field) = multipart.next_field().await.unwrap() {
+    if let Some(field) = multipart.next_field().await.unwrap() {
         let file_name = field.file_name().unwrap().to_string();
         let file_ext = file_name.split('.').last().unwrap();
 
@@ -44,28 +44,28 @@ pub async fn handler(State(state): State<Arc<AppState>>, mut multipart: Multipar
         }
 
         let uuid = Uuid::new_v4();
-        let file_name = format!("{}.{}", uuid, file_ext);
-        let save_path = format!("{}/{}", upload_path, file_name);
+        let file_name = format!("{uuid}.{file_ext}");
+        let save_path = format!("{upload_path}/{file_name}");
 
         let file = File::create(&save_path).await;
 
         let mut file = match file {
             Ok(file) => file,
             Err(err) => {
-                log::error!("failed to create file: {}", err);
+                log::error!("failed to create file: {err}");
                 return api_error!("Wystąpił błąd podczas wgrywania pliku");
             }
         };
 
         if let Err(err) = file.write_all(&data).await {
-            return api_error_log!("failed to write file: {}", err);
+            return api_error_log!("failed to write file: {err}");
         }
 
         let full_image = convert_image(&save_path, false);
         let full_image = match full_image {
             Ok(path) => path,
             Err(err) => {
-                log::error!("failed to convert file to .webp: {}", err);
+                log::error!("failed to convert file to .webp: {err}");
                 return api_error!(
                     "Wystąpił błąd podczas konwersji pliku do .webp. Spróbuj ponownie."
                 );
@@ -76,7 +76,7 @@ pub async fn handler(State(state): State<Arc<AppState>>, mut multipart: Multipar
         let small_image = match small_image {
             Ok(path) => path,
             Err(err) => {
-                log::error!("failed to convert file to .webp: {}", err);
+                log::error!("failed to convert file to .webp: {err}");
                 return api_error!(
                     "Wystąpił błąd podczas konwersji mniejszego pliku do .webp. Spróbuj ponownie."
                 );
@@ -85,16 +85,16 @@ pub async fn handler(State(state): State<Arc<AppState>>, mut multipart: Multipar
 
         let full_image_file = match repos.file.create(&full_image).await {
             Ok(file) => file,
-            Err(err) => return api_error_log!("failed to create full image file: {}", err),
+            Err(err) => return api_error_log!("failed to create full image file: {err}"),
         };
 
         let small_image_file = match repos.file.create(&small_image).await {
             Ok(file) => file,
-            Err(err) => return api_error_log!("failed to create small image file: {}", err),
+            Err(err) => return api_error_log!("failed to create small image file: {err}"),
         };
 
         if let Err(err) = fs::remove_file(save_path).await {
-            log::error!("failed to remove file: {}", err);
+            log::error!("failed to remove file: {err}");
         }
 
         return Json(UploadReponse {

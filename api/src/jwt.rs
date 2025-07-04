@@ -5,8 +5,6 @@ use uuid::Uuid;
 
 use crate::db::models::account::AccountRank;
 
-const JWT_SECRET: &'static str = "secret";
-
 #[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub struct JwtClaims {
     pub id: Uuid,
@@ -15,7 +13,12 @@ pub struct JwtClaims {
     exp: i64,
 }
 
-pub fn sign<'a, U, R>(id: Uuid, username: U, rank: R) -> Result<String, jsonwebtoken::errors::Error>
+pub fn sign<'a, U, R>(
+    secret: &String,
+    id: Uuid,
+    username: U,
+    rank: R,
+) -> Result<String, jsonwebtoken::errors::Error>
 where
     U: Into<Cow<'a, str>>,
     R: Into<Cow<'a, AccountRank>>,
@@ -31,13 +34,16 @@ where
     };
 
     let header = jsonwebtoken::Header::default();
-    let encoding_key = jsonwebtoken::EncodingKey::from_secret(JWT_SECRET.as_ref());
+    let encoding_key = jsonwebtoken::EncodingKey::from_secret(secret.as_ref());
 
     jsonwebtoken::encode(&header, &claims, &encoding_key)
 }
 
-pub fn decode(token: &str) -> Result<TokenData<JwtClaims>, jsonwebtoken::errors::Error> {
-    let decoding_key = jsonwebtoken::DecodingKey::from_secret(JWT_SECRET.as_ref());
+pub fn decode(
+    secret: &String,
+    token: &str,
+) -> Result<TokenData<JwtClaims>, jsonwebtoken::errors::Error> {
+    let decoding_key = jsonwebtoken::DecodingKey::from_secret(secret.as_ref());
     let validation = jsonwebtoken::Validation::default();
 
     jsonwebtoken::decode::<JwtClaims>(token, &decoding_key, &validation)
