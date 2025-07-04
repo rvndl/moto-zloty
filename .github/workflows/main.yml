@@ -46,6 +46,7 @@ jobs:
         with:
           components: clippy
           cache: true
+          cache-workspaces: ./api
       
       - name: Clippy
         run: cargo clippy -- -W warnings
