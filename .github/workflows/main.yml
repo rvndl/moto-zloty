@@ -75,6 +75,21 @@ jobs:
       
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
+      - name: Create .env file
+        run: |
+          cat <<EOF > .env.production
+          NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_PUBLIC_URL }}
+          NEXT_PUBLIC_SITE_NAME=${{ secrets.NEXT_PUBLIC_SITE_NAME }}
+          NEXT_PUBLIC_TURNSTILE_KEY=${{ secrets.NEXT_PUBLIC_TURNSTILE_KEY }}
+          NEXT_PUBLIC_ADSENSE_PUBLISHER_ID=${{ secrets.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID }}
+          NEXT_PUBLIC_COOKIEBOT_API_KEY=${{ secrets.NEXT_PUBLIC_COOKIEBOT_API_KEY }}
+          NEXT_PUBLIC_GA_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+          NEXT_PUBLIC_PRIVACY_ADMIN_FULL_NAME=${{ secrets.NEXT_PUBLIC_PRIVACY_ADMIN_FULL_NAME }}
+          NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL=${{ secrets.NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL }}
+          NEXT_PUBLIC_PRIVACY_SITE_URL=${{ secrets.NEXT_PUBLIC_PRIVACY_SITE_URL }}
+          EOF
       
       - name: Build app
         run: yarn build
@@ -88,16 +103,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           VPS_USER: ${{ secrets.VPS_USER }}
           VPS_HOST: ${{ secrets.VPS_HOST }}
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-          NEXT_PUBLIC_PUBLIC_URL: ${{ secrets.NEXT_PUBLIC_PUBLIC_URL }}
-          NEXT_PUBLIC_SITE_NAME: ${{ secrets.NEXT_PUBLIC_SITE_NAME }}
-          NEXT_PUBLIC_TURNSTILE_KEY: ${{ secrets.NEXT_PUBLIC_TURNSTILE_KEY }}
-          NEXT_PUBLIC_ADSENSE_PUBLISHER_ID: ${{ secrets.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID }}
-          NEXT_PUBLIC_COOKIEBOT_API_KEY: ${{ secrets.NEXT_PUBLIC_COOKIEBOT_API_KEY }}
-          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
-          NEXT_PUBLIC_PRIVACY_ADMIN_FULL_NAME: ${{ secrets.NEXT_PUBLIC_PRIVACY_ADMIN_FULL_NAME }}
-          NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL: ${{ secrets.NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL }}
-          NEXT_PUBLIC_PRIVACY_SITE_URL: ${{ secrets.NEXT_PUBLIC_PRIVACY_SITE_URL }}
+          
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key
           chmod 600 private_key
