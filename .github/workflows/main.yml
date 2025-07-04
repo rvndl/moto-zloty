@@ -49,3 +49,21 @@ jobs:
       
       - name: Clippy
         run: cargo clippy -- -W warnings
+
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory:
+          ./api
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          cache: true
+
+      - name: Build
+        run: cargo build --release
+        
