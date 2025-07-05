@@ -105,7 +105,7 @@ jobs:
 
       - name: Archive build
         run: |
-          tar -czf web.tar.gz .next public package.json yarn.lock
+          tar -czf web.tar.gz .next public package.json yarn.lock next.config.mjs
 
       - name: Upload archive to the server
         env:
@@ -134,6 +134,7 @@ jobs:
             rm -rf ./public
             rm -rf ./package.json
             rm -rf ./yarn.lock
+            rm -rf ./next.config.mjs
             
             tar -xzf ./web.tar.gz -C ./
             yarn install --production
