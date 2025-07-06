@@ -1,10 +1,12 @@
-import { Metadata, Page } from "@components";
+import { Button, Metadata, Page } from "@components";
 import { CreateEventDialog, MapPageContent } from "../components";
-import { LoginDialog, useAuth } from "@features/auth";
+import { useAuth } from "@features/auth";
+import { useRouter } from "next/navigation";
 import { PlusIcon } from "lucide-react";
 
 const MapPage = () => {
   const { isAuthenticated } = useAuth();
+  const router = useRouter();
 
   return (
     <>
@@ -19,10 +21,12 @@ const MapPage = () => {
           isAuthenticated ? (
             <CreateEventDialog />
           ) : (
-            <LoginDialog
-              label="Dodaj"
-              buttonProps={{ variant: "primary", icon: <PlusIcon /> }}
-            />
+            <Button
+              icon={<PlusIcon />}
+              onClick={() => router.push("/logowanie")}
+            >
+              Dodaj wydarzenie
+            </Button>
           )
         }
       >

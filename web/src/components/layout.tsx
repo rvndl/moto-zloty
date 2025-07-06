@@ -8,9 +8,15 @@ import { usePathname } from "next/navigation";
 
 const geist = Geist({ subsets: ["latin"] });
 
+const AUTH_PAGES = ["/logowanie", "/rejestracja"];
+
 const Layout = ({ children }: PropsWithChildren) => {
   const pathname = usePathname();
   const isListByStateVisible = pathname === "/";
+
+  if (AUTH_PAGES.includes(pathname)) {
+    return children;
+  }
 
   return (
     <div className={clsx("w-screen h-screen", geist.className)}>

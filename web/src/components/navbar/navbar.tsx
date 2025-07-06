@@ -1,4 +1,4 @@
-import { LoginDialog, useAuth } from "@features/auth";
+import { useAuth } from "@features/auth";
 import { NavbarItem } from "./navbar-item";
 import Logo from "@assets/img/mz-logo-black.png";
 import { isEmpty } from "lodash";
@@ -6,6 +6,7 @@ import { UserMenu } from "./user-menu";
 import { usePathname, useRouter } from "next/navigation";
 import { EventSearch } from "@features/event";
 import Image from "next/image";
+import { Button } from "@components/button";
 
 const routes = [
   { name: "Mapa wydarzeń", path: "/" },
@@ -65,7 +66,12 @@ const Navbar = () => {
             <div className="absolute inset-y-0 right-0 flex items-center gap-2 pr-2 md:gap-8 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <EventSearch />
               {isEmpty(user) ? (
-                <LoginDialog />
+                <Button
+                  variant="ghost"
+                  onClick={() => router.push("/logowanie")}
+                >
+                  Zaloguj się
+                </Button>
               ) : (
                 <UserMenu user={user} logout={handleOnLogout} />
               )}
