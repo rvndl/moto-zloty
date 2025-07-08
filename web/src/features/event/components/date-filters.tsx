@@ -22,7 +22,7 @@ const sortOptions: ListboxOption[] = [
 ];
 
 const initialFiltersState: Filters = {
-  sortOption: sortOptions[1],
+  sortOption: sortOptions[0],
 };
 
 interface Filters {
