@@ -37,8 +37,8 @@ const Metadata = ({ title, description, canonical, structuredData }: Props) => {
       author: [
         {
           "@type": "Person",
-          name: structuredData.author.name,
-          url: structuredData.author.url,
+          name: structuredData?.author?.name,
+          url: structuredData?.author?.url,
         },
       ],
     });
