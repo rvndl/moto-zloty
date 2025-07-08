@@ -16,7 +16,7 @@ const EventMap = ({ events, isLoading }: Props) => {
 
   const activeEvents = useMemo(
     () => events?.filter((event) => !getEventStatus(event).isPast),
-    [events]
+    [events],
   );
 
   return (

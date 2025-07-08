@@ -22,7 +22,7 @@ const sortOptions: ListboxOption[] = [
 ];
 
 const initialFiltersState: Filters = {
-  sortOption: sortOptions[0],
+  sortOption: sortOptions[1],
 };
 
 interface Filters {
@@ -56,6 +56,7 @@ const DateFilters = ({
     <div className="flex items-center content-start gap-1 overflow-x-auto md:gap-2 shrink-0">
       <AnimatePresence>
         <Datepicker
+          key="dateFrom"
           value={filters.dateFrom}
           size="small"
           placeholder={isMobile ? "Data od" : "Wybierdz datę od"}
@@ -65,6 +66,7 @@ const DateFilters = ({
           onChange={(value) => onChange({ ...filters, dateFrom: value })}
         />
         <Datepicker
+          key="dateTo"
           value={filters.dateTo}
           size="small"
           placeholder={isMobile ? "Data do" : "Wybierdz datę do"}

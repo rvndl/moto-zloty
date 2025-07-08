@@ -12,48 +12,38 @@ use crate::{
     api_error,
     db::models::event::EventStatus,
     repos::event::{FetchAllJoinedParams, JoinEventFlags},
-    utils::db::SortOrder,
 };
 
 #[derive(serde::Deserialize, Debug)]
-pub struct PublicListFilters {
+pub struct MapFilters {
     date_from: Option<DateTime<Utc>>,
     date_to: Option<DateTime<Utc>>,
-    sort_order: Option<SortOrder>,
-    state: Option<String>,
 }
 
 pub async fn handler(
     State(state): State<Arc<AppState>>,
-    Query(filters): Query<PublicListFilters>,
+    Query(filters): Query<MapFilters>,
 ) -> Response {
     let repos = state.global.repos();
 
-    let PublicListFilters {
-        date_from,
-        date_to,
-        sort_order,
-        state,
-    } = filters;
+    let MapFilters { date_from, date_to } = filters;
 
     let events = repos
         .event
         .fetch_all_joined(FetchAllJoinedParams {
-            flags: JoinEventFlags::Account
-                | JoinEventFlags::AccountTypePublic
-                | JoinEventFlags::Address,
+            flags: JoinEventFlags::None | JoinEventFlags::Address,
             status: EventStatus::APPROVED,
             date_from,
             date_to,
-            sort_order,
-            state,
+            sort_order: None,
+            state: None,
         })
         .await;
 
     let events = match events {
         Ok(events) => events,
         Err(err) => {
-            log::error!("failed to fetch list of events: {err}");
+            log::error!("failed to fetch map events: {err}");
             return api_error!("Wystąpił błąd podczas pobierania wydarzeń.");
         }
     };

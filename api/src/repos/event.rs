@@ -14,6 +14,15 @@ use enumflags2::{bitflags, BitFlags};
 use sqlx::{postgres::PgRow, Row};
 use uuid::Uuid;
 
+pub struct FetchAllJoinedParams {
+    pub flags: BitFlags<JoinEventFlags>,
+    pub status: EventStatus,
+    pub date_from: Option<DateTime<Utc>>,
+    pub date_to: Option<DateTime<Utc>>,
+    pub sort_order: Option<SortOrder>,
+    pub state: Option<String>,
+}
+
 pub struct EventRepo<'a> {
     db: &'a db::DbPool,
 }
@@ -190,12 +199,7 @@ impl<'a> EventRepo<'a> {
 
     pub async fn fetch_all_joined(
         &self,
-        join_event_flags: BitFlags<JoinEventFlags>,
-        status: EventStatus,
-        date_from: Option<DateTime<Utc>>,
-        date_to: Option<DateTime<Utc>>,
-        sort_order: SortOrder,
-        state: Option<String>,
+        params: FetchAllJoinedParams,
     ) -> Result<Vec<Event>, sqlx::Error> {
         let mut query_str = r#"
             SELECT e.id,
@@ -242,34 +246,37 @@ impl<'a> EventRepo<'a> {
 
         let mut bind_index = 2;
 
-        if state.is_some() {
+        if params.state.is_some() {
             query_str.push_str(&format!(" AND ad.state = ${bind_index}"));
             bind_index += 1;
         }
 
-        if date_from.is_some() {
+        if params.date_from.is_some() {
             query_str.push_str(&format!(" AND e.date_from >= ${bind_index}"));
             bind_index += 1;
         }
 
-        if date_to.is_some() {
+        if params.date_to.is_some() {
             query_str.push_str(&format!(" AND e.date_from <= ${bind_index}"));
         }
 
-        query_str.push_str(&format!(" ORDER BY e.date_from {}", sort_order.to_str()));
+        query_str.push_str(&format!(
+            " ORDER BY e.date_from {}",
+            params.sort_order.unwrap_or(SortOrder::Asc).to_str()
+        ));
 
         let mut query = sqlx::query(&query_str);
-        query = query.bind(status);
+        query = query.bind(params.status);
 
-        if let Some(state) = state {
+        if let Some(state) = params.state {
             query = query.bind(state);
         }
 
-        if let Some(date_from) = date_from {
+        if let Some(date_from) = params.date_from {
             query = query.bind(date_from);
         }
 
-        if let Some(date_to) = date_to {
+        if let Some(date_to) = params.date_to {
             query = query.bind(date_to);
         }
 
@@ -279,7 +286,7 @@ impl<'a> EventRepo<'a> {
             .into_iter()
             .map(|row| {
                 let EventJoinedProperties { account, address } =
-                    join_event_properties(&row, join_event_flags);
+                    join_event_properties(&row, params.flags);
 
                 Event {
                     id: row.get("id"),

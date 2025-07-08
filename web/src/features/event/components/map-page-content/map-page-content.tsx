@@ -1,4 +1,4 @@
-import { useEventCarouselQuery, useEventsQuery } from "@features/event/api";
+import { useEventCarouselQuery, useMapQuery } from "@features/event/api";
 import { EventsCarousel } from "./events-carousel";
 import { useEffect, useState } from "react";
 import { DateFilters, Filters, initialFiltersState } from "../date-filters";
@@ -11,10 +11,9 @@ const MapPageContent = () => {
     isLoading,
     isFetching,
     refetch,
-  } = useEventsQuery({
+  } = useMapQuery({
     date_from: filters.dateFrom,
     date_to: filters.dateTo,
-    sort_order: filters.sortOption?.id,
   });
   const { data: carouselEvents } = useEventCarouselQuery();
 
