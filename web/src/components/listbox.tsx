@@ -49,7 +49,7 @@ const Listbox = ({
         </Label>
       )}
       <HeadlessListbox value={value} onChange={onChange} disabled={isDisabled}>
-        <ListboxButton ref={inputRef}>
+        <ListboxButton ref={inputRef} as="span">
           <Button
             variant="outline"
             className="relative justify-between font-normal min-w-40"

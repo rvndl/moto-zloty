@@ -1,9 +1,9 @@
 import { MapPage } from "@features/event";
 import {
   EVENT_LIST_BY_STATE_QUERY_KEY,
-  EVENTS_QUERY_KEY,
+  EVENT_MAP_QUERY_KEY,
   getEventListByStateQuery,
-  getEventsQuery,
+  getMapQuery,
 } from "@features/event/api";
 import {
   dehydrate,
@@ -19,8 +19,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   await Promise.all([
     queryClient.prefetchQuery({
-      queryKey: [EVENTS_QUERY_KEY],
-      queryFn: () => getEventsQuery(),
+      queryKey: [EVENT_MAP_QUERY_KEY],
+      queryFn: () => getMapQuery(),
     }),
     queryClient.prefetchQuery({
       queryKey: [EVENT_LIST_BY_STATE_QUERY_KEY],

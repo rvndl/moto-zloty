@@ -8,6 +8,7 @@ pub mod list;
 pub mod list_by_state;
 pub mod list_moderation;
 pub mod list_sitemap;
+pub mod map;
 pub mod search;
 pub mod update_address;
 pub mod update_status;

@@ -36,11 +36,11 @@ pub async fn handler(State(state): State<Arc<AppState>>, mut multipart: Multipar
         let data = field.bytes().await.unwrap();
 
         if !ACCEPTED_CONTENT_TYPES.contains(&content_type.as_str()) {
-            return api_error_log!("invalid content type");
+            return api_error_log!("Nieprawidłowy typ pliku.");
         }
 
         if data.len() as i32 > FOUR_MB {
-            return api_error!("file is too big");
+            return api_error!("Rozmiar pliku jest za duży.");
         }
 
         let uuid = Uuid::new_v4();
@@ -53,13 +53,18 @@ pub async fn handler(State(state): State<Arc<AppState>>, mut multipart: Multipar
             Ok(file) => file,
             Err(err) => {
                 log::error!("failed to create file: {err}");
-                return api_error!("Wystąpił błąd podczas wgrywania pliku");
+                return api_error!("Wystąpił błąd podczas wgrywania pliku, spróbuj ponownie.");
             }
         };
 
         if let Err(err) = file.write_all(&data).await {
             return api_error_log!("failed to write file: {err}");
         }
+        if let Err(err) = file.flush().await {
+            log::error!("failed to flush file: {err}");
+            return api_error!("Wystąpił błąd podczas wgrywania pliku, spróbuj ponownie.");
+        }
+        drop(file);
 
         let full_image = convert_image(&save_path, false);
         let full_image = match full_image {

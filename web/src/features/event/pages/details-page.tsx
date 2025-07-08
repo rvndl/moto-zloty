@@ -9,6 +9,7 @@ import { useAuth } from "@features/auth";
 import { useRouter } from "next/router";
 import { EllipsisIcon } from "lucide-react";
 import { useRef } from "react";
+import { getFilePath } from "@utils/index";
 
 const DetailsPage = () => {
   const {
@@ -28,6 +29,15 @@ const DetailsPage = () => {
         title={event?.name ?? ""}
         description={event?.description}
         canonical={`/wydarzenie/${id}`}
+        structuredData={{
+          headline: event?.name,
+          datePublished: event?.created_at,
+          image: getFilePath(event?.banner_small_id ?? event?.banner_id),
+          author: {
+            name: event?.account?.username,
+            url: `/uzytkownik/${event?.account_id}`,
+          },
+        }}
       />
       <Page
         title={event?.name}

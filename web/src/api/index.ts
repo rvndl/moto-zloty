@@ -3,6 +3,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import toast from "react-hot-toast";
 
 type GetUrl =
+  | "/map"
   | "/events"
   | "/events/carousel"
   | `/events/search/${string}`

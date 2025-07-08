@@ -28,6 +28,7 @@ const ListPageContent = ({
             filters={filters}
             isLoading={isLoading}
             onChange={(filters) => setFilters(filters)}
+            showSorting
           />
         </div>
         <div className="w-full h-full mt-2">
@@ -46,7 +47,7 @@ const ListPageContent = ({
               key={state}
               className={clsx(
                 "text-primary text-opacity-90 ml-0.5",
-                paramState === state && "font-medium text-opacity-100"
+                paramState === state && "font-medium text-opacity-100",
               )}
             >
               <Link href={`/lista-wydarzen/${state}`}>{state}</Link>
