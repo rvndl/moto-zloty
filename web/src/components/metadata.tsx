@@ -41,7 +41,7 @@ const Metadata = ({ title, description, canonical, structuredData }: Props) => {
           url: structuredData?.author?.url,
         },
       ],
-    });
+    }).replace(/</g, "\\u003c");
 
   return (
     <Head>
@@ -60,9 +60,12 @@ const Metadata = ({ title, description, canonical, structuredData }: Props) => {
           <meta property="og:url" content={siteUrl + canonical} />
         </>
       )}
-      {structuredData && (
+      {structuredData && structuredDataJson && (
         <>
-          <script type="application/ld+json">{structuredDataJson}</script>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: structuredDataJson }}
+          />
         </>
       )}
     </Head>
