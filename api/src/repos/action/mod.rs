@@ -1,14 +1,6 @@
-use crate::db;
+use super::macros::define_repo;
 
 pub mod create;
 pub mod fetch;
 
-pub struct ActionRepo<'a> {
-    db: &'a db::DbPool,
-}
-
-impl<'a> ActionRepo<'a> {
-    pub fn new(db: &'a db::DbPool) -> Self {
-        Self { db }
-    }
-}
+define_repo!(ActionRepo);

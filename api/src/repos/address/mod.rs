@@ -1,14 +1,6 @@
-use crate::db;
+use super::macros::define_repo;
 
 pub mod create;
 pub mod update;
 
-pub struct AddressRepo<'a> {
-    db: &'a db::DbPool,
-}
-
-impl<'a> AddressRepo<'a> {
-    pub fn new(db: &'a db::DbPool) -> Self {
-        Self { db }
-    }
-}
+define_repo!(AddressRepo);

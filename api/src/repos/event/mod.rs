@@ -1,4 +1,4 @@
-use crate::db;
+use super::macros::define_repo;
 
 pub mod create;
 pub mod fetch;
@@ -7,12 +7,4 @@ pub mod helpers;
 pub mod search;
 pub mod update;
 
-pub struct EventRepo<'a> {
-    db: &'a db::DbPool,
-}
-
-impl<'a> EventRepo<'a> {
-    pub fn new(db: &'a db::DbPool) -> Self {
-        Self { db }
-    }
-}
+define_repo!(EventRepo);
