@@ -11,7 +11,7 @@ use crate::{api::AppState, api_error_log};
 pub async fn handler(State(state): State<Arc<AppState>>) -> Response {
     let repos = state.global.repos();
 
-    let events = repos.event.fetch_list_by_state().await;
+    let events = repos.event.fetch_list_by_state_joined().await;
 
     let events = match events {
         Ok(events) => events,

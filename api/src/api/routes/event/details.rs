@@ -7,7 +7,7 @@ use axum::{
 };
 use uuid::Uuid;
 
-use crate::{api::AppState, api_error_log, repos::event::JoinEventFlags};
+use crate::{api::AppState, api_error_log, repos::event::helpers::JoinEventFlags};
 
 pub async fn handler(State(state): State<Arc<AppState>>, Path(id): Path<Uuid>) -> Response {
     let repos = state.global.repos();
