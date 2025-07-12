@@ -81,7 +81,7 @@ pub async fn handler(
     if let Some(banner_id) = event.banner_id {
         if let Err(err) = repos
             .file
-            .change_status(banner_id, FileStatus::PERMANENT)
+            .update_status(banner_id, FileStatus::PERMANENT)
             .await
         {
             return api_error_log!("failed to change file status: {}", err);
@@ -91,7 +91,7 @@ pub async fn handler(
     if let Some(banner_small_id) = event.banner_small_id {
         if let Err(err) = repos
             .file
-            .change_status(banner_small_id, FileStatus::PERMANENT)
+            .update_status(banner_small_id, FileStatus::PERMANENT)
             .await
         {
             return api_error_log!("failed to change file status: {}", err);
