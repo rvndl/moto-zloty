@@ -1,12 +1,4 @@
 import {
-  Button,
-  Dialog,
-  Form,
-  ListboxField,
-  ListboxOption,
-  OpenRef,
-} from "@components";
-import {
   EVENT_ACTIONS_QUERY,
   EVENT_QUERY_KEY,
   useChangeEventStatusMutation,
@@ -17,6 +9,11 @@ import { Event, EventStatus } from "types/event";
 import { getEventStatusText } from "@utils/event";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { Dialog, OpenRef } from "@components/dialog";
+import { ListboxOption } from "@components/listbox";
+import { Form } from "@components/form";
+import { ListboxField } from "@components/form/fields";
+import { Button } from "@components/button";
 
 const eventStatuses: EventStatus[] = ["APPROVED", "REJECTED"];
 
@@ -55,7 +52,7 @@ const ChangeStatusDialog = ({ event, openRef }: Props) => {
             queryKey: [EVENT_ACTIONS_QUERY, event.id],
           });
         },
-      }
+      },
     );
   };
 

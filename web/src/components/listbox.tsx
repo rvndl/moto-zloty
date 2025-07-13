@@ -1,4 +1,3 @@
-import { Button, ButtonSize, HelpText, Label } from "@components";
 import {
   Listbox as HeadlessListbox,
   ListboxButton,
@@ -7,6 +6,9 @@ import {
 } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { ReactNode, useId, useRef } from "react";
+import { Label } from "./label";
+import { Button, ButtonSize } from "./button";
+import { HelpText } from "./help-text";
 
 interface ListboxOption {
   id: string;

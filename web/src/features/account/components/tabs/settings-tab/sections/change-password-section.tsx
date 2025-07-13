@@ -1,4 +1,7 @@
-import { Button, Card, Form, InputField } from "@components";
+import { Button } from "@components/button";
+import { Card } from "@components/card";
+import { Form } from "@components/form";
+import { InputField } from "@components/form/fields";
 import {
   ChangePasswordPayload,
   useChangePasswordMutation,

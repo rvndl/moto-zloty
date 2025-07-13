@@ -1,8 +1,9 @@
-import { Button, Dropdown } from "@components";
+import { Button } from "@components/button";
 import { rankToString } from "@utils/user";
 import { UserState } from "@features/auth";
 import { useRouter } from "next/navigation";
 import { LogOutIcon, UserIcon } from "lucide-react";
+import { Dropdown } from "@components/dropdown";
 
 interface Props {
   user: UserState;

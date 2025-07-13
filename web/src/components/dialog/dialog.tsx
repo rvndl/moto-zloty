@@ -77,7 +77,7 @@ const Dialog = ({
             <section
               className={clsx(
                 "flex flex-col gap-4 px-6 pt-4 rounded-t-lg h-full overflow-auto",
-                !footerContent && "pb-6"
+                !footerContent && "pb-6",
               )}
             >
               <div className="mb-2">

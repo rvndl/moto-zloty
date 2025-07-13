@@ -16,7 +16,7 @@ const Breadcrumb = ({ label, to, isActive, isLoading }: BreadcrumbProps) => {
       <span
         className={clsx(
           "font-normal transition-colors cursor-pointer hover:text-primary",
-          isActive ? "text-primary" : "text-muted"
+          isActive ? "text-primary" : "text-muted",
         )}
       >
         {isLoading ? <Skeleton className="h-5 w-36" /> : content}

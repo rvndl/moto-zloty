@@ -25,8 +25,8 @@ const useUserStore = create(
     {
       name: "user-state",
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );
 
 export { useUserStore, type UserState };

@@ -12,6 +12,8 @@ pub mod address;
 pub mod event;
 pub mod file;
 
+pub mod macros;
+
 pub struct Repos<'a> {
     pub account: AccountRepo<'a>,
     pub event: EventRepo<'a>,

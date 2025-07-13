@@ -1,5 +1,4 @@
 import { useEventQuery } from "../api";
-import { Button, Dropdown, Metadata, Page } from "@components";
 import {
   ChangeAddressDialog,
   ChangeStatusDialog,
@@ -10,6 +9,10 @@ import { useRouter } from "next/router";
 import { EllipsisIcon } from "lucide-react";
 import { useRef } from "react";
 import { getFilePath } from "@utils/index";
+import { Metadata } from "@components/metadata";
+import { Page } from "@components/page";
+import { Dropdown } from "@components/dropdown";
+import { Button } from "@components/button";
 
 const DetailsPage = () => {
   const {

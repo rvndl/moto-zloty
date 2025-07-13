@@ -1,6 +1,6 @@
 import { Controller } from "react-hook-form";
 import { useForm } from "../fom-context";
-import { TextEditor, TextEditorProps } from "@components";
+import { TextEditor, TextEditorProps } from "@components/text-editor";
 
 const TextEditorField = ({
   name,

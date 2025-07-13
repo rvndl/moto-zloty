@@ -11,7 +11,7 @@ use crate::{
     api::AppState,
     api_error,
     db::models::event::EventStatus,
-    repos::event::{FetchAllJoinedParams, JoinEventFlags},
+    repos::event::{fetch_joined::FetchAllJoinedParams, helpers::JoinEventFlags},
     utils::db::SortOrder,
 };
 

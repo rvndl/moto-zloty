@@ -1,6 +1,6 @@
 import { Controller } from "react-hook-form";
 import { useForm } from "../fom-context";
-import { Dropzone, DropzoneProps } from "@components";
+import { Dropzone, DropzoneProps } from "@components/dropzone";
 
 const DropzoneField = ({
   name,

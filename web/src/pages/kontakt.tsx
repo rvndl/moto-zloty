@@ -1,4 +1,4 @@
-import { Metadata } from "@components";
+import { Metadata } from "@components/metadata";
 import { ContactPage } from "@features/contact";
 
 export default function Contact() {

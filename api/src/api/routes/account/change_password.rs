@@ -60,7 +60,7 @@ pub async fn handler(
 
             if let Err(err) = repos
                 .account
-                .change_password(user_id, &hash.to_string())
+                .update_password(user_id, &hash.to_string())
                 .await
             {
                 log::error!("could not change the password: {err}");

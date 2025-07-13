@@ -29,7 +29,7 @@ pub async fn handler(
 
     let repos = state.global.repos();
 
-    let event = repos.event.change_status(id, form.status.clone()).await;
+    let event = repos.event.update_status(id, form.status.clone()).await;
     let event = match event {
         Ok(event) => event,
         Err(err) => return api_error_log!("failed to change event status: {}", err),

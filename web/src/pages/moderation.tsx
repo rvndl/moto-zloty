@@ -1,4 +1,4 @@
-import { Metadata } from "@components";
+import { Metadata } from "@components/metadata";
 import { ModerationPage } from "@features/moderation";
 
 export default function Moderation() {

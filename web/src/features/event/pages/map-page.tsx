@@ -1,8 +1,10 @@
-import { Button, Metadata, Page } from "@components";
 import { CreateEventDialog, MapPageContent } from "../components";
 import { useAuth } from "@features/auth";
 import { useRouter } from "next/navigation";
 import { PlusIcon } from "lucide-react";
+import { Metadata } from "@components/metadata";
+import { Page } from "@components/page";
+import { Button } from "@components/button";
 
 const MapPage = () => {
   const { isAuthenticated } = useAuth();

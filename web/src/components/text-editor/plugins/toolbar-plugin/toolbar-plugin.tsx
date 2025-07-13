@@ -14,7 +14,7 @@ import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import { $isListNode, ListNode } from "@lexical/list";
 import { createPortal } from "react-dom";
 import { $isHeadingNode } from "@lexical/rich-text";
-import { Button } from "@components";
+import { Button } from "@components/button";
 import { ToolbarButton } from "./toolbar-button";
 import { ToolbarFloatingLinkEditor } from "./toolbar-floating-link-editor";
 import { ToolbarBlockOptions } from "./toolbar-block-options";
@@ -147,8 +147,8 @@ export function ToolbarPlugin() {
           updateToolbar();
           return false;
         },
-        LowPriority
-      )
+        LowPriority,
+      ),
     );
   }, [editor, updateToolbar]);
 
@@ -187,7 +187,7 @@ export function ToolbarPlugin() {
                 setIsVisible={setShowBlockOptions}
                 toolbarBoundingClientRect={toolbarRef.current?.getBoundingClientRect()}
               />,
-              document.body
+              document.body,
             )}
           <Divider />
         </>
@@ -243,7 +243,7 @@ export function ToolbarPlugin() {
         {isLink &&
           createPortal(
             <ToolbarFloatingLinkEditor editor={editor} />,
-            document.body
+            document.body,
           )}
         <Divider />
         <ToolbarButton

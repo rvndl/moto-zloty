@@ -1,4 +1,3 @@
-import { Page } from "@components";
 import { useAuth } from "@features/auth";
 import { useEffect } from "react";
 import { match } from "ts-pattern";
@@ -15,6 +14,7 @@ import {
   ShieldCheckIcon,
   SparklesIcon,
 } from "lucide-react";
+import { Page } from "@components/page";
 
 const ModerationPage = () => {
   const { isPermitted } = useAuth();

@@ -1,6 +1,6 @@
 import { Controller } from "react-hook-form";
 import { useForm } from "../fom-context";
-import { Listbox, ListboxProps } from "@components";
+import { Listbox, ListboxProps } from "@components/listbox";
 
 const ListboxField = ({ name, ...rest }: ListboxProps & { name: string }) => {
   const { control } = useForm();

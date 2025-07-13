@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 import "react-tooltip/dist/react-tooltip.css";
 import { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Layout } from "@components";
+import { Layout } from "@components/layout";
 import { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import { PagesTopLoader } from "nextjs-toploader/pages";
@@ -19,7 +19,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             staleTime: 60 * 1000,
           },
         },
-      })
+      }),
   );
 
   return (

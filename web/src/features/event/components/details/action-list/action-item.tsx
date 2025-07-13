@@ -1,4 +1,4 @@
-import { Tooltip } from "@components";
+import { Tooltip } from "@components/tooltip";
 import { EventAction } from "@features/event/api/types/event-action";
 import { formatDistance, format } from "date-fns";
 import { pl } from "date-fns/locale";

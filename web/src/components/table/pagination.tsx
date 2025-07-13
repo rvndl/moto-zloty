@@ -1,4 +1,4 @@
-import { Button } from "@components";
+import { Button } from "@components/button";
 import { Table } from "@tanstack/react-table";
 import {
   ChevronLeftIcon,

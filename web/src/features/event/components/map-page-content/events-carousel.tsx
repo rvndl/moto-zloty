@@ -1,7 +1,7 @@
 import { type Event as EventType } from "types/event";
 import { EventCard } from "../event-card";
 import { useMemo } from "react";
-import { Skeleton } from "@components";
+import { Skeleton } from "@components/skeleton";
 import { sortEvents } from "@utils/event";
 import { motion } from "framer-motion";
 

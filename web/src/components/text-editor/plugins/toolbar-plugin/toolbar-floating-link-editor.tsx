@@ -56,7 +56,7 @@ const ToolbarFloatingLinkEditor = ({ editor }: Props) => {
   const [linkUrl, setLinkUrl] = useState("");
   const [isEditMode, setEditMode] = useState(false);
   const [lastSelection, setLastSelection] = useState<BaseSelection | null>(
-    null
+    null,
   );
 
   const updateLinkEditor = useCallback(() => {
@@ -129,8 +129,8 @@ const ToolbarFloatingLinkEditor = ({ editor }: Props) => {
           updateLinkEditor();
           return true;
         },
-        1
-      )
+        1,
+      ),
     );
   }, [editor, updateLinkEditor]);
 

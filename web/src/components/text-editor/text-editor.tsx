@@ -22,7 +22,7 @@ import {
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 
-import { Label } from "@components";
+import { Label } from "@components/label";
 import { useEffect, useState } from "react";
 import { ToolbarPlugin } from "./plugins";
 import { editorTheme } from "./theme";

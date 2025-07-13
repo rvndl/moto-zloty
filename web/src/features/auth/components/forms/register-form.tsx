@@ -1,4 +1,6 @@
-import { Button, Form, InputField, ReCaptchaField } from "@components";
+import { Button } from "@components/button";
+import { Form } from "@components/form";
+import { InputField, ReCaptchaField } from "@components/form/fields";
 import { useRegisterMutation } from "@features/auth/api";
 import { useAuth } from "@features/auth/hooks";
 import { yupResolver } from "@hookform/resolvers/yup";

@@ -1,4 +1,4 @@
-import { Button } from "@components";
+import { Button } from "@components/button";
 import { XIcon } from "lucide-react";
 
 interface Props {

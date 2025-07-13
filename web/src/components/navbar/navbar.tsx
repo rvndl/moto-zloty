@@ -1,7 +1,7 @@
 import { useAuth } from "@features/auth";
 import { NavbarItem } from "./navbar-item";
 import Logo from "@assets/img/mz-logo-black.png";
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
 import { UserMenu } from "./user-menu";
 import { usePathname, useRouter } from "next/navigation";
 import { EventSearch } from "@features/event";

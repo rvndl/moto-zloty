@@ -1,9 +1,9 @@
-import { Card } from "@components";
 import { rankToString } from "@utils/user";
 import { DataItem } from "./data-item";
 import { getValue } from "@utils/index";
 import { PublicAccount } from "types/account";
 import { UserIcon } from "lucide-react";
+import { Card } from "@components/card";
 
 interface Props {
   account?: PublicAccount;

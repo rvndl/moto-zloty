@@ -1,4 +1,4 @@
-import { Card } from "@components";
+import { Card } from "@components/card";
 import { AccountResponse } from "@features/account/api/types/account";
 import { EventCard } from "@features/event";
 import { sortEvents } from "@utils/event";
@@ -11,7 +11,7 @@ interface Props {
 const EventsTab = ({ account }: Props) => {
   const sortedEvents = useMemo(
     () => sortEvents(account?.events),
-    [account?.events]
+    [account?.events],
   );
 
   const isEmpty = !account?.events?.length;

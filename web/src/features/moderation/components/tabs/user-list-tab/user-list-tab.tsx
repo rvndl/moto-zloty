@@ -31,7 +31,7 @@ const UserListTab = () => {
         meta: { rightAligned: true },
       },
     ],
-    []
+    [],
   );
 
   return (

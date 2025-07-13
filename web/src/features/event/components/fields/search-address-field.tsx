@@ -1,5 +1,5 @@
 import { AutocompleteOption } from "@components/autocomplete";
-import { AutocompleteField } from "@components/form";
+import { AutocompleteField } from "@components/form/fields/autocomplete-field";
 import { makeAddressString } from "@features/event/utils";
 import { Api } from "api";
 import { Place } from "types/place";

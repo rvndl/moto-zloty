@@ -77,7 +77,7 @@ const Table = <TColumn,>({
                   >
                     {flexRender(
                       header.column.columnDef.header,
-                      header.getContext()
+                      header.getContext(),
                     )}
                     {{
                       asc: (

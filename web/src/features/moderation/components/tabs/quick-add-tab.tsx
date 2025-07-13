@@ -2,13 +2,13 @@ import { AutocompleteOption } from "@components/autocomplete";
 import { Button } from "@components/button";
 import { Card } from "@components/card";
 import { DropzoneImage } from "@components/dropzone";
+import { Form } from "@components/form";
 import {
   DatepickerField,
   DropzoneField,
-  Form,
   InputField,
-  TextEditorField,
-} from "@components/form";
+} from "@components/form/fields";
+
 import { Value } from "@components/value";
 import { useAuth } from "@features/auth";
 import { useCreateEventMutation } from "@features/event/api";
@@ -17,6 +17,7 @@ import { useBannerScrapQuery } from "@features/moderation/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { yup } from "@utils/yup";
 import { parseISO } from "date-fns";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -52,6 +53,14 @@ const QuickAddTab = () => {
   );
   const { mutate: createEvent, isPending } = useCreateEventMutation();
   const { user } = useAuth();
+
+  const TextEditorField = dynamic(
+    () =>
+      import("@components/form/fields/text-editor-field").then(
+        (mod) => mod.TextEditorField,
+      ),
+    { ssr: false },
+  );
 
   const isLoading = isFetching || isPending;
 

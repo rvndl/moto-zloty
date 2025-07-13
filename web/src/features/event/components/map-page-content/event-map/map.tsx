@@ -1,4 +1,4 @@
-import { Map } from "@components";
+import { Map } from "@components/map";
 import { useIsMobile } from "@hooks/use-is-mobile";
 import { EventMarker } from "./event-marker";
 import { getEventStatus } from "@utils/event";
