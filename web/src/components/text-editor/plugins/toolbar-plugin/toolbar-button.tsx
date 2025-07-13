@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from "@components";
+import { Button, ButtonProps } from "@components/button";
 
 interface ToolbarButtonProps extends ButtonProps {
   isActive?: boolean;

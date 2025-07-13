@@ -1,4 +1,4 @@
-import { Dialog } from "@components";
+import { Dialog } from "@components/dialog";
 import { getFilePath } from "@utils/index";
 import Image from "next/image";
 import { Event } from "types/event";

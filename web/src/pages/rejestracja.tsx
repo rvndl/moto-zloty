@@ -1,5 +1,5 @@
 import { RegisterPage, useUserStore } from "@features/auth";
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 

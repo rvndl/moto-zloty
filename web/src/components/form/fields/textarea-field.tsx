@@ -1,4 +1,4 @@
-import { Textarea, TextareaProps } from "@components";
+import { Textarea, TextareaProps } from "@components/textarea";
 import { Controller } from "react-hook-form";
 import { WithRequired } from "utils";
 import { useForm } from "../fom-context";

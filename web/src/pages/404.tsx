@@ -1,5 +1,5 @@
 import { Button } from "@components/button";
-import { Metadata } from "@components";
+import { Metadata } from "@components/metadata";
 import { useRouter } from "next/navigation";
 
 export default function NotFoundPage() {

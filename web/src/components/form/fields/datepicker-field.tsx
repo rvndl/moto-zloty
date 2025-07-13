@@ -1,6 +1,6 @@
 import { Controller } from "react-hook-form";
 import { useForm } from "../fom-context";
-import { Datepicker, DatepickerProps } from "@components";
+import { Datepicker, DatepickerProps } from "@components/datepicker";
 
 const DatepickerField = ({
   name,

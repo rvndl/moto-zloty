@@ -1,6 +1,6 @@
 import { Controller } from "react-hook-form";
 import { useForm } from "../fom-context";
-import { Autocomplete, AutocompleteProps } from "@components";
+import { Autocomplete, AutocompleteProps } from "@components/autocomplete";
 
 const AutocompleteField = ({
   name,

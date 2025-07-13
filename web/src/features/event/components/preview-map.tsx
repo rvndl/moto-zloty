@@ -1,4 +1,5 @@
-import { Map, MapMarker, useForm } from "@components";
+import { useForm } from "@components/form";
+import { Map, MapMarker } from "@components/map";
 import { withDynamicHook } from "@hoc";
 import { PropsWithChildren } from "react";
 
@@ -55,7 +56,7 @@ const MapContent = withDynamicHook<Props>(
     }
 
     return <MapMarker position={[latitude, longitude]} />;
-  }
+  },
 );
 
 export { PreviewMap };

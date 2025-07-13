@@ -1,6 +1,6 @@
 import { stripHtml } from "string-strip-html";
 import Head from "next/head";
-import { truncate } from "lodash";
+import truncate from "lodash/truncate";
 
 interface StructuredData {
   headline?: string;

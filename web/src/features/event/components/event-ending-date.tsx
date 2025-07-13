@@ -1,4 +1,6 @@
-import { Tooltip, Value, Badge } from "@components";
+import { Badge } from "@components/badge";
+import { Tooltip } from "@components/tooltip";
+import { Value } from "@components/value";
 import { getEventStatus } from "@utils/event";
 import { format, formatDistance } from "date-fns";
 import { pl } from "date-fns/locale";
@@ -31,7 +33,7 @@ const EventEndingDate = ({ event, isLoading }: Props) => {
         data-tooltip-id="ending-date-tooltip"
         data-tooltip-content={format(
           event?.date_to ?? new Date(),
-          "dd.MM.yyyy HH:mm"
+          "dd.MM.yyyy HH:mm",
         )}
         isLoading={isLoading}
       >

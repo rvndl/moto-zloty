@@ -1,4 +1,4 @@
-import { Button } from "@components";
+import { Button } from "@components/button";
 import { motion } from "framer-motion";
 
 interface Props<TTab extends string> {

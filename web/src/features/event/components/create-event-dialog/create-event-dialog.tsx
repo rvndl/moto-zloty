@@ -1,12 +1,3 @@
-import {
-  AutocompleteOption,
-  Button,
-  Dialog,
-  DropzoneField,
-  DropzoneImage,
-  Form,
-  InputField,
-} from "@components";
 import { useAuth } from "@features/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { yup } from "@utils/yup";
@@ -18,6 +9,12 @@ import dynamic from "next/dynamic";
 import { PlusIcon } from "lucide-react";
 import { useRouter } from "next/router";
 import { SearchAddressField } from "../fields";
+import { DropzoneImage } from "@components/dropzone";
+import { AutocompleteOption } from "@components/autocomplete";
+import { Dialog } from "@components/dialog";
+import { Button } from "@components/button";
+import { Form } from "@components/form";
+import { DropzoneField, InputField } from "@components/form/fields";
 
 interface Fields {
   name: string;

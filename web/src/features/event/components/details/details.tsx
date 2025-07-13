@@ -1,4 +1,3 @@
-import { Value, Card, Button, Tooltip } from "@components";
 import { type Event } from "types/event";
 import { EventStartingDate } from "../event-starting-date";
 import { EventEndingDate } from "../event-ending-date";
@@ -9,6 +8,10 @@ import { BannerPreview } from "./banner-preview";
 import dynamic from "next/dynamic";
 import { MapPinnedIcon } from "lucide-react";
 import { makeAddressString } from "@features/event/utils";
+import { Card } from "@components/card";
+import { Value } from "@components/value";
+import { Button } from "@components/button";
+import { Tooltip } from "@components/tooltip";
 
 interface Props {
   event?: Event;
@@ -21,11 +24,11 @@ const Details = ({ event, isLoading }: Props) => {
   const TextEditor = dynamic(
     () =>
       import("@components/text-editor/text-editor").then(
-        (mod) => mod.TextEditor
+        (mod) => mod.TextEditor,
       ),
     {
       ssr: false,
-    }
+    },
   );
 
   return (

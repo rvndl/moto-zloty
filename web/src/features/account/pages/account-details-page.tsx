@@ -1,4 +1,3 @@
-import { Metadata, Page } from "@components";
 import { useEffect } from "react";
 import { EventsTab, AccountTab, SettingsTab } from "../components";
 import { match } from "ts-pattern";
@@ -6,6 +5,8 @@ import { useAccountQuery } from "../api";
 import { useAuth } from "@features/auth";
 import { useRouter } from "next/router";
 import { SettingsIcon, TicketIcon, UserIcon } from "lucide-react";
+import { Metadata } from "@components/metadata";
+import { Page } from "@components/page";
 
 const AccountDetailsPage = () => {
   const {

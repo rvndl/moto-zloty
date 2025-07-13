@@ -1,4 +1,4 @@
-import { Autocomplete } from "@components";
+import { Autocomplete } from "@components/autocomplete";
 import { Api } from "api";
 import { useRouter } from "next/router";
 import { Event } from "types/event";

@@ -1,4 +1,5 @@
-import { Card, Skeleton } from "@components";
+import { Card } from "@components/card";
+import { Skeleton } from "@components/skeleton";
 import { useEventActionsQuery } from "@features/event/api";
 import { ActionItem } from "./action-item";
 import { useRouter } from "next/router";

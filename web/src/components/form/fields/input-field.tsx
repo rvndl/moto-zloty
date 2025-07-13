@@ -1,4 +1,4 @@
-import { Input, InputProps } from "@components";
+import { Input, InputProps } from "@components/input";
 import { Controller } from "react-hook-form";
 import { WithRequired } from "utils";
 import { useForm } from "../fom-context";

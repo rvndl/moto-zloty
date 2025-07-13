@@ -1,7 +1,7 @@
 import "leaflet/dist/leaflet.css";
 
 import { PropsWithChildren } from "react";
-import { Spinner } from "@components";
+import { Spinner } from "@components/spinner";
 import dynamic from "next/dynamic";
 import { LatLngExpression } from "leaflet";
 
@@ -21,14 +21,14 @@ export const Map = ({
     () => import("react-leaflet").then((mod) => mod.MapContainer),
     {
       ssr: false,
-    }
+    },
   );
 
   const TileLayer = dynamic(
     () => import("react-leaflet").then((mod) => mod.TileLayer),
     {
       ssr: false,
-    }
+    },
   );
 
   return (

@@ -1,7 +1,7 @@
 import { type Event } from "types/event";
-import { truncate } from "lodash";
+import truncate from "lodash/truncate";
 import { EventStartingDate } from "../../event-starting-date";
-import { Button } from "@components";
+import { Button } from "@components/button";
 import { getEventStatus } from "@utils/event";
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
@@ -20,14 +20,14 @@ const EventMarker = ({ event }: Props) => {
     () => import("react-leaflet").then((mod) => mod.Popup),
     {
       ssr: false,
-    }
+    },
   );
 
   const MapMarker = dynamic(
     () => import("@components/map/map-marker").then((mod) => mod.MapMarker),
     {
       ssr: false,
-    }
+    },
   );
 
   const handleOnDetails = () => {

@@ -1,17 +1,17 @@
-import {
-  Button,
-  Card,
-  Form,
-  InputField,
-  ReCaptchaField,
-  TextareaField,
-} from "@components";
-import { Page } from "@components";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { yup } from "@utils/yup";
 import { useContactMutation } from "../api";
 import toast from "react-hot-toast";
 import { AtSignIcon, InstagramIcon } from "lucide-react";
+import { Page } from "@components/page";
+import { Card } from "@components/card";
+import { Form } from "@components/form";
+import {
+  InputField,
+  ReCaptchaField,
+  TextareaField,
+} from "@components/form/fields";
+import { Button } from "@components/button";
 
 interface Fields {
   name: string;

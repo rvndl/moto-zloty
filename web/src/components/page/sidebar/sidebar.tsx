@@ -1,4 +1,4 @@
-import { Card } from "@components";
+import { Card } from "@components/card";
 import { SidebarItem, SidebarItemProps } from "./sidebar-item";
 import { useState } from "react";
 import { useIsMobile } from "@hooks/use-is-mobile";

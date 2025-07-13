@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from "@components";
+import { Button, ButtonProps } from "@components/button";
 import clsx from "clsx";
 import { motion } from "framer-motion";
 
@@ -27,7 +27,7 @@ const SidebarItem = ({
       textAlignment="left"
       className={clsx(
         "relative z-10 font-normal bg-transparent transition-colors duration-300 w-8 md:w-auto",
-        isActive ? "text-white" : "text-primary"
+        isActive ? "text-white" : "text-primary",
       )}
       {...rest}
     >

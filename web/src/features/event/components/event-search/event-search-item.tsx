@@ -1,4 +1,4 @@
-import { AutocompleteOption } from "@components";
+import { AutocompleteOption } from "@components/autocomplete";
 import { makeAddressString } from "@features/event/utils";
 import { getFilePath } from "@utils/index";
 import Image from "next/image";

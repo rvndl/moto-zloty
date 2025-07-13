@@ -1,4 +1,5 @@
-import { Metadata, Page } from "@components";
+import { Metadata } from "@components/metadata";
+import { Page } from "@components/page";
 import clsx from "clsx";
 import { PropsWithChildren } from "react";
 
@@ -383,7 +384,7 @@ const List = ({
     className={clsx(
       "list-inside",
       type === "primary" && " list-decimal",
-      type === "nested" && "ml-5 list-disc"
+      type === "nested" && "ml-5 list-disc",
     )}
   >
     {children}

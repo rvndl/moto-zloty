@@ -1,4 +1,5 @@
-import { Card, Table } from "@components";
+import { Card } from "@components/card";
+import { Table } from "@components/table";
 import { EventStatusBadge } from "@features/event/components";
 import { useEventListQuery } from "@features/moderation/api";
 import { ColumnDef } from "@tanstack/react-table";
@@ -35,7 +36,7 @@ const EventListTab = () => {
         cell: (info) => format(info.getValue() as string, "dd.MM.yyyy HH:mm"),
       },
     ],
-    []
+    [],
   );
 
   return (

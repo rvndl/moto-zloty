@@ -1,4 +1,5 @@
-import { Badge, Value } from "@components";
+import { Badge } from "@components/badge";
+import { Value } from "@components/value";
 import { type EventStatus } from "types/event";
 
 const statusToVariant = (status?: EventStatus) => {
