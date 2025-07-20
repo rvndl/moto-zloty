@@ -47,6 +47,7 @@ pub async fn handler(
             date_to,
             sort_order,
             state,
+            show_expired: true,
         })
         .await;
 

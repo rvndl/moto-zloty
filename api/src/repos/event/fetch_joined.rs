@@ -16,6 +16,7 @@ pub struct FetchAllJoinedParams {
     pub date_to: Option<DateTime<Utc>>,
     pub sort_order: Option<SortOrder>,
     pub state: Option<String>,
+    pub show_expired: bool,
 }
 
 impl super::EventRepo<'_> {
@@ -61,10 +62,12 @@ impl super::EventRepo<'_> {
                 LEFT JOIN address ad ON e.full_address_id = ad.id
             WHERE
                 e.status = $1
-            AND
-                e.date_to > CURRENT_DATE
             "#
         .to_string();
+
+        if !params.show_expired {
+            query_str.push_str(&format!(" AND e.date_to > CURRENT_DATE"));
+        }
 
         let mut bind_index = 2;
 
