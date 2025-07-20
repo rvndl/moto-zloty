@@ -5,13 +5,11 @@ import { Filters, initialFiltersState } from "../components/date-filters";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/metadata";
 import { ListPageContent } from "../components/list-page-content";
+import { getStateMetadata, State } from "../utils";
 
 const ListPage = () => {
   const params = useParams();
   const paramState = params?.params?.[0];
-  const title = !paramState
-    ? "Zloty motocyklowe w całej Polsce"
-    : `Zloty motocyklowe w ${paramState}`;
 
   const [filters, setFilters] = useState<Filters>(initialFiltersState);
   const {
@@ -30,17 +28,17 @@ const ListPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, paramState]);
 
+  const stateMetadata = getStateMetadata(paramState as State);
+
   return (
     <>
       <Metadata
-        title={title}
-        description={`Zloty motocyklowe w ${
-          paramState || "całej Polsce"
-        }. Sprawdź listę wydarzeń motocyklowych, które odbywają się w Twoim regionie.`}
+        title={stateMetadata.title}
+        description={stateMetadata.description}
         canonical={`https://motozloty.pl/lista-wydarzen/${paramState || ""}`}
       />
       <Page
-        title={title}
+        title={stateMetadata.pageTitle}
         breadcrumbs={[
           {
             label: "Lista wydarzeń",
