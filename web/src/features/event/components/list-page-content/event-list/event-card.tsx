@@ -23,7 +23,8 @@ const EventCard = ({ event }: Props) => {
   };
 
   return (
-    <div
+    <article
+      id={`wydarzenie-${event.id}`}
       key={event.id}
       className="flex flex-col transition-transform bg-white rounded-lg shadow aspect-video hover:-translate-y-1"
     >
@@ -53,7 +54,7 @@ const EventCard = ({ event }: Props) => {
           {distance}
         </p>
       </div>
-    </div>
+    </article>
   );
 };
 

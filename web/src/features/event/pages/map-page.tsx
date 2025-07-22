@@ -5,10 +5,12 @@ import { PlusIcon } from "lucide-react";
 import { Metadata } from "@components/metadata";
 import { Page } from "@components/page";
 import { Button } from "@components/button";
+import { useIsMobile } from "@hooks/use-is-mobile";
 
 const MapPage = () => {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
+  const isMobile = useIsMobile();
 
   return (
     <>
@@ -27,7 +29,7 @@ const MapPage = () => {
               icon={<PlusIcon />}
               onClick={() => router.push("/logowanie")}
             >
-              Dodaj wydarzenie
+              {isMobile ? "Dodaj" : "Dodaj wydarzenie"}
             </Button>
           )
         }

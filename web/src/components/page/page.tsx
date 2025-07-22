@@ -12,6 +12,7 @@ interface Props {
   isTitleTabSeperated?: boolean;
   isInline?: boolean;
   children: ((tab?: string) => ReactNode) | ReactNode;
+  as?: React.ElementType;
 }
 
 const Page = ({
@@ -21,11 +22,14 @@ const Page = ({
   isInline,
   headerContent,
   children,
+  as = "div",
 }: Props) => {
   const [activeTab, setActiveTab] = useState(sidebarItems?.[0]?.label);
 
+  const Wrapper = as;
+
   return (
-    <div className="flex flex-col w-full h-full p-2 md:p-0">
+    <Wrapper className="flex flex-col w-full h-full p-2 md:p-0">
       <PageHeader title={title} content={headerContent} activeTab={activeTab} />
       <Breadcrumbs breadcrumbs={breadcrumbs} />
       <div
@@ -43,7 +47,7 @@ const Page = ({
           {typeof children === "function" ? children(activeTab) : children}
         </section>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 
