@@ -44,6 +44,7 @@ const DetailsPage = () => {
       />
       <Page
         title={event?.name}
+        as="article"
         breadcrumbs={[
           {
             label: `Wydarzenie: ${event?.name}`,

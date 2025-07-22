@@ -3,7 +3,7 @@ import withBundleAnalyzer from "@next/bundle-analyzer";
 const nextConfig = {
   // output: "export",
   // distDir: "./dist",
-  webpack(config, { isServer }) {
+  webpack(config) {
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.(".svg"),
     );
@@ -23,18 +23,6 @@ const nextConfig = {
     );
 
     fileLoaderRule.exclude = /\.svg$/i;
-
-    if (!isServer) {
-      config.optimization.splitChunks.cacheGroups = {
-        ...config.optimization.splitChunks.cacheGroups,
-        framerMotion: {
-          test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
-          name: "framer-motion",
-          chunks: "all",
-          priority: 10,
-        },
-      };
-    }
 
     return config;
   },
