@@ -11,14 +11,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const now = new Date();
 
   const upcomingEvents = events.filter(
-    (event) => new Date(event.date_from) > now
+    (event) => new Date(event.date_from) > now,
   );
   const maxUpcomingDiff =
     upcomingEvents.length > 0
       ? Math.max(
           ...upcomingEvents.map(
-            (event) => new Date(event.date_from).getTime() - now.getTime()
-          )
+            (event) => new Date(event.date_from).getTime() - now.getTime(),
+          ),
         )
       : 0;
 
@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   });
 
   const stateFields: ISitemapField[] = states.map((state) => ({
-    loc: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/lista-wydarzen/${state}`,
+    loc: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/lista-wydarzen/${encodeURIComponent(state)}`,
     changefreq: "daily",
     priority: 0.8,
   }));
