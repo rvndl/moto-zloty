@@ -64,7 +64,7 @@ const ListByState = () => {
   }, [events]);
 
   return (
-    <section className="w-full p-16 bg-black text-white mt-4">
+    <section className="w-full p-6 md:p-16 bg-black text-white mt-4">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16">
         {states.map((state) => (
           <StateList key={state} state={state}>

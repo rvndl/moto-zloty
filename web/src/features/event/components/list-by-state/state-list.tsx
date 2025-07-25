@@ -18,7 +18,7 @@ const StateList = ({ state, children }: PropsWithChildren<Props>) => {
       </h2>
       <ol className="mt-4 w-full flex flex-col gap-1.5">
         {isEmpty ? (
-          <p className="text-muted font-semibold">Brak wydarzeń</p>
+          <li className="text-muted font-semibold">Brak wydarzeń</li>
         ) : (
           <>
             {children}

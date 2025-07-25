@@ -86,7 +86,7 @@ const CreateEventDialog = () => {
 
   return (
     <Dialog
-      trigger={<Button icon={<PlusIcon />}>Dodaj wydarzenie</Button>}
+      trigger={<Button icon={<PlusIcon />}>Dodaj</Button>}
       title="Nowe wydarzenie"
       description="Utwórz nowe wydarzenie"
     >
