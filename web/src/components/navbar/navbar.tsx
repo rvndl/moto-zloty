@@ -7,11 +7,31 @@ import { usePathname, useRouter } from "next/navigation";
 import { EventSearch } from "@features/event";
 import Image from "next/image";
 import { Button } from "@components/button";
+import { MobileMenu } from "./mobile-menu";
+import { CogIcon, ListIcon, MapIcon } from "lucide-react";
 
-const routes = [
-  { name: "Mapa wydarzeń", path: "/" },
-  { name: "Lista wydarzeń", path: "/lista-wydarzen", isParentPath: true },
-  { name: "Moderacja", path: "/moderation", isProtected: true },
+interface Route {
+  name: string;
+  path: string;
+  icon?: React.ReactNode;
+  isParentPath?: boolean;
+  isProtected?: boolean;
+}
+
+const routes: Route[] = [
+  { name: "Mapa wydarzeń", path: "/", icon: <MapIcon /> },
+  {
+    name: "Lista wydarzeń",
+    path: "/lista-wydarzen",
+    isParentPath: true,
+    icon: <ListIcon />,
+  },
+  {
+    name: "Moderacja",
+    path: "/moderation",
+    isProtected: true,
+    icon: <CogIcon />,
+  },
 ];
 
 const Navbar = () => {
@@ -63,7 +83,9 @@ const Navbar = () => {
                 </ol>
               </div>
             </div>
-            <div className="absolute inset-y-0 right-0 flex items-center gap-2 pr-2 md:gap-8 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+            {/* Desktop menu */}
+            <div className="absolute inset-y-0 right-0 items-center gap-2 pr-2 md:gap-8 sm:static sm:inset-auto sm:ml-6 sm:pr-0 hidden sm:flex">
               <EventSearch />
               {isEmpty(user) ? (
                 <Button
@@ -76,6 +98,15 @@ const Navbar = () => {
                 <UserMenu user={user} logout={handleOnLogout} />
               )}
             </div>
+
+            {/* Mobile menu */}
+            <MobileMenu
+              routes={routes}
+              user={user}
+              pathname={pathname}
+              isPermitted={isPermitted}
+              onLogout={handleOnLogout}
+            />
           </div>
         </div>
       </div>
@@ -83,4 +114,4 @@ const Navbar = () => {
   );
 };
 
-export { Navbar };
+export { Navbar, type Route };

@@ -35,7 +35,7 @@ const UserMenu = ({ user, logout }: Props) => {
       header={
         <div className="px-2 py-1 leading-tight">
           <p className="text-sm font-semibold text-black">{user.username}</p>
-          <p className="text-xs text-black text-opacity-70">
+          <p className="text-xs text-black text-opacity-70 font-medium">
             {rankToString(user.rank)}
           </p>
         </div>

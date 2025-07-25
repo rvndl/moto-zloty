@@ -15,7 +15,7 @@ const Footer = ({ variant = "light" }: Props) => {
         variant === "dark" && "invert",
       )}
     >
-      <div className="grid w-full gap-4 px-8 py-6 mx-auto text-sm font-normal max-w-7xl">
+      <div className="grid w-full gap-4 px-6 md:px-8 py-6 mx-auto text-sm font-normal max-w-7xl">
         <div className="flex gap-4 text-sm font-normal">
           <Image
             src={Logo}
@@ -29,7 +29,7 @@ const Footer = ({ variant = "light" }: Props) => {
           <Link href="/kontakt">Kontakt</Link>
           <Link href="/prywatnosc">Polityka prywatności</Link>
         </div>
-        <p className="text-xs text-muted">&copy; Moto-Zloty.pl</p>
+        <p className="text-xs text-muted font-medium">&copy; Moto-Zloty.pl</p>
       </div>
     </footer>
   );
