@@ -1,4 +1,4 @@
-import { format, getISODay } from "date-fns";
+import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -22,7 +22,9 @@ const ListItem = ({ event }: Props) => {
           <p className="text-sm leading-none uppercase">
             {format(event.date_from, "MMM", { locale: pl })}
           </p>
-          <p className="text-xl leading-none">{getISODay(event.date_from)}</p>
+          <p className="text-xl leading-none">
+            {format(event.date_from, "dd", { locale: pl })}
+          </p>
         </div>
         <div className="flex flex-col gap-1.5 leading-none truncate font-medium">
           <h3 className="truncate">{event.name}</h3>
