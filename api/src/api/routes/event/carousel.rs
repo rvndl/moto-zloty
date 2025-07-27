@@ -11,7 +11,7 @@ use crate::{api::AppState, api_error};
 pub async fn handler(State(state): State<Arc<AppState>>) -> Response {
     let repos = state.global.repos();
 
-    let events = repos.event.fetch_all_carousel().await;
+    let events = repos.event.fetch_all_carousel_joined().await;
     let events = match events {
         Ok(events) => events,
         Err(err) => {

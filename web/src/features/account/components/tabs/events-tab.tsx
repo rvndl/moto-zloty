@@ -26,7 +26,7 @@ const EventsTab = ({ account }: Props) => {
           <p className="text-muted">Brak wydarzeń</p>
         ) : (
           sortedEvents.map((event) => (
-            <EventCard key={event.id} event={event} size="small" />
+            <EventCard key={event.id} event={event} />
           ))
         )}
       </div>

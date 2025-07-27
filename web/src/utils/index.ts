@@ -11,7 +11,7 @@ export const getValue = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any,
   kind: ValueKind = "string",
-  emptyText = "-"
+  emptyText = "-",
 ): string => {
   if (!value) {
     return emptyText;
@@ -35,7 +35,7 @@ export const getValue = (
 
 export const getFilePath = (fileId?: string) => {
   if (!fileId) {
-    return "/event-placeholder.png";
+    return "/event-placeholder-vertical.webp";
   }
   return `${process.env.NEXT_PUBLIC_API_URL}file/${fileId}`;
 };

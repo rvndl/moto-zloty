@@ -74,3 +74,10 @@ export const getStateMetadata = (state?: State) => {
 
   return stateMetadata[state];
 };
+
+export const getShortState = (state?: string) => {
+  if (!state) return "brak";
+
+  const [, stateName] = state.split(" ");
+  return `woj. ${stateName}`;
+};

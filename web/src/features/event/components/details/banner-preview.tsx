@@ -24,12 +24,10 @@ const BannerPreview = ({ event }: Props) => {
           />
         }
       >
-        <Image
+        <img
           src={getFilePath(event?.banner_id)}
           alt={event?.name ?? "Plakat wydarzenia"}
           title={event?.name ?? "Plakat wydarzenia"}
-          width={100}
-          height={100}
         />
       </Dialog>
     </div>

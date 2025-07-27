@@ -3,21 +3,26 @@ import { formatDistance } from "date-fns";
 import { useMemo } from "react";
 import { type Event } from "types/event";
 import { pl } from "date-fns/locale";
-import { Badge } from "@components/badge";
 import clsx from "clsx";
 import { getEventStatus } from "@utils/event";
 import Link from "next/link";
 import Image from "next/image";
-
-type EventSize = "normal" | "small";
+import { ClockIcon, MapPinIcon } from "lucide-react";
+import { stripHtml } from "string-strip-html";
+import { PingIcon } from "@components/ping-icon";
+import { getShortState } from "../utils";
 
 interface Props {
   event: Event;
-  size?: EventSize;
 }
 
-const EventCard = ({ event, size = "normal" }: Props) => {
+const EventCard = ({ event }: Props) => {
   const { isOngoing, isPast } = useMemo(() => getEventStatus(event), [event]);
+
+  const strippedDescription = useMemo(
+    () => stripHtml(event.description).result,
+    [event.description],
+  );
 
   const distance = formatDistance(
     isPast ? event.date_to : event.date_from,
@@ -26,35 +31,55 @@ const EventCard = ({ event, size = "normal" }: Props) => {
   );
 
   return (
-    <article id={`wydarzenie-${event.id}`}>
-      <Link href={`/wydarzenie/${event.id}`} rel="dofollow">
-        <div
-          className={clsx(
-            "relative overflow-hidden border rounded-lg shadow-sm cursor-pointer h-20 md:h-32 white shrink-0 snap-start hover:-translate-y-1 transition-transform z-10 group select-none",
-            size === "normal" ? "w-32 md:w-52" : "w-36 md:w-44",
-            isPast && "opacity-50",
-          )}
-        >
-          <h2 className="pointer-events-none max-w-fit translate-y-1 truncate font-normal absolute bottom-1 left-1 right-1 z-10 px-2 py-0.5 leading-none transition border border-muted/50 text-white text-sm bg-muted/50 opacity-0 rounded-md group-hover:opacity-100 group-hover:translate-y-0 backdrop-blur-xl">
-            {event.name}
-          </h2>
-          <Badge
-            variant={isOngoing ? "danger" : "secondary"}
-            className="absolute z-10 top-1 left-1"
-          >
-            {isOngoing ? "W trakcie" : distance}
-          </Badge>
-          <Image
-            src={getFilePath(event.banner_small_id ?? event.banner_id)}
-            className="object-cover w-full h-full transition rounded-md z-200 hover:scale-105"
-            alt={event.name ?? "event banner"}
-            title={event.name ?? "event banner"}
-            width={size === "normal" ? 200 : 150}
-            height={size === "normal" ? 200 : 150}
-          />
+    <Link href={`/wydarzenie/${event.id}`} rel="dofollow">
+      <article
+        id={`wydarzenie-${event.id}`}
+        className={clsx(
+          "w-72 h-32 rounded-lg shadow-sm bg-white border border-black/5 grid grid-cols-6 p-2 hover:-translate-y-1 transition hover:shadow",
+          isPast && "opacity-65",
+        )}
+      >
+        <Image
+          src={getFilePath(event.banner_small_id ?? event.banner_id)}
+          className="object-cover h-full transition rounded-md col-span-2 overflow-hidden"
+          alt={event.name ?? "plakat wydarzenia"}
+          title={event.name ?? "plakat wydarzenia"}
+          width={75}
+          height={120}
+        />
+        <div className="h-full col-span-4 flex flex-col justify-between">
+          <div className="leading-6">
+            <h2 className="font-medium truncate" title={event.name}>
+              {event.name}
+            </h2>
+            <p className="line-clamp-2 text-sm leading-4">
+              {strippedDescription}
+            </p>
+          </div>
+          <div className="mt-2 flex flex-col gap-1 text-muted text-xs">
+            <div className="flex items-center gap-1.5">
+              <ClockIcon size={16} />
+              <time
+                dateTime={event.date_from}
+                className={clsx(isOngoing && "text-red-500")}
+              >
+                {isOngoing ? (
+                  <span className="flex items-center gap-1.5 justify-center">
+                    <PingIcon /> W trakcie
+                  </span>
+                ) : (
+                  distance
+                )}
+              </time>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <MapPinIcon size={16} />
+              <p>{getShortState(event.full_address?.state)}</p>
+            </div>
+          </div>
         </div>
-      </Link>
-    </article>
+      </article>
+    </Link>
   );
 };
 

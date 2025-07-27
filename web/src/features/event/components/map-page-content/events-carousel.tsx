@@ -16,7 +16,7 @@ const EventsCarousel = ({ events }: Props) => {
     return (
       <section className="flex gap-4 pb-4 overflow-hidden gap-x-2">
         {Array.from({ length: 6 }).map((_, i) => (
-          <Skeleton key={i} className="h-36 w-60 shrink-0" />
+          <Skeleton key={i} className="w-72 h-32 shrink-0" />
         ))}
       </section>
     );
