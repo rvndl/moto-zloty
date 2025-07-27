@@ -46,38 +46,6 @@ impl super::EventRepo<'_> {
         query
     }
 
-    pub async fn fetch_all_carousel(&self) -> Result<Vec<Event>, sqlx::Error> {
-        let query = sqlx::query_as::<_, Event>(
-            r#"
-            SELECT id,
-                name,
-                date_from,
-                date_to,
-                created_at,
-                banner_id,
-                banner_small_id,
-                description,
-                address,
-                status,
-                longitude,
-                latitude,
-                account_id,
-                full_address_id
-            FROM event
-            WHERE
-                date_to + '3 day'::INTERVAL > CURRENT_DATE
-            AND status != $1
-            AND status != $2
-            "#,
-        )
-        .bind(EventStatus::REJECTED)
-        .bind(EventStatus::PENDING)
-        .fetch_all(self.db)
-        .await;
-
-        query
-    }
-
     pub async fn fetch_all_by_status(
         &self,
         status: EventStatus,

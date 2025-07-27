@@ -37,13 +37,15 @@ const EventStartingDate = ({ event, isLoading }: Props) => {
         )}
         isLoading={isLoading}
       >
-        {isOngoing ? (
-          <Badge className="w-max" variant="danger">
-            W trakcie
-          </Badge>
-        ) : (
-          <p className="text-muted">{distance}</p>
-        )}
+        <time dateTime={event?.date_from}>
+          {isOngoing ? (
+            <Badge className="w-max" variant="danger">
+              W trakcie
+            </Badge>
+          ) : (
+            <p className="text-muted">{distance}</p>
+          )}
+        </time>
       </Value>
       <Tooltip id="starting-date-tooltip" />
     </div>

@@ -68,10 +68,10 @@ const Dialog = ({
             onClick={handleOnClose}
           />
         )}
-        <div className="fixed inset-0 flex items-center justify-center w-screen">
+        <div className="fixed inset-0 flex items-center justify-center w-screen max-h-screen">
           <DialogPanel
             transition
-            className="relative h-full bg-white border border-separate rounded-lg shadow-sm md:h-auto min-w-96 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:translate-y-3 data-[closed]:opacity-0"
+            className="relative h-full bg-white border border-separate rounded-lg shadow-sm max-h-screen min-w-96 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:translate-y-3 data-[closed]:opacity-0"
           >
             {isCloseButtonVisible && <CloseButton onClick={handleOnClose} />}
             <section

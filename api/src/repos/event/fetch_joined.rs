@@ -265,4 +265,73 @@ impl super::EventRepo<'_> {
 
         Ok(events_with_address)
     }
+
+    pub async fn fetch_all_carousel_joined(&self) -> Result<Vec<Event>, sqlx::Error> {
+        let query_str = r#"
+            SELECT e.id,
+                e.name,
+                e.date_from,
+                e.date_to,
+                e.created_at,
+                e.banner_id,
+                e.banner_small_id,
+                e.description,
+                e.address,
+                e.status,
+                e.longitude,
+                e.latitude,
+                e.account_id,
+                e.full_address_id,
+                ad.id as address_id,
+                ad.name as address_name,
+                ad.house_number as address_house_number,
+                ad.road as address_road,
+                ad.neighbourhood as address_neighbourhood,
+                ad.suburb as address_suburb,
+                ad.city as address_city,
+                ad.state as address_state,
+                ad.created_at as address_created_at
+            FROM event e
+                JOIN address ad ON e.full_address_id = ad.id
+            WHERE
+                date_to + '3 day'::INTERVAL > CURRENT_DATE
+            AND status != $1
+            AND status != $2
+            "#
+        .to_string();
+
+        let query = sqlx::query(&query_str)
+            .bind(EventStatus::REJECTED)
+            .bind(EventStatus::PENDING);
+
+        let result = query.fetch_all(self.db).await?;
+
+        let events_with_address = result
+            .into_iter()
+            .map(|row| {
+                let EventJoinedProperties { account, address } =
+                    join_event_properties(&row, JoinEventFlags::None | JoinEventFlags::Address);
+
+                Event {
+                    id: row.get("id"),
+                    name: row.get("name"),
+                    description: row.get("description"),
+                    full_address_id: row.get("full_address_id"),
+                    status: row.get("status"),
+                    longitude: row.get("longitude"),
+                    latitude: row.get("latitude"),
+                    date_from: row.get("date_from"),
+                    date_to: row.get("date_to"),
+                    created_at: row.get("created_at"),
+                    banner_id: row.try_get("banner_id").unwrap_or(None),
+                    banner_small_id: row.try_get("banner_small_id").unwrap_or(None),
+                    account_id: row.get("account_id"),
+                    full_address: address,
+                    account,
+                }
+            })
+            .collect();
+
+        Ok(events_with_address)
+    }
 }
