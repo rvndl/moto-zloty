@@ -58,7 +58,7 @@ const EventList = ({
               ({groupedEvents[weekRange]?.length} wydarzeń)
             </span>
           </h2>
-          <div className="grid w-full grid-cols-2 gap-2 mt-2 md:gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid w-full grid-cols-2 gap-2 mt-2 md:gap-4 lg:grid-cols-3">
             {groupedEvents[weekRange]?.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}

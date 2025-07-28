@@ -83,10 +83,27 @@ export default function Document() {
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
         <meta property="og:type" content="website" />
+        <meta property="og:locale" content="pl_PL" />
+        <meta property="og:site_name" content="Moto Zloty" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Zloty Motocyklowe 2025 – Imprezy i Wydarzenia w Polsce"
+        />
+        <meta
+          name="twitter:description"
+          content="Wszystkie zloty motocyklowe, wydarzenia i imprezy w Polsce w jednym miejscu! Sprawdź, co dzieje się w Twojej okolicy i dołącz już dziś!"
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.moto-zloty.pl/event-placeholder.png"
+        />
         <meta
           property="og:image"
           content="https://www.moto-zloty.pl/event-placeholder.png"
         />
+        <meta name="twitter:site" content="@rvn_dl" />
+        <meta name="twitter:creator" content="@rvn_dl" />
       </Head>
       <body>
         <div id="root">

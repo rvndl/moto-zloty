@@ -22,6 +22,8 @@ const EventCard = ({ event }: Props) => {
     router.push(`/wydarzenie/${event.id}`);
   };
 
+  const address = makeAddressString(event.full_address);
+
   return (
     <article
       id={`wydarzenie-${event.id}`}
@@ -38,7 +40,7 @@ const EventCard = ({ event }: Props) => {
         height={200}
       />
       <div className="flex flex-col p-2">
-        <h3 className="truncate">
+        <h3 className="truncate" title={event.name}>
           <Link
             href={`/wydarzenie/${event.id}`}
             className="w-full text-base font-semibold leading-5 cursor-pointer md:text-lg"
@@ -47,8 +49,8 @@ const EventCard = ({ event }: Props) => {
             {event.name}
           </Link>
         </h3>
-        <p className="w-full text-xs text-gray-500 truncate">
-          {makeAddressString(event.full_address)}
+        <p className="w-full text-xs text-gray-500 truncate" title={address}>
+          {address}
         </p>
         <time
           dateTime={event.date_from}

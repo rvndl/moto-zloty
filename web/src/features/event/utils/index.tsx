@@ -1,3 +1,22 @@
+import {
+  AnchorIcon,
+  AtomIcon,
+  CastleIcon,
+  FactoryIcon,
+  HardHatIcon,
+  LandmarkIcon,
+  MicIcon,
+  MountainIcon,
+  PawPrintIcon,
+  RockingChairIcon,
+  SailboatIcon,
+  ScrollIcon,
+  TentIcon,
+  TreePineIcon,
+  WheatIcon,
+  WindIcon,
+} from "lucide-react";
+import { ReactNode } from "react";
 import { Address } from "types/address";
 
 export const makeAddressString = (address?: Address) => {
@@ -36,31 +55,47 @@ export const states = [
 
 export type State = (typeof states)[number];
 
-const getStateTemplate = (state: string) => {
+const getStateTemplate = (state: string, icon: ReactNode) => {
   return {
     title: `Zloty motocyklowe w województwie ${state} – katalog 2025`,
     pageTitle: `Zloty motocyklowe w województwie ${state}`,
     description: `Poznaj terminy, miejsca i atrakcje zlotów motocyklowych w woj. ${state} – aktualny na 2025 rok`,
+    icon,
   };
 };
 
 const stateMetadata: Record<State, ReturnType<typeof getStateTemplate>> = {
-  "województwo dolnośląskie": getStateTemplate("dolnośląskim"),
-  "województwo kujawsko-pomorskie": getStateTemplate("kujawsko-pomorskim"),
-  "województwo lubelskie": getStateTemplate("lubelskim"),
-  "województwo lubuskie": getStateTemplate("lubuskim"),
-  "województwo mazowieckie": getStateTemplate("mazowieckim"),
-  "województwo małopolskie": getStateTemplate("małopolskim"),
-  "województwo opolskie": getStateTemplate("opolskim"),
-  "województwo podkarpackie": getStateTemplate("podkarpackim"),
-  "województwo podlaskie": getStateTemplate("podlaskim"),
-  "województwo pomorskie": getStateTemplate("pomorskim"),
-  "województwo śląskie": getStateTemplate("śląskim"),
-  "województwo świętokrzyskie": getStateTemplate("świętokrzyskim"),
-  "województwo warmińsko-mazurskie": getStateTemplate("warmińsko-mazurskim"),
-  "województwo wielkopolskie": getStateTemplate("wielkopolskim"),
-  "województwo zachodniopomorskie": getStateTemplate("zachodniopomorskim"),
-  "województwo łódzkie": getStateTemplate("łódzkim"),
+  "województwo dolnośląskie": getStateTemplate("dolnośląskim", <CastleIcon />),
+  "województwo kujawsko-pomorskie": getStateTemplate(
+    "kujawsko-pomorskim",
+    <AtomIcon />,
+  ),
+  "województwo lubelskie": getStateTemplate("lubelskim", <WheatIcon />),
+  "województwo lubuskie": getStateTemplate("lubuskim", <TreePineIcon />),
+  "województwo mazowieckie": getStateTemplate("mazowieckim", <LandmarkIcon />),
+  "województwo małopolskie": getStateTemplate("małopolskim", <MountainIcon />),
+  "województwo opolskie": getStateTemplate("opolskim", <MicIcon />),
+  "województwo podkarpackie": getStateTemplate("podkarpackim", <TentIcon />),
+  "województwo podlaskie": getStateTemplate("podlaskim", <PawPrintIcon />),
+  "województwo pomorskie": getStateTemplate("pomorskim", <AnchorIcon />),
+  "województwo śląskie": getStateTemplate("śląskim", <HardHatIcon />),
+  "województwo świętokrzyskie": getStateTemplate(
+    "świętokrzyskim",
+    <RockingChairIcon />,
+  ),
+  "województwo warmińsko-mazurskie": getStateTemplate(
+    "warmińsko-mazurskim",
+    <SailboatIcon />,
+  ),
+  "województwo wielkopolskie": getStateTemplate(
+    "wielkopolskim",
+    <ScrollIcon />,
+  ),
+  "województwo zachodniopomorskie": getStateTemplate(
+    "zachodniopomorskim",
+    <WindIcon />,
+  ),
+  "województwo łódzkie": getStateTemplate("łódzkim", <FactoryIcon />),
 };
 
 export const getStateMetadata = (state?: State) => {
@@ -73,6 +108,12 @@ export const getStateMetadata = (state?: State) => {
     };
 
   return stateMetadata[state];
+};
+
+export const getStateAssociatedIcon = (state?: State) => {
+  if (!state) return null;
+
+  return stateMetadata[state].icon;
 };
 
 export const getShortState = (state?: string) => {
