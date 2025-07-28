@@ -29,7 +29,7 @@ const MapPageContent = () => {
         <EventsCarousel events={carouselEvents} />
       </div>
       <section className="w-full h-full rounded-xl">
-        <div className="flex flex-col-reverse items-start justify-between w-full gap-2 mt-2 md:mt-4 md:flex-row md:items-end">
+        <div className="flex flex-col-reverse items-start justify-between w-full gap-2 md:flex-row md:items-end">
           <DateFilters
             filters={filters}
             isLoading={isLoading}
