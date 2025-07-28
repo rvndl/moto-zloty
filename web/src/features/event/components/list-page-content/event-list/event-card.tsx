@@ -22,15 +22,17 @@ const EventCard = ({ event }: Props) => {
     router.push(`/wydarzenie/${event.id}`);
   };
 
+  const address = makeAddressString(event.full_address);
+
   return (
     <article
       id={`wydarzenie-${event.id}`}
       key={event.id}
-      className="flex flex-col transition-transform bg-white rounded-lg shadow aspect-video hover:-translate-y-1"
+      className="flex flex-col transition-transform bg-white rounded-lg shadow-sm hover:shadow aspect-video hover:-translate-y-1"
     >
       <Image
         src={getFilePath(event.banner_small_id ?? event.banner_id)}
-        className="object-cover w-full h-full transition rounded-md cursor-pointer z-200"
+        className="object-cover w-full h-full transition rounded-md cursor-pointer"
         alt={event.name}
         title={event.name}
         onClick={() => handleOnClick(event)}
@@ -38,7 +40,7 @@ const EventCard = ({ event }: Props) => {
         height={200}
       />
       <div className="flex flex-col p-2">
-        <h3 className="truncate">
+        <h3 className="truncate" title={event.name}>
           <Link
             href={`/wydarzenie/${event.id}`}
             className="w-full text-base font-semibold leading-5 cursor-pointer md:text-lg"
@@ -47,12 +49,15 @@ const EventCard = ({ event }: Props) => {
             {event.name}
           </Link>
         </h3>
-        <p className="w-full text-xs text-gray-500 truncate">
-          {makeAddressString(event.full_address)}
+        <p className="w-full text-xs text-gray-500 truncate" title={address}>
+          {address}
         </p>
-        <p className="flex items-center w-full mt-1 text-xs truncate md:text-sm">
+        <time
+          dateTime={event.date_from}
+          className="flex items-center w-full mt-1 text-xs truncate md:text-sm"
+        >
           {distance}
-        </p>
+        </time>
       </div>
     </article>
   );

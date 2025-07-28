@@ -17,7 +17,7 @@ const Breadcrumbs = ({ breadcrumbs }: Props) => {
   }
 
   return (
-    <ol className="flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5 mt-1">
+    <ol className="flex flex-wrap items-center break-words text-sm text-muted-foreground mt-1">
       {[INITIAL_BREADCRUMB, ...breadcrumbs]?.map((breadcrumb, index) => (
         <Fragment key={index}>
           <Breadcrumb {...breadcrumb} />

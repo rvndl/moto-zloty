@@ -29,7 +29,7 @@ const Page = ({
   const Wrapper = as;
 
   return (
-    <Wrapper className="flex flex-col w-full h-full p-2 md:p-0">
+    <Wrapper className="flex flex-col w-full h-full px-2 md:px-0 mt-2 md:mt-4">
       <PageHeader title={title} content={headerContent} activeTab={activeTab} />
       <Breadcrumbs breadcrumbs={breadcrumbs} />
       <div

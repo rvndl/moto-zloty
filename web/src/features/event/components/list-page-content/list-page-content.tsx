@@ -2,8 +2,9 @@ import { Event } from "types/event";
 import { EventList } from "./event-list";
 import clsx from "clsx";
 import Link from "next/link";
-import { states } from "@features/event/utils";
+import { getStateAssociatedIcon, states } from "@features/event/utils";
 import { DateFilters, Filters } from "../date-filters";
+import { Button } from "@components/button";
 
 interface Props {
   events?: Event[];
@@ -21,7 +22,7 @@ const ListPageContent = ({
   setFilters,
 }: Props) => {
   return (
-    <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-12 md:gap-4">
+    <div className="flex w-full gap-2 md:gap-4 flex-wrap md:flex-nowrap">
       <section className="w-full h-full col-span-1 rounded-xl md:col-span-9">
         <div className="flex flex-col-reverse items-start justify-between w-full gap-2 mt-2 md:mt-4 md:flex-row md:items-end">
           <DateFilters
@@ -39,18 +40,29 @@ const ListPageContent = ({
           />
         </div>
       </section>
-      <div className="col-span-1 mt-6 md:col-span-3 md:mt-0">
-        <h2 className="text-lg font-medium">Zloty w danym województwie</h2>
-        <ol className="list-disc list-inside ">
+      <div className="mt-6 md:mt-0 bg-white rounded-lg h-min shadow-sm border p-4 w-full md:w-[26.75rem]">
+        <hgroup>
+          <h2 className="text-xl font-semibold">Zloty w danym województwie</h2>
+          <p className="text-muted text-sm">
+            Wybierz województwo, aby wyświetlić zloty w tym regionie.
+          </p>
+        </hgroup>
+        <ol className="mt-4">
           {states.map((state) => (
             <li
               key={state}
-              className={clsx(
-                "text-primary text-opacity-90 ml-0.5",
-                paramState === state && "font-medium text-opacity-100",
-              )}
+              className={clsx("text-primary text-opacity-90 ml-0.5")}
             >
-              <Link href={`/lista-wydarzen/${state}`}>{state}</Link>
+              <Link href={`/lista-wydarzen/${encodeURIComponent(state)}`}>
+                <Button
+                  variant={paramState === state ? "primary" : "ghost"}
+                  className="capitalize w-full"
+                  textAlignment="left"
+                  icon={getStateAssociatedIcon(state)}
+                >
+                  {state}
+                </Button>
+              </Link>
             </li>
           ))}
         </ol>

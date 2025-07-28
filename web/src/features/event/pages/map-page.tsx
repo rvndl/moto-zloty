@@ -13,8 +13,8 @@ const MapPage = () => {
   return (
     <>
       <Metadata
-        title="Moto Zloty - Wszystkie zloty motocyklowe w Polsce!"
-        description="Lista wszystkich zlotów motocyklowych w polsce! Wyszukaj najbliższe wydarzenie motocyklowe już dzisiaj!"
+        title="Moto Zloty - Wszystkie zloty, imprezy motocyklowe w Polsce!"
+        description="Wszystkie zloty motocyklowe, wydarzenia i imprezy w Polsce w jednym miejscu! Sprawdź, co dzieje się w Twojej okolicy i dołącz już dziś!"
         canonical=""
       />
       <Page
