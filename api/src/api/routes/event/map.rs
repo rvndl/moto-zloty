@@ -37,6 +37,7 @@ pub async fn handler(
             date_to,
             sort_order: None,
             state: None,
+            month: None,
             show_expired: false,
         })
         .await;

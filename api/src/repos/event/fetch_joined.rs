@@ -16,6 +16,7 @@ pub struct FetchAllJoinedParams {
     pub date_to: Option<DateTime<Utc>>,
     pub sort_order: Option<SortOrder>,
     pub state: Option<String>,
+    pub month: Option<i32>,
     pub show_expired: bool,
 }
 
@@ -83,6 +84,13 @@ impl super::EventRepo<'_> {
 
         if params.date_to.is_some() {
             query_str.push_str(&format!(" AND e.date_from <= ${bind_index}"));
+            bind_index += 1;
+        }
+
+        if params.month.is_some() {
+            query_str.push_str(&format!(
+                " AND EXTRACT(YEAR FROM e.date_from) = EXTRACT(YEAR FROM CURRENT_DATE) AND EXTRACT(MONTH FROM e.date_from) = ${bind_index}"
+            ));
         }
 
         query_str.push_str(&format!(
@@ -103,6 +111,10 @@ impl super::EventRepo<'_> {
 
         if let Some(date_to) = params.date_to {
             query = query.bind(date_to);
+        }
+
+        if let Some(month) = params.month {
+            query = query.bind(month);
         }
 
         let result = query.fetch_all(self.db).await?;

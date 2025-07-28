@@ -15,6 +15,18 @@ import {
   TreePineIcon,
   WheatIcon,
   WindIcon,
+  BookIcon,
+  CloudIcon,
+  CloudRainIcon,
+  FlowerIcon,
+  GhostIcon,
+  GiftIcon,
+  HeartIcon,
+  IceCreamIcon,
+  LeafIcon,
+  SnowflakeIcon,
+  SunIcon,
+  UmbrellaIcon,
 } from "lucide-react";
 import { ReactNode } from "react";
 import { Address } from "types/address";
@@ -52,7 +64,6 @@ export const states = [
   "województwo wielkopolskie",
   "województwo zachodniopomorskie",
 ] as const;
-
 export type State = (typeof states)[number];
 
 const getStateTemplate = (state: string, icon: ReactNode) => {
@@ -121,4 +132,63 @@ export const getShortState = (state?: string) => {
 
   const [, stateName] = state.split(" ");
   return `woj. ${stateName}`;
+};
+
+export const months = [
+  "Styczeń",
+  "Luty",
+  "Marzec",
+  "Kwiecień",
+  "Maj",
+  "Czerwiec",
+  "Lipiec",
+  "Sierpień",
+  "Wrzesień",
+  "Październik",
+  "Listopad",
+  "Grudzień",
+] as const;
+export type Month = (typeof months)[number];
+
+const getMonthTemplate = (num: number, month: Month, icon: ReactNode) => {
+  return {
+    title: `Zloty motocyklowe ${month} 2025 – terminarz, wydarzenia, atrakcje`,
+    pageTitle: `Zloty motocyklowe – ${month} 2025`,
+    description: `Sprawdź kalendarz zlotów motocyklowych na ${month} 2025 roku. Terminy, lokalizacje, opisy wydarzeń i atrakcje dla motocyklistów z całej Polski.`,
+    num,
+    icon,
+  };
+};
+
+const monthMetadata: Record<Month, ReturnType<typeof getMonthTemplate>> = {
+  Styczeń: getMonthTemplate(1, "Styczeń", <SnowflakeIcon />),
+  Luty: getMonthTemplate(2, "Luty", <HeartIcon />),
+  Marzec: getMonthTemplate(3, "Marzec", <LeafIcon />),
+  Kwiecień: getMonthTemplate(4, "Kwiecień", <CloudRainIcon />),
+  Maj: getMonthTemplate(5, "Maj", <FlowerIcon />),
+  Czerwiec: getMonthTemplate(6, "Czerwiec", <SunIcon />),
+  Lipiec: getMonthTemplate(7, "Lipiec", <UmbrellaIcon />),
+  Sierpień: getMonthTemplate(8, "Sierpień", <IceCreamIcon />),
+  Wrzesień: getMonthTemplate(9, "Wrzesień", <BookIcon />),
+  Październik: getMonthTemplate(10, "Październik", <GhostIcon />),
+  Listopad: getMonthTemplate(11, "Listopad", <CloudIcon />),
+  Grudzień: getMonthTemplate(12, "Grudzień", <GiftIcon />),
+};
+
+export const getMonthMetadata = (month?: Month) => {
+  if (!month) return monthMetadata["Styczeń"];
+
+  return monthMetadata[month];
+};
+
+export const getMonthAssociatedIcon = (month?: Month) => {
+  if (!month) return null;
+
+  return monthMetadata[month].icon;
+};
+
+export const getMonthNum = (month?: Month) => {
+  if (!month) return undefined;
+
+  return monthMetadata[month].num;
 };

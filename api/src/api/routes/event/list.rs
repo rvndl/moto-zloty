@@ -21,6 +21,7 @@ pub struct PublicListFilters {
     date_to: Option<DateTime<Utc>>,
     sort_order: Option<SortOrder>,
     state: Option<String>,
+    month: Option<i32>,
 }
 
 pub async fn handler(
@@ -34,6 +35,7 @@ pub async fn handler(
         date_to,
         sort_order,
         state,
+        month,
     } = filters;
 
     let events = repos
@@ -47,6 +49,7 @@ pub async fn handler(
             date_to,
             sort_order,
             state,
+            month,
             show_expired: true,
         })
         .await;
