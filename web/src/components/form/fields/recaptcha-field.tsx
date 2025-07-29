@@ -14,7 +14,12 @@ const ReCaptchaField = ({
       control={control}
       render={({ field: { onChange } }) => {
         return (
-          <Turnstile onVerify={onChange} sitekey={sitekey} theme="light" />
+          <Turnstile
+            onVerify={onChange}
+            sitekey={sitekey}
+            theme="light"
+            language="pl"
+          />
         );
       }}
     />
