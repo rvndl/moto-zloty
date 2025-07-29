@@ -39,11 +39,11 @@ const Page = ({
         )}
       >
         {sidebarItems && (
-          <section className="md:w-auto">
+          <aside className="md:w-auto mt-6">
             <Sidebar items={sidebarItems} onChange={setActiveTab} />
-          </section>
+          </aside>
         )}
-        <section className="flex-1">
+        <section className="flex-1 mt-6">
           {typeof children === "function" ? children(activeTab) : children}
         </section>
       </div>

@@ -32,7 +32,7 @@ const Details = ({ event, isLoading }: Props) => {
   );
 
   return (
-    <section className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2">
+    <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <Card
         title="Szczegóły"
         description="Informacje o wydarzeniu"

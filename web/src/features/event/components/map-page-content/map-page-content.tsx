@@ -25,7 +25,7 @@ const MapPageContent = () => {
   return (
     <div className="flex flex-col w-full h-full gap-2">
       <div className="flex flex-col gap-1">
-        <h2 className="font-semibold">Najbliższe wydarzenia</h2>
+        <h2 className="font-semibold text-lg">Najbliższe wydarzenia</h2>
         <EventsCarousel events={carouselEvents} />
       </div>
       <section className="w-full h-full rounded-xl">

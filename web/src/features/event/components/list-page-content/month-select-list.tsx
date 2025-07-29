@@ -11,7 +11,7 @@ interface Props {
 }
 
 const MonthSelectList = ({ activeMonth }: Props) => (
-  <div className="mt-6 md:mt-0 bg-white rounded-lg h-min shadow-sm border p-4">
+  <div className="md:mt-0 bg-white rounded-lg h-min shadow-sm border p-4">
     <hgroup>
       <h2 className="text-xl font-semibold">Zloty motocyklowe {thisYear}</h2>
       <p className="text-muted text-sm">
