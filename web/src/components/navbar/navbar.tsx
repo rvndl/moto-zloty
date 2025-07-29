@@ -8,7 +8,8 @@ import { EventSearch } from "@features/event";
 import Image from "next/image";
 import { Button } from "@components/button";
 import { MobileMenu } from "./mobile-menu";
-import { CogIcon, ListIcon, MapIcon } from "lucide-react";
+import { CogIcon, ListIcon, MapIcon, PlusIcon } from "lucide-react";
+import Link from "next/link";
 
 interface Route {
   name: string;
@@ -62,7 +63,7 @@ const Navbar = () => {
                 />
               </div>
               <div className="hidden sm:ml-6 sm:block">
-                <ol className="flex space-x-4">
+                <ol className="flex space-x-4 items-center">
                   {routes.map((route) => {
                     if (route.isProtected && !isPermitted) return null;
 
@@ -85,7 +86,15 @@ const Navbar = () => {
             </div>
 
             {/* Desktop menu */}
-            <div className="absolute inset-y-0 right-0 items-center gap-2 pr-2 md:gap-8 sm:static sm:inset-auto sm:ml-6 sm:pr-0 hidden sm:flex">
+            <div className="absolute inset-y-0 right-0 items-center gap-2 pr-2 md:gap-4 sm:static sm:inset-auto sm:ml-6 sm:pr-0 hidden sm:flex">
+              <Link href={isEmpty(user) ? "/logowanie" : "/wydarzenie/stworz"}>
+                <Button variant="outline" icon={<PlusIcon />}>
+                  Dodaj wydarzenie
+                </Button>
+              </Link>
+              <div className="border-l w-px h-8 py-2 opacity-10 border-muted">
+                &nbsp;
+              </div>
               <EventSearch />
               {isEmpty(user) ? (
                 <Button

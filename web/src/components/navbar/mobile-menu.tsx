@@ -1,6 +1,6 @@
 import { Button } from "@components/button";
 import { AnimatePresence, motion } from "framer-motion";
-import { LogOutIcon, MenuIcon, UserIcon, XIcon } from "lucide-react";
+import { LogOutIcon, MenuIcon, PlusIcon, UserIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { Route } from "./navbar";
@@ -10,6 +10,7 @@ import { UserState } from "@features/auth";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/navigation";
 import { rankToString } from "@utils/user";
+import Link from "next/link";
 
 interface Props {
   routes: Route[];
@@ -76,6 +77,17 @@ const MobileMenu = ({
                         </NavbarItem>
                       );
                     })}
+                    <Link
+                      href={isEmpty(user) ? "/logowanie" : "/wydarzenie/stworz"}
+                    >
+                      <Button
+                        variant="outline"
+                        className="w-full mt-2"
+                        icon={<PlusIcon />}
+                      >
+                        Dodaj wydarzenie
+                      </Button>
+                    </Link>
                   </ol>
                   <hr className="my-4" />
                   <div className="w-full">

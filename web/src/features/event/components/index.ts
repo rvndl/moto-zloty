@@ -1,4 +1,3 @@
-export * from "./create-event-dialog";
 export * from "./map-page-content/event-map/event-marker";
 export * from "./event-starting-date";
 export * from "./event-ending-date";
