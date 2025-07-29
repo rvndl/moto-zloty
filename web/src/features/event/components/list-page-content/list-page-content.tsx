@@ -20,8 +20,8 @@ const ListPageContent = ({
   setFilters,
 }: Props) => {
   return (
-    <div className="flex w-full gap-2 md:gap-4 flex-wrap md:flex-nowrap">
-      <div className="w-full md:w-[27.75rem] flex flex-col gap-4">
+    <div className="flex w-full gap-2 md:gap-4 flex-wrap-reverse md:flex-nowrap">
+      <div className="w-full md:w-[27.75rem] flex flex-col gap-4 mt-6 md:mt-0">
         <StateSelectList activeState={activeItem} />
         <MonthSelectList activeMonth={activeItem} />
       </div>

@@ -95,7 +95,7 @@ impl super::EventRepo<'_> {
 
         query_str.push_str(&format!(
             " ORDER BY e.date_from {}",
-            params.sort_order.unwrap_or(SortOrder::Asc).to_str()
+            params.sort_order.unwrap_or(SortOrder::Desc).to_str()
         ));
 
         let mut query = sqlx::query(&query_str);

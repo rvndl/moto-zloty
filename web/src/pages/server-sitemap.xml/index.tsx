@@ -2,7 +2,7 @@ import { getServerSideSitemapLegacy, ISitemapField } from "next-sitemap";
 import { GetServerSideProps } from "next";
 import { Api } from "api";
 import { EventsResponse } from "@features/event/api/types/event";
-import { states } from "@features/event/utils";
+import { months, states } from "@features/event/utils";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -50,6 +50,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     priority: 0.8,
   }));
 
+  const monthFields: ISitemapField[] = months.map((month) => ({
+    loc: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/lista-wydarzen/miesiac/${encodeURIComponent(month)}`,
+    changefreq: "daily",
+    priority: 0.8,
+  }));
+
   // next sitemap generator doesn't support dynamic routes with params
   const eventList: ISitemapField = {
     loc: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/lista-wydarzen`,
@@ -61,6 +67,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     ...eventFields,
     eventList,
     ...stateFields,
+    ...monthFields,
   ]);
 };
 
