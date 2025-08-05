@@ -3,15 +3,19 @@ import { EventStartingDate } from "../event-starting-date";
 import { EventEndingDate } from "../event-ending-date";
 import { EventStatus } from "../event-status";
 import { PreviewMap } from "../preview-map";
-import { ActionList } from "./action-list";
 import { BannerPreview } from "./banner-preview";
-import dynamic from "next/dynamic";
 import { MapPinnedIcon } from "lucide-react";
-import { makeAddressString } from "@features/event/utils";
+import {
+  getMonthNumberFromDateStr,
+  makeAddressString,
+} from "@features/event/utils";
 import { Card } from "@components/card";
 import { Value } from "@components/value";
 import { Button } from "@components/button";
 import { Tooltip } from "@components/tooltip";
+import { ActionList } from "./action-list";
+import { RelatedEvents } from "./related-events";
+import TextEditorPreview from "@components/text-editor/text-editor-preview";
 
 interface Props {
   event?: Event;
@@ -21,21 +25,13 @@ interface Props {
 const Details = ({ event, isLoading }: Props) => {
   const hasBanner = event?.banner_id || event?.banner_small_id;
 
-  const TextEditor = dynamic(
-    () =>
-      import("@components/text-editor/text-editor").then(
-        (mod) => mod.TextEditor,
-      ),
-    {
-      ssr: false,
-    },
-  );
+  const monthNum = getMonthNumberFromDateStr(event?.date_from);
 
   return (
     <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <Card
         title="Szczegóły"
-        description="Informacje o wydarzeniu"
+        description="Informacje o wydarzeniu."
         className="relative h-min"
       >
         {hasBanner && <BannerPreview event={event} />}
@@ -68,10 +64,10 @@ const Details = ({ event, isLoading }: Props) => {
             <EventStartingDate event={event} isLoading={isLoading} />
             <EventEndingDate event={event} isLoading={isLoading} />
           </div>
-          <TextEditor label="Opis" value={event?.description} isNonEditable />
+          <TextEditorPreview label="Opis" value={event?.description} />
         </div>
       </Card>
-      <div className="flex flex-col w-full gap-4 aspect-square">
+      <aside className="flex flex-col w-full gap-4 aspect-square">
         {event && (
           <PreviewMap
             className="w-full h-full"
@@ -80,8 +76,17 @@ const Details = ({ event, isLoading }: Props) => {
             isLoading={isLoading}
           />
         )}
-        <ActionList />
-      </div>
+        <div className="grid gap-4">
+          {event && (
+            <RelatedEvents
+              eventId={event.id}
+              monthNum={monthNum}
+              state={event.full_address?.state ?? ""}
+            />
+          )}
+          <ActionList />
+        </div>
+      </aside>
       <Tooltip id="map-icon-tooltip" />
     </section>
   );

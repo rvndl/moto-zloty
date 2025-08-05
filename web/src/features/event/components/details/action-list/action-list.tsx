@@ -18,7 +18,7 @@ const ActionList = () => {
   return (
     <Card
       title="Aktualizacje"
-      description="Lista ostatnich aktualizacji wydarzenia"
+      description="Lista ostatnich aktualizacji wydarzenia."
     >
       <section className="flex flex-col gap-4">
         {isLoading && <LoadingPlaceholder />}

@@ -12,6 +12,7 @@ interface Props {
   isTitleTabSeperated?: boolean;
   isInline?: boolean;
   children: ((tab?: string) => ReactNode) | ReactNode;
+  subChildren?: ReactNode;
   as?: React.ElementType;
 }
 
@@ -29,25 +30,31 @@ const Page = ({
   const Wrapper = as;
 
   return (
-    <Wrapper className="flex flex-col w-full h-full px-2 md:px-0 mt-2 md:mt-4">
-      <PageHeader title={title} content={headerContent} activeTab={activeTab} />
-      <Breadcrumbs breadcrumbs={breadcrumbs} />
-      <div
-        className={clsx(
-          "flex w-full h-full gap-2 md:gap-4 mt-1 md:mt-2",
-          !isInline && "flex-col",
-        )}
-      >
-        {sidebarItems && (
-          <aside className="md:w-auto mt-6">
-            <Sidebar items={sidebarItems} onChange={setActiveTab} />
-          </aside>
-        )}
-        <section className="flex-1 mt-6">
-          {typeof children === "function" ? children(activeTab) : children}
-        </section>
-      </div>
-    </Wrapper>
+    <div className="flex flex-col w-full h-full px-2 md:px-0 mt-2 md:mt-4 gap-4">
+      <Wrapper>
+        <PageHeader
+          title={title}
+          content={headerContent}
+          activeTab={activeTab}
+        />
+        <Breadcrumbs breadcrumbs={breadcrumbs} />
+        <div
+          className={clsx(
+            "flex w-full h-full gap-2 md:gap-4 mt-1 md:mt-2",
+            !isInline && "flex-col",
+          )}
+        >
+          {sidebarItems && (
+            <aside className="md:w-auto mt-6">
+              <Sidebar items={sidebarItems} onChange={setActiveTab} />
+            </aside>
+          )}
+          <section className="flex-1 mt-6">
+            {typeof children === "function" ? children(activeTab) : children}
+          </section>
+        </div>
+      </Wrapper>
+    </div>
   );
 };
 

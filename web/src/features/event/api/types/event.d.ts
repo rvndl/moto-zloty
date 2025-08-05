@@ -6,6 +6,10 @@ type ChangeEventStatusReponse = Event;
 type ChangeEventAddressResponse = Address;
 type EventsResponse = Event[];
 type EventResponse = Event;
+type RelatedEventsResponse = {
+  related_by_month: Event[];
+  related_by_state: Event[];
+};
 
 export type {
   CreateEventResponse,
@@ -13,4 +17,5 @@ export type {
   EventResponse,
   ChangeEventStatusReponse,
   ChangeEventAddressResponse,
+  RelatedEventsResponse,
 };

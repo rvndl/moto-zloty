@@ -7,6 +7,7 @@ pub mod details;
 pub mod list;
 pub mod list_by_state;
 pub mod list_moderation;
+pub mod list_related;
 pub mod list_sitemap;
 pub mod map;
 pub mod refine_description;

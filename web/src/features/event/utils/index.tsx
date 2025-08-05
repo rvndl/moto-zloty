@@ -1,3 +1,4 @@
+import { parseISO } from "date-fns";
 import {
   AnchorIcon,
   AtomIcon,
@@ -46,6 +47,9 @@ export const makeAddressString = (address?: Address) => {
   return addressFragments.join(", ");
 };
 
+export const getMonthNumberFromDateStr = (dateString?: string) =>
+  dateString ? parseISO(dateString).getMonth() + 1 : 1;
+
 export const states = [
   "województwo dolnośląskie",
   "województwo kujawsko-pomorskie",
@@ -71,6 +75,7 @@ const getStateTemplate = (state: string, icon: ReactNode) => {
     title: `Zloty motocyklowe w województwie ${state} – katalog 2025`,
     pageTitle: `Zloty motocyklowe w województwie ${state}`,
     description: `Poznaj terminy, miejsca i atrakcje zlotów motocyklowych w woj. ${state} – aktualny na 2025 rok`,
+    relatedDesc: `Sprawdź nadchodzące wydarzenia i atrakcje w regionie ${state}.`,
     icon,
   };
 };
@@ -116,6 +121,7 @@ export const getStateMetadata = (state?: State) => {
       pageTitle: "Zloty motocyklowe w Polsce",
       description:
         "Poznaj terminy, miejsca i atrakcje zlotów motocyklowych w Polsce – aktualny na 2025 rok",
+      relatedDesc: "Sprawdź nadchodzące wydarzenia i atrakcje w Polsce",
     };
 
   return stateMetadata[state];
@@ -127,7 +133,7 @@ export const getStateAssociatedIcon = (state?: State) => {
   return stateMetadata[state].icon;
 };
 
-export const getShortState = (state?: string) => {
+export const getShortState = (state?: State | string) => {
   if (!state) return "brak";
 
   const [, stateName] = state.split(" ");
@@ -150,29 +156,41 @@ export const months = [
 ] as const;
 export type Month = (typeof months)[number];
 
-const getMonthTemplate = (num: number, month: Month, icon: ReactNode) => {
+const getMonthTemplate = (
+  num: number,
+  month: Month,
+  plular: string,
+  icon: ReactNode,
+) => {
   return {
     title: `Zloty motocyklowe ${month} 2025 – terminarz, wydarzenia, atrakcje`,
     pageTitle: `Zloty motocyklowe – ${month} 2025`,
     description: `Sprawdź kalendarz zlotów motocyklowych na ${month} 2025 roku. Terminy, lokalizacje, opisy wydarzeń i atrakcje dla motocyklistów z całej Polski.`,
+    relatedDesc: `Zobacz, co ciekawego dzieje się w ${plular} – koncerty, festyny i więcej.`,
+    month,
     num,
     icon,
   };
 };
 
 const monthMetadata: Record<Month, ReturnType<typeof getMonthTemplate>> = {
-  Styczeń: getMonthTemplate(1, "Styczeń", <SnowflakeIcon />),
-  Luty: getMonthTemplate(2, "Luty", <HeartIcon />),
-  Marzec: getMonthTemplate(3, "Marzec", <LeafIcon />),
-  Kwiecień: getMonthTemplate(4, "Kwiecień", <CloudRainIcon />),
-  Maj: getMonthTemplate(5, "Maj", <FlowerIcon />),
-  Czerwiec: getMonthTemplate(6, "Czerwiec", <SunIcon />),
-  Lipiec: getMonthTemplate(7, "Lipiec", <UmbrellaIcon />),
-  Sierpień: getMonthTemplate(8, "Sierpień", <IceCreamIcon />),
-  Wrzesień: getMonthTemplate(9, "Wrzesień", <BookIcon />),
-  Październik: getMonthTemplate(10, "Październik", <GhostIcon />),
-  Listopad: getMonthTemplate(11, "Listopad", <CloudIcon />),
-  Grudzień: getMonthTemplate(12, "Grudzień", <GiftIcon />),
+  Styczeń: getMonthTemplate(1, "Styczeń", "styczniu", <SnowflakeIcon />),
+  Luty: getMonthTemplate(2, "Luty", "lutym", <HeartIcon />),
+  Marzec: getMonthTemplate(3, "Marzec", "marcu", <LeafIcon />),
+  Kwiecień: getMonthTemplate(4, "Kwiecień", "kwietniu", <CloudRainIcon />),
+  Maj: getMonthTemplate(5, "Maj", "maju", <FlowerIcon />),
+  Czerwiec: getMonthTemplate(6, "Czerwiec", "czerwcu", <SunIcon />),
+  Lipiec: getMonthTemplate(7, "Lipiec", "lipcu", <UmbrellaIcon />),
+  Sierpień: getMonthTemplate(8, "Sierpień", "sierpniu", <IceCreamIcon />),
+  Wrzesień: getMonthTemplate(9, "Wrzesień", "wrześniu", <BookIcon />),
+  Październik: getMonthTemplate(
+    10,
+    "Październik",
+    "październiku",
+    <GhostIcon />,
+  ),
+  Listopad: getMonthTemplate(11, "Listopad", "listopadzie", <CloudIcon />),
+  Grudzień: getMonthTemplate(12, "Grudzień", "grudniu", <GiftIcon />),
 };
 
 export const getMonthMetadata = (month?: Month) => {
@@ -191,4 +209,12 @@ export const getMonthNum = (month?: Month) => {
   if (!month) return undefined;
 
   return monthMetadata[month].num;
+};
+
+export const getMonthMetadataByMonthNum = (monthNum?: number) => {
+  if (!monthNum) return undefined;
+
+  return Object.values(monthMetadata).find(
+    (metadata) => metadata.num === monthNum,
+  );
 };
