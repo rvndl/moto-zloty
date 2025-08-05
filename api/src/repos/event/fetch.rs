@@ -63,4 +63,55 @@ impl super::EventRepo<'_> {
 
         query
     }
+
+    pub async fn fetch_six_by_month(
+        &self,
+        month: i32,
+        exclude_event_id: Uuid,
+    ) -> Result<Vec<Event>, sqlx::Error> {
+        let query = sqlx::query_as::<_, Event>(
+            r#"
+            SELECT *
+            FROM event
+            WHERE EXTRACT(MONTH FROM date_from) = $1
+            AND id != $2
+            AND status = $3
+            ORDER BY date_from ASC
+            LIMIT 6
+            "#,
+        )
+        .bind(month)
+        .bind(exclude_event_id)
+        .bind(EventStatus::APPROVED)
+        .fetch_all(self.db)
+        .await;
+
+        query
+    }
+
+    pub async fn fetch_six_by_state(
+        &self,
+        state: String,
+        exclude_event_id: Uuid,
+    ) -> Result<Vec<Event>, sqlx::Error> {
+        let query = sqlx::query_as::<_, Event>(
+            r#"
+            SELECT e.*, ad.state
+            FROM event e
+            JOIN address ad ON e.full_address_id = ad.id
+            WHERE ad.state = $1
+            AND e.id != $2
+            AND e.status = $3
+            ORDER BY date_from ASC
+            LIMIT 6
+            "#,
+        )
+        .bind(state)
+        .bind(exclude_event_id)
+        .bind(EventStatus::APPROVED)
+        .fetch_all(self.db)
+        .await;
+
+        query
+    }
 }

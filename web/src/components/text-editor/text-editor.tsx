@@ -64,7 +64,6 @@ interface TextEditorProps {
   placeholder?: string;
   value?: string;
   isRequired?: boolean;
-  isNonEditable?: boolean;
   isMarkdownValue?: boolean;
   onChange?: (value: string) => void;
 }
@@ -73,7 +72,6 @@ const TextEditor = ({
   label,
   value,
   isRequired,
-  isNonEditable,
   isMarkdownValue,
   onChange,
 }: TextEditorProps) => {
@@ -99,35 +97,27 @@ const TextEditor = ({
     <div className="h-full">
       <div className="flex flex-col h-full gap-2">
         {Boolean(label) && <Label isRequired={isRequired}>{label}</Label>}
-        {isNonEditable ? (
-          <div
-            className="mt-0"
-            dangerouslySetInnerHTML={{ __html: value || "" }}
-          />
-        ) : (
-          <LexicalComposer initialConfig={editorConfig(value, isMarkdownValue)}>
-            <div className="border rounded-md shadow-sm">
-              <ToolbarPlugin />
-              <div className="h-full overflow-y-auto max-h-72">
-                <div className="h-full overflow-auto">
-                  <RichTextPlugin
-                    contentEditable={
-                      <ContentEditable className="editor-input" />
-                    }
-                    ErrorBoundary={LexicalErrorBoundary}
-                  />
-                  <ListPlugin />
-                  <HistoryPlugin />
-                  <AutoFocusPlugin />
-                  <LinkPlugin />
-                  <TabIndentationPlugin />
-                  <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-                  <OnChangePlugin onChange={handleOnDataChange} />
-                </div>
+
+        <LexicalComposer initialConfig={editorConfig(value, isMarkdownValue)}>
+          <div className="border rounded-md shadow-sm">
+            <ToolbarPlugin />
+            <div className="h-full overflow-y-auto max-h-72">
+              <div className="h-full overflow-auto">
+                <RichTextPlugin
+                  contentEditable={<ContentEditable className="editor-input" />}
+                  ErrorBoundary={LexicalErrorBoundary}
+                />
+                <ListPlugin />
+                <HistoryPlugin />
+                <AutoFocusPlugin />
+                <LinkPlugin />
+                <TabIndentationPlugin />
+                <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+                <OnChangePlugin onChange={handleOnDataChange} />
               </div>
             </div>
-          </LexicalComposer>
-        )}
+          </div>
+        </LexicalComposer>
       </div>
     </div>
   );

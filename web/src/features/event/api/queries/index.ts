@@ -4,3 +4,4 @@ export * from "./event-actions-query";
 export * from "./event-carousel-query";
 export * from "./event-list-by-state-query";
 export * from "./event-map-query";
+export * from "./event-related-events-query";
