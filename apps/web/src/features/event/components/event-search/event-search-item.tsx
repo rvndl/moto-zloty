@@ -2,8 +2,12 @@ import { AutocompleteOption } from "@components/autocomplete";
 import { makeAddressString } from "@features/event/utils";
 import { getFilePath } from "@utils/index";
 import Image from "next/image";
+import React, { ElementType } from "react";
 import Highlighter from "react-highlight-words";
 import { Event } from "types/event";
+
+// Override the broken Highlighter component type
+const Highlight = Highlighter as unknown as ElementType;
 
 interface Props {
   option: AutocompleteOption<Event>;
@@ -22,13 +26,13 @@ const EventSearchItem = ({ option, query }: Props) => {
         height={40}
       />
       <div className="grid w-full leading-5">
-        <Highlighter
+        <Highlight
           className="text-sm font-medium truncate md:font-normal"
           searchWords={query?.split(" ") ?? []}
           autoEscape={true}
           textToHighlight={option.label}
         />
-        <Highlighter
+        <Highlight
           className="text-xs truncate text-muted"
           searchWords={query?.split(" ") ?? []}
           autoEscape={true}
