@@ -1,6 +1,8 @@
 use crate::utils;
 
 pub async fn connect(url: &str) -> redis::Client {
+    log::info!("connecting to redis...");
+
     let client = match redis::Client::open(url) {
         Ok(client) => client,
         Err(err) => {
