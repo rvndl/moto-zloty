@@ -9,7 +9,6 @@ pub mod models;
 pub type DbPool = Pool<Postgres>;
 
 pub async fn connect(db_url: &str) -> DbPool {
-    log::info!("connecting to the database...");
     let pool = match PgPoolOptions::new()
         .max_connections(MAX_CONNECTIONS)
         .connect(db_url)
