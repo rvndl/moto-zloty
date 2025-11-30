@@ -3,7 +3,6 @@ export * from "./event-starting-date";
 export * from "./event-ending-date";
 export * from "./event-status";
 export * from "./event-card";
-export * from "./details";
 export * from "./map-page-content";
 export * from "./event-search";
 export * from "./list-by-state";

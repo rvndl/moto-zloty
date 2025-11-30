@@ -6,6 +6,7 @@ import { PageHeader } from "./page-header";
 
 interface Props {
   title?: string;
+  description?: ReactNode;
   sidebarItems?: SidebarItemProps[];
   breadcrumbs?: BreadcrumbProps[];
   headerContent?: ReactNode;
@@ -18,6 +19,7 @@ interface Props {
 
 const Page = ({
   title,
+  description,
   sidebarItems,
   breadcrumbs,
   isInline,
@@ -34,6 +36,7 @@ const Page = ({
       <Wrapper>
         <PageHeader
           title={title}
+          description={description}
           content={headerContent}
           activeTab={activeTab}
         />

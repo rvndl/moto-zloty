@@ -24,9 +24,9 @@ const EventMap = ({ events, isLoading }: Props) => {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
-      className="w-full h-[67vh]"
+      className=""
     >
-      <Map zoom={isMobile ? 6 : 7} isLoading={isLoading}>
+      <Map zoom={isMobile ? 6 : 5} isLoading={isLoading}>
         {activeEvents?.map((event) => (
           <EventMarker event={event} key={event.id} />
         ))}

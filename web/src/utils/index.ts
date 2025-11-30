@@ -1,11 +1,18 @@
 import { format } from "date-fns";
+import { pl } from "date-fns/locale";
 
 export * from "./user";
 export * from "./date";
 
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
-type ValueKind = "string" | "number" | "boolean" | "date" | "datetime";
+export type ValueKind =
+  | "string"
+  | "number"
+  | "boolean"
+  | "date"
+  | "datetime"
+  | "daymonth";
 
 export const getValue = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,6 +35,8 @@ export const getValue = (
       return format(value as string, "dd.MM.yyyy");
     case "datetime":
       return format(value as string, "dd.MM.yyyy HH:mm");
+    case "daymonth":
+      return format(value as string, "d MMMM", { locale: pl });
     default:
       return emptyText;
   }

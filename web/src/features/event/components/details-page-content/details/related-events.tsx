@@ -1,6 +1,5 @@
 import { Card } from "@components/card";
 import Link from "next/link";
-import { ListItem } from "../list-by-state/list-item";
 import { useEventRelatedEventsQuery } from "@features/event/api";
 import {
   getStateMetadata,
@@ -8,6 +7,7 @@ import {
   State,
   getShortState,
 } from "@features/event/utils";
+import { ListItem } from "../../list-by-state/list-item";
 
 interface Props {
   eventId: string;
@@ -40,7 +40,7 @@ const RelatedEvents = ({ eventId, monthNum, state }: Props) => {
             </Link>
           )}
         >
-          <ol className="gap-2.5 grid grid-cols-1 md:grid-cols-2">
+          <ol className="gap-2.5 grid grid-cols-1">
             {data?.related_by_state.map((event) => (
               <ListItem key={event.id} event={event} variant="alternative" />
             ))}
@@ -60,7 +60,7 @@ const RelatedEvents = ({ eventId, monthNum, state }: Props) => {
             </Link>
           )}
         >
-          <ol className="gap-2.5 grid grid-cols-1 md:grid-cols-2">
+          <ol className="gap-2.5 grid grid-cols-1">
             {data?.related_by_month.map((event) => (
               <ListItem key={event.id} event={event} variant="alternative" />
             ))}

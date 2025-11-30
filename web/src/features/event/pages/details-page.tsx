@@ -1,48 +1,43 @@
 import { useEventQuery } from "../api";
-import {
-  ChangeAddressDialog,
-  ChangeStatusDialog,
-  Details,
-} from "../components";
 import { useAuth } from "@features/auth";
 import { useRouter } from "next/router";
-import { EllipsisIcon } from "lucide-react";
 import { useRef } from "react";
 import { getFilePath } from "@utils/index";
 import { Metadata } from "@components/metadata";
-import { Page } from "@components/page";
-import { Dropdown } from "@components/dropdown";
-import { Button } from "@components/button";
+import { DetailsPageContent } from "../components/details-page-content/details-page-content";
 
 const DetailsPage = () => {
   const {
     query: { id },
   } = useRouter();
 
-  const { data: event, isLoading } = useEventQuery(id as string, {
+  const { data: event } = useEventQuery(id as string, {
     enabled: Boolean(id),
   });
   const { isPermitted, isOwner } = useAuth();
   const changeAddressOpenRef = useRef<(() => void) | null>(null);
   const changeStatusOpenRef = useRef<(() => void) | null>(null);
 
+  if (!event) return null;
+
   return (
     <>
       <Metadata
-        title={event?.name ?? ""}
-        description={event?.description}
+        title={event.name}
+        description={event.description}
         canonical={`/wydarzenie/${id}`}
         structuredData={{
-          headline: event?.name,
-          datePublished: event?.created_at,
-          image: getFilePath(event?.banner_small_id ?? event?.banner_id),
+          headline: event.name,
+          datePublished: event.created_at,
+          image: getFilePath(event.banner_small_id ?? event.banner_id),
           author: {
-            name: event?.account?.username,
-            url: `/uzytkownik/${event?.account_id}`,
+            name: event.account?.username,
+            url: `/uzytkownik/${event.account_id}`,
           },
         }}
       />
-      <Page
+      <DetailsPageContent event={event} />
+      {/*<Page
         title={event?.name}
         as="article"
         breadcrumbs={[
@@ -81,7 +76,7 @@ const DetailsPage = () => {
             <ChangeStatusDialog event={event} openRef={changeStatusOpenRef} />
           </>
         )}
-      </Page>
+      </Page>*/}
     </>
   );
 };

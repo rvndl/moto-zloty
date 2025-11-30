@@ -8,7 +8,7 @@ import { twMerge } from "tailwind-merge";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   title?: string;
-  description?: string;
+  description?: string | ReactNode;
   contentClassName?: string;
   titleAs?: ElementType;
   titleWrapper?: (titleElement: ReactNode) => ReactNode;

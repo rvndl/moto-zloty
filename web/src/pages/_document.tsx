@@ -78,6 +78,10 @@ export default function Document() {
           sizes="16x16"
           href="/favicon-16x16.png"
         />
+        <link
+          href="https://unpkg.com/maplibre-gl@5.9.0/dist/maplibre-gl.css"
+          rel="stylesheet"
+        />
         <link rel="manifest" href="/manifest.json" />
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />

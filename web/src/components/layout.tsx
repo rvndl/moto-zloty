@@ -8,13 +8,17 @@ import { usePathname } from "next/navigation";
 
 const geist = Geist({ subsets: ["latin"] });
 
-const AUTH_PAGES = ["/logowanie", "/rejestracja"];
+const WITHOUT_CONTAINER_PAGES = ["/logowanie", "/rejestracja"];
+const FULL_WIDTH_PAGES = ["/wydarzenie"];
 
 const Layout = ({ children }: PropsWithChildren) => {
   const pathname = usePathname();
   const isListByStateVisible = pathname === "/";
+  const isFullWidthPage = FULL_WIDTH_PAGES.some((path) =>
+    pathname.includes(path),
+  );
 
-  if (AUTH_PAGES.includes(pathname)) {
+  if (WITHOUT_CONTAINER_PAGES.includes(pathname)) {
     return children;
   }
 
@@ -23,7 +27,12 @@ const Layout = ({ children }: PropsWithChildren) => {
       <div className="flex flex-col w-full h-full">
         <Navbar />
         <div className="flex flex-col w-full h-full overflow-x-hidden">
-          <div className="w-full mx-auto mb-0 md:mb-4 max-w-7xl sm:px-6 lg:px-8">
+          <div
+            className={clsx(
+              "w-full mx-auto mb-0 md:mb-4",
+              !isFullWidthPage && "max-w-7xl sm:px-6 lg:px-8",
+            )}
+          >
             {children}
           </div>
           {isListByStateVisible && <ListByState />}

@@ -1,6 +1,6 @@
 import "../globals.css";
-import "leaflet/dist/leaflet.css";
 import "react-tooltip/dist/react-tooltip.css";
+import "maplibre-gl/dist/maplibre-gl.css";
 import { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Layout } from "@components/layout";

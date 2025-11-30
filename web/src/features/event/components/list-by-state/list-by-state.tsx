@@ -4,6 +4,7 @@ import { ListItem } from "./list-item";
 import { useEventListByStateQuery } from "@features/event/api";
 import { useMemo } from "react";
 import { Event } from "types/event";
+import { Poland } from "@components/polka-dot/poland";
 
 const ListByState = () => {
   const { data: events } = useEventListByStateQuery({
@@ -64,8 +65,11 @@ const ListByState = () => {
   }, [events]);
 
   return (
-    <section className="w-full p-6 md:p-16 bg-black text-white mt-4">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16">
+    <section className="w-full p-6 md:p-16 bg-black text-white mt-4 relative">
+      <span className="absolute aspect-square top-20 right-96 z-10 pointer-events-none">
+        <Poland />
+      </span>
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16 mt-20">
         {states.map((state) => (
           <StateList key={state} state={state}>
             {groupedEvents?.[state]?.map((event) => (

@@ -1,12 +1,16 @@
 import { type Event } from "types/event";
-import truncate from "lodash/truncate";
-import { EventStartingDate } from "../../event-starting-date";
-import { Button } from "@components/button";
 import { getEventStatus } from "@utils/event";
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
+import { MapMarker } from "@components/map";
+import { Popover } from "@headlessui/react";
+import clsx from "clsx";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { getFilePath } from "@utils/index";
+import { Button } from "@components/button";
 import { makeAddressString } from "@features/event/utils";
+import { ArrowRightIcon, ClockIcon } from "lucide-react";
 
 interface Props {
   event: Event;
@@ -16,47 +20,69 @@ const EventMarker = ({ event }: Props) => {
   const router = useRouter();
   const { isOngoing } = useMemo(() => getEventStatus(event), [event]);
 
-  const Popup = dynamic(
-    () => import("react-leaflet").then((mod) => mod.Popup),
-    {
-      ssr: false,
-    },
-  );
-
-  const MapMarker = dynamic(
-    () => import("@components/map/map-marker").then((mod) => mod.MapMarker),
-    {
-      ssr: false,
-    },
-  );
-
-  const handleOnDetails = () => {
-    router.push(`/wydarzenie/${event.id}`);
-  };
+  const handleOnDetails = () => router.push(`/wydarzenie/${event.id}`);
 
   return (
-    <MapMarker position={[event.latitude, event.longitude]} isLive={isOngoing}>
-      <Popup>
-        <div className="leading-snug">
-          <h2 className="text-lg font-semibold">{event.name}</h2>
-          <p className="w-48 text-xs text-muted text-ellipsis">
-            {truncate(makeAddressString(event.full_address), { length: 34 })}
-          </p>
-        </div>
-        <div className="mt-4 w-min">
-          <EventStartingDate event={event} />
-        </div>
-        <Button
-          className="w-full mt-2"
-          variant="outline"
-          size="small"
-          onClick={handleOnDetails}
-        >
-          Szczegóły
-        </Button>
-      </Popup>
+    <MapMarker
+      latitude={event.latitude}
+      longitude={event.longitude}
+      showMarker={false}
+      isLive={isOngoing}
+    >
+      <Popover>
+        <Popover.Button as="div" className="cursor-pointer">
+          <svg
+            height={16}
+            viewBox="0 0 24 24"
+            className={clsx(
+              "size-3 rounded-full outline outline-[6px] outline-black/20",
+              isOngoing
+                ? "bg-red-600 outline-red-600/20"
+                : "bg-black outline-black/20",
+            )}
+          />
+        </Popover.Button>
+
+        <Popover.Panel className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 z-10">
+          <motion.div
+            initial={{ opacity: 0.5, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white rounded-3xl w-56 border shadow"
+          >
+            <Image
+              src={getFilePath(event.banner_id)}
+              alt={event.name}
+              width={200}
+              height={200}
+              className="object-cover w-full rounded-2xl aspect-square"
+            />
+            <div className="p-2.5">
+              <p className="text-lg font-medium truncate">{event.name}</p>
+              <p className="text-sm text-muted font-light truncate">
+                {makeAddressString(event.full_address)}
+              </p>
+              <div className="mt-3.5 grid grid-cols-2 place-content-center">
+                <div className="flex items-center text-muted gap-1.5">
+                  <ClockIcon size={16} />
+                  <p>za 2 dni</p>
+                </div>
+                <Button
+                  size="small"
+                  className="rounded-2xl"
+                  onClick={handleOnDetails}
+                >
+                  Szczegóły
+                  <ArrowRightIcon className="size-10" />
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        </Popover.Panel>
+      </Popover>
     </MapMarker>
   );
 };
+
+motion;
 
 export { EventMarker };
