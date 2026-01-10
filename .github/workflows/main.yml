@@ -119,7 +119,7 @@ jobs:
 
           scp -i private_key -o StrictHostKeyChecking=no web.tar.gz $VPS_USER@$VPS_HOST:/home/mz-prod/web/web.tar.gz
 
-      - name: Extract and restart web
+      - name: Extract and restart web server
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           VPS_USER: ${{ secrets.VPS_USER }}
