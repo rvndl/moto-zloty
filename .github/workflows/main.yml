@@ -80,7 +80,9 @@ jobs:
       - name: Archive build
         working-directory: ./apps/web
         run: |
-          tar -czf web.tar.gz .next public package.json next.config.mjs
+          cp -r public .next/standalone/apps/web/public
+          cp -r .next/static .next/standalone/apps/web/.next/static
+          tar -czf web.tar.gz -C .next/standalone/apps/web .
 
       - name: Upload archive to the server
         working-directory: ./apps/web
@@ -105,19 +107,16 @@ jobs:
 
           ssh -i private_key -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << 'EOF'
             cd /home/mz-prod/web/
-            rm -rf ./.next
-            rm -rf ./public
-            rm -rf ./package.json
-            rm -rf ./next.config.mjs
-            
+            rm -rf .next public server.js package.json node_modules
+
             tar -xzf ./web.tar.gz -C ./
-            bun install --production
+            rm web.tar.gz
 
             screen -S web -X stuff "^C"
             sleep 1
 
             screen -S web -X stuff "clear\n"
-            screen -S web -X stuff "bun run start\n"
+            screen -S web -X stuff "node server.js\n"
           EOF
 
   deploy-api:
