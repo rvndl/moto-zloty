@@ -9,7 +9,7 @@ export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
 export type SymbolKind = "string" | "number";
 export type BooleanKind = "boolean";
-export type DateKind = "date" | "datetime" | "daymonth";
+export type DateKind = "date" | "datetime" | "daymonth" | "daymonthhour";
 export type ValueKind = SymbolKind | BooleanKind | DateKind;
 
 type UniversalValue = string | number | boolean | Date | null | undefined;
@@ -47,7 +47,7 @@ export function getValue(
 
     .with("boolean", () => (value ? "Tak" : "Nie"))
 
-    .with("date", "datetime", "daymonth", (dateMode) => {
+    .with("date", "datetime", "daymonth", "daymonthhour", (dateMode) => {
       const dateObj =
         value instanceof Date ? value : new Date(value as string | number);
 
@@ -57,6 +57,9 @@ export function getValue(
         .with("date", () => format(dateObj, "dd.MM.yyyy"))
         .with("datetime", () => format(dateObj, "dd.MM.yyyy HH:mm"))
         .with("daymonth", () => format(dateObj, "d MMMM", { locale: pl }))
+        .with("daymonthhour", () =>
+          format(dateObj, "d MMMM HH:mm", { locale: pl }),
+        )
         .exhaustive();
     })
     .exhaustive();

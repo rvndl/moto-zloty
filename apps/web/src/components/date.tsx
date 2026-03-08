@@ -1,7 +1,10 @@
 import { getValue, ValueKind } from "@utils/index";
 import { Tooltip } from "./tooltip";
 
-type DateType = Extract<ValueKind, "date" | "datetime" | "daymonth">;
+type DateType = Extract<
+  ValueKind,
+  "date" | "datetime" | "daymonth" | "daymonthhour"
+>;
 
 interface Props {
   date: string | Date;

@@ -16,33 +16,45 @@ const DescriptionList = ({ event }: Props) => {
   return (
     <dl className="flex gap-6 text-white">
       <div className="flex gap-2 items-center">
-        <CalendarIcon className="opacity-90" size={20} />
+        <CalendarIcon className="opacity-90 shrink-0" size={20} />
         <div className="flex flex-col">
           <dt className="opacity-70">Data</dt>
           <dd className="capitalize">
             {isMultiDay ? (
-              <span className="flex gap-1">
-                <DateComponent date={event.dateFrom} type="daymonth" tooltip />
+              <span className="flex gap-1 items-center">
+                <DateComponent
+                  date={event.dateFrom}
+                  type="daymonthhour"
+                  tooltip
+                />
                 <span>-</span>
-                <DateComponent date={event.dateTo!} type="daymonth" tooltip />
+                <DateComponent
+                  date={event.dateTo!}
+                  type="daymonthhour"
+                  tooltip
+                />
               </span>
             ) : (
-              <DateComponent date={event.dateFrom} type="daymonth" tooltip />
+              <DateComponent
+                date={event.dateFrom}
+                type="daymonthhour"
+                tooltip
+              />
             )}
           </dd>
         </div>
       </div>
 
-      <div className="flex gap-2 items-center">
-        <MapPinIcon className="opacity-90" size={20} />
+      <div className="flex gap-2 items-center max-w-[50%]">
+        <MapPinIcon className="opacity-90 shrink-0" size={20} />
         <div className="flex flex-col">
           <dt className="opacity-70">Lokalizacja</dt>
           <dd>
             <a
               href={`https://www.google.com/maps?q=${event.latitude},${event.longitude}`}
-              className="underline"
               target="_blank"
               rel="noopener noreferrer"
+              className="underline line-clamp-2"
             >
               {makeAddressString(event.fullAddress)}
             </a>

@@ -45,8 +45,8 @@ const Header = ({ event }: Props) => {
         height={630}
         priority
       />
-      <section className="max-w-7xl z-10 w-full flex flex-col gap-8 mb-12 sm:px-6 lg:px-8">
-        <hgroup className="flex flex-col w-full max-w-[50%] text-white">
+      <section className="max-w-7xl z-10 w-full flex flex-col gap-8 mb-12 px-2 sm:px-6 lg:px-8">
+        <hgroup className="flex flex-col w-full max-w-full md:max-w-[50%] text-white">
           <h1 className="text-4xl font-semibold">{event?.name}</h1>
         </hgroup>
 

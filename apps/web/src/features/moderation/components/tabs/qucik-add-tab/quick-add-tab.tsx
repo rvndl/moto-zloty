@@ -68,7 +68,11 @@ const QuickAddTab = () => {
         description,
       },
       {
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
+          await api
+            .events({ id: data.id })
+            .updateStatus.put({ status: "approved" });
+
           toast.success("Wydarzenie zostało utworzone!");
           router.push(`/wydarzenie/${data.id}`);
         },
