@@ -111,13 +111,13 @@ jobs:
             rm -rf ./next.config.mjs
             
             tar -xzf ./web.tar.gz -C ./
-            yarn install --production
+            bun install --production
 
             screen -S web -X stuff "^C"
             sleep 1
 
             screen -S web -X stuff "clear\n"
-            screen -S web -X stuff "yarn start\n"
+            screen -S web -X stuff "bun run start\n"
           EOF
 
   deploy-api:
