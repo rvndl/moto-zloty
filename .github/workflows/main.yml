@@ -164,7 +164,7 @@ jobs:
             rm api.zip
 
             cd api
-            bun install --frozen-lockfile
+            bun install
 
             screen -S api -X stuff "clear\n"
             screen -S api -X stuff "bun run start\n"
