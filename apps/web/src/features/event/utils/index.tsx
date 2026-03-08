@@ -74,9 +74,9 @@ export type State = (typeof states)[number];
 
 const getStateTemplate = (state: string, icon: ReactNode) => {
   return {
-    title: `Zloty motocyklowe w województwie ${state} – katalog 2025`,
+    title: `Zloty motocyklowe w województwie ${state} – katalog 2026`,
     pageTitle: `Zloty motocyklowe w województwie ${state}`,
-    description: `Poznaj terminy, miejsca i atrakcje zlotów motocyklowych w woj. ${state} – aktualny na 2025 rok`,
+    description: `Poznaj terminy, miejsca i atrakcje zlotów motocyklowych w woj. ${state} – aktualny na 2026 rok`,
     relatedDesc: `Sprawdź nadchodzące wydarzenia i atrakcje w regionie ${state}.`,
     icon,
   };
@@ -119,10 +119,10 @@ const stateMetadata: Record<State, ReturnType<typeof getStateTemplate>> = {
 export const getStateMetadata = (state?: State) => {
   if (!state)
     return {
-      title: "Zloty motocyklowe w Polsce – katalog 2025",
+      title: "Zloty motocyklowe w Polsce – katalog 2026",
       pageTitle: "Zloty motocyklowe w Polsce",
       description:
-        "Poznaj terminy, miejsca i atrakcje zlotów motocyklowych w Polsce – aktualny na 2025 rok",
+        "Poznaj terminy, miejsca i atrakcje zlotów motocyklowych w Polsce – aktualny na 2026 rok",
       relatedDesc: "Sprawdź nadchodzące wydarzenia i atrakcje w Polsce",
     };
 
@@ -165,9 +165,9 @@ const getMonthTemplate = (
   icon: ReactNode,
 ) => {
   return {
-    title: `Zloty motocyklowe ${month} 2025 – terminarz, wydarzenia, atrakcje`,
-    pageTitle: `Zloty motocyklowe – ${month} 2025`,
-    description: `Sprawdź kalendarz zlotów motocyklowych na ${month} 2025 roku. Terminy, lokalizacje, opisy wydarzeń i atrakcje dla motocyklistów z całej Polski.`,
+    title: `Zloty motocyklowe ${month} 2026 – terminarz, wydarzenia, atrakcje`,
+    pageTitle: `Zloty motocyklowe – ${month} 2026`,
+    description: `Sprawdź kalendarz zlotów motocyklowych na ${month} 2026 roku. Terminy, lokalizacje, opisy wydarzeń i atrakcje dla motocyklistów z całej Polski.`,
     relatedDesc: `Zobacz, co ciekawego dzieje się w ${plular} – koncerty, festyny i więcej.`,
     month,
     num,

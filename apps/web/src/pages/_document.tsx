@@ -7,7 +7,7 @@ export default function Document() {
       <Head>
         <meta
           name="keywords"
-          content="zloty, zlot, motocykl, motocykle, zloty motocyklowe, zloty motocyklowy, imprezy motocyklowe, zloty motocyklowe 2025, zlot motocykli"
+          content="zloty, zlot, motocykl, motocykle, zloty motocyklowe, zloty motocyklowy, imprezy motocyklowe, zloty motocyklowe 2026, zlot motocykli"
         />
         <link
           rel="apple-touch-icon"
@@ -92,7 +92,7 @@ export default function Document() {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Zloty Motocyklowe 2025 – Imprezy i Wydarzenia w Polsce"
+          content="Zloty Motocyklowe 2026 – Imprezy i Wydarzenia w Polsce"
         />
         <meta
           name="twitter:description"
