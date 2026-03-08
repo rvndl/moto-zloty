@@ -88,7 +88,7 @@ export abstract class AIService {
         : PROMPT;
 
       const res = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-3.1-flash-lite-preview",
         contents: [
           { inlineData: { mimeType: "image/webp", data: base64Data } },
           { text: prompt },
