@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 import { match } from "ts-pattern";
 import { AIScrapTab, EventCreationTab } from "./tabs";
 import { useState } from "react";
-import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const schema = yup.object({
@@ -36,7 +35,6 @@ const schema = yup.object({
 type Fields = yup.InferType<typeof schema>;
 
 const QuickAddTab = () => {
-  const router = useRouter();
   const [tab, setTab] = useState<
     "Tworzenie wydarzenia" | "Odczytywanie danych z plakatu"
   >("Tworzenie wydarzenia");
@@ -74,7 +72,6 @@ const QuickAddTab = () => {
             .updateStatus.put({ status: "approved" });
 
           toast.success("Wydarzenie zostało utworzone!");
-          router.push(`/wydarzenie/${data.id}`);
         },
       },
     );

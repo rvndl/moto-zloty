@@ -10,7 +10,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const eventFields: ISitemapField[] =
     events?.map((event) => ({
       loc: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/wydarzenie/${event.id}`,
-      lastmod: event.createdAt ?? undefined,
+      lastmod: event.createdAt
+        ? new Date(event.createdAt).toISOString()
+        : undefined,
       changefreq: "daily",
       priority: 1,
     })) ?? [];
