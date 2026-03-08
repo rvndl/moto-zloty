@@ -1,0 +1,50 @@
+import { Card } from "@components/card";
+import { Skeleton } from "@components/skeleton";
+import { api, useQuery } from "api/eden";
+import { ActionItem } from "./action-item";
+import { useRouter } from "next/router";
+
+export const EVENT_ACTIONS_QUERY_KEY = "EVENT_ACTIONS_QUERY_KEY";
+
+const ActionList = () => {
+  const {
+    query: { id },
+  } = useRouter();
+
+  const { data: actions, isLoading } = useQuery(
+    [EVENT_ACTIONS_QUERY_KEY, id],
+    () => api.events({ id: id as string }).actions.get(),
+    { enabled: Boolean(id) },
+  );
+
+  const isEmpty = !actions?.length;
+
+  return (
+    <Card
+      title="Aktualizacje"
+      description="Lista ostatnich aktualizacji wydarzenia."
+    >
+      <section className="flex flex-col gap-4">
+        {isLoading && <LoadingPlaceholder />}
+        {!isLoading &&
+          (isEmpty ? (
+            <p className="text-sm text-muted">Brak</p>
+          ) : (
+            actions?.map((action) => (
+              <ActionItem key={action.id} action={action} />
+            ))
+          ))}
+      </section>
+    </Card>
+  );
+};
+
+const LoadingPlaceholder = () => (
+  <div className="flex flex-col gap-2">
+    <Skeleton className="w-40 h-5" />
+    <Skeleton className="w-64 h-5" />
+    <Skeleton className="w-20 h-5" />
+  </div>
+);
+
+export { ActionList };
