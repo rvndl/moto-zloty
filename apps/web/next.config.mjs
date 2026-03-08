@@ -6,7 +6,6 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig = {
-  output: "standalone",
   webpack(config) {
     // Ensure "api/eden" resolves to src/api/eden.ts instead of node_modules/api
     config.resolve.alias = {

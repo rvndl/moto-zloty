@@ -42,11 +42,11 @@ jobs:
       - name: Typecheck
         run: bun run --cwd apps/api tsc --noEmit
 
-  deploy-web:
+  deploy:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
-    needs: [lint-web, deploy-api]
+    needs: [lint-web, lint-api]
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -73,64 +73,16 @@ jobs:
           NEXT_PUBLIC_MAP_TILE_STYLES_URL=${{ secrets.NEXT_PUBLIC_MAP_TILE_STYLES_URL }}
           EOF
 
-      - name: Build app
+      - name: Build web
         working-directory: ./apps/web
         run: bun run build
 
-      - name: Archive build
-        working-directory: ./apps/web
+      - name: Archive monorepo
         run: |
-          cp -r public .next/standalone/apps/web/public
-          cp -r .next/static .next/standalone/apps/web/.next/static
-          tar -czf web.tar.gz -C .next/standalone/apps/web .
-
-      - name: Upload archive to the server
-        working-directory: ./apps/web
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-        run: |
-          echo "$SSH_PRIVATE_KEY" > private_key
-          chmod 600 private_key
-
-          scp -i private_key -o StrictHostKeyChecking=no web.tar.gz $VPS_USER@$VPS_HOST:/home/mz-prod/web/web.tar.gz
-
-      - name: Extract and restart web server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-        run: |
-          echo "$SSH_PRIVATE_KEY" > private_key
-          chmod 600 private_key
-
-          ssh -i private_key -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << 'EOF'
-            cd /home/mz-prod/web/
-            rm -rf .next public server.js package.json node_modules
-
-            tar -xzf ./web.tar.gz -C ./
-            rm web.tar.gz
-
-            screen -S web -X stuff "^C"
-            sleep 1
-
-            screen -S web -X stuff "clear\n"
-            screen -S web -X stuff "node server.js\n"
-          EOF
-
-  deploy-api:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-
-    needs: [lint-api]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Archive build
-        working-directory: ./apps/api
-        run: |
-          zip -r ../../api.zip src package.json tsconfig.json bun.lock drizzle.config.ts
+          tar -czf deploy.tar.gz \
+            package.json bun.lock \
+            apps/api/src apps/api/package.json apps/api/tsconfig.json apps/api/bun.lock apps/api/drizzle.config.ts \
+            apps/web/.next apps/web/public apps/web/package.json apps/web/next.config.mjs
 
       - name: Upload archive to server
         env:
@@ -141,9 +93,9 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > private_key
           chmod 600 private_key
 
-          scp -i private_key -o StrictHostKeyChecking=no api.zip $VPS_USER@$VPS_HOST:/home/mz-prod/api.zip
+          scp -i private_key -o StrictHostKeyChecking=no deploy.tar.gz $VPS_USER@$VPS_HOST:/home/mz-prod/deploy.tar.gz
 
-      - name: Deploy and restart API
+      - name: Deploy and restart services
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           VPS_USER: ${{ secrets.VPS_USER }}
@@ -155,16 +107,26 @@ jobs:
           ssh -i private_key -o StrictHostKeyChecking=no $VPS_USER@$VPS_HOST << 'EOF'
             cd /home/mz-prod
 
+            # Stop services
             screen -S api -X stuff "^C"
+            screen -S web -X stuff "^C"
             sleep 1
 
-            rm -rf api/src api/package.json api/tsconfig.json api/bun.lock api/drizzle.config.ts api/node_modules
-            unzip -o api.zip -d api
-            rm api.zip
+            # Clean old files
+            rm -rf apps node_modules package.json bun.lock
 
-            cd api
-            bun install
+            # Extract monorepo
+            tar -xzf deploy.tar.gz
+            rm deploy.tar.gz
 
+            # Install all dependencies
+            bun install --production
+
+            # Restart API
             screen -S api -X stuff "clear\n"
-            screen -S api -X stuff "bun run start\n"
+            screen -S api -X stuff "cd /home/mz-prod && bun run --cwd apps/api start\n"
+
+            # Restart Web
+            screen -S web -X stuff "clear\n"
+            screen -S web -X stuff "cd /home/mz-prod && bun run --cwd apps/web start\n"
           EOF
