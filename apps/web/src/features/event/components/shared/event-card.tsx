@@ -35,7 +35,7 @@ const EventCard = ({ event }: Props) => {
       <article
         id={`wydarzenie-${event.id}`}
         className={clsx(
-          "w-60 h-24 md:w-72 md:h-32 rounded-lg shadow-sm bg-white border border-black/5 grid grid-cols-6 p-1 md:p-2 hover:-translate-y-1 transition hover:shadow gap-2 md:gap-0",
+          "w-60 h-24 md:w-72 md:h-32 rounded-lg shadow-sm bg-white border border-black/5 grid grid-cols-6 p-1 md:p-2 hover:-translate-y-1 transition hover:shadow gap-2 md:gap-0 will-change-transform",
           isPast && "opacity-65",
         )}
       >

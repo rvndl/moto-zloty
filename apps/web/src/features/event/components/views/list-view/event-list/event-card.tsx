@@ -28,7 +28,7 @@ const EventCard = ({ event }: Props) => {
     <article
       id={`wydarzenie-${event.id}`}
       key={event.id}
-      className="flex flex-col transition-transform bg-white rounded-lg shadow-sm hover:shadow aspect-video hover:-translate-y-1"
+      className="flex flex-col transition-transform bg-white rounded-lg shadow-sm hover:shadow aspect-video hover:-translate-y-1 will-change-transform"
     >
       <Image
         src={getFilePath(event.bannerSmallId ?? event.bannerId)}

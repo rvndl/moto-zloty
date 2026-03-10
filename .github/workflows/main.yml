@@ -122,6 +122,9 @@ jobs:
             # Install all dependencies
             bun install --production
 
+            # Copy env file for API
+            cp /home/.env /home/mz-prod/apps/api/
+
             # Restart API
             screen -S api -X stuff "clear\n"
             screen -S api -X stuff "cd /home/mz-prod && bun run --cwd apps/api start\n"

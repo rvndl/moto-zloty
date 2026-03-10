@@ -81,14 +81,14 @@ const HomeView = () => {
           <span className="size-24 absolute -left-8 -bottom-8">
             <Accent1 />
           </span>
-          <span className="size-24 absolute -right-8 -top-8">
+          <span className="size-24 absolute -right-8 -top-8 rotate-90">
             <Accent1 />
           </span>
           <EventMap events={events} isLoading={isLoading || isFetching} />
         </section>
       </div>
 
-      <div className="flex flex-col gap-1 my-6">
+      <div className="flex flex-col gap-1 my-6 mx-2 md:mx-0">
         <h2 className="font-semibold text-lg">Nadchodzące wydarzenia</h2>
         <EventsCarousel events={carouselEvents} />
       </div>

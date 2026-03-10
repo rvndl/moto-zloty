@@ -156,7 +156,6 @@ export abstract class EventService {
       .where(and(...conditions))
       .orderBy(orderBy);
 
-    console.log(state);
     if (state) {
       queryBuilder = db
         .select({

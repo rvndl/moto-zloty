@@ -2,6 +2,7 @@ import { Button } from "@components/button";
 import clsx from "clsx";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
+import { motion } from "framer-motion";
 
 interface Props {
   to: string;
@@ -22,11 +23,23 @@ const NavbarItem = ({
   onChange,
 }: PropsWithChildren<Props>) => {
   return (
-    <li className={clsx(isMobile && "w-full")}>
+    <li className={clsx("relative", isMobile && "w-full")}>
+      {isActive && !isMobile && (
+        <motion.div
+          layoutId="navbar-active-indicator"
+          className="absolute inset-0 rounded-lg bg-primary/10"
+          transition={{
+            type: "spring",
+            stiffness: 350,
+            damping: 30,
+            mass: 0.8,
+          }}
+        />
+      )}
       <Link href={to} title={title}>
         <Button
           variant={isActive ? "primary" : "ghost"}
-          className={clsx(isMobile && "w-full")}
+          className={clsx("relative z-10", isMobile && "w-full")}
           textAlignment={isMobile ? "left" : "center"}
           icon={icon}
           onClick={onChange}

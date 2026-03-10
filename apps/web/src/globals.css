@@ -111,6 +111,14 @@ h6 {
     @apply rounded-full bg-primary/90;
 }
 
+.scrollbar-thin::-webkit-scrollbar {
+    height: 4px;
+}
+
+.scrollbar-thin {
+    scrollbar-width: thin;
+}
+
 .ltr {
     text-align: left;
 }
