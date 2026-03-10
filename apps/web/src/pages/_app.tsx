@@ -38,7 +38,9 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <>
-      <GoogleAdSense />
+      <GoogleAdSense
+        publisherId={process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID}
+      />
       <GoogleAnalytics trackPageViews defaultConsent="denied" />
 
       <QueryClientProvider client={queryClient}>
