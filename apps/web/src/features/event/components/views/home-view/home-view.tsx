@@ -12,15 +12,17 @@ export const MAP_QUERY_KEY = "MAP_QUERY_KEY";
 export const CAROUSEL_QUERY_KEY = "CAROUSEL_QUERY_KEY";
 
 const HomeView = () => {
+  const [mounted, setMounted] = useState(false);
+
   const {
     data: events,
     isLoading,
     isFetching,
   } = useQuery([MAP_QUERY_KEY], () => api.map.get({ query: {} }));
+
   const { data: carouselEvents } = useQuery([CAROUSEL_QUERY_KEY], () =>
     api.events.carousel.get(),
   );
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => setMounted(true), 100);

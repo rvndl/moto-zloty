@@ -390,7 +390,18 @@ export abstract class EventService {
   static async getCarousel(limit = 15) {
     const results = await db
       .select({
-        event,
+        event: {
+          id: event.id,
+          name: event.name,
+          address: event.address,
+          dateFrom: event.dateFrom,
+          dateTo: event.dateTo,
+          description: event.description,
+          createdAt: event.createdAt,
+          bannerId: event.bannerId,
+          bannerSmallId: event.bannerSmallId,
+          fullAddressId: event.fullAddressId,
+        },
         address,
       })
       .from(event)
@@ -406,6 +417,7 @@ export abstract class EventService {
 
     return results.map((row) => ({
       ...row.event,
+      description: row.event.description?.slice(0, 60),
       fullAddress: row.address,
     }));
   }
@@ -426,6 +438,69 @@ export abstract class EventService {
     }));
   }
 
+  static async listByStateGrouped() {
+    const results = await db
+      .select({
+        event,
+        address,
+      })
+      .from(event)
+      .leftJoin(address, eq(event.fullAddressId, address.id))
+      .where(eq(event.status, "approved"));
+
+    const now = new Date();
+
+    const sortedEvents = results
+      .map((row) => ({
+        ...row.event,
+        description: row.event.description?.slice(0, 60),
+        fullAddress: row.address,
+      }))
+      .sort((a, b) => {
+        const aFrom = new Date(a.dateFrom);
+        const aTo = new Date(a.dateTo);
+        const bFrom = new Date(b.dateFrom);
+        const bTo = new Date(b.dateTo);
+
+        const aOngoing = aFrom <= now && now <= aTo;
+        const bOngoing = bFrom <= now && now <= bTo;
+
+        if (aOngoing && !bOngoing) return -1;
+        if (!aOngoing && bOngoing) return 1;
+
+        if (!aOngoing && !bOngoing) {
+          const aUpcoming = aFrom > now;
+          const bUpcoming = bFrom > now;
+
+          if (aUpcoming && !bUpcoming) return -1;
+          if (!aUpcoming && bUpcoming) return 1;
+
+          if (aUpcoming && bUpcoming) {
+            return aFrom.getTime() - bFrom.getTime();
+          } else {
+            return bFrom.getTime() - aFrom.getTime();
+          }
+        }
+
+        return aFrom.getTime() - bFrom.getTime();
+      });
+
+    const groupedEvents: Record<string, typeof sortedEvents> = {};
+
+    for (const event of sortedEvents) {
+      const state = event.fullAddress?.state?.toLowerCase() || "unknown";
+      if (!groupedEvents[state]) {
+        groupedEvents[state] = [];
+      }
+
+      if (groupedEvents[state].length < 4) {
+        groupedEvents[state].push(event);
+      }
+    }
+
+    return Object.values(groupedEvents).flat();
+  }
+
   static async listForMap(dateFrom?: string, dateTo?: string) {
     const conditions = [
       eq(event.status, "approved"),
@@ -442,7 +517,19 @@ export abstract class EventService {
 
     const results = await db
       .select({
-        event,
+        event: {
+          id: event.id,
+          name: event.name,
+          address: event.address,
+          longitude: event.longitude,
+          latitude: event.latitude,
+          dateFrom: event.dateFrom,
+          dateTo: event.dateTo,
+          createdAt: event.createdAt,
+          bannerId: event.bannerId,
+          bannerSmallId: event.bannerSmallId,
+          fullAddressId: event.fullAddressId,
+        },
         address,
       })
       .from(event)

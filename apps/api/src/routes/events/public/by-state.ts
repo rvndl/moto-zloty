@@ -6,7 +6,7 @@ export const byStateRoute = new Elysia({
 }).get(
   "/listByState",
   async () => {
-    return await EventService.listApproved();
+    return await EventService.listByStateGrouped();
   },
   {
     detail: {

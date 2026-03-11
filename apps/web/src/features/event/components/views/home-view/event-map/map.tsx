@@ -28,7 +28,7 @@ const EventMap = ({ events, isLoading }: Props) => {
     >
       <Map zoom={isMobile ? 6 : 5} isLoading={isLoading}>
         {activeEvents?.map((event) => (
-          <EventMarker event={event} key={event.id} />
+          <EventMarker key={event.id} event={event} />
         ))}
       </Map>
     </motion.div>
