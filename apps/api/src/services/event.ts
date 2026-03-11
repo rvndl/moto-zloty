@@ -417,7 +417,6 @@ export abstract class EventService {
 
     return results.map((row) => ({
       ...row.event,
-      description: row.event.description?.slice(0, 60),
       fullAddress: row.address,
     }));
   }
@@ -453,7 +452,6 @@ export abstract class EventService {
     const sortedEvents = results
       .map((row) => ({
         ...row.event,
-        description: row.event.description?.slice(0, 60),
         fullAddress: row.address,
       }))
       .sort((a, b) => {
