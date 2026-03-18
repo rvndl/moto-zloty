@@ -77,7 +77,7 @@ const AIScrapTab = ({
       </div>
       <div className="flex justify-end gap-2">
         <Button
-          type="submit"
+          type="button"
           onClick={handleOnSubmit}
           disabled={isPending || !banner}
           isLoading={isPending}

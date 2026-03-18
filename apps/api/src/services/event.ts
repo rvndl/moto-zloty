@@ -105,6 +105,16 @@ export abstract class EventService {
     });
   }
 
+  static async delete(eventId: string) {
+    const result = await db.delete(event).where(eq(event.id, eventId));
+
+    if (result.count === 0) {
+      return err(404, "Wydarzenie nie zostało znalezione");
+    }
+
+    return ok(null);
+  }
+
   static async getActions(eventId: string) {
     return await db.select().from(action).where(eq(action.eventId, eventId));
   }

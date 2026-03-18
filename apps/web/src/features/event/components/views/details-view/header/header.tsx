@@ -9,6 +9,9 @@ import { useAuth } from "@features/auth";
 import { Button } from "@components/button";
 import { EllipsisIcon } from "lucide-react";
 import { ChangeAddressDialog, ChangeStatusDialog } from "../body";
+import { api, useMutation } from "api/eden";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface Props {
   event?: Event;
@@ -18,12 +21,30 @@ const Header = ({ event }: Props) => {
   const [opacity, setOpacity] = useState(0.3);
 
   const { isPermitted, isOwner } = useAuth();
+  const router = useRouter();
   const changeAddressOpenRef = useRef<(() => void) | null>(null);
   const changeStatusOpenRef = useRef<(() => void) | null>(null);
+
+  const { mutate: deleteEvent } = useMutation((eventId: string) =>
+    api.events({ id: eventId }).delete.delete(),
+  );
 
   useEffect(() => {
     setTimeout(() => setOpacity(1), 0);
   }, []);
+
+  const handleOnDelete = () => {
+    if (!event) {
+      return;
+    }
+
+    deleteEvent(event.id, {
+      onSuccess: () => {
+        toast.success("Wydarzenie zostało usunięte");
+        router.push("/");
+      },
+    });
+  };
 
   return (
     <div className="h-[30vh] relative flex items-end justify-center bg-black">
@@ -64,6 +85,11 @@ const Header = ({ event }: Props) => {
                 label: "Zmień status",
                 isHidden: !isPermitted,
                 onClick: () => changeStatusOpenRef.current?.(),
+              },
+              {
+                label: "Usuń wydarzenie",
+                isHidden: !isOwner(event?.accountId) && !isPermitted,
+                onClick: handleOnDelete,
               },
             ]}
             trigger={
