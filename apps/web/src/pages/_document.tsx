@@ -7,7 +7,7 @@ export default function Document() {
       <Head>
         <meta
           name="keywords"
-          content="zloty, zlot, motocykl, motocykle, zloty motocyklowe, zloty motocyklowy, imprezy motocyklowe, zloty motocyklowe 2026, zlot motocykli"
+          content="motocyklowe zloty, wydarzenia motocyklowe w Polsce, otwarcie sezonu motocyklowego, motocyklowe imprezy, planowanie tras motocyklowych, społeczność motocyklistów, zloty motocykli w Polsce, motocyklistów pasja"
         />
         <link
           rel="apple-touch-icon"
