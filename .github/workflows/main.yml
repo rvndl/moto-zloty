@@ -81,7 +81,7 @@ jobs:
         run: |
           tar -czf deploy.tar.gz \
             package.json bun.lock \
-            apps/api/src apps/api/package.json apps/api/tsconfig.json apps/api/bun.lock apps/api/drizzle.config.ts \
+            apps/api/src apps/api/drizzle apps/api/package.json apps/api/tsconfig.json apps/api/bun.lock apps/api/drizzle.config.ts \
             apps/web/.next apps/web/public apps/web/package.json apps/web/next.config.mjs
 
       - name: Upload archive to server
