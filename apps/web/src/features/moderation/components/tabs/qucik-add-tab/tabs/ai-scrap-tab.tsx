@@ -37,6 +37,12 @@ const AIScrapTab = ({
       return;
     }
 
+    form.setValue("dateFrom", undefined);
+    form.setValue("dateTo", undefined);
+    form.setValue("name", "");
+    form.setValue("description", "");
+    form.setValue("location", "");
+
     scrapData(
       {
         fileId: banner.fullId,

@@ -138,7 +138,12 @@ const Scrape = ({ onApply }: Props) => {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
-          <Button onClick={handleOnScrape} size="small" isLoading={isScraping}>
+          <Button
+            onClick={handleOnScrape}
+            size="small"
+            isLoading={isScraping}
+            disabled={isScraping}
+          >
             Scrape
           </Button>
         </div>
