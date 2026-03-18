@@ -37,7 +37,17 @@ const Datepicker = ({
   isLoading,
   onChange,
 }: DatepickerProps) => {
-  const handleOnSelect = (date?: Date) => onChange?.(date);
+  const {
+    month: calendarMonth,
+    onMonthChange: onCalendarMonthChange,
+    defaultMonth: calendarDefaultMonth,
+    ...restCalendarProps
+  } = calendarProps ?? {};
+
+  const inheritedMonth = calendarMonth ?? value ?? calendarDefaultMonth;
+  const calendarKey = inheritedMonth
+    ? `${inheritedMonth.getFullYear()}-${inheritedMonth.getMonth()}`
+    : "calendar";
 
   const formattedValue = useMemo(() => {
     if (!value) {
@@ -46,6 +56,8 @@ const Datepicker = ({
 
     return getValue(value, showTimepicker ? "datetime" : "date");
   }, [value, showTimepicker, placeholder]);
+
+  const handleOnSelect = (date?: Date) => onChange?.(date);
 
   return (
     <Popover
@@ -75,11 +87,15 @@ const Datepicker = ({
     >
       <div className="flex gap-2">
         <Calendar
+          key={calendarKey}
           disabled={isDisabled}
           mode="single"
           selected={value}
           onSelect={handleOnSelect}
-          {...calendarProps}
+          month={calendarMonth}
+          onMonthChange={onCalendarMonthChange}
+          defaultMonth={inheritedMonth}
+          {...restCalendarProps}
         />
         {showTimepicker && (
           <Timepicker date={value} onChange={handleOnSelect} />
