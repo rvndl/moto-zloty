@@ -1,0 +1,2 @@
+-- Baseline migration: existing schema is already present in production/staging DB.
+-- This file is intentionally a no-op to initialize Drizzle migration history.

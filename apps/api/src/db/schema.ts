@@ -98,6 +98,20 @@ export const action = pgTable("action", {
   }).defaultNow(),
 });
 
+export const scraped = pgTable("scraped", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  title: text("title").notNull(),
+  imageUrl: text("image_url"),
+  description: text("description"),
+  place: text("place"),
+  seen: boolean("seen").default(false),
+  sourceUrl: text("source_url").notNull(),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+    mode: "string",
+  }).defaultNow(),
+});
+
 export const accountRelations = relations(account, ({ many }) => ({
   events: many(event),
 }));

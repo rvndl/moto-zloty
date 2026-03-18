@@ -3,12 +3,21 @@ import { Dropzone, DropzoneImage } from "@components/dropzone";
 import { useForm } from "@components/form";
 import { Textarea } from "@components/textarea";
 import { api, useMutation } from "api/eden";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 
-const AIScrapTab = () => {
-  const [banner, setBanner] = useState<DropzoneImage>();
-  const [additionalInfo, setAdditionalInfo] = useState<string>("");
+interface Props {
+  banner?: DropzoneImage;
+  additionalInfo: string;
+  onBannerChange: (image?: DropzoneImage) => void;
+  onAdditionalInfoChange: (value: string) => void;
+}
 
+const AIScrapTab = ({
+  banner,
+  additionalInfo,
+  onBannerChange,
+  onAdditionalInfoChange,
+}: Props) => {
   const { mutate: scrapData, isPending } = useMutation(
     api.mod.bannerScrap.post,
   );
@@ -16,11 +25,11 @@ const AIScrapTab = () => {
   const form = useForm();
 
   const handleOnAdditionaInfoChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setAdditionalInfo(e.target.value);
+    onAdditionalInfoChange(e.target.value);
   };
 
   const handleOnDropzoneChange = (image?: DropzoneImage) => {
-    setBanner(image);
+    onBannerChange(image);
   };
 
   const handleOnSubmit = () => {
@@ -62,6 +71,7 @@ const AIScrapTab = () => {
           name="description"
           label="Dodatkowe informacje"
           rows={12}
+          value={additionalInfo}
           onChange={handleOnAdditionaInfoChange}
         />
       </div>

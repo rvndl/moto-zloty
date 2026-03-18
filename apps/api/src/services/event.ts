@@ -3,6 +3,7 @@ import { db } from "../db";
 import { event, account, address, action, file } from "../db/schema";
 import { type ServiceResult, ok, err } from "./types";
 import type { EventListQueryType } from "../models/event";
+import striptags from "striptags";
 
 export type EventStatus = "pending" | "approved" | "rejected";
 export type SortOrder = "Asc" | "Desc";
@@ -415,10 +416,16 @@ export abstract class EventService {
       .orderBy(asc(event.dateFrom))
       .limit(limit);
 
-    return results.map((row) => ({
-      ...row.event,
-      fullAddress: row.address,
-    }));
+    return results.map((row) => {
+      const strippedDescription = striptags(row.event.description || "");
+      const shortDescription = strippedDescription.slice(0, 60);
+
+      return {
+        ...row.event,
+        fullAddress: row.address,
+        description: shortDescription,
+      };
+    });
   }
 
   static async listApproved() {
@@ -492,7 +499,10 @@ export abstract class EventService {
       }
 
       if (groupedEvents[state].length < 4) {
-        groupedEvents[state].push(event);
+        const strippedDescription = striptags(event.description || "");
+        const shortDescription = strippedDescription.slice(0, 60);
+
+        groupedEvents[state].push({ ...event, description: shortDescription });
       }
     }
 

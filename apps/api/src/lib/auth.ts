@@ -46,8 +46,8 @@ export const authMiddleware = new Elysia({ name: "middleware.auth" })
     }
 
     const token = authHeader.slice(7);
-    const payload = (await jwt.verify(token)) as JwtPayload | false;
 
+    const payload = (await jwt.verify(token)) as JwtPayload | false;
     if (!payload) {
       throw new AuthError(401, "Nieprawidłowy token");
     }
@@ -71,8 +71,8 @@ export const modMiddleware = new Elysia({ name: "middleware.mod" })
     }
 
     const token = authHeader.slice(7);
-    const payload = (await jwt.verify(token)) as JwtPayload | false;
 
+    const payload = (await jwt.verify(token)) as JwtPayload | false;
     if (!payload) {
       throw new AuthError(401, "Nieprawidłowy token");
     }

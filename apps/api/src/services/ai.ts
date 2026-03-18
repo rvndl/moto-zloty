@@ -6,21 +6,26 @@ import type { BannerScrapResponse } from "../models/ai";
 type BannerScrapResult = typeof BannerScrapResponse.static;
 
 const PROMPT = `
-    1. The current year is 2026
-    Extract the following information from the image:
-        - name: Event name
-        - description: preserve original formatting and capitalization. Do not use all uppercase, should be nicely capitalized, make sure it's nicely formatted, use dashes, bullet points, etc. Make the description SEO friendly. Use markdown formatting! Do NOT use h1 (#) headings in the description — only use h2 (##) and smaller headings.
-        - dateFrom: formatted as ISO 8601 datetime. If the description contains time, include it in the datetime. If the starting date doesn't contain a time, assume it starts at 00:00:00.
-        - dateT o: formatted as ISO 8601 datetime. Include the time if mentioned in the description. If the ending date doesn't contain a time, assume it ends at 23:59:59.
-        - location: more precise location can also be included in description, look for it.
+You are an expert SEO copywriter and data extraction specialist. The current year is 2026.
+Your task is to analyze the provided image(s) of a motorcycle rally (zlot motocyklowy) and any accompanying text, extract the data, and generate a highly SEO-optimized output.
 
-    Additional instructions:
-        Keep the original language. Do not translate.
-        Do not add any extra information.
-        Remove "Pokaż mniej" or "Pokaż więcej" from the description if present.
-        Make the description nicely readable and formatted, but do not change the original meaning, it should be capitalized, NOT uppercase, separate the text using new lines, add dashes, bullet points, etc., make it SEO friendly.
-        Do NOT use h1 (#) headings in the description. Use h2 (##) as the highest heading level. The event name is already displayed separately as h1, so the description should start from h2 onwards.
-        The description should be POLISH only!
+Extract the following information:
+- name: Event name (normalize capitalization, do not use ALL CAPS). ALWAYS append " - 2026" at the end of the extracted name (e.g., "II Zlot Motocyklowy CLI Riders - 2026").
+- dateFrom: Formatted as ISO 8601 datetime. Include time if mentioned. If no time is specified, assume 00:00:00.
+- dateTo: Formatted as ISO 8601 datetime. Include time if mentioned. If no time is specified, assume 23:59:59.
+- location: The most precise location available (city, venue, street, region). Search thoroughly in both image and text.
+
+- description: Create a comprehensive, SEO-friendly event description based on the extracted data. 
+  Follow these STRICT rules for the description:
+  1. LANGUAGE: Polish ONLY.
+  2. FORMATTING: Use Markdown. DO NOT use H1 (#) headings. Use H2 (##) for main sections and H3 (###) for subsections. Use bullet points for lists, and bold (**) key entities (e.g., bands, important hours, locations, ticket prices). Fix all ALL CAPS text into proper sentence case.
+  3. CLEANUP: Remove UI artifacts like "Pokaż mniej", "Pokaż więcej", "Read more", or links. Correct obvious typos but preserve factual accuracy.
+  4. SEO & CONTENT EXPANSION:
+     - Lead Paragraph (Hook): Write an engaging, 2-3 sentence introduction. It MUST contain the event name, location, date, and primary keywords (e.g., "zlot motocyklowy", "impreza motocyklowa", "sezon 2026", "motocykliści"). 
+     - Structure: Do not just paste a wall of text. Group the extracted information logically into SEO-friendly sections using H2 (##) headings, such as: "## Co czeka na uczestników?", "## Program zlotu", "## Informacje organizacyjne i lokalizacja".
+     - Keywords Enrichment: Naturally integrate semantic keywords relevant to motorcycle events (e.g., parada motocyklowa, koncerty rockowe, pole namiotowe, blachy, integracja, pole zlotowe, trasa).
+     - Elaboration: Expand on the provided details in an enthusiastic, welcoming tone typical for the motorcycle community. If the source mentions "koncerty", format it as a nice list.
+  5. CTA: End the description with a short, encouraging sentence to participate, share with friends, or prepare machines for the trip.
 `;
 
 const aiResponseSchema: Schema = {

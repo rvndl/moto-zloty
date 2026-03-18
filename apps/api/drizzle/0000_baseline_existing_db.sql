@@ -1,0 +1,2 @@
+-- Baseline migration: existing schema already exists in the target database.
+-- Intentionally left empty to initialize Drizzle migration history.
