@@ -75,7 +75,7 @@ export type State = (typeof states)[number];
 const getStateTemplate = (state: string, icon: ReactNode) => {
   return {
     title: `Zloty motocyklowe w województwie ${state} – katalog 2026`,
-    pageTitle: `Zloty motocyklowe w województwie ${state}`,
+    pageTitle: `Zloty motocyklowe w województwie ${state} – 2026`,
     description: `Poznaj terminy, miejsca i atrakcje zlotów motocyklowych w woj. ${state} – aktualny na 2026 rok`,
     relatedDesc: `Sprawdź nadchodzące wydarzenia i atrakcje w regionie ${state}.`,
     icon,
@@ -120,7 +120,7 @@ export const getStateMetadata = (state?: State) => {
   if (!state)
     return {
       title: "Zloty motocyklowe w Polsce – katalog 2026",
-      pageTitle: "Zloty motocyklowe w Polsce",
+      pageTitle: "Zloty motocyklowe w Polsce – 2026",
       description:
         "Poznaj terminy, miejsca i atrakcje zlotów motocyklowych w Polsce – aktualny na 2026 rok",
       relatedDesc: "Sprawdź nadchodzące wydarzenia i atrakcje w Polsce",
