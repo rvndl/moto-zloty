@@ -1,4 +1,7 @@
-import { CAROUSEL_QUERY_KEY } from "@features/event/components/views/home-view/home-view";
+import {
+  CAROUSEL_QUERY_KEY,
+  MAP_QUERY_KEY,
+} from "@features/event/components/views/home-view/home-view";
 import { LIST_BY_STATE_QUERY_KEY } from "@features/event/components/state-list/state-overview";
 import {
   dehydrate,
@@ -15,6 +18,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
 
   await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: [MAP_QUERY_KEY],
+      queryFn: async () => (await api.map.get({ query: {} })).data,
+    }),
+
     queryClient.prefetchQuery({
       queryKey: [LIST_BY_STATE_QUERY_KEY],
       queryFn: async () => (await api.events.listByState.get()).data,
