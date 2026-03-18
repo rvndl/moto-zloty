@@ -29,7 +29,7 @@ const Scrape = ({ onApply }: Props) => {
   const queryClient = useQueryClient();
   const [url, setUrl] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
-  const [filter, setFilter] = useState<ListboxOption>(FILTER_OPTIONS[0]);
+  const [filter, setFilter] = useState<ListboxOption>(FILTER_OPTIONS[1]);
 
   const { mutate: scrapeUrl, isPending: isScraping } = useMutation(
     api.scraper.post,
