@@ -28,6 +28,16 @@ const LoginForm = () => {
   const { setState } = useAuth();
   const router = useRouter();
   const { mutate: login, isPending } = useMutation(api.login.post, {
+    onError: (error) => {
+      if (error.status === 400) {
+        toast.error(error.value?.error);
+        return;
+      }
+
+      toast.error(
+        "Nieoczekiwany błąd podczas logowania. Spróbuj ponownie później.",
+      );
+    },
     onSuccess: (data) => {
       setState(data);
       toast.success("Zalogowano pomyślnie!");

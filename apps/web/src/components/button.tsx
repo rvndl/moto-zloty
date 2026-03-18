@@ -26,6 +26,7 @@ const Button = ({
   size = "default",
   variant = "primary",
   textAlignment = "center",
+  role = "button",
   icon,
   loadingText,
   isLoading,
@@ -58,7 +59,7 @@ const Button = ({
   const Component = as ? as : "button";
 
   return (
-    <Component className={classes} {...rest}>
+    <Component className={classes} role={role} {...rest}>
       {Boolean(icon) && !isLoading && (
         <span className={clsx("scale-[0.68] shrink-0", children && "-ml-2")}>
           {icon}
