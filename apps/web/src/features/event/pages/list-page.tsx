@@ -20,25 +20,44 @@ import { ListView } from "../components";
 const thisYear = new Date().getFullYear();
 export const EVENTS_QUERY_KEY = "EVENTS_QUERY_KEY";
 
+const getYearMetadata = (year?: string) => {
+  if (!year) {
+    return getStateMetadata();
+  }
+
+  return {
+    title: `Zloty motocyklowe w Polsce – katalog ${year}`,
+    pageTitle: `Lista wydarzeń ${year}`,
+    description: `Archiwum zlotów motocyklowych z ${year} roku. Sprawdź terminy, lokalizacje i opisy wydarzeń z całej Polski.`,
+  };
+};
+
 const ListPage = () => {
   const router = useRouter();
   const { params } = router.query;
+  const yearFromQuery = Array.isArray(router.query.year)
+    ? router.query.year[0]
+    : router.query.year;
 
-  const { state, month } = useMemo(() => {
+  const { state, month, year } = useMemo(() => {
     if (!params) {
-      return {};
+      return { year: yearFromQuery };
     }
 
     if (Array.isArray(params)) {
       if (params.length === 1) {
-        return { state: params[0] };
+        if (/^\d{4}$/.test(params[0])) {
+          return { year: params[0] };
+        }
+
+        return { state: params[0], year: yearFromQuery };
       } else if (params.length === 2 && params[0] === "miesiac") {
-        return { month: params[1] };
+        return { month: params[1], year: yearFromQuery };
       }
     }
 
-    return {};
-  }, [params]);
+    return { year: yearFromQuery };
+  }, [params, yearFromQuery]);
 
   const [filters, setFilters] = useState<Filters>(initialFiltersState);
   const {
@@ -46,7 +65,7 @@ const ListPage = () => {
     isLoading,
     refetch,
   } = useQuery(
-    [EVENTS_QUERY_KEY, filters, state, month],
+    [EVENTS_QUERY_KEY, filters, state, month, year],
     () =>
       api.events.get({
         query: {
@@ -55,6 +74,7 @@ const ListPage = () => {
           sortOrder: filters.sortOption?.id as "Asc" | "Desc" | undefined,
           state,
           month: getMonthNum(month as Month)?.toString(),
+          year,
         },
       }),
     { enabled: router.isReady },
@@ -63,27 +83,39 @@ const ListPage = () => {
   useEffect(() => {
     refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, state, month]);
+  }, [filters, state, month, year]);
 
   const metadata = month
     ? getMonthMetadata(month as Month)
-    : getStateMetadata(state as State);
+    : year && !state
+      ? getYearMetadata(year)
+      : getStateMetadata(state as State);
 
   const cannonical = month
     ? `https://motozloty.pl/lista-wydarzen/miesiac/${month}`
-    : `https://motozloty.pl/lista-wydarzen/${state ?? ""}`;
+    : year && !state
+      ? `https://motozloty.pl/lista-wydarzen/${year}`
+      : `https://motozloty.pl/lista-wydarzen/${state ?? ""}`;
 
-  const activeBreadcrumb: BreadcrumbProps = month
+  const activeBreadcrumb: BreadcrumbProps | null = month
     ? {
         label: `${month as string} ${thisYear}`,
         to: `/lista-wydarzen/miesiac/${month}`,
         isActive: true,
       }
-    : {
-        label: state as string,
-        to: `/lista-wydarzen/${state}`,
-        isActive: true,
-      };
+    : year && !state
+      ? {
+          label: `Lista wydarzeń ${year}`,
+          to: `/lista-wydarzen/${year}`,
+          isActive: true,
+        }
+      : state
+        ? {
+            label: state,
+            to: `/lista-wydarzen/${state}`,
+            isActive: true,
+          }
+        : null;
 
   return (
     <>
@@ -98,9 +130,9 @@ const ListPage = () => {
           {
             label: "Lista wydarzeń",
             to: "/lista-wydarzen",
-            isActive: !state && !month,
+            isActive: !state && !month && !year,
           },
-          ...(state || month ? [activeBreadcrumb] : []),
+          ...(activeBreadcrumb ? [activeBreadcrumb] : []),
         ]}
       >
         <ListView

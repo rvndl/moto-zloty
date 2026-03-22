@@ -3,6 +3,8 @@ import { GetServerSideProps } from "next";
 import { months, states } from "@features/event/utils";
 import { api } from "api/eden";
 
+const YEARS = [2025];
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const events = (await api.sitemapEvents.get()).data;
@@ -29,6 +31,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     priority: 1,
   }));
 
+  const archiveFields: ISitemapField[] = YEARS.map((year) => ({
+    loc: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/lista-wydarzen/${year}`,
+    changefreq: "weekly",
+    priority: 0.9,
+  }));
+
   // next sitemap generator doesn't support dynamic routes with params
   const eventList: ISitemapField = {
     loc: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/lista-wydarzen`,
@@ -41,6 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     eventList,
     ...stateFields,
     ...monthFields,
+    ...archiveFields,
   ]);
 };
 

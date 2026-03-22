@@ -16,22 +16,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   let state: string | null = null;
   let month: string | null = null;
+  let year: string | null = null;
 
   if (params.length === 1) {
-    state = params[0];
+    if (/^\d{4}$/.test(params[0])) {
+      year = params[0];
+    } else {
+      state = params[0];
+    }
   } else if (params.length === 2 && params[0] === "miesiac") {
     month = params[1];
   }
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: [EVENTS_QUERY_KEY, {}, state, month],
+    queryKey: [EVENTS_QUERY_KEY, {}, state, month, year],
     queryFn: async () => {
       return (
         await api.events.get({
           query: {
             state: state ?? undefined,
             month: getMonthNum(month as Month)?.toString(),
+            year: year ?? undefined,
           },
         })
       ).data;

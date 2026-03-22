@@ -61,21 +61,45 @@ const MobileMenu = ({
                       if (route.isProtected && !isPermitted) return null;
 
                       return (
-                        <NavbarItem
-                          key={route.name}
-                          to={route.path}
-                          icon={route.icon}
-                          title={route.name}
-                          isActive={
-                            route.isParentPath
-                              ? pathname.includes(route.path)
-                              : pathname === route.path
-                          }
-                          isMobile
-                          onChange={() => setIsOpen(false)}
-                        >
-                          {route.name}
-                        </NavbarItem>
+                        <div key={route.name}>
+                          <NavbarItem
+                            to={route.path}
+                            icon={route.icon}
+                            title={route.name}
+                            isActive={
+                              route.isParentPath
+                                ? pathname.includes(route.path)
+                                : pathname === route.path
+                            }
+                            isMobile
+                            onChange={() => setIsOpen(false)}
+                          >
+                            {route.name}
+                          </NavbarItem>
+
+                          {route.items?.length ? (
+                            <ol className="mt-1 ml-4 border-l border-gray-200 pl-2">
+                              {route.items.map((item) => (
+                                <li key={item.path}>
+                                  <Link href={item.path} title={item.name}>
+                                    <Button
+                                      variant={
+                                        pathname === item.path
+                                          ? "primary"
+                                          : "ghost"
+                                      }
+                                      className="w-full"
+                                      textAlignment="left"
+                                      onClick={() => setIsOpen(false)}
+                                    >
+                                      {item.name}
+                                    </Button>
+                                  </Link>
+                                </li>
+                              ))}
+                            </ol>
+                          ) : null}
+                        </div>
                       );
                     })}
                     <Link

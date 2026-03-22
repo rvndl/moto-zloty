@@ -2,9 +2,10 @@ import { useAuth } from "@features/auth";
 import { useEffect } from "react";
 import { match } from "ts-pattern";
 import {
+  DashboardTab,
   EventListTab,
   QuickAddTab,
-  StatisticsTab,
+  SocialMediaTab,
   UserListTab,
 } from "../components";
 import { useRouter } from "next/navigation";
@@ -13,6 +14,7 @@ import {
   BookUserIcon,
   ShieldCheckIcon,
   SparklesIcon,
+  GlobeIcon,
 } from "lucide-react";
 import { Page } from "@components/page";
 
@@ -32,19 +34,21 @@ const ModerationPage = () => {
       title="Moderacja"
       breadcrumbs={[{ label: "Moderacja", isActive: true }]}
       sidebarItems={[
-        { label: "Statystyki", icon: <ChartAreaIcon /> },
+        { label: "Dashboard", icon: <ChartAreaIcon /> },
         { label: "Użytkownicy", icon: <BookUserIcon /> },
         { label: "Wydarzenia", icon: <ShieldCheckIcon /> },
         { label: "Szybkie dodawanie", icon: <SparklesIcon /> },
+        { label: "Social media", icon: <GlobeIcon /> },
       ]}
       isInline
     >
       {(tab) =>
         match(tab)
-          .with("Statystyki", () => <StatisticsTab />)
+          .with("Dashboard", () => <DashboardTab />)
           .with("Użytkownicy", () => <UserListTab />)
           .with("Wydarzenia", () => <EventListTab />)
           .with("Szybkie dodawanie", () => <QuickAddTab />)
+          .with("Social media", () => <SocialMediaTab />)
           .otherwise(() => null)
       }
     </Page>

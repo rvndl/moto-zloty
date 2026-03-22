@@ -31,6 +31,7 @@ interface Route {
   icon?: ReactNode;
   isParentPath?: boolean;
   isProtected?: boolean;
+  items?: Pick<Route, "name" | "path">[];
 }
 
 const routes: Route[] = [
@@ -44,6 +45,12 @@ const routes: Route[] = [
     path: "/lista-wydarzen",
     isParentPath: true,
     icon: <ListIcon />,
+    items: [
+      {
+        name: "Lista wydarzeń 2025",
+        path: "/lista-wydarzen/2025",
+      },
+    ],
   },
   {
     name: "Moderacja",
@@ -143,16 +150,52 @@ const Navbar = () => {
                         return null;
                       }
 
+                      const isActive = route.isParentPath
+                        ? pathname.includes(route.path)
+                        : pathname === route.path;
+
+                      if (route.items?.length) {
+                        return (
+                          <li key={route.name} className="relative group">
+                            <NavbarItem
+                              to={route.path}
+                              title={route.name}
+                              isActive={isActive}
+                            >
+                              {route.name}
+                            </NavbarItem>
+
+                            <div className="absolute left-0 top-full z-50 pt-2 opacity-0 invisible translate-y-1 transition-all duration-150 ease-out pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:pointer-events-auto">
+                              <ol className="min-w-max rounded-xl border border-gray-200 bg-white p-2 shadow-lg shadow-black/[0.08]">
+                                {route.items.map((item) => (
+                                  <li key={item.path}>
+                                    <Link href={item.path} title={item.name}>
+                                      <Button
+                                        variant={
+                                          pathname === item.path
+                                            ? "primary"
+                                            : "ghost"
+                                        }
+                                        className="w-full"
+                                        textAlignment="left"
+                                      >
+                                        {item.name}
+                                      </Button>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ol>
+                            </div>
+                          </li>
+                        );
+                      }
+
                       return (
                         <NavbarItem
                           key={route.name}
                           to={route.path}
                           title={route.name}
-                          isActive={
-                            route.isParentPath
-                              ? pathname.includes(route.path)
-                              : pathname === route.path
-                          }
+                          isActive={isActive}
                         >
                           {route.name}
                         </NavbarItem>

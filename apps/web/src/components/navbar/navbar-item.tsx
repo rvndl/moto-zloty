@@ -36,6 +36,7 @@ const NavbarItem = ({
           }}
         />
       )}
+
       <Link href={to} title={title}>
         <Button
           variant={isActive ? "primary" : "ghost"}
