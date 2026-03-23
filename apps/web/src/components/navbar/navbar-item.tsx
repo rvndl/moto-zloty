@@ -10,6 +10,7 @@ interface Props {
   icon?: React.ReactNode;
   isActive?: boolean;
   isMobile?: boolean;
+  asListItem?: boolean;
   onChange?: () => void;
 }
 
@@ -19,11 +20,12 @@ const NavbarItem = ({
   icon,
   isActive,
   isMobile,
+  asListItem = true,
   children,
   onChange,
 }: PropsWithChildren<Props>) => {
-  return (
-    <li className={clsx("relative", isMobile && "w-full")}>
+  const content = (
+    <>
       {isActive && !isMobile && (
         <motion.div
           layoutId="navbar-active-indicator"
@@ -48,8 +50,14 @@ const NavbarItem = ({
           {children}
         </Button>
       </Link>
-    </li>
+    </>
   );
+
+  if (!asListItem) {
+    return content;
+  }
+
+  return <li className={clsx("relative", isMobile && "w-full")}>{content}</li>;
 };
 
 export { NavbarItem };

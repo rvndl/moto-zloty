@@ -7,10 +7,10 @@ import { Dropdown } from "@components/dropdown";
 
 interface Props {
   user: UserState;
-  logout: () => void;
+  onLogout: () => void;
 }
 
-const UserMenu = ({ user, logout }: Props) => {
+const UserMenu = ({ user, onLogout }: Props) => {
   const router = useRouter();
 
   return (
@@ -29,7 +29,7 @@ const UserMenu = ({ user, logout }: Props) => {
         {
           label: "Wyloguj",
           icon: <LogOutIcon />,
-          onClick: logout,
+          onClick: onLogout,
         },
       ]}
       header={
