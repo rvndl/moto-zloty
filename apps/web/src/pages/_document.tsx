@@ -107,6 +107,12 @@ export default function Document() {
         />
         <meta name="twitter:site" content="@rvn_dl" />
         <meta name="twitter:creator" content="@rvn_dl" />
+        <script
+          src="https://quge5.com/88/tag.min.js"
+          data-zone="222626"
+          async
+          data-cfasync="false"
+        ></script>
       </Head>
       <body>
         <div id="root">
