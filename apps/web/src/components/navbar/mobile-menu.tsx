@@ -38,6 +38,7 @@ const MobileMenu = ({
         icon={<MenuIcon size={28} />}
         onClick={() => setIsOpen(true)}
       />
+
       {typeof window === "object" &&
         createPortal(
           <AnimatePresence>
@@ -61,7 +62,7 @@ const MobileMenu = ({
                       if (route.isProtected && !isPermitted) return null;
 
                       return (
-                        <div key={route.name}>
+                        <li key={route.name}>
                           <NavbarItem
                             to={route.path}
                             icon={route.icon}
@@ -72,6 +73,7 @@ const MobileMenu = ({
                                 : pathname === route.path
                             }
                             isMobile
+                            asListItem={false}
                             onChange={() => setIsOpen(false)}
                           >
                             {route.name}
@@ -99,7 +101,7 @@ const MobileMenu = ({
                               ))}
                             </ol>
                           ) : null}
-                        </div>
+                        </li>
                       );
                     })}
                     <Link

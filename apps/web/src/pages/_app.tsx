@@ -11,8 +11,8 @@ import { Layout } from "@components/layout";
 import { DefaultToastOptions, Toaster } from "react-hot-toast";
 import { useState } from "react";
 import { PagesTopLoader } from "nextjs-toploader/pages";
-import { GoogleAnalytics } from "nextjs-google-analytics";
 import { GoogleAdSense } from "next-google-adsense";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
 const toastOptions: DefaultToastOptions = {
   style: {
@@ -38,10 +38,19 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <>
-      <GoogleAdSense
-        publisherId={process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID}
-      />
-      <GoogleAnalytics trackPageViews defaultConsent="denied" />
+      {process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID && (
+        <GoogleAdSense
+          publisherId={process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID}
+        />
+      )}
+
+      {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+      )}
+
+      {process.env.NEXT_PUBLIC_GTM_ID && (
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
+      )}
 
       <QueryClientProvider client={queryClient}>
         <PagesTopLoader />
