@@ -5,8 +5,7 @@ module.exports = {
   exclude: ["/server-sitemap.xml", "/moderation"],
   robotsTxtOptions: {
     policies: [
-      { userAgent: "*", allow: "/" },
-      { userAgent: "*", disallow: "/cdn-cgi/" },
+      { userAgent: "*", allow: "/",disallow: "/cdn-cgi/" },
     ],
     additionalSitemaps: [
       process.env.NEXT_PUBLIC_PUBLIC_URL + "/server-sitemap.xml",
