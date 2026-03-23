@@ -115,13 +115,6 @@ export default function Document() {
           <NextScript />
         </div>
         <div id="headlessui-portal-root"></div>
-        <Script
-          id="Cookiebot"
-          src="https://consent.cookiebot.com/uc.js"
-          data-cbid={process.env.NEXT_PUBLIC_COOKIEBOT_API_KEY}
-          type="text/javascript"
-          strategy="beforeInteractive"
-        />
       </body>
     </Html>
   );
