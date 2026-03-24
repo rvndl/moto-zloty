@@ -48,8 +48,8 @@ export const uploadRoute = new Elysia({ name: "routes.file.upload" })
       await Bun.write(originalPath, arrayBuffer);
 
       try {
-        const fullWebpPath = await convertToWebp(originalPath, false);
-        const smallWebpPath = await convertToWebp(originalPath, true);
+        const fullWebpPath = await convertToWebp(originalPath, "default");
+        const smallWebpPath = await convertToWebp(originalPath, "small");
 
         await unlink(originalPath);
 
