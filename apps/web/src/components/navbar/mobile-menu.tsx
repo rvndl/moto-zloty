@@ -35,6 +35,7 @@ const MobileMenu = ({
       <EventSearch />
       <Button
         variant="ghost"
+        title="Otwórz menu"
         icon={<MenuIcon size={28} />}
         onClick={() => setIsOpen(true)}
       />
@@ -54,6 +55,7 @@ const MobileMenu = ({
                   <Button
                     className="ml-auto"
                     variant="ghost"
+                    title="Zamknij menu"
                     icon={<XIcon size={32} />}
                     onClick={() => setIsOpen(false)}
                   />

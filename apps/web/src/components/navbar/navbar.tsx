@@ -78,6 +78,7 @@ const Navbar = () => {
   return (
     <LayoutGroup>
       <motion.nav
+        role="navigation"
         layout
         className="sticky top-0 z-50"
         transition={hasMounted.current ? transitionSpring : transitionInstant}

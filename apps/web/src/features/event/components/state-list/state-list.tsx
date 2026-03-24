@@ -18,12 +18,12 @@ const StateList = ({ state, children }: PropsWithChildren<Props>) => {
       </h2>
       <ol className="mt-4 w-full flex flex-col gap-1.5">
         {isEmpty ? (
-          <li className="text-muted font-semibold">Brak wydarzeń</li>
+          <li className="text-white/50 font-semibold">Brak wydarzeń</li>
         ) : (
           <>
             {children}
             {hasMore && (
-              <li className="text-muted font-semibold">
+              <li className="text-white/50 font-semibold">
                 <Link href={`/lista-wydarzen/${state.toLowerCase()}`}>
                   I więcej...
                 </Link>

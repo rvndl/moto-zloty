@@ -47,14 +47,15 @@ const Layout = ({ children }: PropsWithChildren) => {
     <div className={clsx("w-full min-h-screen", geist.className)}>
       <Navbar />
       <div className="flex flex-col w-full overflow-x-hidden">
-        <div
+        <main
+          role="main"
           className={clsx(
             "w-full mx-auto mb-0 md:mb-4",
             !isFullWidthPage && "max-w-7xl sm:px-6 lg:px-8",
           )}
         >
           {children}
-        </div>
+        </main>
         {isListByStateVisible && <ListByState />}
         <Footer variant={isListByStateVisible ? "dark" : "light"} />
       </div>

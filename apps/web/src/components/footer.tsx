@@ -10,6 +10,7 @@ interface Props {
 const Footer = ({ variant = "light" }: Props) => {
   return (
     <footer
+      role="contentinfo"
       className={clsx(
         "w-full mt-auto border-t shadow-sm text-primary bg-white",
         variant === "dark" && "invert",
