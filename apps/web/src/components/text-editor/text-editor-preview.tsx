@@ -12,7 +12,7 @@ const TextEditorPreview = ({ label, isRequired, value }: Props) => {
       <div className="flex flex-col h-full gap-2">
         {Boolean(label) && <Label isRequired={isRequired}>{label}</Label>}
         <div
-          className="mt-0 text-sm opacity-80"
+          className="mt-0 text-sm editor-preview"
           dangerouslySetInnerHTML={{ __html: value || "" }}
         />
       </div>
