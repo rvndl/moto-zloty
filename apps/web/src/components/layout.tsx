@@ -28,6 +28,10 @@ const Layout = ({ children }: PropsWithChildren) => {
   const isFullWidthPage = useMemo(
     () =>
       FULL_WIDTH_PAGES.some((page) => {
+        if (!pathname) {
+          return false;
+        }
+
         const includes = pathname.includes(page.url);
         if (includes) {
           const isIgnored = page.ignore?.includes(pathname);
@@ -39,7 +43,7 @@ const Layout = ({ children }: PropsWithChildren) => {
     [pathname],
   );
 
-  if (WITHOUT_CONTAINER_PAGES.includes(pathname)) {
+  if (WITHOUT_CONTAINER_PAGES.includes(pathname || "")) {
     return children;
   }
 

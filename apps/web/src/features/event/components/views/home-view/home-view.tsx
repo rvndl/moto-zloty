@@ -25,7 +25,7 @@ const HomeView = () => {
   );
 
   useEffect(() => {
-    const timeout = setTimeout(() => setMounted(true), 100);
+    const timeout = setTimeout(() => setMounted(true), 0);
     return () => clearTimeout(timeout);
   }, []);
 

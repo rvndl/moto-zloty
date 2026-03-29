@@ -128,7 +128,7 @@ const Navbar = () => {
                       }
 
                       const isActive = route.isParentPath
-                        ? pathname.includes(route.path)
+                        ? pathname?.includes(route.path)
                         : pathname === route.path;
 
                       if (route.items?.length) {

@@ -103,6 +103,8 @@ export default function Document() {
         />
         <meta name="twitter:site" content="@rvn_dl" />
         <meta name="twitter:creator" content="@rvn_dl" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+        <link rel="preconnect" href="https://tiles.stadiamaps.com" />
       </Head>
       <body>
         <div id="root">
