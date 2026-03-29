@@ -92,10 +92,10 @@ const ListPage = () => {
       : getStateMetadata(state as State);
 
   const cannonical = month
-    ? `https://motozloty.pl/lista-wydarzen/miesiac/${month}`
+    ? `https://moto-zloty.pl/lista-wydarzen/miesiac/${month}`
     : year && !state
-      ? `https://motozloty.pl/lista-wydarzen/${year}`
-      : `https://motozloty.pl/lista-wydarzen/${state ?? ""}`;
+      ? `https://moto-zloty.pl/lista-wydarzen/${year}`
+      : `https://moto-zloty.pl/lista-wydarzen/${state ?? ""}`;
 
   const activeBreadcrumb: BreadcrumbProps | null = month
     ? {

@@ -126,7 +126,7 @@ const buildFacebookPostContent = (
       `- 📍 ${firstEvent.state}`,
       ...stateEvents.map(
         (event) =>
-          `- 🗓️ ${formatFacebookPostDate(event.dateFrom)} ${event.location} ${event.name} https://motozloty.pl/wydarzenie/${event.id}`,
+          `- 🗓️ ${formatFacebookPostDate(event.dateFrom)} ${event.location} ${event.name} https://moto-zloty.pl/wydarzenie/${event.id}`,
       ),
     ];
   });
