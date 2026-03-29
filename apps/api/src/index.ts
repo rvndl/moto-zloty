@@ -14,6 +14,7 @@ import { cleanupJob } from "./jobs";
 import openapi from "@elysiajs/openapi";
 import { configure, getConsoleSink, getLogger } from "@logtape/logtape";
 import { scraperRoute } from "./routes/scraper";
+import { socialMediaRoute } from "./routes/social-media";
 
 await configure({
   sinks: { console: getConsoleSink() },
@@ -56,6 +57,7 @@ const app = new Elysia({ name: "app.main" })
   .use(mapRoute)
   .use(sitemapRoute)
   .use(scraperRoute)
+  .use(socialMediaRoute)
   .listen(Bun.env.PORT ?? 3000);
 
 const logger = getLogger(["api", "main"]);

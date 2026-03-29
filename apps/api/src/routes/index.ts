@@ -5,3 +5,4 @@ export * from "./file/index";
 export * from "./contact";
 export * from "./place-search";
 export * from "./banner-scrap";
+export * from "./social-media";
