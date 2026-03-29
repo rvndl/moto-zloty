@@ -5,8 +5,9 @@ import { Listbox, ListboxOption } from "@components/listbox";
 import { useQueryClient } from "@tanstack/react-query";
 import { api, useMutation, useQuery } from "api/eden";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
+
 type SeenFilter = "all" | "seen" | "unseen";
 
 const SCRAPER_LIST_QUERY_KEY = ["SCRAPER_LIST_QUERY_KEY"];
@@ -45,7 +46,11 @@ const Scrape = ({ onApply }: Props) => {
   );
 
   const scrapes = useMemo(
-    () => (list?.success ? (list.data.scrapes ?? []) : []),
+    () =>
+      (list?.success ? (list.data.scrapes ?? []) : []).sort(
+        (scrapeA, scrapeB) =>
+          String(scrapeA.id).localeCompare(String(scrapeB.id)),
+      ),
     [list],
   );
 
@@ -63,13 +68,11 @@ const Scrape = ({ onApply }: Props) => {
     return scrapes;
   }, [filter.value, scrapes]);
 
-  const currentScrape = filteredScrapes[activeIndex];
-
-  useEffect(() => {
-    if (activeIndex > filteredScrapes.length - 1) {
-      setActiveIndex(Math.max(filteredScrapes.length - 1, 0));
-    }
-  }, [activeIndex, filteredScrapes.length]);
+  const boundedActiveIndex = Math.min(
+    activeIndex,
+    Math.max(filteredScrapes.length - 1, 0),
+  );
+  const currentScrape = filteredScrapes[boundedActiveIndex];
 
   const handleOnScrape = () => {
     if (!url.trim()) {
@@ -188,7 +191,10 @@ const Scrape = ({ onApply }: Props) => {
               </span>
             </div>
 
-            <p className="text-sm text-muted whitespace-pre-wrap">
+            <p
+              className="text-sm text-muted whitespace-pre-wrap break-words line-clamp-6"
+              title={currentScrape.description ?? "Brak opisu"}
+            >
               {currentScrape.description || "Brak opisu"}
             </p>
 
@@ -238,7 +244,7 @@ const Scrape = ({ onApply }: Props) => {
             disabled={activeIndex === 0 || !currentScrape}
           />
           <span className="text-xs text-muted">
-            {filteredScrapes.length ? activeIndex + 1 : 0} /{" "}
+            {filteredScrapes.length ? boundedActiveIndex + 1 : 0} /{" "}
             {filteredScrapes.length}
           </span>
           <Button
@@ -247,7 +253,7 @@ const Scrape = ({ onApply }: Props) => {
             size="small"
             onClick={handleNext}
             disabled={
-              !currentScrape || activeIndex >= filteredScrapes.length - 1
+              !currentScrape || boundedActiveIndex >= filteredScrapes.length - 1
             }
           />
         </div>
