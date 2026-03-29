@@ -23,3 +23,34 @@ export const BannerScrapResponse = t.Object({
   ),
   location: t.Nullable(t.String({ description: "Event location" })),
 });
+
+export const FacebookPostWeek = t.Object({
+  start: t.String({
+    format: "date-time",
+    description: "Inclusive week start in ISO 8601 format",
+  }),
+  end: t.String({
+    format: "date-time",
+    description: "Inclusive week end in ISO 8601 format",
+  }),
+  label: t.String({ description: "Human readable week label" }),
+});
+
+export const FacebookPostBody = t.Object({
+  weeks: t.Array(FacebookPostWeek, {
+    minItems: 1,
+    description: "Selected weeks for the generated Facebook post",
+  }),
+});
+
+export const FacebookPostResponse = t.Object({
+  description: t.String({
+    description: "AI-generated short introduction for the Facebook post",
+  }),
+  content: t.String({
+    description: "Complete Facebook post content ready to publish",
+  }),
+  eventCount: t.Number({
+    description: "Number of events included in the generated content",
+  }),
+});
