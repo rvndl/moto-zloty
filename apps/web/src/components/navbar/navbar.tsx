@@ -11,6 +11,11 @@ import { motion, LayoutGroup } from "framer-motion";
 import { Brand } from "./brand";
 import { transitionInstant, transitionSpring } from "@utils/transition";
 import { DesktopMenu } from "./desktop-menu";
+import {
+  formatStateName,
+  getStateAssociatedIcon,
+  states,
+} from "@features/event/utils";
 
 const SCROLL_THRESHOLD = 50;
 
@@ -20,8 +25,26 @@ interface Route {
   icon?: ReactNode;
   isParentPath?: boolean;
   isProtected?: boolean;
-  items?: Pick<Route, "name" | "path">[];
+  items?: {
+    name: string;
+    path: string;
+    icon?: ReactNode;
+    separated?: boolean;
+  }[];
 }
+
+const eventListItems = [
+  ...states.map((state) => ({
+    name: formatStateName(state),
+    path: `/lista-wydarzen/${encodeURIComponent(state)}`,
+    icon: getStateAssociatedIcon(state),
+  })),
+  {
+    name: "Archiwum 2025",
+    path: "/lista-wydarzen/2025",
+    separated: true,
+  },
+];
 
 const routes: Route[] = [
   {
@@ -34,12 +57,7 @@ const routes: Route[] = [
     path: "/lista-wydarzen",
     isParentPath: true,
     icon: <ListIcon />,
-    items: [
-      {
-        name: "Lista wydarzeń 2025",
-        path: "/lista-wydarzen/2025",
-      },
-    ],
+    items: eventListItems,
   },
   {
     name: "Moderacja",
@@ -144,9 +162,15 @@ const Navbar = () => {
                             </NavbarItem>
 
                             <div className="absolute left-0 top-full z-50 pt-2 opacity-0 invisible translate-y-1 transition-all duration-150 ease-out pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:pointer-events-auto">
-                              <ol className="min-w-max rounded-xl border border-gray-200 bg-white p-2 shadow-lg shadow-black/[0.08]">
+                              <ol className="grid w-[min(32rem,calc(100vw-2rem))] grid-cols-2 gap-1 rounded-xl border border-gray-200 bg-white p-2 shadow-lg shadow-black/[0.08]">
                                 {route.items.map((item) => (
-                                  <li key={item.path}>
+                                  <li
+                                    key={item.path}
+                                    className={clsx(
+                                      item.separated &&
+                                        "col-span-full mt-1 border-t border-gray-200 pt-2",
+                                    )}
+                                  >
                                     <Link href={item.path} title={item.name}>
                                       <Button
                                         variant={
@@ -154,6 +178,7 @@ const Navbar = () => {
                                             ? "primary"
                                             : "ghost"
                                         }
+                                        icon={item.icon}
                                         className="w-full"
                                         textAlignment="left"
                                       >
