@@ -4,6 +4,7 @@ import { match } from "ts-pattern";
 
 export * from "./user";
 export * from "./date";
+export * from "./text-editor";
 
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
