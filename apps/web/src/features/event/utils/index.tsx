@@ -142,6 +142,14 @@ export const getShortState = (state?: State | string | null) => {
   return `woj. ${stateName}`;
 };
 
+export const formatStateName = (state?: State | string | null) => {
+  if (!state) return "Brak";
+
+  return state
+    .replace("województwo ", "")
+    .replace(/^./, (char) => char.toUpperCase());
+};
+
 export const months = [
   "Styczeń",
   "Luty",

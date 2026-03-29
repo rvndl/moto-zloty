@@ -46,7 +46,7 @@ const MobileMenu = ({
             {isOpen && (
               <>
                 <motion.div
-                  className="fixed h-screen w-screen bg-white backdrop-blur z-50 shadow top-0 bottom-0 left-0 right-0 p-4 flex flex-col"
+                  className="fixed top-0 right-0 bottom-0 left-0 z-50 flex h-screen w-screen flex-col overflow-y-auto bg-white p-4 shadow backdrop-blur"
                   initial={{ opacity: 0, x: 200 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 200 }}
@@ -84,7 +84,14 @@ const MobileMenu = ({
                           {route.items?.length ? (
                             <ol className="mt-1 ml-4 border-l border-gray-200 pl-2">
                               {route.items.map((item) => (
-                                <li key={item.path}>
+                                <li
+                                  key={item.path}
+                                  className={
+                                    item.separated
+                                      ? "mt-2 border-t border-gray-200 pt-2"
+                                      : undefined
+                                  }
+                                >
                                   <Link href={item.path} title={item.name}>
                                     <Button
                                       variant={
@@ -92,6 +99,7 @@ const MobileMenu = ({
                                           ? "primary"
                                           : "ghost"
                                       }
+                                      icon={item.icon}
                                       className="w-full"
                                       textAlignment="left"
                                       onClick={() => setIsOpen(false)}
