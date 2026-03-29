@@ -15,7 +15,7 @@ import Link from "next/link";
 interface Props {
   routes: Route[];
   user: UserState;
-  pathname: string;
+  pathname: string | null;
   onLogout: () => void;
   isPermitted?: boolean;
 }
@@ -71,7 +71,7 @@ const MobileMenu = ({
                             title={route.name}
                             isActive={
                               route.isParentPath
-                                ? pathname.includes(route.path)
+                                ? pathname?.includes(route.path)
                                 : pathname === route.path
                             }
                             isMobile
