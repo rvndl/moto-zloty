@@ -4,11 +4,7 @@
 import satori from "satori";
 import sharp from "sharp";
 import type { PublishWeeklyEventsBodyType } from "../../models/instagram-carousel";
-import {
-  formatInstagramCarouselDate,
-  formatInstagramCarouselDateLong,
-  truncateCarouselText,
-} from "../../utils";
+import { formatInstagramCarouselDate, truncateCarouselText } from "../../utils";
 import {
   INSTAGRAM_HEIGHT,
   INSTAGRAM_WIDTH,
