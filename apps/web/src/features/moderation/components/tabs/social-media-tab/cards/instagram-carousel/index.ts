@@ -1,2 +1,1 @@
-export { FacebookPost } from "./facebook-post";
 export { InstagramCarousel } from "./instagram-carousel";
