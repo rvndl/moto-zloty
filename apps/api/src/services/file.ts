@@ -6,7 +6,7 @@ import sharp from "sharp";
 import { unlink } from "node:fs/promises";
 import { join } from "node:path";
 
-const UPLOAD_DIR = Bun.env.UPLOAD_DIR || "./uploads";
+const UPLOAD_PATH = Bun.env.UPLOAD_PATH;
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 export interface UploadedFile {
@@ -72,7 +72,7 @@ export abstract class FileService {
 
       const fileId = crypto.randomUUID();
       const fileName = `${fileId}.${extension}`;
-      const filePath = join(UPLOAD_DIR, fileName);
+      const filePath = join(UPLOAD_PATH!, fileName);
 
       await Bun.write(filePath, outputBuffer);
 

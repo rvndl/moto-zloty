@@ -5,3 +5,4 @@ export * from "./file";
 export * from "./contact";
 export * from "./ai";
 export * from "./scrape";
+export * from "./instagram-carousel";

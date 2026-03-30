@@ -110,10 +110,12 @@ const FacebookPost = () => {
         <section className="space-y-4">
           <FacebookPostWeekPicker
             week={currentWeek}
+            weekOptions={weekOptions}
             currentIndex={currentWeekIndex}
             totalWeeks={weekOptions.length}
             onPrevious={handleOnPreviousWeek}
             onNext={handleOnNextWeek}
+            onSelect={setManualWeekIndex}
           />
           <FacebookPostPreview content={content} />
           <FacebookPostActions

@@ -12,6 +12,7 @@ import {
   formatFacebookPostState,
   getRelevantEventLocation,
 } from "../utils";
+import type { WeeklyMotorcycleEventType } from "../models/instagram-carousel";
 
 type BannerScrapResult = typeof BannerScrapResponse.static;
 type FacebookPostWeekInput = (typeof FacebookPostBody.static.weeks)[number];
@@ -63,6 +64,28 @@ Rules:
 - Do not add quotation marks.
 `;
 
+const INSTAGRAM_WEEKLY_SUMMARY_PROMPT = `
+Tworzysz tekst na pierwszy slajd karuzeli na Instagramie o nadchodzących wydarzeniach motocyklowych w Polsce.
+
+Zasady:
+- Pisz po polsku.
+- Zwróć sam tekst, bez dodatkowych formatów.
+- Maksymalnie 2 krótkie zdania.
+- Maksymalnie 240 znaków.
+- Zacznij od luźnego, chwytliwego wejścia jak do ziomków.
+- Styl totalny luz — jak rozmowa między motocyklistami.
+- Naturalnie używaj zwrotów typu: "siema", "elo", "co tam", "wbijacie", "wpadają", "co się kręci", "widzimy się".
+- Ma być lekko, swobodnie i bez spiny — żadnego wymuszonego stylu.
+- Wspomnij skalę tygodnia, typ wydarzeń i gdzie dzieje się najwięcej.
+- Brzmienie energiczne, ale chillowe i naturalne, jak dobry post na IG.
+- Bez hashtagów, emoji i wypunktowań.
+- Celuj w vibe: "Siema, co tam — w tym tygodniu 3 moto akcje w 2 województwach. Najwięcej kręci się w Małopolsce, ale ogólnie w kraju też coś buja."
+- Nigdy nie używaj słowa "rajdy".
+- Jeśli są zloty — użyj "zloty".
+- Jeśli nie ma zlotów, ale są spotkania — użyj "spotkania".
+- Używaj jednej naturalnej nazwy, nie łącz kilku (np. nie "zloty i spotkania").
+`;
+
 const aiResponseSchema: Schema = {
   type: Type.OBJECT,
   properties: {
@@ -96,7 +119,7 @@ const aiResponseSchema: Schema = {
   required: ["name", "description", "dateFrom", "dateTo", "location"],
 };
 
-const ai = new GoogleGenAI({ apiKey: Bun.env.GOOGLE_AI_API_KEY });
+const ai = new GoogleGenAI({ apiKey: Bun.env.GEMINI_API_KEY });
 
 const buildFacebookPostContent = (
   description: string,
@@ -138,6 +161,43 @@ const buildFacebookPostContent = (
 };
 
 export abstract class AIService {
+  static async generateInstagramWeeklySummary(input: {
+    weekLabel: string;
+    weekStart: string;
+    weekEnd: string;
+    events: WeeklyMotorcycleEventType[];
+  }): Promise<ServiceResult<string>> {
+    if (!Bun.env.GEMINI_API_KEY) {
+      return err(500, "Brak klucza GEMINI_API_KEY.");
+    }
+
+    try {
+      const res = await ai.models.generateContent({
+        model: "gemini-3.1-flash-lite-preview",
+        contents: [
+          {
+            text: `${INSTAGRAM_WEEKLY_SUMMARY_PROMPT}\n\nTydzień: ${input.weekLabel}\nZakres dat: ${input.weekStart} - ${input.weekEnd}\nLiczba wydarzeń: ${input.events.length}\nWydarzenia:\n${input.events
+              .map(
+                (event) =>
+                  `- ${event.date} | ${event.state} | ${event.location} | ${event.eventType ?? "wydarzenie motocyklowe"} | ${event.name}`,
+              )
+              .join("\n")}`,
+          },
+        ],
+      });
+
+      const summary = res.text?.trim();
+      if (!summary) {
+        return err(500, "Nie udało się wygenerować podsumowania tygodnia.");
+      }
+
+      return ok(summary);
+    } catch (error) {
+      console.error("Failed to generate Instagram weekly summary:", error);
+      return err(500, "Nie udało się wygenerować podsumowania tygodnia.");
+    }
+  }
+
   static async bannerScrap(
     fileId: string,
     additionalInfo?: string,
