@@ -1,5 +1,5 @@
 {
-  "id": "a07e5189-a5e4-4c26-bb41-c7a2e9597013",
+  "id": "c466678b-6e19-4f16-9d3a-2d0f0829952f",
   "prevId": "b1f8ea70-1a17-47b2-be97-86d5838be353",
   "version": "7",
   "dialect": "postgresql",
@@ -38,14 +38,14 @@
           "type": "account_rank",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'user'"
         },
         "banned": {
           "name": "banned",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": false
         },
         "ban_reason": {
@@ -69,11 +69,11 @@
         }
       },
       "indexes": {
-        "account_banned_idx": {
-          "name": "account_banned_idx",
+        "account_email_idx": {
+          "name": "account_email_idx",
           "columns": [
             {
-              "expression": "banned",
+              "expression": "email",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -93,13 +93,6 @@
           "nullsNotDistinct": false,
           "columns": [
             "username"
-          ]
-        },
-        "account_email_unique": {
-          "name": "account_email_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "email"
           ]
         }
       },
@@ -156,21 +149,6 @@
           "columns": [
             {
               "expression": "event_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "action_actor_id_idx": {
-          "name": "action_actor_id_idx",
-          "columns": [
-            {
-              "expression": "actor_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -277,7 +255,23 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "address_state_idx": {
+          "name": "address_state_idx",
+          "columns": [
+            {
+              "expression": "state",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
@@ -319,7 +313,7 @@
           "type": "event_status",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'pending'"
         },
         "longitude": {
@@ -379,29 +373,20 @@
         }
       },
       "indexes": {
-        "event_account_id_idx": {
-          "name": "event_account_id_idx",
-          "columns": [
-            {
-              "expression": "account_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "event_status_idx": {
-          "name": "event_status_idx",
+        "event_status_date_from_idx": {
+          "name": "event_status_date_from_idx",
           "columns": [
             {
               "expression": "status",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
+            },
+            {
+              "expression": "date_from",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
             }
           ],
           "isUnique": false,
@@ -409,11 +394,11 @@
           "method": "btree",
           "with": {}
         },
-        "event_dates_idx": {
-          "name": "event_dates_idx",
+        "event_status_date_to_idx": {
+          "name": "event_status_date_to_idx",
           "columns": [
             {
-              "expression": "date_from",
+              "expression": "status",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -429,35 +414,39 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
+        },
+        "event_account_id_idx": {
+          "name": "event_account_id_idx",
+          "columns": [
+            {
+              "expression": "account_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "event_full_address_id_idx": {
+          "name": "event_full_address_id_idx",
+          "columns": [
+            {
+              "expression": "full_address_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
-        "event_banner_id_file_id_fk": {
-          "name": "event_banner_id_file_id_fk",
-          "tableFrom": "event",
-          "tableTo": "file",
-          "columnsFrom": [
-            "banner_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        },
-        "event_banner_small_id_file_id_fk": {
-          "name": "event_banner_small_id_file_id_fk",
-          "tableFrom": "event",
-          "tableTo": "file",
-          "columnsFrom": [
-            "banner_small_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        },
         "event_account_id_account_id_fk": {
           "name": "event_account_id_account_id_fk",
           "tableFrom": "event",
@@ -513,7 +502,7 @@
           "type": "file_status",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'temporary'"
         },
         "created_at": {
@@ -587,7 +576,7 @@
           "name": "seen",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": false
         },
         "source_url": {
@@ -605,6 +594,21 @@
         }
       },
       "indexes": {
+        "scraped_source_url_idx": {
+          "name": "scraped_source_url_idx",
+          "columns": [
+            {
+              "expression": "source_url",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "scraped_seen_idx": {
           "name": "scraped_seen_idx",
           "columns": [
@@ -623,15 +627,7 @@
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "scraped_source_url_unique": {
-          "name": "scraped_source_url_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "source_url"
-          ]
-        }
-      },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
