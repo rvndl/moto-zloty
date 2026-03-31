@@ -62,7 +62,10 @@ interface GeneratedSlide {
 }
 
 const convertSlideBufferToInstagramPhoto = async (buffer: Buffer) =>
-  sharp(buffer).flatten({ background: "#000000" }).jpeg({ quality: 92 }).toBuffer();
+  sharp(buffer)
+    .flatten({ background: "#000000" })
+    .jpeg({ quality: 92 })
+    .toBuffer();
 
 const toInstagramPhotoFileName = (fileName: string) =>
   fileName.replace(/\.[^.]+$/, ".jpg");

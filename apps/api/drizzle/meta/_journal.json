@@ -15,6 +15,13 @@
       "when": 1773530979854,
       "tag": "0001_add_scraped_table",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774982664434,
+      "tag": "0002_familiar_wallflower",
+      "breakpoints": true
     }
   ]
 }

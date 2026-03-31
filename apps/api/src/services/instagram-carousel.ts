@@ -53,6 +53,7 @@ export abstract class InstagramCarouselService {
       const publicBaseUrl = resolveInstagramCarouselPublicBaseUrl(
         payload.publicBaseUrl,
       );
+
       const uploadedSlidesResults = await Promise.all(
         generatedSlides.map((slide) =>
           uploadInstagramCarouselSlide(slide, publicBaseUrl),
