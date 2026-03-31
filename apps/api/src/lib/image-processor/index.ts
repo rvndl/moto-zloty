@@ -5,7 +5,7 @@ const WEBP_QUALITY = 50;
 type ResizeType = "default" | "small";
 
 const getResizeFactor = (resize: ResizeType) => {
-  return resize === "small" ? 8 : 2;
+  return resize === "small" ? 4 : 2;
 };
 
 export async function convertToWebp(
