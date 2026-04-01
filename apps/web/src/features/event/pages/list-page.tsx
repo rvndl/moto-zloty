@@ -79,8 +79,8 @@ const ListPage = () => {
     () =>
       api.events.get({
         query: {
-          dateFrom: filterKey.dateFrom,
-          dateTo: filterKey.dateTo,
+          dateFrom: filterKey.dateFrom ?? undefined,
+          dateTo: filterKey.dateTo ?? undefined,
           sortOrder: filterKey.sortOrder,
           state,
           month: getMonthNum(month as Month)?.toString(),
