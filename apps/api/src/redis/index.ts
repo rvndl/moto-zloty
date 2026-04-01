@@ -1,11 +1,15 @@
-import { RedisClient } from "bun";
+import { RedisClient, type RedisOptions } from "bun";
 import { createLogger } from "../logger";
+import { BunRedisStore } from "@nowarajs/kv-store/bun-redis";
+
+const OPTIONS: RedisOptions = {
+  autoReconnect: true,
+};
 
 const redisLogger = createLogger("redis");
 
-const redis = new RedisClient(Bun.env.REDIS_URL, {
-  autoReconnect: true,
-});
+const redisStore = new BunRedisStore(Bun.env.REDIS_URL, OPTIONS);
+const redis = new RedisClient(Bun.env.REDIS_URL, OPTIONS);
 
 redis.onconnect = () => {
   redisLogger.info("Connected to Redis");
@@ -19,4 +23,4 @@ redis.onclose = (error) => {
   }
 };
 
-export { redis };
+export { redis, redisStore };
