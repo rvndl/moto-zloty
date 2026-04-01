@@ -4,7 +4,7 @@ import { EventMarker } from "./event-marker";
 import { getEventStatus } from "@utils/event";
 import { useMemo } from "react";
 import { type MapEvent } from "@features/event/types";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface Props {
   events?: MapEvent[];
@@ -20,7 +20,7 @@ const EventMap = ({ events, isLoading }: Props) => {
   );
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
@@ -31,7 +31,7 @@ const EventMap = ({ events, isLoading }: Props) => {
           <EventMarker key={event.id} event={event} />
         ))}
       </Map>
-    </motion.div>
+    </m.div>
   );
 };
 

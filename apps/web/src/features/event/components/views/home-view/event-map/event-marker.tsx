@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { MapMarker } from "@components/map";
 import { Popover } from "@headlessui/react";
 import clsx from "clsx";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Image from "next/image";
 import { getFilePath } from "@utils/index";
 import { Button } from "@components/button";
@@ -44,7 +44,7 @@ const EventMarker = ({ event }: Props) => {
         </Popover.Button>
 
         <Popover.Panel className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 z-10">
-          <motion.div
+          <m.div
             initial={{ opacity: 0.5, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-3xl w-56 border shadow"
@@ -76,13 +76,11 @@ const EventMarker = ({ event }: Props) => {
                 </Button>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </Popover.Panel>
       </Popover>
     </MapMarker>
   );
 };
-
-motion;
 
 export { EventMarker };

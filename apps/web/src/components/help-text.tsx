@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
-import { motion, MotionProps } from "framer-motion";
+import { m, MotionProps } from "framer-motion";
 
 type HelpTextVariant = "standard" | "error";
 type HelpTextSize = "sm" | "xs";
@@ -20,12 +20,12 @@ const HelpText = ({
   ...rest
 }: PropsWithChildren<Props>) => {
   return (
-    <motion.p
+    <m.p
       className={twMerge(
         "leading-none",
         variant === "error" ? "text-red-500" : "text-muted",
         size === "xs" ? "text-xs" : "text-sm",
-        className
+        className,
       )}
       key={children + ""}
       initial={{ opacity: 0, y: -5 }}
@@ -35,7 +35,7 @@ const HelpText = ({
       {...rest}
     >
       {children}
-    </motion.p>
+    </m.p>
   );
 };
 

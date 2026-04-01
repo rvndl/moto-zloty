@@ -3,7 +3,7 @@ import { Datepicker } from "@components/datepicker";
 import { Listbox, ListboxOption } from "@components/listbox";
 import { useIsMobile } from "@hooks/use-is-mobile";
 import clsx from "clsx";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import {
   ArrowDownNarrowWideIcon,
   ArrowUpNarrowWideIcon,
@@ -78,7 +78,7 @@ const DateFilters = ({
           onChange={(value) => onChange({ ...filters, dateTo: value })}
         />
         {isClearable && (
-          <motion.span
+          <m.span
             initial={{ opacity: 0, x: -4 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -4 }}
@@ -91,10 +91,10 @@ const DateFilters = ({
             >
               {!isMobile && "Wyczyść"}
             </Button>
-          </motion.span>
+          </m.span>
         )}
         {showSorting && (
-          <motion.div
+          <m.div
             className="flex mb-[1px]"
             initial={{ opacity: 0, x: -4 }}
             animate={{ opacity: 1, x: 0 }}
@@ -108,7 +108,7 @@ const DateFilters = ({
               isLoading={isLoading}
               isDisabled={isLoading}
             />
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

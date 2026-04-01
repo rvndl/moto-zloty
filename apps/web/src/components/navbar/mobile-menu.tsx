@@ -1,5 +1,5 @@
 import { Button } from "@components/button";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { LogOutIcon, MenuIcon, PlusIcon, UserIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { createPortal } from "react-dom";
@@ -45,7 +45,7 @@ const MobileMenu = ({
           <AnimatePresence>
             {isOpen && (
               <>
-                <motion.div
+                <m.div
                   className="fixed top-0 right-0 bottom-0 left-0 z-50 flex h-screen w-screen flex-col overflow-y-auto bg-white p-4 shadow backdrop-blur"
                   initial={{ opacity: 0, x: 200 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -177,7 +177,7 @@ const MobileMenu = ({
                       </>
                     )}
                   </div>
-                </motion.div>
+                </m.div>
               </>
             )}
           </AnimatePresence>,

@@ -5,6 +5,9 @@ import { Geist } from "next/font/google";
 import clsx from "clsx";
 import { ListByState } from "@features/event/components/state-list";
 import { usePathname } from "next/navigation";
+import { LazyMotion } from "framer-motion";
+
+const loadFeatures = () => import("framer-motion").then((mod) => mod.domMax);
 
 const geist = Geist({ subsets: ["latin"] });
 
@@ -48,22 +51,24 @@ const Layout = ({ children }: PropsWithChildren) => {
   }
 
   return (
-    <div className={clsx("w-full min-h-screen", geist.className)}>
-      <Navbar />
-      <div className="flex flex-col w-full overflow-x-hidden">
-        <main
-          role="main"
-          className={clsx(
-            "w-full mx-auto mb-0 md:mb-4",
-            !isFullWidthPage && "max-w-7xl sm:px-6 lg:px-8",
-          )}
-        >
-          {children}
-        </main>
-        {isListByStateVisible && <ListByState />}
-        <Footer variant={isListByStateVisible ? "dark" : "light"} />
+    <LazyMotion features={loadFeatures}>
+      <div className={clsx("w-full min-h-screen", geist.className)}>
+        <Navbar />
+        <div className="flex flex-col w-full overflow-x-hidden">
+          <main
+            role="main"
+            className={clsx(
+              "w-full mx-auto mb-0 md:mb-4",
+              !isFullWidthPage && "max-w-7xl sm:px-6 lg:px-8",
+            )}
+          >
+            {children}
+          </main>
+          {isListByStateVisible && <ListByState />}
+          <Footer variant={isListByStateVisible ? "dark" : "light"} />
+        </div>
       </div>
-    </div>
+    </LazyMotion>
   );
 };
 

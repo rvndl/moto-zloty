@@ -1,7 +1,7 @@
 import { Button } from "@components/button";
 import { EventSearch } from "@features/event";
 import { transitionSpring } from "@utils/transition";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { isEmpty } from "lodash";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
@@ -26,7 +26,7 @@ const DesktopMenu = ({ user, isFloating, onLogout }: Props) => {
     <div className="absolute inset-y-0 right-0 items-center gap-2 pr-2 md:gap-4 sm:static sm:inset-auto sm:ml-6 sm:pr-0 hidden sm:flex">
       <AnimatePresence mode="popLayout">
         {!isFloating && (
-          <motion.div
+          <m.div
             key="add-event"
             initial={{ opacity: 0, scale: 0.8, filter: "blur(4px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
@@ -42,13 +42,13 @@ const DesktopMenu = ({ user, isFloating, onLogout }: Props) => {
                 Dodaj wydarzenie
               </Button>
             </Link>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       <AnimatePresence mode="popLayout">
         {!isFloating && (
-          <motion.div
+          <m.div
             key="divider"
             className="border-l w-px h-8 py-2 opacity-10 border-muted"
             initial={{ opacity: 0, scaleY: 0 }}
@@ -57,7 +57,7 @@ const DesktopMenu = ({ user, isFloating, onLogout }: Props) => {
             transition={{ ...transitionSpring, opacity: { duration: 0.15 } }}
           >
             &nbsp;
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 

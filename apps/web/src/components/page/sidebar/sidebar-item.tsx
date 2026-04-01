@@ -1,9 +1,11 @@
 import { Button, ButtonProps } from "@components/button";
 import clsx from "clsx";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
-interface SidebarItemProps
-  extends Omit<ButtonProps, "variant" | "textAlignment" | "className"> {
+interface SidebarItemProps extends Omit<
+  ButtonProps,
+  "variant" | "textAlignment" | "className"
+> {
   label: string;
   isActive?: boolean;
   isHidden?: boolean;
@@ -32,7 +34,7 @@ const SidebarItem = ({
       {...rest}
     >
       {isActive && (
-        <motion.div
+        <m.div
           layout
           layoutId="sidebar-selected"
           className="absolute bottom-0 left-0 right-0 w-8 rounded-md pointer-events-none md:w-auto bg-primary h-9 -z-10 bg-blend-difference"

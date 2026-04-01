@@ -19,6 +19,7 @@ import { ListView } from "../components";
 
 const thisYear = new Date().getFullYear();
 export const EVENTS_QUERY_KEY = "EVENTS_QUERY_KEY";
+export const EVENTS_DEFAULT_SORT: "Asc" | "Desc" = "Desc";
 
 const getYearMetadata = (year?: string) => {
   if (!year) {
@@ -60,18 +61,27 @@ const ListPage = () => {
   }, [params, yearFromQuery]);
 
   const [filters, setFilters] = useState<Filters>(initialFiltersState);
+
+  const filterKey = {
+    dateFrom: filters.dateFrom?.toISOString() ?? null,
+    dateTo: filters.dateTo?.toISOString() ?? null,
+    sortOrder: (filters.sortOption?.id ?? EVENTS_DEFAULT_SORT) as
+      | "Asc"
+      | "Desc",
+  };
+
   const {
     data: events,
     isLoading,
     refetch,
   } = useQuery(
-    [EVENTS_QUERY_KEY, filters, state, month, year],
+    [EVENTS_QUERY_KEY, filterKey, state, month, year],
     () =>
       api.events.get({
         query: {
-          dateFrom: filters.dateFrom?.toISOString(),
-          dateTo: filters.dateTo?.toISOString(),
-          sortOrder: filters.sortOption?.id as "Asc" | "Desc" | undefined,
+          dateFrom: filterKey.dateFrom,
+          dateTo: filterKey.dateTo,
+          sortOrder: filterKey.sortOrder,
           state,
           month: getMonthNum(month as Month)?.toString(),
           year,

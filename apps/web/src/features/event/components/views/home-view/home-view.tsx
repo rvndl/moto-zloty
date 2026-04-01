@@ -3,8 +3,13 @@ import { EventsCarousel } from "./events-carousel";
 import { EventMap } from "./event-map/map";
 import { Button } from "@components/button";
 import { Accent1 } from "@components/polka-dot/accent-1";
-import { Motorcycle } from "@components/polka-dot/motorcycle";
+import dynamic from "next/dynamic";
 import Link from "next/link";
+
+const Motorcycle = dynamic(
+  () => import("@components/polka-dot/motorcycle").then((m) => m.Motorcycle),
+  { ssr: false },
+);
 
 export const MAP_QUERY_KEY = "MAP_QUERY_KEY";
 export const CAROUSEL_QUERY_KEY = "CAROUSEL_QUERY_KEY";

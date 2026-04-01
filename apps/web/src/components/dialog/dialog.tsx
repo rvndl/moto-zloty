@@ -6,7 +6,7 @@ import {
   Dialog as HeadlessDialog,
 } from "@headlessui/react";
 import clsx from "clsx";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { XIcon } from "lucide-react";
 
 type OpenRef = MutableRefObject<(() => void) | null>;
@@ -59,7 +59,7 @@ const Dialog = ({
         unmount={unmount}
       >
         {open && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.3 }}
             exit={{ opacity: 0 }}

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Logo from "@assets/img/mz-logo-black.png";
@@ -17,8 +17,8 @@ const Brand = ({ isFloating, hasMounted }: Props) => {
   };
 
   return (
-    <motion.div layout="position" className="flex items-center flex-shrink-0">
-      <motion.div
+    <m.div layout="position" className="flex items-center flex-shrink-0">
+      <m.div
         initial={false}
         animate={{ height: isFloating ? 16 : 20 }}
         transition={hasMounted ? transitionSpring : transitionInstant}
@@ -32,8 +32,8 @@ const Brand = ({ isFloating, hasMounted }: Props) => {
           width={512}
           height={203}
         />
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 };
 

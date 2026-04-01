@@ -1,6 +1,12 @@
 import { Controller } from "react-hook-form";
 import { useForm } from "../fom-context";
-import { Dropzone, DropzoneProps } from "@components/dropzone";
+import type { DropzoneProps } from "@components/dropzone";
+import dynamic from "next/dynamic";
+
+const Dropzone = dynamic(
+  () => import("@components/dropzone").then((m) => m.Dropzone),
+  { ssr: false },
+);
 
 const DropzoneField = ({
   name,

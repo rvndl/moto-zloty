@@ -1,6 +1,6 @@
 import { Skeleton } from "@components/skeleton";
 import { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface Props {
   title?: string;
@@ -19,13 +19,13 @@ const PageHeader = ({ title, content, activeTab, description }: Props) => {
             {activeTab && (
               <>
                 <span> - </span>
-                <motion.div
+                <m.div
                   key={activeTab}
                   initial={{ y: 5, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                 >
                   {activeTab}
-                </motion.div>
+                </m.div>
               </>
             )}
           </h1>

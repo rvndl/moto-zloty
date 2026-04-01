@@ -2,7 +2,7 @@ import { Button } from "@components/button";
 import clsx from "clsx";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface Props {
   to: string;
@@ -27,7 +27,7 @@ const NavbarItem = ({
   const content = (
     <>
       {isActive && !isMobile && (
-        <motion.div
+        <m.div
           layoutId="navbar-active-indicator"
           className="absolute inset-0 rounded-lg bg-primary/10"
           transition={{

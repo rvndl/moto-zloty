@@ -4,7 +4,7 @@ import Logo from "@assets/img/mz-logo-black.png";
 import { groupEventsByWeek } from "@utils/event";
 import { EventCard } from "./event-card";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Image from "next/image";
 
 interface Props {
@@ -44,7 +44,7 @@ const EventList = ({
   }
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
@@ -65,7 +65,7 @@ const EventList = ({
           </div>
         </section>
       ))}
-    </motion.div>
+    </m.div>
   );
 };
 

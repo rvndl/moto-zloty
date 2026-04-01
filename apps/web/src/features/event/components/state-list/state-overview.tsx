@@ -3,8 +3,13 @@ import { StateList } from "./state-list";
 import { ListItem } from "./list-item";
 import { api, useQuery } from "api/eden";
 import { useMemo } from "react";
-import { Poland } from "@components/polka-dot/poland";
+import dynamic from "next/dynamic";
 import { type ListByStateEvent } from "@features/event/types";
+
+const Poland = dynamic(
+  () => import("@components/polka-dot/poland").then((m) => m.Poland),
+  { ssr: false },
+);
 
 export const LIST_BY_STATE_QUERY_KEY = "LIST_BY_STATE_QUERY_KEY";
 

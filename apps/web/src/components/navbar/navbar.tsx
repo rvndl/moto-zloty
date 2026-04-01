@@ -7,7 +7,7 @@ import { CogIcon, ListIcon, MapIcon } from "lucide-react";
 import Link from "next/link";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import { motion, LayoutGroup } from "framer-motion";
+import { m, LayoutGroup } from "framer-motion";
 import { Brand } from "./brand";
 import { transitionInstant, transitionSpring } from "@utils/transition";
 import { DesktopMenu } from "./desktop-menu";
@@ -95,7 +95,7 @@ const Navbar = () => {
 
   return (
     <LayoutGroup>
-      <motion.nav
+      <m.nav
         role="navigation"
         layout
         className="sticky top-0 z-50"
@@ -103,7 +103,7 @@ const Navbar = () => {
         initial={false}
         animate={{ padding: isFloating ? "0.5rem 1rem" : "0rem" }}
       >
-        <motion.div
+        <m.div
           layout
           className={clsx(
             "border",
@@ -113,7 +113,7 @@ const Navbar = () => {
           )}
           transition={hasMounted.current ? transitionSpring : transitionInstant}
         >
-          <motion.div
+          <m.div
             layout
             className={clsx(
               "mx-auto",
@@ -123,7 +123,7 @@ const Navbar = () => {
               hasMounted.current ? transitionSpring : transitionInstant
             }
           >
-            <motion.div
+            <m.div
               layout
               className="relative flex items-center justify-between"
               initial={false}
@@ -223,10 +223,10 @@ const Navbar = () => {
                 isPermitted={!!isPermitted}
                 onLogout={handleOnLogout}
               />
-            </motion.div>
-          </motion.div>
-        </motion.div>
-      </motion.nav>
+            </m.div>
+          </m.div>
+        </m.div>
+      </m.nav>
     </LayoutGroup>
   );
 };

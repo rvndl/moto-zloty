@@ -1,5 +1,5 @@
 import { Button } from "@components/button";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface Props<TTab extends string> {
   tab: TTab;
@@ -22,7 +22,7 @@ const Tab = <TTab extends string>({
       onClick={() => onChange(tab)}
     >
       {activeTab === tab && (
-        <motion.div
+        <m.div
           layout
           layoutId="tab-indicator"
           className="absolute inset-0 bg-white rounded-md shadow -z-10"
