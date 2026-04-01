@@ -12,15 +12,15 @@ import { modEventsRoute } from "./routes/events/moderation/index";
 import { mapRoute, sitemapRoute } from "./routes/events/public/index";
 import { cleanupJob } from "./jobs";
 import openapi from "@elysiajs/openapi";
-import { configure, getConsoleSink, getLogger } from "@logtape/logtape";
 import { scraperRoute } from "./routes/scraper";
 import { socialMediaRoute } from "./routes/social-media";
 import { publishWeeklyEventsRoute } from "./routes/publish-weekly-events";
+import { redis } from "./redis";
+import { createLogger } from "./logger";
 
-await configure({
-  sinks: { console: getConsoleSink() },
-  loggers: [{ category: "api", lowestLevel: "info", sinks: ["console"] }],
-});
+const elysiaLogger = createLogger("elysia");
+
+await redis.connect();
 
 const app = new Elysia({ name: "app.main" })
   .use(cors())
@@ -62,8 +62,6 @@ const app = new Elysia({ name: "app.main" })
   .use(publishWeeklyEventsRoute)
   .listen(Bun.env.PORT ?? 3000);
 
-const logger = getLogger(["api", "main"]);
-
-logger.info`API running at ${app.server?.hostname}:${app.server?.port}`;
+elysiaLogger.info(`API running at ${app.server?.hostname}:${app.server?.port}`);
 
 export type App = typeof app;

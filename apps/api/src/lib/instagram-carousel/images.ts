@@ -28,7 +28,10 @@ export const prepareEventImageDataUrl = async (
       return buildPlaceholderImage(size);
     }
 
-    const buffer = await sharp(Buffer.from(await response.arrayBuffer()))
+    const reponseArrayBuffer = await response.arrayBuffer();
+    const reponseBuffer = Buffer.from(reponseArrayBuffer);
+
+    const buffer = await sharp(reponseBuffer)
       .resize(size, size, { fit: "cover", position: "centre" })
       .png()
       .toBuffer();

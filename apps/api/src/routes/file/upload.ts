@@ -5,6 +5,7 @@ import { convertToWebp } from "../../lib/image-processor";
 import { FileUploadResponse } from "../../models/file";
 import { ErrorResponse } from "../../models/common";
 import { FileService } from "../../services";
+import { createLogger } from "../../logger";
 
 const ACCEPTED_CONTENT_TYPES = [
   "image/png",
@@ -14,6 +15,8 @@ const ACCEPTED_CONTENT_TYPES = [
 ];
 const FOUR_MB = 1024 * 1024 * 4;
 const UPLOAD_PATH = Bun.env.UPLOAD_PATH || "./uploads";
+
+const uploadLogger = createLogger("file-upload");
 
 export const uploadRoute = new Elysia({ name: "routes.file.upload" })
   .model({
@@ -68,7 +71,7 @@ export const uploadRoute = new Elysia({ name: "routes.file.upload" })
           small_id: smallResult.data.id,
         };
       } catch (error) {
-        console.error("Image processing failed:", error);
+        uploadLogger.error("Image processing failed:", error);
 
         try {
           await unlink(originalPath);

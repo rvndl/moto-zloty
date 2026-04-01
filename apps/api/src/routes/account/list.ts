@@ -17,7 +17,6 @@ export const listRoute = new Elysia({
       try {
         return await AccountService.listAll();
       } catch (err) {
-        console.error("Failed to fetch accounts:", err);
         return status(500, {
           error: "Nie udało się pobrać listy użytkowników",
         });

@@ -2,6 +2,9 @@ import { Elysia } from "elysia";
 import { verifyTurnstile } from "../lib/turnstile";
 import { ContactBody, ContactResponse } from "../models/contact";
 import { ErrorResponse } from "../models/common";
+import { createLogger } from "../logger";
+
+const contactLogger = createLogger("contact");
 
 export const contactRoute = new Elysia({
   name: "routes.contact",
@@ -26,7 +29,7 @@ export const contactRoute = new Elysia({
       const smtpPass = Bun.env.SMTP_PASS;
 
       if (!smtpLogin || !smtpPass) {
-        console.error("SMTP credentials not configured");
+        contactLogger.error("SMTP credentials not configured");
         return status(500, {
           error: "Wystąpił błąd podczas wysyłania wiadomości",
         });
@@ -54,7 +57,7 @@ export const contactRoute = new Elysia({
 
         return { message: "ok" };
       } catch (error) {
-        console.error("Failed to send email:", error);
+        contactLogger.error("Failed to send a email:", error);
 
         return status(500, {
           error: "Wystąpił błąd podczas wysyłania wiadomości",

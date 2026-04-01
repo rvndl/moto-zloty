@@ -126,6 +126,8 @@ const GEIST_FONT_SOURCES = [
   },
 ] as const;
 
+type GeistFontSource = (typeof GEIST_FONT_SOURCES)[number];
+
 interface CarouselAssets {
   fonts: Font[];
   logoSrc: string;
@@ -135,26 +137,35 @@ interface CarouselAssets {
 let cachedAssets: CarouselAssets | null = null;
 
 const fileToDataUrl = async (path: URL, mimeType: string) => {
-  const buffer = Buffer.from(await Bun.file(path).arrayBuffer());
-  return `data:${mimeType};base64,${buffer.toString("base64")}`;
+  const fileArrayBuffer = await Bun.file(path).arrayBuffer();
+  const fileBuffer = Buffer.from(fileArrayBuffer);
+
+  return `data:${mimeType};base64,${fileBuffer.toString("base64")}`;
 };
 
-export const loadCarouselAssets = async (): Promise<CarouselAssets> => {
+const mapFontSourceToFont = async (source: GeistFontSource) => {
+  const fontBuffer = await Bun.file(source.path).arrayBuffer();
+
+  return {
+    name: source.name,
+    data: Buffer.from(fontBuffer),
+    weight: source.weight,
+    style: source.style,
+  } as Font;
+};
+
+export const loadCarouselAssets = async () => {
   if (cachedAssets) {
     return cachedAssets;
   }
 
   const [fonts, logoSrc, tileSrc] = await Promise.all([
-    Promise.all(
-      GEIST_FONT_SOURCES.map(async ({ path, ...font }) => ({
-        ...font,
-        data: await Bun.file(path).arrayBuffer(),
-      })),
-    ),
+    Promise.all(GEIST_FONT_SOURCES.map(mapFontSourceToFont)),
     fileToDataUrl(LOGO_PATH, "image/png"),
     fileToDataUrl(TILE_PATH, "image/png"),
   ]);
 
   cachedAssets = { fonts, logoSrc, tileSrc };
+
   return cachedAssets;
 };

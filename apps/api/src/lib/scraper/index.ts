@@ -1,7 +1,10 @@
 import * as cheerio from "cheerio";
+import { createLogger } from "../../logger";
 
 const BASE_URL = "https://mototour.pl";
 const ITEMS_PER_PAGE = 9;
+
+const scraperLogger = createLogger("scraper");
 
 interface ScrapeResult {
   url: string;
@@ -30,12 +33,12 @@ export class Scraper {
     const firstPage = await this.fetchPage();
     const totalPages = this.getTotalPages(firstPage);
 
-    console.log("scrapper: total pages:", totalPages);
+    scraperLogger.info("Total pages:", totalPages);
 
     const totalUrls: string[] = [];
     const firstPageUrls = this.getPageUrls(firstPage);
 
-    console.log("scrapper: 1 page urls:", `+${firstPageUrls.length} urls`);
+    scraperLogger.info("1 page urls:", `+${firstPageUrls.length} urls`);
 
     totalUrls.push(...firstPageUrls);
 
@@ -43,12 +46,12 @@ export class Scraper {
       const pageData = await this.fetchPage(i);
       const pageUrls = this.getPageUrls(pageData);
 
-      console.log(`scrapper: ${i + 1} page urls:`, `+${pageUrls.length} urls`);
+      scraperLogger.info(`${i + 1} page urls:`, `+${pageUrls.length} urls`);
 
       totalUrls.push(...pageUrls);
     }
 
-    console.log("scrapper: total urls:", totalUrls.length);
+    scraperLogger.info("Total urls:", totalUrls.length);
 
     const results: ScrapeResult[] = [];
 
@@ -56,16 +59,16 @@ export class Scraper {
       try {
         const result = await this.scrapePage(url);
         results.push(result);
-        console.log("scrapper: scraped:", url);
+        scraperLogger.info("Scraped:", url);
       } catch (error) {
-        console.error("scrapper: error scraping:", url, error);
+        scraperLogger.error("Error while scraping:", url, "got error:", error);
       }
     }
 
     return results;
   }
 
-  private async scrapePage(url: string): Promise<ScrapeResult> {
+  private async scrapePage(url: string) {
     const $ = await this.fetchDocument(url);
 
     const title = $('h2[itemprop="name"]').text().trim();
@@ -83,7 +86,7 @@ export class Scraper {
     };
   }
 
-  private extractDescription(pageData: cheerio.CheerioAPI): string {
+  private extractDescription(pageData: cheerio.CheerioAPI) {
     const paragraphs = pageData(
       'div[itemprop="body"] > p, div[itemprop="articleBody"] > p',
     )
@@ -132,7 +135,7 @@ export class Scraper {
     return this.fetchDocument(pageUrl);
   }
 
-  private async fetchDocument(url: string): Promise<cheerio.CheerioAPI> {
+  private async fetchDocument(url: string) {
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -145,7 +148,7 @@ export class Scraper {
     return cheerio.load(html);
   }
 
-  private toAbsoluteUrl(url: string): string {
+  private toAbsoluteUrl(url: string) {
     if (url.startsWith("http://") || url.startsWith("https://")) {
       return url;
     }

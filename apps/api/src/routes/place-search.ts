@@ -1,10 +1,13 @@
 import { Elysia, t } from "elysia";
-import { createClient } from "redis";
 import { ErrorResponse } from "../models/common";
+import { redis } from "../redis";
+import { createLogger } from "../logger";
 
 const API_URL = "https://eu1.locationiq.com/v1/autocomplete";
 const MAX_RESULTS = 5;
 const REDIS_KEY_PREFIX = "place-search";
+
+const placeSearchLogger = createLogger("place-search");
 
 interface LocationIQAddress {
   name?: string;
@@ -23,18 +26,6 @@ interface LocationIQPlace {
   address: LocationIQAddress;
 }
 
-let redisClient: ReturnType<typeof createClient> | null = null;
-
-async function getRedisClient() {
-  if (!redisClient) {
-    const redisUrl = Bun.env.REDIS_URL || "redis://localhost:6379";
-    redisClient = createClient({ url: redisUrl });
-    redisClient.on("error", (err) => console.error("Redis error:", err));
-    await redisClient.connect();
-  }
-  return redisClient;
-}
-
 export const placeSearchRoute = new Elysia({
   name: "routes.placeSearch",
   prefix: "/placeSearch",
@@ -49,13 +40,12 @@ export const placeSearchRoute = new Elysia({
       const cacheKey = `${REDIS_KEY_PREFIX}:${query}`;
 
       try {
-        const redis = await getRedisClient();
         const cached = await redis.get(cacheKey);
         if (cached) {
           return JSON.parse(cached) as LocationIQPlace[];
         }
       } catch (error) {
-        console.warn("Redis cache miss or error:", error);
+        placeSearchLogger.warn("Redis cache miss or error:", error);
       }
 
       const apiKey = Bun.env.LOCATION_IQ_API_KEY;
@@ -68,7 +58,7 @@ export const placeSearchRoute = new Elysia({
       try {
         const response = await fetch(requestUrl);
         if (!response.ok) {
-          console.error(`LocationIQ API error: ${response.status}`);
+          placeSearchLogger.error(`LocationIQ API error: ${response.status}`);
           return status(500, {
             error: `Failed to search places: ${response.status}`,
           });
@@ -77,15 +67,14 @@ export const placeSearchRoute = new Elysia({
         const places = (await response.json()) as LocationIQPlace[];
 
         try {
-          const redis = await getRedisClient();
           await redis.set(cacheKey, JSON.stringify(places));
         } catch (error) {
-          console.warn("Failed to cache result:", error);
+          placeSearchLogger.warn("Failed to cache result:", error);
         }
 
         return places;
       } catch (error) {
-        console.error("Failed to search places:", error);
+        placeSearchLogger.error("Failed to search places:", error);
 
         return status(500, { error: "Nie udało się wyszukać miejsc" });
       }

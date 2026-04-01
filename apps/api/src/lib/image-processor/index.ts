@@ -11,7 +11,7 @@ const getResizeFactor = (resize: ResizeType) => {
 export async function convertToWebp(
   inputPath: string,
   resize: ResizeType = "default",
-): Promise<string> {
+) {
   const outputPath =
     resize === "small"
       ? inputPath.replace(/\.[^.]+$/, ".small.webp")
@@ -38,7 +38,7 @@ export async function convertToWebp(
 export async function bufferToWebp(
   buffer: Buffer | ArrayBuffer,
   resize: ResizeType = "default",
-): Promise<Buffer> {
+) {
   const inputBuffer = Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer);
   let pipeline = sharp(inputBuffer);
 

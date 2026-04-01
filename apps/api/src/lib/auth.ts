@@ -18,7 +18,7 @@ class AuthError extends Error {
   }
 }
 
-export function isPermitted(rank: string): boolean {
+export function isPermitted(rank: string) {
   return rank === "admin" || rank === "mod";
 }
 
@@ -36,6 +36,7 @@ export const authMiddleware = new Elysia({ name: "middleware.auth" })
   .onError(({ error, set }) => {
     if (error instanceof AuthError) {
       set.status = error.statusCode;
+
       return { error: error.message };
     }
   })
@@ -61,6 +62,7 @@ export const modMiddleware = new Elysia({ name: "middleware.mod" })
   .onError(({ error, set }) => {
     if (error instanceof AuthError) {
       set.status = error.statusCode;
+
       return { error: error.message };
     }
   })
