@@ -3,7 +3,6 @@ import { EventCard } from "../../shared/event-card";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { Skeleton } from "@components/skeleton";
 import { sortEvents } from "@utils/event";
-import { motion } from "framer-motion";
 
 interface Props {
   events?: CarouselEvent[];
@@ -47,19 +46,10 @@ const EventsCarousel = ({ events }: Props) => {
         onScroll={handleScroll}
         className="flex pt-1 pb-1 overflow-x-auto overflow-y-hidden gap-x-1 md:gap-x-2 snap-x scrollbar-thin"
       >
-        {sortedEvents?.map((event, idx) => (
-          <motion.span
-            key={event.id}
-            className="flex-shrink-0"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              transition: { delay: idx * 0.05 },
-            }}
-          >
+        {sortedEvents?.map((event) => (
+          <span key={event.id} className="flex-shrink-0">
             <EventCard event={event} />
-          </motion.span>
+          </span>
         ))}
       </section>
 
