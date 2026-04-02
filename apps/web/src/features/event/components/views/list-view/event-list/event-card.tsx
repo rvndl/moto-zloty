@@ -33,7 +33,7 @@ const EventCard = ({ event }: Props) => {
       <Image
         src={getFilePath(event.bannerSmallId ?? event.bannerId)}
         className="object-cover w-full h-full transition rounded-md cursor-pointer"
-        alt={event.name}
+        alt={event.name + " - " + address}
         title={event.name}
         onClick={() => handleOnClick(event)}
         width={300}

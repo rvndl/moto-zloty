@@ -72,55 +72,104 @@ export const states = [
 ] as const;
 export type State = (typeof states)[number];
 
-const getStateTemplate = (state: string, icon: ReactNode) => {
+const getStateTemplate = (
+  state: string,
+  statePlural: string,
+  icon: ReactNode,
+) => {
   return {
-    title: `Zloty motocyklowe w województwie ${state} – katalog 2026`,
-    pageTitle: `Zloty motocyklowe w województwie ${state} – 2026`,
-    description: `Poznaj terminy, miejsca i atrakcje zlotów motocyklowych w woj. ${state} – aktualny na 2026 rok`,
-    relatedDesc: `Sprawdź nadchodzące wydarzenia i atrakcje w regionie ${state}.`,
+    title: `Zloty motocyklowe ${state} 2026 - Katalog i Wydarzenia`,
+    pageTitle: `Zloty Motocyklowe: ${state} 2026`,
+    description: `Szukasz imprez? Sprawdź nasz katalog: zloty motocyklowe ${state} 2026. Poznaj dokładne terminy, miejsca i atrakcje w swoim regionie.`,
+    relatedDesc: `Sprawdź nadchodzące zloty i wydarzenia w regionie ${statePlural}.`,
     icon,
   };
 };
 
 const stateMetadata: Record<State, ReturnType<typeof getStateTemplate>> = {
-  "województwo dolnośląskie": getStateTemplate("dolnośląskim", <CastleIcon />),
+  "województwo dolnośląskie": getStateTemplate(
+    "dolnośląskie",
+    "dolnośląskim",
+    <CastleIcon />,
+  ),
   "województwo kujawsko-pomorskie": getStateTemplate(
+    "kujawsko-pomorskie",
     "kujawsko-pomorskim",
     <AtomIcon />,
   ),
-  "województwo lubelskie": getStateTemplate("lubelskim", <WheatIcon />),
-  "województwo lubuskie": getStateTemplate("lubuskim", <TreePineIcon />),
-  "województwo mazowieckie": getStateTemplate("mazowieckim", <LandmarkIcon />),
-  "województwo małopolskie": getStateTemplate("małopolskim", <MountainIcon />),
-  "województwo opolskie": getStateTemplate("opolskim", <MicIcon />),
-  "województwo podkarpackie": getStateTemplate("podkarpackim", <TentIcon />),
-  "województwo podlaskie": getStateTemplate("podlaskim", <PawPrintIcon />),
-  "województwo pomorskie": getStateTemplate("pomorskim", <AnchorIcon />),
-  "województwo śląskie": getStateTemplate("śląskim", <HardHatIcon />),
+  "województwo lubelskie": getStateTemplate(
+    "lubelskie",
+    "lubelskim",
+    <WheatIcon />,
+  ),
+  "województwo lubuskie": getStateTemplate(
+    "lubuskie",
+    "lubuskim",
+    <TreePineIcon />,
+  ),
+  "województwo mazowieckie": getStateTemplate(
+    "mazowieckie",
+    "mazowieckim",
+    <LandmarkIcon />,
+  ),
+  "województwo małopolskie": getStateTemplate(
+    "małopolskie",
+    "małopolskim",
+    <MountainIcon />,
+  ),
+  "województwo opolskie": getStateTemplate("opolskie", "opolskim", <MicIcon />),
+  "województwo podkarpackie": getStateTemplate(
+    "podkarpackie",
+    "podkarpackim",
+    <TentIcon />,
+  ),
+  "województwo podlaskie": getStateTemplate(
+    "podlaskie",
+    "podlaskim",
+    <PawPrintIcon />,
+  ),
+  "województwo pomorskie": getStateTemplate(
+    "pomorskie",
+    "pomorskim",
+    <AnchorIcon />,
+  ),
+  "województwo śląskie": getStateTemplate(
+    "śląskie",
+    "śląskim",
+    <HardHatIcon />,
+  ),
   "województwo świętokrzyskie": getStateTemplate(
+    "świętokrzyskie",
     "świętokrzyskim",
     <RockingChairIcon />,
   ),
   "województwo warmińsko-mazurskie": getStateTemplate(
+    "warmińsko-mazurskie",
     "warmińsko-mazurskim",
     <SailboatIcon />,
   ),
   "województwo wielkopolskie": getStateTemplate(
+    "wielkopolskie",
     "wielkopolskim",
     <ScrollIcon />,
   ),
   "województwo zachodniopomorskie": getStateTemplate(
+    "zachodniopomorskie",
     "zachodniopomorskim",
     <WindIcon />,
   ),
-  "województwo łódzkie": getStateTemplate("łódzkim", <FactoryIcon />),
+  "województwo łódzkie": getStateTemplate(
+    "łódzkie",
+    "łódzkim",
+    <FactoryIcon />,
+  ),
 };
 
 export const getStateMetadata = (state?: State) => {
   if (!state)
     return {
-      title: "Zloty motocyklowe w Polsce – katalog 2026",
-      pageTitle: "Zloty motocyklowe w Polsce – 2026",
+      title: "Zloty Motocyklowe w Polsce 2026 - Katalog i Wydarzenia",
+      pageTitle: "Zloty Motocyklowe w Polsce 2026",
       description:
         "Poznaj terminy, miejsca i atrakcje zlotów motocyklowych w Polsce – aktualny na 2026 rok",
       relatedDesc: "Sprawdź nadchodzące wydarzenia i atrakcje w Polsce",
