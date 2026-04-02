@@ -5,12 +5,17 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { Route } from "./navbar";
 import { NavbarItem } from "./navbar-item";
-import { EventSearch } from "@features/event";
-import { UserState } from "@features/auth";
+import dynamic from "next/dynamic";
+import { UserState } from "@features/auth/store/user-store";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/navigation";
 import { rankToString } from "@utils/user";
 import Link from "next/link";
+
+const EventSearch = dynamic(
+  () => import("@features/event").then((mod) => mod.EventSearch),
+  { ssr: false },
+);
 
 interface Props {
   routes: Route[];

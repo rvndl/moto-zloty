@@ -1,5 +1,5 @@
 import { Metadata } from "@components/metadata";
-import { HomeView } from "../components";
+import { HomeView } from "../components/views/home-view";
 
 const HomePage = () => {
   return (

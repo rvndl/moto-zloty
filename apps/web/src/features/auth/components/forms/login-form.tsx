@@ -1,6 +1,7 @@
 import { Button } from "@components/button";
 import { Form } from "@components/form";
-import { InputField, ReCaptchaField } from "@components/form/fields";
+import { InputField } from "@components/form/fields/input-field";
+import { ReCaptchaField } from "@components/form/fields/recaptcha-field";
 import { useAuth } from "@features/auth/hooks";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { yup } from "@utils/yup";

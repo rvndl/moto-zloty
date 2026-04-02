@@ -1,8 +1,14 @@
 import { type Event } from "@features/event/types";
 import { EventList } from "./event-list";
-import { DateFilters, Filters } from "../../shared/date-filters";
+import type { Filters } from "../../shared/date-filters";
+import dynamic from "next/dynamic";
 import { StateSelectList } from "./state-select";
 import { MonthSelectList } from "./month-select";
+
+const DateFilters = dynamic(
+  () => import("../../shared/date-filters").then((m) => m.DateFilters),
+  { ssr: false },
+);
 
 interface Props {
   events?: Event[];

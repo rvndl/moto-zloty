@@ -1,10 +1,8 @@
 import { Button } from "@components/button";
 import { useForm } from "@components/form";
-import {
-  DatepickerField,
-  DropzoneField,
-  InputField,
-} from "@components/form/fields";
+import { InputField } from "@components/form/fields/input-field";
+import { DatepickerField } from "@components/form/fields/datepicker-field";
+import { DropzoneField } from "@components/form/fields/dropzone-field";
 import { Value } from "@components/value";
 import { SearchAddressField } from "@features/event";
 import dynamic from "next/dynamic";

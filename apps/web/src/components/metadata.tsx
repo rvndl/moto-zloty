@@ -1,4 +1,4 @@
-import { stripHtml } from "string-strip-html";
+import { stripHtml } from "@utils/index";
 import Head from "next/head";
 import truncate from "lodash/truncate";
 
@@ -21,7 +21,7 @@ interface Props {
 
 const Metadata = ({ title, description, canonical, structuredData }: Props) => {
   const siteUrl = process.env.NEXT_PUBLIC_PUBLIC_URL;
-  const strippedDescription = truncate(stripHtml(description ?? "").result, {
+  const strippedDescription = truncate(stripHtml(description ?? ""), {
     length: 160,
     omission: "...",
   });

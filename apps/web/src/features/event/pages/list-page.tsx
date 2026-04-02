@@ -15,7 +15,7 @@ import {
 } from "../utils";
 import { useRouter } from "next/router";
 import { BreadcrumbProps } from "@components/page/breadcrumbs";
-import { ListView } from "../components";
+import { ListView } from "../components/views/list-view";
 
 const thisYear = new Date().getFullYear();
 export const EVENTS_QUERY_KEY = "EVENTS_QUERY_KEY";

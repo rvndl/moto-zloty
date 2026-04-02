@@ -11,7 +11,8 @@ import { DropzoneImage } from "@components/dropzone";
 import { AutocompleteOption } from "@components/autocomplete";
 import { Button } from "@components/button";
 import { Form } from "@components/form";
-import { DropzoneField, InputField } from "@components/form/fields";
+import { InputField } from "@components/form/fields/input-field";
+import { DropzoneField } from "@components/form/fields/dropzone-field";
 import { Card } from "@components/card";
 import Link from "next/link";
 

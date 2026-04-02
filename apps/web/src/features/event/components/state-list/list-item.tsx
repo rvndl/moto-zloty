@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 import Link from "next/link";
 import { useMemo } from "react";
-import { stripHtml } from "string-strip-html";
+import { stripHtml } from "@utils/index";
 import { twMerge } from "tailwind-merge";
 import {
   type Event,
@@ -19,7 +19,7 @@ interface Props {
 
 const ListItem = ({ event, variant = "ghost" }: Props) => {
   const strippedDescription = useMemo(
-    () => stripHtml(event.description ?? "").result,
+    () => stripHtml(event.description ?? ""),
     [event.description],
   );
 

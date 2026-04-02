@@ -10,7 +10,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Dialog, OpenRef } from "@components/dialog";
 import { ListboxOption } from "@components/listbox";
 import { Form } from "@components/form";
-import { ListboxField } from "@components/form/fields";
+import { ListboxField } from "@components/form/fields/listbox-field";
 import { Button } from "@components/button";
 
 const eventStatuses: EventStatus[] = ["approved", "rejected"];

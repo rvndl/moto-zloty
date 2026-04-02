@@ -1,7 +1,7 @@
 import { Button } from "@components/button";
 import { Card } from "@components/card";
 import { Form } from "@components/form";
-import { InputField } from "@components/form/fields";
+import { InputField } from "@components/form/fields/input-field";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { yup } from "@utils/yup";

@@ -1,6 +1,6 @@
 import { Button } from "@components/button";
 import { rankToString } from "@utils/user";
-import { UserState } from "@features/auth";
+import { UserState } from "@features/auth/store/user-store";
 import { useRouter } from "next/navigation";
 import { LogOutIcon, UserIcon } from "lucide-react";
 import { Dropdown } from "@components/dropdown";

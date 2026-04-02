@@ -5,11 +5,9 @@ import { AtSignIcon, InstagramIcon } from "lucide-react";
 import { Page } from "@components/page";
 import { Card } from "@components/card";
 import { Form } from "@components/form";
-import {
-  InputField,
-  ReCaptchaField,
-  TextareaField,
-} from "@components/form/fields";
+import { InputField } from "@components/form/fields/input-field";
+import { ReCaptchaField } from "@components/form/fields/recaptcha-field";
+import { TextareaField } from "@components/form/fields/textarea-field";
 import { Button } from "@components/button";
 import { api, InferBody, useMutation } from "api/eden";
 

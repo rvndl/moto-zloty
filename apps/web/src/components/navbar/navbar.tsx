@@ -1,4 +1,4 @@
-import { useAuth } from "@features/auth";
+import { useAuth } from "@features/auth/hooks/use-auth";
 import { NavbarItem } from "./navbar-item";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@components/button";

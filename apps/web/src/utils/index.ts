@@ -8,6 +8,8 @@ export * from "./text-editor";
 
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
+export const stripHtml = (str: string) => str.replace(/<[^>]*>/g, "");
+
 export type SymbolKind = "string" | "number";
 export type BooleanKind = "boolean";
 export type DateKind = "date" | "datetime" | "daymonth" | "daymonthhour";

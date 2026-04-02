@@ -1,4 +1,4 @@
-import { getFilePath } from "@utils/index";
+import { getFilePath, stripHtml } from "@utils/index";
 import { formatDistance } from "date-fns";
 import { useMemo } from "react";
 import { type Event, type CarouselEvent } from "@features/event/types";
@@ -8,7 +8,6 @@ import { getEventStatus } from "@utils/event";
 import Link from "next/link";
 import Image from "next/image";
 import { ClockIcon, MapPinIcon } from "lucide-react";
-import { stripHtml } from "string-strip-html";
 import { PingIcon } from "@components/ping-icon";
 import { getShortState } from "@features/event/utils";
 
@@ -20,7 +19,7 @@ const EventCard = ({ event }: Props) => {
   const { isOngoing, isPast } = useMemo(() => getEventStatus(event), [event]);
 
   const strippedDescription = useMemo(
-    () => stripHtml(event.description ?? "").result,
+    () => stripHtml(event.description ?? ""),
     [event.description],
   );
 

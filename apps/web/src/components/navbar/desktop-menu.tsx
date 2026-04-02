@@ -1,13 +1,21 @@
 import { Button } from "@components/button";
-import { EventSearch } from "@features/event";
+import dynamic from "next/dynamic";
 import { transitionSpring } from "@utils/transition";
 import { AnimatePresence, m } from "framer-motion";
 import { isEmpty } from "lodash";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
-import { UserMenu } from "./user-menu";
-import { UserState } from "@features/auth";
+import { UserState } from "@features/auth/store/user-store";
 import { useRouter } from "next/router";
+
+const UserMenu = dynamic(() => import("./user-menu").then((m) => m.UserMenu), {
+  ssr: false,
+});
+
+const EventSearch = dynamic(
+  () => import("@features/event").then((mod) => mod.EventSearch),
+  { ssr: false },
+);
 
 interface Props {
   user: UserState;

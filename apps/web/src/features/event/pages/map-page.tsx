@@ -1,5 +1,5 @@
 import { Metadata } from "@components/metadata";
-import { MapView } from "../components";
+import { MapView } from "../components/views/map-view";
 import { Page } from "@components/page";
 
 const MapPage = () => {
