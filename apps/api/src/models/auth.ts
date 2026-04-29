@@ -1,5 +1,5 @@
 import { t } from "elysia";
-import { accountRankEnum } from "../db/schema";
+import { accountRankEnum } from "@db/schema";
 
 const rankValues = accountRankEnum.enumValues;
 const RankType = t.Union([

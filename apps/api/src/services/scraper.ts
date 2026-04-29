@@ -1,8 +1,8 @@
+import { db } from "@db";
+import { Scraper } from "@lib/scraper";
 import { eq } from "drizzle-orm";
-import { db } from "../db";
-import { scraped } from "../db/schema";
-import { Scraper } from "../lib/scraper";
 import { err, ok } from "./types";
+import { scraped } from "@db/schema";
 
 export abstract class ScraperService {
   static async scrape(url: string) {

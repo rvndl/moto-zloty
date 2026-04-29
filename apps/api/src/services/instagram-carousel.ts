@@ -1,8 +1,8 @@
+import type { StateGroup } from "@lib/instagram-carousel";
 import type {
   PublishWeeklyEventsBodyType,
   PublishWeeklyEventsResponseType,
-} from "../models/instagram-carousel";
-import type { StateGroup } from "../lib/instagram-carousel";
+} from "@models";
 import { FacebookGraphService } from "./facebook-graph";
 import {
   buildInstagramCarouselCaption,

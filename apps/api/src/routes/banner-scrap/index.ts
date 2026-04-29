@@ -1,8 +1,8 @@
 import { Elysia } from "elysia";
-import { modMiddleware } from "../../lib/auth";
-import { ErrorResponse } from "../../models/common";
-import { BannerScrapBody, BannerScrapResponse } from "../../models/ai";
-import { AIService } from "../../services/ai";
+import { modMiddleware } from "@lib";
+import { ErrorResponse } from "@models";
+import { BannerScrapBody, BannerScrapResponse } from "@models";
+import { AIService } from "@services";
 
 export const bannerScrapRoute = new Elysia({
   name: "routes.mod.bannerScrap",

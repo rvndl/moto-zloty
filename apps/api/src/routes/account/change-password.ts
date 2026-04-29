@@ -1,7 +1,7 @@
 import { Elysia, t } from "elysia";
-import { authMiddleware } from "../../lib/auth";
-import { ErrorResponse, SuccessResponse } from "../../models/common";
-import { AccountService } from "../../services";
+import { authMiddleware } from "@lib";
+import { ErrorResponse, SuccessResponse } from "@models";
+import { AccountService } from "@services";
 
 export const changePasswordRoute = new Elysia({
   name: "routes.account.changePassword",

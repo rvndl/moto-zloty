@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
-import { modMiddleware } from "../../../lib/auth";
-import { EventService } from "../../../services";
+import { modMiddleware } from "@lib";
+import { EventService } from "@services";
 
 export const listRoute = new Elysia({
   name: "routes.mod.events",

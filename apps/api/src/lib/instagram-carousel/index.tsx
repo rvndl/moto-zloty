@@ -3,8 +3,8 @@
 
 import satori from "satori";
 import sharp from "sharp";
-import type { PublishWeeklyEventsBodyType } from "../../models/instagram-carousel";
-import { formatInstagramCarouselDate, truncateCarouselText } from "../../utils";
+import type { PublishWeeklyEventsBodyType } from "@models";
+import { formatInstagramCarouselDate, truncateCarouselText } from "@utils";
 import {
   INSTAGRAM_HEIGHT,
   INSTAGRAM_WIDTH,
@@ -20,7 +20,7 @@ import type {
   StateSlideInput,
 } from "./types";
 
-export { formatInstagramCarouselDateLong as formatDateLong } from "../../utils";
+export { formatInstagramCarouselDateLong as formatDateLong } from "@utils";
 export type { StateGroup } from "./types";
 
 export class InstagramCarousel {

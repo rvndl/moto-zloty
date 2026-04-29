@@ -1,8 +1,8 @@
 import { Elysia } from "elysia";
-import { authMiddleware } from "../../lib/auth";
-import { CreateEventBody } from "../../models/event";
-import { ErrorResponse } from "../../models/common";
-import { EventService } from "../../services";
+import { authMiddleware } from "@lib";
+import { CreateEventBody } from "@models";
+import { ErrorResponse } from "@models";
+import { EventService } from "@services";
 
 export const createRoutes = new Elysia({ name: "routes.events.create" })
   .use(authMiddleware)

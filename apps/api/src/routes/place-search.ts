@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { ErrorResponse } from "../models/common";
+import { ErrorResponse } from "@models";
 import { redis } from "../redis";
 import { createLogger } from "../logger";
 

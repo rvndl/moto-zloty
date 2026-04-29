@@ -1,10 +1,9 @@
 import { Elysia, t } from "elysia";
 import { mkdir, unlink } from "node:fs/promises";
 import { join } from "node:path";
-import { convertToWebp } from "../../lib/image-processor";
-import { FileUploadResponse } from "../../models/file";
-import { ErrorResponse } from "../../models/common";
-import { FileService } from "../../services";
+import { convertToWebp } from "@lib/image-processor";
+import { FileUploadResponse, ErrorResponse } from "@models";
+import { FileService } from "@services";
 import { createLogger } from "../../logger";
 
 const ACCEPTED_CONTENT_TYPES = [

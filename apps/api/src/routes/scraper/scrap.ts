@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
-import { ScrapeBody } from "../../models";
-import { ScraperService } from "../../services/scraper";
+import { ScrapeBody } from "@models";
+import { ScraperService } from "@services/scraper";
 
 export const scrapRoute = new Elysia({ name: "routes.scraper.scrape" })
   .model({

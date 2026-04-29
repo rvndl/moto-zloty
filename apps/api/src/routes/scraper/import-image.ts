@@ -1,7 +1,7 @@
 import Elysia from "elysia";
-import { ScrapeImageImportBody, ScrapeImageImportResponse } from "../../models";
-import { ErrorResponse } from "../../models/common";
-import { FileService } from "../../services";
+import { ScrapeImageImportBody, ScrapeImageImportResponse } from "@models";
+import { ErrorResponse } from "@models";
+import { FileService } from "@services";
 
 const CONTENT_TYPE_TO_EXTENSION: Record<string, string> = {
   "image/jpeg": "jpg",

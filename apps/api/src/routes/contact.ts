@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { verifyTurnstile } from "../lib/turnstile";
-import { ContactBody, ContactResponse } from "../models/contact";
-import { ErrorResponse } from "../models/common";
+import { verifyTurnstile } from "@lib";
+import { ContactBody, ContactResponse } from "@models";
+import { ErrorResponse } from "@models";
 import { createLogger } from "../logger";
 
 const contactLogger = createLogger("contact");

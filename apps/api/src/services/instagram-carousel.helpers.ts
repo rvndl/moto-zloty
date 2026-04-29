@@ -1,28 +1,29 @@
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import sharp from "sharp";
-import type {
-  PublishWeeklyEventsBodyType,
-  PublishWeeklyEventsSlideType,
-  WeeklyMotorcycleEventType,
-} from "../models/instagram-carousel";
-import {
-  type StateGroup,
-  formatDateLong,
-  renderOverviewSlide,
-  renderStateSlide,
-} from "../lib/instagram-carousel";
-import {
-  dedupeItems,
-  normalizeInstagramCarouselStateName,
-  resolveInstagramCarouselOverviewEventLabel,
-  slugify,
-  toInstagramCarouselHashtag,
-  toInstagramCarouselStateLocative,
-} from "../utils";
+
 import { AIService } from "./ai";
 import { FileService } from "./file";
 import { err, ok, type ServiceResult } from "./types";
+import {
+  formatDateLong,
+  renderOverviewSlide,
+  renderStateSlide,
+  type StateGroup,
+} from "@lib/instagram-carousel";
+import type {
+  PublishWeeklyEventsSlideType,
+  WeeklyMotorcycleEventType,
+  PublishWeeklyEventsBodyType,
+} from "@models";
+import {
+  dedupeItems,
+  toInstagramCarouselHashtag,
+  normalizeInstagramCarouselStateName,
+  resolveInstagramCarouselOverviewEventLabel,
+  toInstagramCarouselStateLocative,
+  slugify,
+} from "@utils";
 
 const TEMP_UPLOAD_SUBDIR = "instagram-carousel";
 const DEFAULT_HASHTAGS = [

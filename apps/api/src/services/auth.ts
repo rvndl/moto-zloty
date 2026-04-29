@@ -1,10 +1,10 @@
 import { hash, verify } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";
-import { db } from "../db";
-import { account, accountRankEnum } from "../db/schema";
-import { verifyTurnstile } from "../lib/turnstile";
-import type { RegisterBodyType, LoginBodyType } from "../models/auth";
 import { type ServiceResult, ok, err } from "./types";
+import { account, type accountRankEnum } from "@db/schema";
+import type { LoginBodyType, RegisterBodyType } from "@models";
+import { verifyTurnstile } from "@lib";
+import { db } from "@db";
 
 export type AccountRank = (typeof accountRankEnum.enumValues)[number];
 
@@ -15,9 +15,7 @@ export interface AuthResult {
 }
 
 export abstract class AuthService {
-  static async register(
-    data: RegisterBodyType,
-  ): Promise<ServiceResult<AuthResult>> {
+  static async register(data: RegisterBodyType) {
     const { username, password, email, recaptcha } = data;
 
     if (!(await verifyTurnstile(recaptcha))) {
@@ -65,7 +63,7 @@ export abstract class AuthService {
     });
   }
 
-  static async login(data: LoginBodyType): Promise<ServiceResult<AuthResult>> {
+  static async login(data: LoginBodyType) {
     const { username, password, recaptcha } = data;
 
     if (!(await verifyTurnstile(recaptcha))) {

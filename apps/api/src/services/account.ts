@@ -1,6 +1,6 @@
 import { eq, desc } from "drizzle-orm";
-import { db } from "../db";
-import { account, event } from "../db/schema";
+import { db } from "@db";
+import { account, event } from "@db/schema";
 import { type ServiceResult, ok, err } from "./types";
 import { verify, hash } from "@node-rs/argon2";
 
