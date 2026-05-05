@@ -1,7 +1,10 @@
 /** @jsxRuntime automatic */
 /** @jsxImportSource satori/jsx */
 
-import { formatInstagramCarouselDateLong, splitCarouselSummary } from "@utils";
+import {
+  formatInstagramCarouselDateLong,
+  splitCarouselSummary,
+} from "../../../utils";
 import type { OverviewSlideInput } from "../types";
 import { SlideShell } from "./slide-shell";
 import { StatCard } from "./stat-card";

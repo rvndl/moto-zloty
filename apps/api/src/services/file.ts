@@ -1,10 +1,10 @@
 import { eq } from "drizzle-orm";
+import { db } from "../db";
+import { file } from "../db/schema";
 import { type ServiceResult, ok, err } from "./types";
 import sharp from "sharp";
 import { unlink } from "node:fs/promises";
 import { join } from "node:path";
-import { db } from "@db";
-import { file } from "@db/schema";
 
 const UPLOAD_PATH = Bun.env.UPLOAD_PATH;
 const MAX_FILE_SIZE = 10 * 1024 * 1024;

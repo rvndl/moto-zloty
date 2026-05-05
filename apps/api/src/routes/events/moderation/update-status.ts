@@ -1,7 +1,7 @@
 import { Elysia, t } from "elysia";
-import { modMiddleware } from "@lib";
-import { ErrorResponse } from "@models";
-import { EventService, type EventStatus } from "@services";
+import { modMiddleware } from "../../../lib/auth";
+import { ErrorResponse } from "../../../models/common";
+import { EventService, type EventStatus } from "../../../services";
 
 export const updateStatusRoute = new Elysia({
   name: "routes.events.moderation.updateStatus",

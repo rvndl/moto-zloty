@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { EventService } from "@services";
+import { EventService } from "../../services";
 
 export const searchRoutes = new Elysia({ name: "routes.events.search" }).get(
   "/search/:query",

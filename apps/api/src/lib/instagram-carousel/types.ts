@@ -1,4 +1,4 @@
-import type { WeeklyMotorcycleEventType } from "@models";
+import type { WeeklyMotorcycleEventType } from "../../models/instagram-carousel";
 
 export interface StateGroup {
   state: string;

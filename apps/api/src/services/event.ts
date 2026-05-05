@@ -1,9 +1,9 @@
 import { eq, and, gte, lte, desc, asc, ne, sql } from "drizzle-orm";
+import { db } from "../db";
+import { event, account, address, action, file } from "../db/schema";
 import { type ServiceResult, ok, err } from "./types";
+import type { EventListQueryType } from "../models/event";
 import striptags from "striptags";
-import { address, event, account, action, file } from "@db/schema";
-import type { EventListQueryType } from "@models";
-import { db } from "@db";
 
 export type EventStatus = "pending" | "approved" | "rejected";
 export type SortOrder = "Asc" | "Desc";

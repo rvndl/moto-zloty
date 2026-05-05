@@ -1,8 +1,11 @@
 import { Elysia } from "elysia";
-import { modMiddleware } from "@lib";
-import { ErrorResponse } from "@models";
-import { PublishWeeklyEventsBody, PublishWeeklyEventsResponse } from "@models";
-import { InstagramCarouselService } from "@services";
+import { modMiddleware } from "../lib/auth";
+import { ErrorResponse } from "../models/common";
+import {
+  PublishWeeklyEventsBody,
+  PublishWeeklyEventsResponse,
+} from "../models/instagram-carousel";
+import { InstagramCarouselService } from "../services/instagram-carousel";
 
 export const publishWeeklyEventsRoute = new Elysia({
   name: "routes.api.publishWeeklyEvents",

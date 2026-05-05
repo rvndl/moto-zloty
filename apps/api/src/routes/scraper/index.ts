@@ -1,5 +1,5 @@
 import Elysia from "elysia";
-import { modMiddleware } from "@lib";
+import { modMiddleware } from "../../lib";
 import { scrapRoute } from "./scrap";
 import { listRoute } from "./list";
 import { setSeenRoute } from "./set-seen";

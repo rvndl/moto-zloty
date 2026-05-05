@@ -1,4 +1,4 @@
-import type { EventService } from "@services";
+import { EventService } from "../services/event";
 
 export const formatFacebookPostDate = (value: string | Date) => {
   const formatter = new Intl.DateTimeFormat("pl-PL", {

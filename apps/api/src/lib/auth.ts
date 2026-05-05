@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 import { jwt } from "@elysiajs/jwt";
-import { ErrorResponse } from "@models";
+import { ErrorResponse } from "../models/common";
 
 export interface JwtPayload {
   id: string;

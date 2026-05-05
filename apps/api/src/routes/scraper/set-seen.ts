@@ -1,5 +1,5 @@
 import Elysia from "elysia";
-import { ScraperService } from "@services/scraper";
+import { ScraperService } from "../../services/scraper";
 
 export const setSeenRoute = new Elysia({
   name: "routes.scraper.setSeen",

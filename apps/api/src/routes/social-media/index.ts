@@ -1,8 +1,8 @@
 import { Elysia } from "elysia";
-import { modMiddleware } from "@lib";
-import { ErrorResponse } from "@models";
-import { FacebookPostBody, FacebookPostResponse } from "@models";
-import { AIService } from "@services";
+import { modMiddleware } from "../../lib/auth";
+import { ErrorResponse } from "../../models/common";
+import { FacebookPostBody, FacebookPostResponse } from "../../models/ai";
+import { AIService } from "../../services/ai";
 
 export const socialMediaRoute = new Elysia({
   name: "routes.mod.socialMedia",

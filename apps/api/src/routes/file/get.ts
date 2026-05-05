@@ -1,6 +1,7 @@
 import { Elysia } from "elysia";
-import { FileIdParams, ErrorResponse } from "@models";
-import { FileService } from "@services";
+import { FileIdParams } from "../../models/file";
+import { ErrorResponse } from "../../models/common";
+import { FileService } from "../../services";
 
 export const getRoute = new Elysia({ name: "routes.file.get" })
   .model({

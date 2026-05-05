@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
-import { EventListQuery } from "@models";
-import { EventService } from "@services";
+import { EventListQuery } from "../../models/event";
+import { EventService } from "../../services";
 
 export const listRoutes = new Elysia({ name: "routes.events.list" })
   .model({

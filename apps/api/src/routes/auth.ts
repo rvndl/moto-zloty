@@ -1,7 +1,12 @@
 import { Elysia } from "elysia";
-import { jwtPlugin } from "@lib";
-import { AuthService } from "@services";
-import { RegisterBody, LoginBody, AuthResponse, AuthError } from "@models";
+import { jwtPlugin } from "../lib/auth";
+import { AuthService } from "../services/auth";
+import {
+  RegisterBody,
+  LoginBody,
+  AuthResponse,
+  AuthError,
+} from "../models/auth";
 
 export const authRoutes = new Elysia({ name: "routes.auth" })
   .use(jwtPlugin)

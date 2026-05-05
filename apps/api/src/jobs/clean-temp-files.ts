@@ -1,8 +1,8 @@
 import { Elysia } from "elysia";
 import { cron } from "@elysiajs/cron";
 import { eq } from "drizzle-orm";
-import { db } from "@db";
-import { file } from "@db/schema";
+import { db } from "../db";
+import { file } from "../db/schema";
 import { unlink } from "node:fs/promises";
 import { createLogger } from "../logger";
 

@@ -1,25 +1,22 @@
 import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
+import { db } from "./db";
+import { authRoutes } from "./routes/auth";
+import { eventRoutes } from "./routes/events/index";
+import { accountRoutes, modAccountsRoute } from "./routes/account/index";
+import { fileRoutes } from "./routes/file/index";
+import { contactRoute } from "./routes/contact";
+import { placeSearchRoute } from "./routes/place-search";
+import { bannerScrapRoute } from "./routes/banner-scrap";
+import { modEventsRoute } from "./routes/events/moderation/index";
+import { mapRoute, sitemapRoute } from "./routes/events/public/index";
 import { cleanupJob } from "./jobs";
 import openapi from "@elysiajs/openapi";
-import { createLogger } from "./logger";
+import { scraperRoute } from "./routes/scraper";
+import { socialMediaRoute } from "./routes/social-media";
+import { publishWeeklyEventsRoute } from "./routes/publish-weekly-events";
 import { redis } from "./redis";
-import { db } from "@db";
-import {
-  accountRoutes,
-  authRoutes,
-  bannerScrapRoute,
-  contactRoute,
-  eventRoutes,
-  fileRoutes,
-  modAccountsRoute,
-  placeSearchRoute,
-  publishWeeklyEventsRoute,
-  socialMediaRoute,
-} from "@routes";
-import { modEventsRoute } from "@routes/events/moderation";
-import { mapRoute, sitemapRoute } from "@routes/events/public";
-import { scraperRoute } from "@routes/scraper";
+import { createLogger } from "./logger";
 
 const elysiaLogger = createLogger("elysia");
 

@@ -6,13 +6,13 @@ import type {
   BannerScrapResponse,
   FacebookPostBody,
   FacebookPostResponse,
-} from "@models";
+} from "../models/ai";
 import {
   formatFacebookPostDate,
   formatFacebookPostState,
   getRelevantEventLocation,
-} from "@utils";
-import type { WeeklyMotorcycleEventType } from "@models";
+} from "../utils";
+import type { WeeklyMotorcycleEventType } from "../models/instagram-carousel";
 
 type BannerScrapResult = typeof BannerScrapResponse.static;
 type FacebookPostWeekInput = (typeof FacebookPostBody.static.weeks)[number];
@@ -166,7 +166,7 @@ export abstract class AIService {
     weekStart: string;
     weekEnd: string;
     events: WeeklyMotorcycleEventType[];
-  }) {
+  }): Promise<ServiceResult<string>> {
     if (!Bun.env.GEMINI_API_KEY) {
       return err(500, "Brak klucza GEMINI_API_KEY.");
     }
@@ -198,7 +198,10 @@ export abstract class AIService {
     }
   }
 
-  static async bannerScrap(fileId: string, additionalInfo?: string) {
+  static async bannerScrap(
+    fileId: string,
+    additionalInfo?: string,
+  ): Promise<ServiceResult<BannerScrapResult>> {
     const fileResult = await FileService.getById(fileId);
     if (!fileResult.success) {
       return err(
@@ -253,7 +256,9 @@ export abstract class AIService {
     }
   }
 
-  static async generateFacebookPost(weeks: FacebookPostWeekInput[]) {
+  static async generateFacebookPost(
+    weeks: FacebookPostWeekInput[],
+  ): Promise<ServiceResult<FacebookPostResult>> {
     if (!weeks.length) {
       return err(400, "Wybierz co najmniej jeden tydzień.");
     }

@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { EventIdParams } from "@models";
-import { ErrorResponse } from "@models";
-import { EventService } from "@services";
+import { EventIdParams } from "../../models/event";
+import { ErrorResponse } from "../../models/common";
+import { EventService } from "../../services";
 
 export const detailsRoutes = new Elysia({ name: "routes.events.details" })
   .model({

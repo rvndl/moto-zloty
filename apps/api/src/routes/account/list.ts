@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { modMiddleware } from "@lib";
-import { ErrorResponse } from "@models";
-import { AccountService } from "@services";
+import { modMiddleware } from "../../lib/auth";
+import { ErrorResponse } from "../../models/common";
+import { AccountService } from "../../services";
 
 export const listRoute = new Elysia({
   name: "routes.mod.accounts",

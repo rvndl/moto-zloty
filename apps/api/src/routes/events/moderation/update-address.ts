@@ -1,8 +1,8 @@
 import { Elysia, t } from "elysia";
-import { authMiddleware, isPermitted } from "@lib";
-import { AddressModel } from "@models";
-import { ErrorResponse } from "@models";
-import { EventService } from "@services";
+import { authMiddleware, isPermitted } from "../../../lib/auth";
+import { AddressModel } from "../../../models/event";
+import { ErrorResponse } from "../../../models/common";
+import { EventService } from "../../../services";
 
 export const updateAddressRoute = new Elysia({
   name: "routes.events.moderation.updateAddress",

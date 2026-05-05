@@ -1,6 +1,6 @@
 import { Elysia, t } from "elysia";
-import { ErrorResponse } from "@models";
-import { AccountService } from "@services";
+import { ErrorResponse } from "../../models/common";
+import { AccountService } from "../../services";
 
 export const detailsRoute = new Elysia({ name: "routes.account.details" })
   .model({
